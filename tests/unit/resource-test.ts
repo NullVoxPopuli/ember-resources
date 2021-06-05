@@ -35,6 +35,77 @@ module('useResource', function (hooks) {
       await settled();
 
       assert.equal(foo.data.num, 6);
+
+      foo.count = 4;
+      await settled();
+
+      assert.equal(foo.data.num, 8);
     });
+  });
+
+  module('functions', function () {
+    test('it works with sync functions', async function (assert) {
+      class Test {
+        @tracked count = 1;
+
+        data = useResource(
+          this,
+          (previous: number, count: number) => count * (previous || 1),
+          () => [this.count]
+        );
+      }
+
+      let foo = new Test();
+
+      assert.equal(foo.data.value, 1);
+
+      foo.count = 2;
+      await settled();
+
+      assert.equal(foo.data.value, 2);
+
+      foo.count = 6;
+      await settled();
+
+      assert.equal(foo.data.value, 12);
+    });
+  });
+
+  test('it works with async functions', async function (assert) {
+    class Test {
+      @tracked count = 1;
+
+      data = useResource(
+        this,
+        async (previous: number, count: number) => {
+          console.log({ previous, count });
+          // Pretend we're doing async work
+          await Promise.resolve();
+
+          return count * (previous || 1);
+        },
+        () => [this.count]
+      );
+    }
+
+    let foo = new Test();
+
+    assert.equal(foo.data.value, undefined);
+
+    foo.data.value;
+    await settled();
+    assert.equal(foo.data.value, 1);
+
+    foo.count = 2;
+    foo.data.value;
+    await settled();
+
+    assert.equal(foo.data.value, 2);
+
+    foo.count = 6;
+    foo.data.value;
+    await settled();
+
+    assert.equal(foo.data.value, 12);
   });
 });

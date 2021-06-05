@@ -52,6 +52,8 @@ The args thunk accepts the following data shapes:
 when an array is passed, inside the Resource, `this.args.named` will be empty
 and `this.args.positional` will contain the result of the thunk.
 
+_for function resources, this is the only type of thunk allowed._
+
 #### An object of named args
 
 when an object is passed where the key `named` is not present,
@@ -69,6 +71,8 @@ This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
 
 
 ### `useTask`
+
+_Coming soon_
 
 This is a utility wrapper like `useResource`, but can be passed an ember-concurrency task
 so that the ember-concurrency task can reactively be re-called whenever args change.

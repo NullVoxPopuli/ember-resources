@@ -9,7 +9,7 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache } from './types';
+import type { ArgsWrapper, Cache } from '../types';
 
 export declare interface LifecycleResource<T extends ArgsWrapper> {
   args: T;
