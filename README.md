@@ -1,38 +1,43 @@
-u-ember-resources
-==============================================================================
+# ember-resources
 
-[Short description of the addon.]
+An implementation of Resources in Ember.JS without decorators.
+ - [More information on Resources](https://www.pzuraq.com/introducing-use/)
+ - [Inspiration, ember-could-get-used-to-this](https://github.com/pzuraq/ember-could-get-used-to-this)
 
+## Compatibility
 
-Compatibility
-------------------------------------------------------------------------------
-
-* Ember.js v3.16 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+* Ember.js v3.25 or above
 
 
-Installation
-------------------------------------------------------------------------------
+## Installation
 
+```bash
+npm install ember-resources
+# or
+yarn add ember-resources
+# or
+ember install ember-resources
 ```
-ember install u-ember-resources
-```
 
 
-Usage
-------------------------------------------------------------------------------
+## Usage
 
-[Longer description of how to use the addon in apps.]
+### `useResource`
+
+### `useTask`
+
+### Making your own Resources with
+
+#### `LifecycleResource`
 
 
-Contributing
-------------------------------------------------------------------------------
+
+
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
 
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
