@@ -24,7 +24,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
 
-      - run: npm install
+      # npm install is broken w/r/t transient dependencies
+      # combined with how eslint tries to resolve them
+      # (it's more likely eslint is just.. wrong cause no other
+      # package has this issue)
+      - run: yarn install
 
       - name: ESLint
         run: ./node_modules/.bin/eslint .
