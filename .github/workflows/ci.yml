@@ -29,32 +29,32 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - run: yarn install --frozen-lockfile
+      - run: npm install
 
       - name: Test with ${{ matrix.node }}
-        run: yarn ember test
+        run: node_modules/.bin/ember test
 
-  floating-dependencies:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: Floating Dependencies
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - "12"
-          - "14"
+  # floating-dependencies:
+  #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+  #   name: Floating Dependencies
+  #   timeout-minutes: 5
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node:
+  #         - "12"
+  #         - "14"
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: volta-cli/action@v1
-        with:
-          node-version: ${{ matrix.node }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: volta-cli/action@v1
+  #       with:
+  #         node-version: ${{ matrix.node }}
 
-      - run: yarn install --no-lockfile
+  #     - run: yarn install --no-lockfile
 
-      - name: Test with Node ${{ matrix.node }}
-        run: yarn ember test
+  #     - name: Test with Node ${{ matrix.node }}
+  #       run: yarn ember test
 
   try-scenarios:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
@@ -67,23 +67,20 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario:
-          - ember-lts-3.8
-          - ember-lts-3.12
-          - ember-lts-3.16
-          - ember-lts-3.20
-          - ember-lts-3.24
+          - ember-3.25
+          - ember-3.26
           - ember-release
           - ember-beta
           - ember-canary
-          # - embroider
-          # - ember-classic
+          - embroider-safe
+          - embroider-optimized
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
         with:
           node-version: 12.x
       - name: install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
       - name: test
         run: node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
@@ -100,7 +97,7 @@ jobs:
       - uses: actions/setup-node@v2
       - uses: kellyselden/ember-cli-update-action@v2
         with:
-          autofix_command: yarn lint:fix
+          autofix_command: npm run lint:fix
           ignore_to: true
 
   publish:
@@ -114,10 +111,10 @@ jobs:
         with:
           persist-credentials: false
       - uses: volta-cli/action@v1
-      - run: yarn install
+      - run: npm install
 
       - name: Release
-        run: yarn semantic-release
+        run: node_modules/.bin/semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

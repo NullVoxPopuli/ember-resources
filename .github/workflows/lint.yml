@@ -27,36 +27,36 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - name: ESLint
-        run: yarn lint:js
+        run: npm run lint:js
 
       - name: Templates
-        run: yarn lint:hbs
+        run: npm run lint:hbs
 
 
-  docs:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: Docs
-    runs-on: ubuntu-latest
+  # docs:
+  #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+  #   name: Docs
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - uses: volta-cli/action@v1
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: volta-cli/action@v1
 
-    - run: yarn install
-    - run: yarn lint:docs
+  #   - run: yarn install
+  #   - run: yarn lint:docs
 
 
-  docs-js-code:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: Docs (JS Code Samples)
-    runs-on: ubuntu-latest
+  # docs-js-code:
+  #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+  #   name: Docs (JS Code Samples)
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - uses: volta-cli/action@v1
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: volta-cli/action@v1
 
-    - run: yarn install
-    - run: yarn lint:docs-js
+  #   - run: yarn install
+  #   - run: yarn lint:docs-js
 
   commits:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
