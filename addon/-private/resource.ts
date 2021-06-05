@@ -9,21 +9,20 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper } from './types';
+import type { ArgsWrapper, Cache } from './types';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Cache {
-  /* no clue what's in here */
+export declare interface LifecycleResource<T extends ArgsWrapper> {
+  args: T;
+  setup(): void;
+  update(): void;
+  teardown(): void;
 }
 
 export class LifecycleResource<T extends ArgsWrapper> {
-  constructor(owner: unknown, protected args: T) {
+  constructor(owner: unknown, args: T) {
     setOwner(this, owner);
+    this.args = args;
   }
-
-  public declare setup: () => void;
-  public declare update: () => void;
-  public declare teardown: () => void;
 }
 
 class LifecycleResourceManager {

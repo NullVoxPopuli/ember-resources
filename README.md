@@ -32,17 +32,19 @@ ember install ember-resources
 
 ```ts
 class MyClass {
-  data = useResource(SomeResource, () => [arg list]);
+  data = useResource(this, SomeResource, () => [arg list]);
 }
 ```
 
 When any tracked data in the args thunk, the `update` function on `SomeResource`
 will be called.
 
-the args thunk accepts the following data shapes:
+The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
+
+The args thunk accepts the following data shapes:
 ```
 () => [an, array]
-() => ({ named: 'args', hello: 'there' })
+() => ({ hello: 'there' })
 () => ({ named: {...}, positional: [...] })
 ```
 #### An array
@@ -52,13 +54,13 @@ and `this.args.positional` will contain the result of the thunk.
 
 #### An object of named args
 
-when an object is passed where the key `named` is not also an object (if it exists),
+when an object is passed where the key `named` is not present,
 `this.args.named` will contain the result of the thunk and `this.args.positional`
 will be empty.
 
 #### An object containing both named args and positional args
 
-when an object is passed containing the key `positional` or the value of `named` is an object:
+when an object is passed containing either keys: `named` or `positional`:
  - `this.args.named` will be the value of the result of the thunk's `named` property
  - `this.args.positional` will be the value of the result of the thunk's `positional` property
 
@@ -78,7 +80,7 @@ when it needs to.
 
 ```ts
 class MyClass {
-  myData = useTask(this.myTask, () => [args, to, task])
+  myData = useTask(this, this.myTask, () => [args, to, task])
 
   @task
   *myTask(args, to, task)  { /* ... */ }
@@ -143,7 +145,7 @@ class MyResource extends LifecycleResource {
 Using your custom Resource would look like
 ```ts
 class ContainingClass {
-  data = useResource(MyResource, () => [this.ids])
+  data = useResource(this, MyResource, () => [this.ids])
 }
 ```
 
@@ -156,7 +158,7 @@ invocation's return value as an argument to the next time the function is called
 Example:
 ```ts
 class StarWarsInfo {
-  info = useResource(async (state, ...args) => {
+  info = useResource(this, async (state, ...args) => {
     if (state) {
       let { characters } = state;
 
@@ -193,3 +195,13 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 ## License
 
 This project is licensed under the [MIT License](LICENSE.md).
+
+
+## Thanks
+
+This library wouldn't be possible without the work of:
+ - [@pzuraq](https://github.com/pzuraq)
+ - [@josemarluedke](https://github.com/josemarluedke)
+
+So much appreciate for the work both you have put in to Resources <3
+
