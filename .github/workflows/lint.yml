@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
 
-      - run: yarn install --frozen-lockfile
+      - run: npm install
 
       - name: ESLint
         run: npm run lint:js
