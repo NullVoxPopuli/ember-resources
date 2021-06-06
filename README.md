@@ -39,7 +39,9 @@ class MyClass {
 When any tracked data in the args thunk, the `update` function on `SomeResource`
 will be called.
 
-The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
+ - The thunk is "just a function" that allows tracked data to be lazily consumed by the resource.
+ - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
+ - The resource will **do nothing** until it is accessed.
 
 The args thunk accepts the following data shapes:
 ```
@@ -47,6 +49,7 @@ The args thunk accepts the following data shapes:
 () => ({ hello: 'there' })
 () => ({ named: {...}, positional: [...] })
 ```
+
 #### An array
 
 when an array is passed, inside the Resource, `this.args.named` will be empty
