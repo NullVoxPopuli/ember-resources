@@ -1,0 +1,31 @@
+name: Types
+
+# based on:
+#  - https://github.com/NullVoxPopuli/eslint-plugin-decorator-position/blob/master/.github/workflows/lint.yml
+#  - https://github.com/NullVoxPopuli/ember-autostash-modifier/blob/master/.github/workflows/ci.yml
+#  - https://github.com/emberjs/ember-test-helpers/blob/master/.github/workflows/ci-build.yml
+on:
+  pull_request:
+  push:
+    # filtering branches here prevents duplicate builds from pull_request and push
+    branches:
+      - main
+
+env:
+  CI: true
+
+jobs:
+  types:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Type Checking
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+
+      - run: npm install
+
+      - name: Type Checking
+        # run: yarn tsc --build
+        run: npm run prepack
