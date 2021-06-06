@@ -1,7 +1,6 @@
 {
   "name": "ember-resources",
   "version": "1.0.0",
-  "private": true,
   "keywords": [
     "ember-addon"
   ],
