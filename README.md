@@ -72,8 +72,6 @@ This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
 
 ### `useTask`
 
-_Coming soon_
-
 This is a utility wrapper like `useResource`, but can be passed an ember-concurrency task
 so that the ember-concurrency task can reactively be re-called whenever args change.
 This largely eliminates the need to start concurrency tasks from the constructor, modifiers,
@@ -84,12 +82,15 @@ when it needs to.
 
 ```ts
 class MyClass {
-  myData = useTask(this, this.myTask, () => [args, to, task])
+  myData = useTask(this, this._myTask, () => [args, to, task])
 
   @task
-  *myTask(args, to, task)  { /* ... */ }
+  *_myTask(args, to, task)  { /* ... */ }
 }
 ```
+
+Accessing `myData` will represent the last `TaskInstance`, so all the expected properties are available:
+`value`, `isRunning`, `isFinished`, etc
 
 ### Making your own Resources with
 
