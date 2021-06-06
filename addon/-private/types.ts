@@ -1,3 +1,7 @@
+export interface Constructable<T = unknown> {
+  new (...args: unknown[]): T;
+}
+
 export interface ArgsWrapper {
   positional?: unknown[];
   named?: Record<string, unknown>;
@@ -16,3 +20,11 @@ export interface Cache<T = unknown> {
 export interface Helper {
   /* no clue what's in here */
 }
+
+export type Thunk =
+  // plain array / positional args
+  | (() => Required<ArgsWrapper>['positional'])
+  // plain named args
+  | (() => Required<ArgsWrapper>['named'])
+  // both named and positional args... but why would you choose this? :upsidedownface:
+  | (() => ArgsWrapper);

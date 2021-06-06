@@ -11,44 +11,10 @@ import { invokeHelper } from '@ember/helper';
 
 import { FUNCTION_TO_RUN, FunctionRunner } from './resources/function-runner';
 import { LifecycleResource } from './resources/lifecycle';
+import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
 import type { ResourceFn } from './resources/function-runner';
-import type { ArgsWrapper, Cache } from './types';
-
-interface Constructable<T = unknown> {
-  new (...args: unknown[]): T;
-}
-
-type Thunk =
-  // plain array / positional args
-  | (() => Required<ArgsWrapper>['positional'])
-  // plain named args
-  | (() => Required<ArgsWrapper>['named'])
-  // both named and positional args... but why would you choose this? :upsidedownface:
-  | (() => ArgsWrapper);
-
-const DEFAULT_THUNK = () => [];
-
-function normalizeThunk(thunk: Thunk): ArgsWrapper {
-  let args = thunk();
-
-  if (Array.isArray(args)) {
-    return { named: {}, positional: args };
-  }
-
-  if (!args) {
-    return { named: {}, positional: [] };
-  }
-
-  /**
-   * Hopefully people aren't using args named "named"
-   */
-  if ('positional' in args || 'named' in args) {
-    return args;
-  }
-
-  return { named: args as Record<string, unknown>, positional: [] };
-}
+import type { Cache, Constructable, Thunk } from './types';
 
 // https://github.com/josemarluedke/glimmer-apollo/blob/main/packages/glimmer-apollo/src/-private/use-resource.ts
 function useUnproxiedResource<Instance = unknown>(
@@ -151,42 +117,9 @@ export function useResource<Instance extends object, Args extends unknown[]>(
     (thunk || DEFAULT_THUNK) as () => Args
   );
 
-  return proxyFunction(target);
+  return proxyClass(target);
 }
 
 function isLifecycleResource(classOrFn: Constructable | ResourceFn): classOrFn is Constructable {
   return classOrFn.prototype instanceof LifecycleResource;
-}
-
-function proxyFunction<Instance extends object>(target: { value: Instance }) {
-  return new Proxy(target, {
-    get(target, key): unknown {
-      const instance = target.value as any;
-
-      return Reflect.get(instance, key, instance);
-    },
-    ownKeys(target): (string | symbol)[] {
-      return Reflect.ownKeys(target.value);
-    },
-    getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
-      return Reflect.getOwnPropertyDescriptor(target.value, key);
-    },
-  }) as never as Instance;
-}
-
-function proxyClass<Instance extends object>(target: { value: Instance }) {
-  return new Proxy(target, {
-    get(target, key): unknown {
-      const instance = target.value;
-      const value = Reflect.get(instance as object, key, instance);
-
-      return typeof value === 'function' ? value.bind(instance) : value;
-    },
-    ownKeys(target): (string | symbol)[] {
-      return Reflect.ownKeys(target.value);
-    },
-    getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
-      return Reflect.getOwnPropertyDescriptor(target.value, key);
-    },
-  }) as never as Instance;
 }
