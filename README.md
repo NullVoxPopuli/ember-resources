@@ -162,6 +162,7 @@ invocation's return value as an argument to the next time the function is called
 Example:
 ```ts
 class StarWarsInfo {
+  // access result on info.value
   info = useResource(this, async (state, ...args) => {
     if (state) {
       let { characters } = state;
@@ -187,7 +188,7 @@ and the function will return the initial data.
 This particular technique could be used to run any async function _safely_ (as long
 as the function doesn't interact with `this`).
 
-In this example, where the function is `async`, the "value" of `info` is `{}` until the
+In this example, where the function is `async`, the "value" of `info.value` is `undefined` until the
 function completes.
 
 

@@ -44,7 +44,7 @@ export class FunctionRunner<
 
   update() {
     /**
-     * All positional args are consumed
+     * NOTE: All positional args are consumed
      */
     let result = this[FUNCTION_TO_RUN](this.value, ...this.funArgs);
 
