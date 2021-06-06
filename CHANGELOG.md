@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.0.0...v1.1.0) (2021-06-06)
+
+
+### Features
+
+* make addon not private (oops) ([97eb257](https://github.com/NullVoxPopuli/ember-resources/commit/97eb257e750c2aa0d033ef0c0843cd91fe3510a8))
+
 # 1.0.0 (2021-06-06)
 
 
