@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.1.0...v1.2.0) (2021-06-06)
+
+
+### Bug Fixes
+
+* **readme:** useTask is no longer coming soon -- it's here ([d9e85b6](https://github.com/NullVoxPopuli/ember-resources/commit/d9e85b6b9d5fd577c994887ff36deea809fe0e47))
+
+
+### Features
+
+* add useTask ([8637477](https://github.com/NullVoxPopuli/ember-resources/commit/8637477ba74f0f0b34579663b9493838ddc09358))
+
 # [1.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.0.0...v1.1.0) (2021-06-06)
 
 
