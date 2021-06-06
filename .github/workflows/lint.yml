@@ -28,7 +28,8 @@ jobs:
       # combined with how eslint tries to resolve them
       # (it's more likely eslint is just.. wrong cause no other
       # package has this issue)
-      - run: yarn install
+      # - run: yarn install
+      - run: npm install
 
       - name: ESLint
         run: ./node_modules/.bin/eslint .
