@@ -1,4 +1,5 @@
 import { tracked } from '@glimmer/tracking';
+import { destroy } from '@ember/destroyable';
 import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -41,6 +42,46 @@ module('useResource', function (hooks) {
 
       assert.equal(foo.data.num, 8);
     });
+
+    test('lifecycle', async function (assert) {
+      class Doubler extends LifecycleResource<{ positional: [number] }> {
+        @tracked num = 0;
+
+        setup() {
+          assert.step('setup');
+          this.num = this.args.positional[0] * 2;
+        }
+
+        update() {
+          assert.step('update');
+          this.num = this.args.positional[0] * 2;
+        }
+
+        teardown() {
+          assert.step('teardown');
+        }
+      }
+      class Test {
+        @tracked count = 0;
+
+        data = useResource(this, Doubler, () => [this.count]);
+      }
+
+      let foo = new Test();
+
+      foo.data.num;
+      foo.count = 4;
+      foo.data.num;
+      await settled();
+      foo.count = 5;
+      foo.data.num;
+      await settled();
+
+      destroy(foo);
+      await settled();
+
+      assert.verifySteps(['setup', 'update', 'update', 'teardown']);
+    });
   });
 
   module('functions', function () {
@@ -77,8 +118,7 @@ module('useResource', function (hooks) {
 
       data = useResource(
         this,
-        async (previous: number, count: number) => {
-          console.log({ previous, count });
+        async (previous: undefined | number, count: number) => {
           // Pretend we're doing async work
           await Promise.resolve();
 
@@ -107,5 +147,41 @@ module('useResource', function (hooks) {
     await settled();
 
     assert.equal(foo.data.value, 12);
+  });
+
+  test('lifecycle', async function (assert) {
+    let runCount = 0;
+
+    class Test {
+      @tracked count = 1;
+
+      data = useResource(
+        this,
+        async () => {
+          runCount++;
+          // Pretend we're doing async work
+          await Promise.resolve();
+
+          assert.step(`run ${runCount}`);
+        },
+        () => [this.count]
+      );
+    }
+
+    let foo = new Test();
+
+    assert.equal(foo.data.value, undefined);
+
+    foo.data.value;
+    await settled();
+    foo.count = 2;
+    foo.data.value;
+    await settled();
+    foo.count = 6;
+    foo.data.value;
+    destroy(foo);
+    await settled();
+
+    assert.verifySteps(['run 1', 'run 2', 'run 3']);
   });
 });
