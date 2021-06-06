@@ -32,7 +32,9 @@ jobs:
       - run: npm install
 
       - name: ESLint
-        run: npm run lint:js
+        run: |
+          npm install --save-dev eslint-plugin-ember
+          npm run lint:js
 
       - name: Templates
         run: npm run lint:hbs
