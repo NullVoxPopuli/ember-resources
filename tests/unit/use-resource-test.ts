@@ -1,187 +1,299 @@
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { setComponentTemplate } from '@ember/component';
 import { destroy } from '@ember/destroyable';
-import { settled } from '@ember/test-helpers';
+import { click, render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupRenderingTest, setupTest } from 'ember-qunit';
 
 import { LifecycleResource, useResource } from 'ember-resources';
 
-module('useResource', function (hooks) {
-  setupTest(hooks);
-
+module('useResource', function () {
   module('LifecycleResource', function () {
-    test('it works', async function (assert) {
-      class Doubler extends LifecycleResource<{ positional: [number] }> {
-        @tracked num = 0;
+    module('in JS', function (hooks) {
+      setupTest(hooks);
 
-        setup() {
-          this.num = this.args.positional[0] * 2;
+      test('it works', async function (assert) {
+        class Doubler extends LifecycleResource<{ positional: [number] }> {
+          @tracked num = 0;
+
+          setup() {
+            this.num = this.args.positional[0] * 2;
+          }
+
+          update() {
+            this.num = this.args.positional[0] * 2;
+          }
+        }
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
         }
 
-        update() {
-          this.num = this.args.positional[0] * 2;
+        let foo = new Test();
+
+        assert.equal(foo.data.num, 0);
+
+        foo.count = 3;
+        await settled();
+
+        assert.equal(foo.data.num, 6);
+
+        foo.count = 4;
+        await settled();
+
+        assert.equal(foo.data.num, 8);
+      });
+
+      test('lifecycle', async function (assert) {
+        class Doubler extends LifecycleResource<{ positional: [number] }> {
+          @tracked num = 0;
+
+          setup() {
+            assert.step('setup');
+            this.num = this.args.positional[0] * 2;
+          }
+
+          update() {
+            assert.step('update');
+            this.num = this.args.positional[0] * 2;
+          }
+
+          teardown() {
+            assert.step('teardown');
+          }
         }
-      }
-      class Test {
-        @tracked count = 0;
+        class Test {
+          @tracked count = 0;
 
-        data = useResource(this, Doubler, () => [this.count]);
-      }
+          data = useResource(this, Doubler, () => [this.count]);
+        }
 
-      let foo = new Test();
+        let foo = new Test();
 
-      assert.equal(foo.data.num, 0);
+        foo.data.num;
+        foo.count = 4;
+        foo.data.num;
+        await settled();
+        foo.count = 5;
+        foo.data.num;
+        await settled();
 
-      foo.count = 3;
-      await settled();
+        destroy(foo);
+        await settled();
 
-      assert.equal(foo.data.num, 6);
-
-      foo.count = 4;
-      await settled();
-
-      assert.equal(foo.data.num, 8);
+        assert.verifySteps(['setup', 'update', 'update', 'teardown']);
+      });
     });
 
-    test('lifecycle', async function (assert) {
-      class Doubler extends LifecycleResource<{ positional: [number] }> {
-        @tracked num = 0;
+    module('in templates', function (hooks) {
+      setupRenderingTest(hooks);
 
-        setup() {
-          assert.step('setup');
-          this.num = this.args.positional[0] * 2;
+      test('it works', async function (assert) {
+        class Doubler extends LifecycleResource<{ positional: [number] }> {
+          @tracked num = 0;
+
+          setup() {
+            this.num = this.args.positional[0] * 2;
+          }
+
+          update() {
+            this.num = this.args.positional[0] * 2;
+          }
+        }
+        class Test extends Component {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+          increment = () => this.count++;
         }
 
-        update() {
-          assert.step('update');
-          this.num = this.args.positional[0] * 2;
-        }
+        const TestComponent = setComponentTemplate(
+          hbs`
+            <out>{{this.data.num}}</out>
+            <button type='button' {{on 'click' this.increment}}>increment</button>`,
+          Test
+        );
 
-        teardown() {
-          assert.step('teardown');
-        }
-      }
-      class Test {
-        @tracked count = 0;
+        this.setProperties({ TestComponent });
 
-        data = useResource(this, Doubler, () => [this.count]);
-      }
+        await render(hbs`<this.TestComponent />`);
 
-      let foo = new Test();
+        assert.dom('out').hasText('0');
 
-      foo.data.num;
-      foo.count = 4;
-      foo.data.num;
-      await settled();
-      foo.count = 5;
-      foo.data.num;
-      await settled();
+        await click('button');
 
-      destroy(foo);
-      await settled();
-
-      assert.verifySteps(['setup', 'update', 'update', 'teardown']);
+        assert.dom('out').hasText('2');
+      });
     });
   });
 
   module('functions', function () {
-    test('it works with sync functions', async function (assert) {
-      class Test {
-        @tracked count = 1;
+    module('in js', function (hooks) {
+      setupTest(hooks);
 
-        data = useResource(
-          this,
-          (previous: number, count: number) => count * (previous || 1),
-          () => [this.count]
-        );
-      }
+      test('lifecycle', async function (assert) {
+        let runCount = 0;
 
-      let foo = new Test();
+        class Test {
+          @tracked count = 1;
 
-      assert.equal(foo.data.value, 1);
+          data = useResource(
+            this,
+            async () => {
+              runCount++;
+              // Pretend we're doing async work
+              await Promise.resolve();
 
-      foo.count = 2;
-      await settled();
+              assert.step(`run ${runCount}`);
+            },
+            () => [this.count]
+          );
+        }
 
-      assert.equal(foo.data.value, 2);
+        let foo = new Test();
 
-      foo.count = 6;
-      await settled();
+        assert.equal(foo.data.value, undefined);
 
-      assert.equal(foo.data.value, 12);
+        foo.data.value;
+        await settled();
+        foo.count = 2;
+        foo.data.value;
+        await settled();
+        foo.count = 6;
+        foo.data.value;
+        destroy(foo);
+        await settled();
+
+        assert.verifySteps(['run 1', 'run 2', 'run 3']);
+      });
+
+      test('it works with sync functions', async function (assert) {
+        class Test {
+          @tracked count = 1;
+
+          data = useResource(
+            this,
+            (previous: number, count: number) => count * (previous || 1),
+            () => [this.count]
+          );
+        }
+
+        let foo = new Test();
+
+        assert.equal(foo.data.value, 1);
+
+        foo.count = 2;
+        await settled();
+
+        assert.equal(foo.data.value, 2);
+
+        foo.count = 6;
+        await settled();
+
+        assert.equal(foo.data.value, 12);
+      });
+
+      test('it works with async functions', async function (assert) {
+        class Test {
+          @tracked count = 1;
+
+          data = useResource(
+            this,
+            async (previous: undefined | number, count: number) => {
+              // Pretend we're doing async work
+              await Promise.resolve();
+
+              return count * (previous || 1);
+            },
+            () => [this.count]
+          );
+        }
+
+        let foo = new Test();
+
+        assert.equal(foo.data.value, undefined);
+
+        foo.data.value;
+        await settled();
+        assert.equal(foo.data.value, 1);
+
+        foo.count = 2;
+        foo.data.value;
+        await settled();
+
+        assert.equal(foo.data.value, 2);
+
+        foo.count = 6;
+        foo.data.value;
+        await settled();
+
+        assert.equal(foo.data.value, 12);
+      });
     });
-  });
 
-  test('it works with async functions', async function (assert) {
-    class Test {
-      @tracked count = 1;
+    module('in templates', function (hooks) {
+      setupRenderingTest(hooks);
 
-      data = useResource(
-        this,
-        async (previous: undefined | number, count: number) => {
-          // Pretend we're doing async work
-          await Promise.resolve();
+      test('it works', async function (assert) {
+        class Test extends Component {
+          @tracked count = 1;
 
-          return count * (previous || 1);
-        },
-        () => [this.count]
-      );
-    }
+          data = useResource(
+            this,
+            (previous: number | undefined, count: number) => {
+              return (previous || 1) * count;
+            },
+            () => [this.count]
+          );
+          increment = () => this.count++;
+        }
 
-    let foo = new Test();
+        const TestComponent = setComponentTemplate(
+          hbs`
+            <out>{{this.data.value}}</out>
+            <button type='button' {{on 'click' this.increment}}></button>`,
+          Test
+        );
 
-    assert.equal(foo.data.value, undefined);
+        this.setProperties({ TestComponent });
 
-    foo.data.value;
-    await settled();
-    assert.equal(foo.data.value, 1);
+        await render(hbs`<this.TestComponent />`);
 
-    foo.count = 2;
-    foo.data.value;
-    await settled();
+        assert.dom('out').hasText('1');
 
-    assert.equal(foo.data.value, 2);
+        await click('button');
 
-    foo.count = 6;
-    foo.data.value;
-    await settled();
+        assert.dom('out').hasText('2');
+      });
 
-    assert.equal(foo.data.value, 12);
-  });
+      test('it works without a thunk', async function (assert) {
+        class Test extends Component {
+          @tracked count = 1;
 
-  test('lifecycle', async function (assert) {
-    let runCount = 0;
+          doubled = useResource(this, () => this.count * 2);
+          increment = () => this.count++;
+        }
 
-    class Test {
-      @tracked count = 1;
+        const TestComponent = setComponentTemplate(
+          hbs`
+            <out>{{this.doubled.value}}</out>
+            <button type='button' {{on 'click' this.increment}}></button>`,
+          Test
+        );
 
-      data = useResource(
-        this,
-        async () => {
-          runCount++;
-          // Pretend we're doing async work
-          await Promise.resolve();
+        this.setProperties({ TestComponent });
 
-          assert.step(`run ${runCount}`);
-        },
-        () => [this.count]
-      );
-    }
+        await render(hbs`<this.TestComponent />`);
 
-    let foo = new Test();
+        assert.dom('out').hasText('2');
 
-    assert.equal(foo.data.value, undefined);
+        await click('button');
 
-    foo.data.value;
-    await settled();
-    foo.count = 2;
-    foo.data.value;
-    await settled();
-    foo.count = 6;
-    foo.data.value;
-    destroy(foo);
-    await settled();
-
-    assert.verifySteps(['run 1', 'run 2', 'run 3']);
+        assert.dom('out').hasText('4');
+      });
+    });
   });
 });
