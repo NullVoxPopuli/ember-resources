@@ -1,4 +1,3 @@
-import { tracked } from '@glimmer/tracking';
 import { isDestroyed, isDestroying } from '@ember/destroyable';
 import { waitForPromise } from '@ember/test-waiters';
 
@@ -27,12 +26,7 @@ export class FunctionRunner<
   // Set when using useResource
   declare [FUNCTION_TO_RUN]: Fn;
 
-  @tracked _asyncValue: Return | undefined;
-  declare _syncValue: Return | undefined;
-
-  get value(): Return | undefined {
-    return this._asyncValue || this._syncValue;
-  }
+  declare value: Return | undefined;
 
   get funArgs() {
     return this.args.positional;
@@ -55,7 +49,7 @@ export class FunctionRunner<
             return;
           }
 
-          this._asyncValue = value;
+          this.value = value;
         };
 
         waitForPromise(result);
@@ -66,6 +60,6 @@ export class FunctionRunner<
       }
     }
 
-    this._syncValue = result;
+    this.value = result;
   }
 }

@@ -179,7 +179,7 @@ class StarWarsInfo {
     let characters = await response.json();
 
     return { characters };
-  }, [this.ids /* defined somewhere */])
+  }, () => [this.ids /* defined somewhere */])
 }
 ```
 
@@ -194,6 +194,20 @@ as the function doesn't interact with `this`).
 
 In this example, where the function is `async`, the "value" of `info.value` is `undefined` until the
 function completes.
+
+If a function is synchronous, you can avoid the thunk altogether,
+
+```ts
+class MyClass {
+  @tracked num = 3;
+
+  info = useResource(this, () => {
+    return this.num * 2;
+  });
+}
+```
+
+`this.info.value` will be `6`
 
 
 ## Contributing

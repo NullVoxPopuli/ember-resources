@@ -26,11 +26,8 @@ jobs:
 
       - run: npm install
 
-      # Disabled, because GitHub Actions is throwing a fit
-      # "it works locally"
-      # - name: ESLint
-      #   run: |
-      #     npm run lint:js
+      - name: ESLint
+        run: npm run lint:js
 
       - name: Templates
         run: npm run lint:hbs

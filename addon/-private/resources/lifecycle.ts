@@ -1,10 +1,10 @@
-// typed-ember has not publihsed types for this yet
+// typed-ember has not published types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { setOwner } from '@ember/application';
 import { associateDestroyableChild, registerDestructor } from '@ember/destroyable';
-// typed-ember has not publihsed types for this yet
+// typed-ember has not published types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
@@ -19,9 +19,8 @@ export declare interface LifecycleResource<T extends ArgsWrapper> {
 }
 
 export class LifecycleResource<T extends ArgsWrapper> {
-  constructor(owner: unknown, args: T) {
+  constructor(owner: unknown, public args: T) {
     setOwner(this, owner);
-    this.args = args;
   }
 }
 
