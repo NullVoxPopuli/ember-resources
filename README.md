@@ -23,8 +23,27 @@ yarn add ember-resources
 ember install ember-resources
 ```
 
+## Examples
+
+```js
+import { use, useFunction, useTask } from 'ember-resources';
+
+class MyClass {
+  @use data = new Data(() => [arg list]);
+
+  data1 = useFunction(this, () => { /* synchronous function */ })
+
+  data2 = useFunction(this, async () => {}),
+
+  data3 = useTask(this.someEmberConcurrencyTask, () => [optional arg list]);
+}
+
+
+```
+
 
 ## Usage
+
 
 ### `useResource`
 
@@ -128,13 +147,7 @@ class MyResource extends LifecycleResource {
   }
 
   async doAsyncTask() {
-    // need to consume potentially tracked data so that
-    // update may be called when these args change
     let [ids] = this.args.positional;
-
-    // defer to next (micro)task queue to not block UI
-    // (and avoid double render bugs because we're about to set tracked data)
-    await Promise.resolve();
 
     this.isRunning = true;
     this.error = undefined;
