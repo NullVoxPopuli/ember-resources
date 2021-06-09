@@ -87,7 +87,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^5.1.4",
     "ember-resolver": "^8.0.2",
-    "ember-source": "~3.27.3",
+    "ember-source": "~3.27.4",
     "ember-template-lint": "^3.4.2",
     "ember-try": "^1.4.0",
     "ember-welcome-page": "^4.0.0",
