@@ -29,7 +29,7 @@ ember install ember-resources
 import { use, useFunction, useTask } from 'ember-resources';
 
 class MyClass {
-  @use data = new Data(() => [arg list]);
+  data = useResource(this, DataClass, () => [arg list]);
 
   data1 = useFunction(this, () => { /* synchronous function */ })
 
@@ -58,39 +58,9 @@ class MyClass {
 When any tracked data in the args thunk, the `update` function on `SomeResource`
 will be called.
 
- - The thunk is "just a function" that allows tracked data to be lazily consumed by the resource.
  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
  - The resource will **do nothing** until it is accessed.
-
-The args thunk accepts the following data shapes:
-```
-() => [an, array]
-() => ({ hello: 'there' })
-() => ({ named: {...}, positional: [...] })
-```
-
-#### An array
-
-when an array is passed, inside the Resource, `this.args.named` will be empty
-and `this.args.positional` will contain the result of the thunk.
-
-_for function resources, this is the only type of thunk allowed._
-
-#### An object of named args
-
-when an object is passed where the key `named` is not present,
-`this.args.named` will contain the result of the thunk and `this.args.positional`
-will be empty.
-
-#### An object containing both named args and positional args
-
-when an object is passed containing either keys: `named` or `positional`:
- - `this.args.named` will be the value of the result of the thunk's `named` property
- - `this.args.positional` will be the value of the result of the thunk's `positional` property
-
-This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
-
-
+ - For more info on Thunks, scroll to the bottom of the README
 
 ### `useTask`
 
@@ -221,6 +191,46 @@ class MyClass {
 ```
 
 `this.info.value` will be `6`
+
+
+### Thunks
+
+With the exception of the `useResource` + `class` combination, all Thunks are optional.
+The main caveat is that if you want your resource to update, you _must_ consume the tracked
+properties during setup / initial execution.
+
+
+ - The thunk is "just a function" that allows tracked data to be lazily consumed by the resource.
+
+The args thunk accepts the following data shapes:
+```
+() => [an, array]
+() => ({ hello: 'there' })
+() => ({ named: {...}, positional: [...] })
+```
+
+#### An array
+
+when an array is passed, inside the Resource, `this.args.named` will be empty
+and `this.args.positional` will contain the result of the thunk.
+
+_for function resources, this is the only type of thunk allowed._
+
+#### An object of named args
+
+when an object is passed where the key `named` is not present,
+`this.args.named` will contain the result of the thunk and `this.args.positional`
+will be empty.
+
+#### An object containing both named args and positional args
+
+when an object is passed containing either keys: `named` or `positional`:
+ - `this.args.named` will be the value of the result of the thunk's `named` property
+ - `this.args.positional` will be the value of the result of the thunk's `positional` property
+
+This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
+
+
 
 
 ## Contributing
