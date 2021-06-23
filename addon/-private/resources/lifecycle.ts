@@ -70,7 +70,10 @@ function setupInstance(
   let instance = new Class(owner, args);
 
   associateDestroyableChild(cache, instance);
-  instance.setup();
+
+  if ('setup' in instance) {
+    instance.setup();
+  }
 
   if ('teardown' in instance) {
     registerDestructor(instance, () => instance.teardown());

@@ -86,6 +86,34 @@ module('useResource', function () {
 
         assert.verifySteps(['setup', 'update', 'update', 'teardown']);
       });
+
+      test('setup is optional', async function (assert) {
+        class Doubler extends LifecycleResource<{ positional: [number] }> {
+          get num() {
+            return this.args.positional[0] * 2;
+          }
+        }
+
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+        }
+
+        let foo = new Test();
+
+        assert.equal(foo.data.num, 0);
+
+        foo.count = 3;
+        await settled();
+
+        assert.equal(foo.data.num, 6);
+
+        foo.count = 4;
+        await settled();
+
+        assert.equal(foo.data.num, 8);
+      });
     });
 
     module('in templates', function (hooks) {
