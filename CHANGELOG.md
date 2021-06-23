@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.2...v1.2.3) (2021-06-23)
+
+
+### Bug Fixes
+
+* **lifecycle:** support resources without a setup method ([d11e6fc](https://github.com/NullVoxPopuli/ember-resources/commit/d11e6fc9210e6ef2184730ba28205b285e90713b))
+
 ## [1.2.2](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.1...v1.2.2) (2021-06-17)
 
 
