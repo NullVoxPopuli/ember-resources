@@ -27,11 +27,12 @@ export class FunctionRunner<
   Fn extends ResourceFn<Return, Args> = ResourceFn<Return, Args>
 > extends LifecycleResource<BaseArgs<Args>> {
   // Set when using useResource
-  declare [FUNCTION_TO_RUN]: Fn;
-  declare [SECRET_VALUE]: Return | undefined;
+  protected declare [FUNCTION_TO_RUN]: Fn;
+  private declare [SECRET_VALUE]: Return | undefined;
 
   get value(): Return | undefined {
-    consume(this, SECRET_VALUE);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    consume(this, SECRET_VALUE as any);
 
     return this[SECRET_VALUE];
   }
