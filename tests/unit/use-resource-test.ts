@@ -7,6 +7,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
+import { timeout } from 'ember-concurrency';
 import { LifecycleResource, useResource } from 'ember-resources';
 
 module('useResource', function () {
@@ -293,6 +294,35 @@ module('useResource', function () {
         assert.dom('out').hasText('1');
 
         await click('button');
+
+        assert.dom('out').hasText('2');
+      });
+
+      test('async functions update when the promise resolves', async function (assert) {
+        class Test extends Component {
+          data = useResource(this, async () => {
+            await new Promise((resolve) => setTimeout(resolve, 50));
+
+            return 2;
+          });
+        }
+
+        const TestComponent = setComponentTemplate(
+          hbs`
+            <out>{{this.data.value}}</out>
+          `,
+          Test
+        );
+
+        this.setProperties({ TestComponent });
+
+        render(hbs`<this.TestComponent />`);
+
+        await timeout(25);
+
+        assert.dom('out').hasText('');
+
+        await timeout(30);
 
         assert.dom('out').hasText('2');
       });
