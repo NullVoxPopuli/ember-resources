@@ -1,3 +1,11 @@
+## [1.2.4](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.3...v1.2.4) (2021-06-24)
+
+
+### Bug Fixes
+
+* **types:** add type visibility to the FunctionRunner to keep private ([e051be9](https://github.com/NullVoxPopuli/ember-resources/commit/e051be9cbda6798a1327d2f4bfbbfab5540ad7ec))
+* when an async function resolves, auto-tracking should do stuff ([6504660](https://github.com/NullVoxPopuli/ember-resources/commit/6504660e6abde1a78034432a7b9777d4a5afafdb))
+
 ## [1.2.3](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.2...v1.2.3) (2021-06-23)
 
 
