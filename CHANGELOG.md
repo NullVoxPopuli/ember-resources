@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.4...v1.2.5) (2021-06-24)
+
+
+### Bug Fixes
+
+* **async functions:** properly entangle for the value and prevent infinite re-rendering ([ad268fe](https://github.com/NullVoxPopuli/ember-resources/commit/ad268feb9c420058c7c7219ca6da3f15bfce359f))
+
 ## [1.2.4](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.3...v1.2.4) (2021-06-24)
 
 
