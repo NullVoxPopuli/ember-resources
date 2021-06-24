@@ -1,4 +1,5 @@
 import { isDestroyed, isDestroying } from '@ember/destroyable';
+import { get as consume, notifyPropertyChange as dirty } from '@ember/object';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { LifecycleResource } from './lifecycle';
@@ -6,6 +7,8 @@ import { LifecycleResource } from './lifecycle';
 import type { ArgsWrapper } from '../types';
 
 export const FUNCTION_TO_RUN = Symbol('FUNCTION TO RUN');
+
+const SECRET_VALUE = '___ Secret Value ___';
 
 // type UnwrapAsync<T> = T extends Promise<infer U> ? U : T;
 // type GetReturn<T extends () => unknown> = UnwrapAsync<ReturnType<T>>;
@@ -25,8 +28,13 @@ export class FunctionRunner<
 > extends LifecycleResource<BaseArgs<Args>> {
   // Set when using useResource
   declare [FUNCTION_TO_RUN]: Fn;
+  declare [SECRET_VALUE]: Return | undefined;
 
-  declare value: Return | undefined;
+  get value(): Return | undefined {
+    consume(this, SECRET_VALUE);
+
+    return this[SECRET_VALUE];
+  }
 
   get funArgs() {
     return this.args.positional;
@@ -49,7 +57,8 @@ export class FunctionRunner<
             return;
           }
 
-          this.value = value;
+          this[SECRET_VALUE] = value;
+          dirty(this, SECRET_VALUE);
         };
 
         waitForPromise(result);
@@ -60,6 +69,6 @@ export class FunctionRunner<
       }
     }
 
-    this.value = result;
+    this[SECRET_VALUE] = result;
   }
 }
