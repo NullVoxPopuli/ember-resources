@@ -1,5 +1,6 @@
 import { isDestroyed, isDestroying } from '@ember/destroyable';
 import { get as consume, notifyPropertyChange as dirty } from '@ember/object';
+import { schedule } from '@ember/runloop';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { LifecycleResource } from './lifecycle';
@@ -49,27 +50,44 @@ export class FunctionRunner<
     /**
      * NOTE: All positional args are consumed
      */
-    let result = this[FUNCTION_TO_RUN](this.value, ...this.funArgs);
-
-    if (typeof result === 'object') {
-      if ('then' in result) {
-        const recordValue = (value: Return) => {
-          if (isDestroying(this) || isDestroyed(this)) {
-            return;
-          }
-
-          this[SECRET_VALUE] = value;
-          dirty(this, SECRET_VALUE);
-        };
-
-        waitForPromise(result);
-
-        result.then(recordValue);
-
-        return;
-      }
+    for (let i = 0; i < this.funArgs.length; i++) {
+      this.funArgs[i];
     }
 
-    this[SECRET_VALUE] = result;
+    const fun = this[FUNCTION_TO_RUN];
+    // TS doesn't add the default function symbols to function types...
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const isAsync = (fun as any)[Symbol.toStringTag] === 'AsyncFunction';
+    /**
+     * Do not access "value" directly in this function. You'll have infinite re-rendering errors
+     */
+    const previous = this[SECRET_VALUE];
+
+    if (isAsync) {
+      const asyncWaiter = async () => {
+        // in case the async function tries to consume things on the parent `this`,
+        // be sure we start with a fresh frame
+        await new Promise((resolve) => schedule('afterRender', resolve));
+
+        if (isDestroying(this) || isDestroyed(this)) {
+          return;
+        }
+
+        const value = await fun(previous, ...this.funArgs);
+
+        if (isDestroying(this) || isDestroyed(this)) {
+          return;
+        }
+
+        this[SECRET_VALUE] = value;
+        dirty(this, SECRET_VALUE);
+      };
+
+      waitForPromise(asyncWaiter());
+
+      return;
+    }
+
+    this[SECRET_VALUE] = fun(previous, ...this.funArgs) as Return;
   }
 }

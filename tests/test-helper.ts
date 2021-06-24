@@ -10,4 +10,6 @@ setApplication(Application.create(config.APP));
 
 setup(QUnit.assert);
 
+QUnit.config.testTimeout = 2000;
+
 start();
