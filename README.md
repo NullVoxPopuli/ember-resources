@@ -5,15 +5,17 @@ An implementation of Resources in Ember.JS without decorators.
  - [Inspiration, ember-could-get-used-to-this](https://github.com/pzuraq/ember-could-get-used-to-this)
 
 
-- [Installation](#Installation)
-- [Usage](#Usage)
-  - [LifecycleResource](#`LifecycleResource`)
-  - [Functions](#`function` Resources)
-  - [Thunks](#Thunks)
-- [Public Types](#Public Types)
-- [Testing](#Testing)
-- [Contributing](#Contributing)
-- [Thanks](#Thanks)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [useResource](#useresource)
+  - [useTask](#usetask)
+  - [LifecycleResource](#lifecycleresource)
+  - [Functions](#function-resources)
+  - [Thunks](#thunks)
+- [Public Types](#public-types)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [Thanks](#thanks)
 
 ## Compatibility
 
