@@ -2,6 +2,14 @@ export interface Constructable<T = unknown> {
   new (...args: unknown[]): T;
 }
 
+export interface Positional<T extends Array<unknown>> {
+  positional: T;
+}
+
+export interface Named<T extends Record<string, unknown>> {
+  named: T;
+}
+
 export interface ArgsWrapper {
   positional?: unknown[];
   named?: Record<string, unknown>;

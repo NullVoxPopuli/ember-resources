@@ -4,6 +4,17 @@ An implementation of Resources in Ember.JS without decorators.
  - [More information on Resources](https://www.pzuraq.com/introducing-use/)
  - [Inspiration, ember-could-get-used-to-this](https://github.com/pzuraq/ember-could-get-used-to-this)
 
+
+- [Installation](#Installation)
+- [Usage](#Usage)
+  - [LifecycleResource](#`LifecycleResource`)
+  - [Functions](#`function` Resources)
+  - [Thunks](#Thunks)
+- [Public Types](#Public Types)
+- [Testing](#Testing)
+- [Contributing](#Contributing)
+- [Thanks](#Thanks)
+
 ## Compatibility
 
 * Ember.js v3.25+
@@ -40,7 +51,6 @@ class MyClass {
 
 
 ```
-
 
 ## Usage
 
@@ -150,7 +160,7 @@ Example:
 ```ts
 class StarWarsInfo {
   // access result on info.value
-  info = useResource(this, async (state, ...args) => {
+  info = useFunction(this, async (state, ...args) => {
     if (state) {
       let { characters } = state;
 
@@ -231,6 +241,132 @@ when an object is passed containing either keys: `named` or `positional`:
 This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
 
 
+## Public Types
+
+```ts
+import type { ArgsWrapper, Named, Positional } from 'ember-resources';
+```
+
+where:
+
+### ArgsWrapper
+```ts
+interface ArgsWrapper {
+  positional?: unknown[];
+  named?: Record<string, unknown>;
+}
+```
+this is a utility interface that represents all of the args used throughout
+Ember.
+
+Example
+```ts
+class MyResource extends LifecycleResource { // default args type
+  constructor(owner: unknown, args: ArgsWrapper) {
+    super(owner, args);
+  }
+}
+```
+
+
+### Shorthand for positional only
+```ts
+export interface Positional<T extends Array<unknown>> {
+  positional: T;
+}
+```
+
+Example:
+
+```ts
+class MyResource extends LifecycleResource<Positional<[number]>> {
+}
+```
+
+### Shorthand for named only
+```ts
+export interface Named<T extends Record<string, unknown>> {
+  named: T;
+}
+```
+
+Example:
+
+```ts
+class MyResource extends LifecycleResource<Named<{ bananas: number }>> {
+}
+```
+
+## Testing
+
+If your resources are consumed by components, you'll want to continue to
+test using rendering tests, as things should "just work" with those style of
+tests.
+
+Where things get interesting is when you want to unit test your resources.
+
+There are two approaches:
+
+### `new` the resource directly
+
+```ts
+test('my test', function(assert) {
+  class MyResource extends LifecycleResource {
+    // ...
+  }
+
+  let instance = new MyResource(this.owner, { /* args wrapper */ });
+
+  // assertions with instance
+})
+```
+
+The caveat here is that the `setup` and `update` functions will have to
+be called manually, because we aren't using `useResource`, which wraps the
+Ember-builtin `invokeHelper`, which takes care of reactivity for us. As a
+consequence, any changes to the args wrapper will not cause updates to
+the resource instance.
+
+### Create a wrapper context for reactive consumption
+
+If, instead of creating `MyResource` directly, like in the example above,
+it is wrapped in a test class and utilizes `useResource`:
+```ts
+class TestContext {
+  data = useResource(this, MyResource, () => { ... })
+}
+```
+changes to args _will_ trigger calls to `setup` and `update`.
+
+NOTE: like with all reactivity testing in JS, it's important to
+`await settled()` after a change to a reactive property so that you allow
+time for the framework to propagate changes to all the reactive bits.
+
+Example:
+
+```ts
+test('my test', async function (assert) {
+  class Doubler extends LifecycleResource<{ positional: [number] }> {
+    get num() {
+      return this.args.positional[0] * 2;
+    }
+  }
+
+  class Test {
+    @tracked count = 0;
+
+    data = useResource(this, Doubler, () => [this.count]);
+  }
+
+  let foo = new Test();
+
+  assert.equal(foo.data.num, 0);
+
+  foo.count = 3;
+  await settled();
+
+  assert.equal(foo.data.num, 6);
+```
 
 
 ## Contributing
