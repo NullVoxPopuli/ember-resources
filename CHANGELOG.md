@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.5...v1.3.0) (2021-06-25)
+
+
+### Bug Fixes
+
+* **readme:** table of contents links now work ([00a397f](https://github.com/NullVoxPopuli/ember-resources/commit/00a397f66a7617988af9a4d7f4c265ddb294962a))
+
+
+### Features
+
+* **types, docs:** document types and how to test with resources ([8545bb6](https://github.com/NullVoxPopuli/ember-resources/commit/8545bb65db7126a462826b7f8d2af149baa249a0))
+
 ## [1.2.5](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.4...v1.2.5) (2021-06-24)
 
 
