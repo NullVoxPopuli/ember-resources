@@ -11,7 +11,7 @@ import { capabilities as helperCapabilities, setHelperManager } from '@ember/hel
 
 import type { ArgsWrapper, Cache } from '../types';
 
-export declare interface LifecycleResource<T extends ArgsWrapper> {
+export declare interface LifecycleResource<T extends ArgsWrapper = ArgsWrapper> {
   args: T;
   setup(): void;
   update(): void;

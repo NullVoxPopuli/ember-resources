@@ -9,6 +9,8 @@ import { setupRenderingTest, setupTest } from 'ember-qunit';
 
 import { LifecycleResource, useResource } from 'ember-resources';
 
+import type { Positional } from 'ember-resources';
+
 module('useResource', function () {
   module('LifecycleResource', function () {
     module('in JS', function (hooks) {
@@ -88,7 +90,7 @@ module('useResource', function () {
       });
 
       test('setup is optional', async function (assert) {
-        class Doubler extends LifecycleResource<{ positional: [number] }> {
+        class Doubler extends LifecycleResource<Positional<[number]>> {
           get num() {
             return this.args.positional[0] * 2;
           }
