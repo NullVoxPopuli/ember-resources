@@ -17,7 +17,7 @@ module('useResource', function () {
       setupTest(hooks);
 
       test('it works', async function (assert) {
-        class Doubler extends LifecycleResource<{ positional: [number] }> {
+        class Doubler extends LifecycleResource<Positional<[number]>> {
           @tracked num = 0;
 
           setup() {
@@ -47,6 +47,34 @@ module('useResource', function () {
         await settled();
 
         assert.equal(foo.data.num, 8);
+      });
+
+      test('can take a typed array https://github.com/NullVoxPopuli/ember-resources/issues/48', async function (assert) {
+        class DoubleEverything extends LifecycleResource<Positional<number[]>> {
+          @tracked result: number[] = [];
+
+          setup() {
+            this.update();
+          }
+
+          update() {
+            this.result = this.args.positional.map((num) => num * 2);
+          }
+        }
+        class Test {
+          @tracked numbers = [0, 1, 2, 3];
+
+          data = useResource(this, DoubleEverything, () => [...this.numbers]);
+        }
+
+        let foo = new Test();
+
+        await settled();
+        assert.deepEqual(foo.data.result, [0, 2, 4, 6]);
+
+        foo.numbers = [2, 6, 2, 7];
+        await settled();
+        assert.deepEqual(foo.data.result, [4, 12, 4, 14]);
       });
 
       test('lifecycle', async function (assert) {

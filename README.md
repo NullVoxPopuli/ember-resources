@@ -299,6 +299,10 @@ class MyResource extends LifecycleResource<Named<{ bananas: number }>> {
 }
 ```
 
+These shorthands are 3 characters sharter than using the `named:` or
+`positional: ` keys that would be required if not using these shorthands...
+
+
 ## Testing
 
 If your resources are consumed by components, you'll want to continue to
