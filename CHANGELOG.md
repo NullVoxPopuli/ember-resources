@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v1.3.0...v1.3.1) (2021-07-09)
+
+
+### Bug Fixes
+
+* **readme:** Correct example import of `useResource` ([5f99b22](https://github.com/NullVoxPopuli/ember-resources/commit/5f99b22aa7a3a04f3b8b1f638a257c11399094d8))
+
 # [1.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.2.5...v1.3.0) (2021-06-25)
 
 
