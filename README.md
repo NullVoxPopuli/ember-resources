@@ -39,7 +39,7 @@ ember install ember-resources
 ## Examples
 
 ```js
-import { use, useFunction, useTask } from 'ember-resources';
+import { useResource, useFunction, useTask } from 'ember-resources';
 
 class MyClass {
   data = useResource(this, DataClass, () => [arg list]);
