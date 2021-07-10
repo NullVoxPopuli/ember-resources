@@ -8,6 +8,8 @@ import { LifecycleResource } from './lifecycle';
 import type { ArgsWrapper } from '../types';
 
 export const FUNCTION_TO_RUN = Symbol('FUNCTION TO RUN');
+export const INITIAL_VALUE = Symbol('INITIAL VALUE');
+const HAS_RUN = Symbol('HAS RUN');
 
 const SECRET_VALUE = '___ Secret Value ___';
 
@@ -29,11 +31,17 @@ export class FunctionRunner<
 > extends LifecycleResource<BaseArgs<Args>> {
   // Set when using useResource
   protected declare [FUNCTION_TO_RUN]: Fn;
+  protected declare [INITIAL_VALUE]: Return | undefined;
   private declare [SECRET_VALUE]: Return | undefined;
+  private [HAS_RUN] = false;
 
   get value(): Return | undefined {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     consume(this, SECRET_VALUE as any);
+
+    if (!this[HAS_RUN] && this[INITIAL_VALUE]) {
+      return this[INITIAL_VALUE];
+    }
 
     return this[SECRET_VALUE];
   }
@@ -80,6 +88,7 @@ export class FunctionRunner<
         }
 
         this[SECRET_VALUE] = value;
+        this[HAS_RUN] = true;
         dirty(this, SECRET_VALUE);
       };
 
