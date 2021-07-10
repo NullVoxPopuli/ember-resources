@@ -4,12 +4,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
+import { assert } from '@ember/debug';
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { FUNCTION_TO_RUN, FunctionRunner } from './resources/function-runner';
 import { LifecycleResource } from './resources/lifecycle';
 import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
@@ -37,61 +37,11 @@ function useUnproxiedResource<Instance = unknown>(
   };
 }
 
-const FUNCTION_CACHE = new WeakMap<ResourceFn<unknown, unknown[]>, Constructable<FunctionRunner>>();
-
-/**
- * The function is wrapped in a bespoke resource per-function definition
- * because passing a vanilla function to invokeHelper would trigger a
- * different HelperManager, which we want to work a bit differently.
- * See:
- *  - function HelperManager in ember-could-get-used-to-this
- *  - Default Managers RFC
- *
- */
-function buildUnproxiedFunctionResource<Return, ArgsList extends unknown[]>(
-  context: object,
-  fn: ResourceFn<Return, ArgsList>,
-  thunk: () => ArgsList
-): { value: Return } {
-  let resource: Cache<Return>;
-
-  let klass: Constructable<FunctionRunner>;
-
-  let existing = FUNCTION_CACHE.get(fn);
-
-  if (existing) {
-    klass = existing;
-  } else {
-    klass = class AnonymousFunctionRunner extends FunctionRunner<Return, ArgsList> {
-      [FUNCTION_TO_RUN] = fn;
-    };
-
-    FUNCTION_CACHE.set(fn, klass);
-  }
-
-  return {
-    get value(): Return {
-      if (!resource) {
-        resource = invokeHelper(context, klass, () => {
-          return normalizeThunk(thunk);
-        }) as Cache<Return>;
-      }
-
-      return getValue<Return>(resource);
-    },
-  };
-}
-
 /**
  * For use in the body of a class.
  * Constructs a cached Resource that will reactively respond to tracked data changes
  *
  */
-export function useResource<Return, Args extends unknown[]>(
-  context: object,
-  fn: ResourceFn<Return, Args>,
-  thunk?: () => Args
-): { value: Return };
 export function useResource<Instance extends LifecycleResource<any>>(
   context: object,
   klass: Constructable<Instance>,
@@ -100,22 +50,16 @@ export function useResource<Instance extends LifecycleResource<any>>(
 
 export function useResource<Instance extends object, Args extends unknown[]>(
   context: object,
-  klass: Constructable<Instance> | ResourceFn<Instance, Args>,
+  klass: Constructable<Instance>,
   thunk?: Thunk | (() => Args)
 ): Instance {
-  let target: { value: Instance };
-
-  if (isLifecycleResource(klass)) {
-    target = useUnproxiedResource<Instance>(context, klass, thunk || DEFAULT_THUNK);
-
-    return proxyClass(target);
-  }
-
-  target = buildUnproxiedFunctionResource<Instance, Args>(
-    context,
-    klass,
-    (thunk || DEFAULT_THUNK) as () => Args
+  assert(
+    `Expected second argument, klass, to be a Resource. ` +
+      `This is different from the v1 series where useResource could be used for both functions and class-based Resources. ` +
+      `If you intended to pass a function, you'll now (since v2) want to use useFunction instead`,
+    isLifecycleResource(klass)
   );
+  let target = useUnproxiedResource<Instance>(context, klass, thunk || DEFAULT_THUNK);
 
   return proxyClass(target);
 }

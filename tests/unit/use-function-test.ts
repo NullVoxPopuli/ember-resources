@@ -10,7 +10,7 @@ import { setupRenderingTest, setupTest } from 'ember-qunit';
 import { timeout } from 'ember-concurrency';
 import { useFunction } from 'ember-resources';
 
-module('useFunction (aliased from useResource)', function () {
+module('useFunction', function () {
   module('in js', function (hooks) {
     setupTest(hooks);
 
@@ -111,6 +111,40 @@ module('useFunction (aliased from useResource)', function () {
       await settled();
 
       assert.equal(foo.data.value, 12);
+    });
+
+    test('async functions can have a fallback/initial value', async function (assert) {
+      let initialValue = -Infinity;
+
+      class Test {
+        @tracked count = 1;
+
+        data = useFunction(
+          this,
+          initialValue,
+          async (previous: undefined | number, count: number) => {
+            // Pretend we're doing async work
+            await Promise.resolve();
+
+            return count * (previous || 1);
+          },
+          () => [this.count]
+        );
+      }
+
+      let foo = new Test();
+
+      assert.equal(foo.data.value, initialValue);
+
+      foo.data.value;
+      await settled();
+      assert.equal(foo.data.value, 1);
+
+      foo.count = 2;
+      foo.data.value;
+      await settled();
+
+      assert.equal(foo.data.value, 2);
     });
   });
 
