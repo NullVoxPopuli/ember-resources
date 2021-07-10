@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.3.1...v2.0.0) (2021-07-10)
+
+
+### Features
+
+* useFunction now supports an initialValue param ([6ba9e26](https://github.com/NullVoxPopuli/ember-resources/commit/6ba9e26b06409a80242d33c274343f653f131f61))
+
+
+### BREAKING CHANGES
+
+* useFunction is no longer an alias of useResource
+
 ## [1.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v1.3.0...v1.3.1) (2021-07-09)
 
 
