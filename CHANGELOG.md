@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v2.0.0...v2.0.1) (2021-07-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @ember/test-waiters to ^2.4.5 ([010dae3](https://github.com/NullVoxPopuli/ember-resources/commit/010dae3fabd81e3078c177714dc81d15a473523d))
+
 # [2.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v1.3.1...v2.0.0) (2021-07-10)
 
 
