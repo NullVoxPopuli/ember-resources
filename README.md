@@ -1,5 +1,8 @@
 # ember-resources
 
+[![npm version](https://badge.fury.io/js/ember-resources.svg)](https://badge.fury.io/js/ember-resources)
+[![CI](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/ci.yml)
+
 An implementation of Resources in Ember.JS without decorators.
  - [More information on Resources](https://www.pzuraq.com/introducing-use/)
  - [Inspiration, ember-could-get-used-to-this](https://github.com/pzuraq/ember-could-get-used-to-this)
