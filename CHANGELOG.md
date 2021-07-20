@@ -1,3 +1,34 @@
+# [3.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v2.0.1...v3.0.0) (2021-07-20)
+
+
+### Features
+
+* **functions:** all useFunction functions are now async ([01c6ffd](https://github.com/NullVoxPopuli/ember-resources/commit/01c6ffda29a0fcb02f722077aebc693413d6dd9f))
+
+
+### BREAKING CHANGES
+
+* **functions:** all functions async due to an issue that came up
+during production builds, where minification would optimize away the
+async/await when the function was a one liner, like:
+
+```ts
+async () => {
+  return await ...
+}
+```
+the `async` keyword was a clue to the `FunctionRunner` to go down a
+different code branch (before running the function), but when the above
+example function was minified, it became:
+
+```ts
+() => { return ... }
+```
+
+which then made the `FunctionRunner` go down the sync path, resulting
+in the `value` being a promise, rather than the resolved value of the
+promise.
+
 ## [2.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v2.0.0...v2.0.1) (2021-07-14)
 
 
