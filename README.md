@@ -180,6 +180,7 @@ class StarWarsInfo {
   }, () => [this.ids /* defined somewhere */])
 }
 ```
+> `characters` would be accessed via `this.info.value.characters` in the `StarWarsInfo` class
 
 While this example is a bit contrived, hopefully it demonstrates how the `state` arg
 works. During the first invocation, `state` is falsey, allowing the rest of the
@@ -193,7 +194,8 @@ as the function doesn't interact with `this`).
 In this example, where the function is `async`, the "value" of `info.value` is `undefined` until the
 function completes.
 
-If a function is synchronous, you can avoid the thunk altogether,
+To help prevent accidental async footguns, even if a function is synchronous, it is still ran
+asynchronously, therefor, the thunk cannot be avoided.
 
 ```ts
 class MyClass {
@@ -205,14 +207,14 @@ class MyClass {
 }
 ```
 
-`this.info.value` will be `6`
+`this.info.value` will be  `undefined`, then `6` and will not change when `num` changes.
 
 
 ### Thunks
 
 With the exception of the `useResource` + `class` combination, all Thunks are optional.
-The main caveat is that if you want your resource to update, you _must_ consume the tracked
-properties during setup / initial execution.
+The main caveat is that if your resources will not update without a thunk -- or consuming
+tracked data within setup / initialization (which is done for you with `useFunction`).
 
 
  - The thunk is "just a function" that allows tracked data to be lazily consumed by the resource.
