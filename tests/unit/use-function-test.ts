@@ -56,24 +56,37 @@ module('useFunction', function () {
 
         data = useFunction(
           this,
-          (previous: number, count: number) => count * (previous || 1),
+          (previous: number, count: number) => {
+            return count * (previous || 1);
+          },
           () => [this.count]
         );
       }
 
       let foo = new Test();
 
+      assert.equal(foo.data.value, undefined);
+      await settled();
+
       assert.equal(foo.data.value, 1);
 
       foo.count = 2;
+      foo.data.value;
       await settled();
 
       assert.equal(foo.data.value, 2);
 
       foo.count = 6;
+      foo.data.value;
       await settled();
 
       assert.equal(foo.data.value, 12);
+
+      foo.count = 7;
+      foo.data.value;
+      await settled();
+
+      assert.equal(foo.data.value, 84);
     });
 
     test('it works with async functions', async function (assert) {
@@ -252,7 +265,10 @@ module('useFunction', function () {
 
       await click('button');
 
-      assert.dom('out').hasText('4');
+      // NOTE: this may be unintuitive because of the direct access to this.count.
+      //       It's important to know that the function is invoked async, so there is no way to
+      //       know that this.count should cause re-invocations without the thunk
+      assert.dom('out').hasText('2');
     });
   });
 });

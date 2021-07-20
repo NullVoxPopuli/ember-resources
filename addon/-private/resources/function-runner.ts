@@ -54,6 +54,11 @@ export class FunctionRunner<
     this.update();
   }
 
+  /**
+   * NOTE: there is no reliable way to determine if a function is async before the function is ran.
+   *   - we can't use fun[Symbol.toStringtag] === 'AsyncFunction' because minifiers may remove the
+   *     async keyword
+   */
   update() {
     /**
      * NOTE: All positional args are consumed
@@ -63,40 +68,35 @@ export class FunctionRunner<
     }
 
     const fun = this[FUNCTION_TO_RUN];
-    // TS doesn't add the default function symbols to function types...
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const isAsync = (fun as any)[Symbol.toStringTag] === 'AsyncFunction';
+
     /**
      * Do not access "value" directly in this function. You'll have infinite re-rendering errors
      */
     const previous = this[SECRET_VALUE];
 
-    if (isAsync) {
-      const asyncWaiter = async () => {
-        // in case the async function tries to consume things on the parent `this`,
-        // be sure we start with a fresh frame
-        await new Promise((resolve) => schedule('afterRender', resolve));
+    const asyncWaiter = async () => {
+      // in case the async function tries to consume things on the parent `this`,
+      // be sure we start with a fresh frame
+      await new Promise((resolve) => schedule('afterRender', resolve));
 
-        if (isDestroying(this) || isDestroyed(this)) {
-          return;
-        }
+      if (isDestroying(this) || isDestroyed(this)) {
+        return;
+      }
 
-        const value = await fun(previous, ...this.funArgs);
+      const value = await fun(previous, ...this.funArgs);
 
-        if (isDestroying(this) || isDestroyed(this)) {
-          return;
-        }
+      if (isDestroying(this) || isDestroyed(this)) {
+        return;
+      }
 
-        this[SECRET_VALUE] = value;
-        this[HAS_RUN] = true;
-        dirty(this, SECRET_VALUE);
-      };
+      this[SECRET_VALUE] = value;
+      this[HAS_RUN] = true;
+      dirty(this, SECRET_VALUE);
+    };
 
-      waitForPromise(asyncWaiter());
+    waitForPromise(asyncWaiter());
 
-      return;
-    }
-
-    this[SECRET_VALUE] = fun(previous, ...this.funArgs) as Return;
+    // If we ever want to bring sync-support back:
+    // this[SECRET_VALUE] = fun(previous, ...this.funArgs) as Return;
   }
 }
