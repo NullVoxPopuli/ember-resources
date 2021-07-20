@@ -71,7 +71,7 @@ jobs:
           - ember-3.26
           - ember-release
           - ember-beta
-          - ember-canary
+          # - ember-canary
           - embroider-safe
           - embroider-optimized
     steps:
