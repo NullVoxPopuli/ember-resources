@@ -65,6 +65,8 @@ class MyClass {
 `useResource` takes a `LifecycleResource` and an args thunk.
 
 ```ts
+import { useResource } from 'ember-resources';
+
 class MyClass {
   data = useResource(this, SomeResource, () => [arg list]);
 }
@@ -88,6 +90,8 @@ A concurrency task accessed via `useTask` is only "ran" when accessed, and autom
 when it needs to.
 
 ```ts
+import { useTask } from 'ember-resources';
+
 class MyClass {
   myData = useTask(this, this._myTask, () => [args, to, task])
 
@@ -112,6 +116,8 @@ An example of this might be an object that you want to have perform some
 complex or async behavior
 
 ```ts
+import { LifecycleResource } from 'ember-resources';
+
 class MyResource extends LifecycleResource {
   @tracked isRunning;
   @tracked error;
@@ -150,6 +156,8 @@ class MyResource extends LifecycleResource {
 
 Using your custom Resource would look like
 ```ts
+import { useResource } from 'ember-resources';
+
 class ContainingClass {
   data = useResource(this, MyResource, () => [this.ids])
 }
@@ -163,6 +171,8 @@ invocation's return value as an argument to the next time the function is called
 
 Example:
 ```ts
+import { useFunction } from 'ember-resources';
+
 class StarWarsInfo {
   // access result on info.value
   info = useFunction(this, async (state, ...args) => {
@@ -198,6 +208,8 @@ To help prevent accidental async footguns, even if a function is synchronous, it
 asynchronously, therefor, the thunk cannot be avoided.
 
 ```ts
+import { useResource } from 'ember-resources';
+
 class MyClass {
   @tracked num = 3;
 
@@ -321,6 +333,8 @@ There are two approaches:
 ### `new` the resource directly
 
 ```ts
+import { LifecycleResource } from 'ember-resources';
+
 test('my test', function(assert) {
   class MyResource extends LifecycleResource {
     // ...
@@ -343,6 +357,8 @@ the resource instance.
 If, instead of creating `MyResource` directly, like in the example above,
 it is wrapped in a test class and utilizes `useResource`:
 ```ts
+import { useResource } from 'ember-resources';
+
 class TestContext {
   data = useResource(this, MyResource, () => { ... })
 }
@@ -356,6 +372,8 @@ time for the framework to propagate changes to all the reactive bits.
 Example:
 
 ```ts
+import { LifecycleResource, useResource } from 'ember-resources';
+
 test('my test', async function (assert) {
   class Doubler extends LifecycleResource<{ positional: [number] }> {
     get num() {
