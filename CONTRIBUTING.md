@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd u-ember-resources`
+* `cd ember-resources`
 * `npm install`
 
 ## Linting
