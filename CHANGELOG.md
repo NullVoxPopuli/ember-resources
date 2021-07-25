@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v3.0.0...v3.0.1) (2021-07-25)
+
+
+### Bug Fixes
+
+* **readme:** all code samples now include imports from ember-resources ([d7941f4](https://github.com/NullVoxPopuli/ember-resources/commit/d7941f4db22dd2457a4004f59aa0a15c167419a1)), closes [#87](https://github.com/NullVoxPopuli/ember-resources/issues/87)
+
 # [3.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v2.0.1...v3.0.0) (2021-07-20)
 
 
