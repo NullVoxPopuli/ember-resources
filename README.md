@@ -12,6 +12,7 @@ An implementation of Resources in Ember.JS without decorators.
 - [Usage](#usage)
   - [useResource](#useresource)
   - [useTask](#usetask)
+  - [Resource](#resource)
   - [LifecycleResource](#lifecycleresource)
   - [Functions](#function-resources)
   - [Thunks](#thunks)
@@ -39,30 +40,28 @@ yarn add ember-resources
 ember install ember-resources
 ```
 
-## Examples
+## Example
 
 ```js
-import { useResource, useFunction, useTask } from 'ember-resources';
+import { useFunction } from 'ember-resources';
 
 class MyClass {
-  data = useResource(this, DataClass, () => [arg list]);
-
-  data1 = useFunction(this, () => { /* synchronous function */ })
-
-  data2 = useFunction(this, async () => {}),
-
-  data3 = useTask(this.someEmberConcurrencyTask, () => [optional arg list]);
+  data = useFunction(this, async () => {
+    let response = await fetch('...');
+    let json = await response.json();
+    return json;
+  }),
 }
-
-
+```
+```hbs
+{{this.data.value}}
 ```
 
 ## Usage
 
-
 ### `useResource`
 
-`useResource` takes a `LifecycleResource` and an args thunk.
+`useResource` takes either a `Resource` or `LifecycleResource` and an args thunk.
 
 ```ts
 import { useResource } from 'ember-resources';
@@ -72,11 +71,18 @@ class MyClass {
 }
 ```
 
-When any tracked data in the args thunk, the `update` function on `SomeResource`
-will be called.
+When any tracked data in the args thunk is updated, the Resource will be updated as well
 
  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
- - The resource will **do nothing** until it is accessed.
+ - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards
+   access to the data, like:
+   ```hbs
+   {{#if this.isModalShowing}}
+      <Modal>{{this.data.someProperty}}</Modal>
+   {{/if}}
+   ```
+   the Resource will not be instantiated until `isModalShowing` is true.
+
  - For more info on Thunks, scroll to the bottom of the README
 
 ### `useTask`
@@ -86,7 +92,7 @@ so that the ember-concurrency task can reactively be re-called whenever args cha
 This largely eliminates the need to start concurrency tasks from the constructor, modifiers,
 getters, etc.
 
-A concurrency task accessed via `useTask` is only "ran" when accessed, and automatically updates
+A concurrency task accessed via `useTask` is only invoked when accessed, and automatically updates
 when it needs to.
 
 ```ts
@@ -100,66 +106,225 @@ class MyClass {
 }
 ```
 
-Accessing `myData` will represent the last `TaskInstance`, so all the expected properties are available:
-`value`, `isRunning`, `isFinished`, etc
+Accessing `this.myData` will represent the last `TaskInstance`, so all the expected properties are available:
+`value`, `isRunning`, `isFinished`, etc.
+See: the [TaskInstance](http://ember-concurrency.com/api/TaskInstance.html) docs for more info.
+
+_NOTE: `ember-resources` does not have a dependency on ember-concurrency_
 
 ### Making your own Resources with
 
+#### `Resource`
+
+Resources extending this base class have no lifecycle hooks to encourage data-derivation (via getters) and
+generally simpler state-management than you'd otherwise see with the typical lifecycle-hook-aware Resource.
+
+For example, this is how you'd handle initial setup, updates, and teardown with a `Resource`
+
+```js
+import { Resource } from 'ember-resources';
+import { registerDestructor } from '@ember/destroyable';
+
+class MyResource extends Resource {
+  constructor(owner, args, previous) {
+    super(owner, args, previous);
+
+    if (!previous) {
+      // initial setup
+    } else {
+      // update
+    }
+
+    registerDestructor(this, () => {
+      // teardown function for each instance
+    });
+  }
+}
+```
+This works much like `useFunction`, in that the previous instance is passed to the next instance and there
+is no overall persisting instance of `MyResource` as the `args` update. This technique eliminates the need
+to worry about if your methods, properties, and getters might conflict with the base class's API, which is
+a common complaint among the anti-class folks.
+
+Many times, however, you may not even need to worry about destruction, which is partially what makes opting
+in to having a "destructor" so fun -- you get to choose how much lifecycle your `Resource` has.
+
+More info: [`@ember/destroyable`](https://api.emberjs.com/ember/release/modules/@ember%2Fdestroyable)
+
+**So why even have a class at all?**
+
+You may still want to manage state internal to your resource, such as if you were implementing a
+"bulk selection" resource for use in tabular data. This hypothetical resource may track its own
+partial / all / none selected state. If the args to this resource change, you get to decide if you
+want to reset the state, or pass it on to the next instance of the selection resource.
+
+```js
+import { Resource } from 'ember-resources';
+
+class Selection extends Resource {
+  @tracked state = NONE; /* or SOME, ALL, ALL_EXCEPT */
+
+  constructor(owner, args, previous) {
+    super(owner, args, previous);
+
+    let { filterQueryString } = args.named;
+
+    if (previous && previous.args.named.filterQueryString !== filterQueryString) {
+      // reset the state when the consumer has changed which records we care about.
+      this.state = NONE;
+    }
+  }
+
+  @action selectAll() { this.state = ALL; }
+  @action deselectAll() { this.state = NONE; }
+  @action toggleItem(item) { /* ... */ }
+  // etc
+}
+```
+usage of this Resource could look like this:
+```js
+// in either a component or route:
+export default class MyComponent extends Component {
+  @service router;
+
+  get filter() {
+    return this.router.currentRouter.queryParams.filter;
+  }
+
+  // implementation omitted for brevity -- could be passed to EmberTable or similar
+  records = useResource(this, EmberDataQuery, () => ({ filter: this.filter }));
+
+  // the `this.selection.state` property is re-set to NONE when `this.filter` changes
+  selection = useResource(this, Selection, () => ({ filterQueryString: this.filter }))
+}
+```
+
+For library authors, it may be a kindness to consumers of your library to wrap the `useResource`
+call so that they only need to manage one import -- for example:
+
+```js
+// addon/index.js
+
+// @private
+import { Selection } from './wherever/it/is.js';
+
+// @public
+export function useSelection(destroyable, thunk) {
+  return useResource(destroyable, Selection, thunk);
+}
+```
+
+Another example of interacting with previous state may be a "load more" style data loader / pagination:
+
+```js
+import { Resource } from 'ember-resources';
+import { isDestroyed, isDestroying } from '@ember/destroyable';
+
+class DataLoader extends Resource {
+  constructor(owner, args, previous) {
+    super(owner, args, previous);
+
+    this.results = previous?.results;
+
+    let { url, offset } = this.args.named;
+
+    fetch(`${url}?offset=${offset}`)
+      .then(response => response.json())
+      .then(results => {
+        if (isDestroyed(this) || isDestroying(this)) return;
+
+        this.results = this.results.concat(result);
+    });
+  }
+}
+```
+consumption of the above resource:
+```js
+import { useResource } from 'ember-resources';
+
+class MyComponent extends Component {
+  @tracked offset = 0;
+
+  data = useResource(this, DataLoader, () => ({ url: '...', offset: this.offset }));
+
+  // when a button is clicked, load the next 50 records
+  @action loadMore() { this.offset += 50; }
+}
+```
+
+
 #### `LifecycleResource`
 
-This resource base class has 3 lifecycle hooks:
+When possible, you'll want to favor `Resource` over `LifecycleResource` as `Resource` is simpler.
+
+They key differences are that the `LifecycleResource` base class has 3 lifecycle hooks
  - `setup` - called upon first access of the resource
  - `update` - called when any `tracked` used during `setup` changes
  - `teardown` - called when the containing context is torn down
 
-An example of this might be an object that you want to have perform some
-complex or async behavior
+The main advantage to the `LifecycleResource` is that the teardown hook is for "last teardown",
+whereas with `Resource`, if a destructor is registered in the destructor, there is no way to know
+if that destruction is the final destruction.
 
-```ts
+
+An example of when you'd want to reach for the `LifecycleResource` is when you're managing external long-lived
+state that needs a final destruction call, such as with XState, which requires that the "State machine interpreter"
+is stopped when you are discarding the parent context (such as a component).
+
+An example
+```js
 import { LifecycleResource } from 'ember-resources';
+import { createMachine, interpret } from 'xstate';
+
+const machine = createMachine(/* ... see XState docs for this function this ... */);
 
 class MyResource extends LifecycleResource {
-  @tracked isRunning;
-  @tracked error;
-
-  get status() {
-    if (this.isRunning) return 'pending';
-    if (this.error) return this.error;
-
-    return 'idle';
-  }
+  @tracked state;
 
   setup() {
-    this.doAsyncTask();
+    this.interpreter = interpret(machine).onTransition(state => this.state = state);
   }
 
   update() {
-    this.doAsyncTask();
+    this.interpreter.send('ARGS_UPDATED', this.args);
   }
 
-  async doAsyncTask() {
-    let [ids] = this.args.positional;
-
-    this.isRunning = true;
-    this.error = undefined;
-
-    try {
-      // some long running stuff here
-    } catch (e) {
-      this.error = e
-    }
-
-    this.isRunning = false;
+  teardown() {
+    this.interpreter.stop();
   }
 }
 ```
 
-Using your custom Resource would look like
+Using this Resource is the exact same as `Resource`
 ```ts
 import { useResource } from 'ember-resources';
 
 class ContainingClass {
-  data = useResource(this, MyResource, () => [this.ids])
+  state = useResource(this, MyResource, () => [...])
+}
+```
+
+There _is_ however a semi-unintuitive technique you could use to continue to use `Resource` for the `final` teardown:
+
+```js
+import { Resource } from 'ember-resources';
+import { registerDestructor, unregisterDestructior } from '@ember/destroyable';
+
+class MyResource extends Resource {
+  constructor(owner, args, previous) {
+    super(owner, args, previous);
+
+    registerDestructor(this, this.myFinalCleanup);
+
+    if (previous) {
+      // prevent destruction
+      unregisterDestructor(prev, prev.myFinalCleanup);
+    } else {
+      // setup
+    }
+  }
+
+  @action myFinalCleanup() { /* ... */ }
 }
 ```
 
@@ -208,12 +373,12 @@ To help prevent accidental async footguns, even if a function is synchronous, it
 asynchronously, therefor, the thunk cannot be avoided.
 
 ```ts
-import { useResource } from 'ember-resources';
+import { useFunction } from 'ember-resources';
 
 class MyClass {
   @tracked num = 3;
 
-  info = useResource(this, () => {
+  info = useFunction(this, () => {
     return this.num * 2;
   });
 }
@@ -351,6 +516,35 @@ be called manually, because we aren't using `useResource`, which wraps the
 Ember-builtin `invokeHelper`, which takes care of reactivity for us. As a
 consequence, any changes to the args wrapper will not cause updates to
 the resource instance.
+
+For the `Resource` base class, there is a static helper method which helps simulate
+the `update` behavior.
+
+```js
+import { Resource } from 'ember-resources';
+
+test ('my test', function (assert) {
+  class MyResource extends Resource {
+    // ...
+  }
+
+  let instance = new MyResource(this.owner, { /* args wrapper */ });
+
+  let nextInstance = MyResource.next(instance, { /* args wrapper */ });
+});
+```
+
+`Resource.next`, however, does not destroy the instance. For that, you'll want to use
+`destroy` from `@ember/destroyable`.
+
+```js
+import { destroy } from '@ember/destroyable';
+
+// ...
+
+destroy(instance);
+```
+
 
 ### Create a wrapper context for reactive consumption
 
