@@ -9,7 +9,7 @@ import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache, LooseArgs } from '../types';
+import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '../types';
 
 export declare interface Resource<T extends LooseArgs = ArgsWrapper> {
   args: T;
@@ -19,6 +19,15 @@ export class Resource<T extends LooseArgs = ArgsWrapper> {
   static next<Args extends ArgsWrapper, R extends Resource<Args>>(prev: R, args: Args) {
     // TS does not infer subclass static types
     return new this(getOwner(prev), args, prev) as R;
+  }
+
+  static with<Args extends ArgsWrapper, SubClass extends Resource<Args>>(
+    /* hack to get inheritence in static methods */
+    this: { new (owner: unknown, args: Args, previous?: SubClass): SubClass },
+    thunk: Thunk
+  ): SubClass {
+    // Lie about the type because `with` must be used with the `@use` decorator
+    return [this, thunk] as unknown as SubClass;
   }
 
   /**

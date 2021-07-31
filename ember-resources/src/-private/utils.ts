@@ -3,7 +3,11 @@ import type { ArgsWrapper, Thunk } from './types';
 
 export const DEFAULT_THUNK = () => [];
 
-export function normalizeThunk(thunk: Thunk): ArgsWrapper {
+export function normalizeThunk(thunk?: Thunk): ArgsWrapper {
+  if (!thunk) {
+    return { named: {}, positional: [] };
+  }
+
   let args = thunk();
 
   if (Array.isArray(args)) {
