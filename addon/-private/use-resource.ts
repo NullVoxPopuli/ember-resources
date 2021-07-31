@@ -11,6 +11,7 @@ import { assert } from '@ember/debug';
 import { invokeHelper } from '@ember/helper';
 
 import { LifecycleResource } from './resources/lifecycle';
+import { Resource } from './resources/simple';
 import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
 import type { ResourceFn } from './resources/function-runner';
@@ -39,10 +40,21 @@ function useUnproxiedResource<Instance = unknown>(
 
 /**
  * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
+ * Constructs a cached LifecycleResource that will reactively respond to tracked data changes
  *
  */
 export function useResource<Instance extends LifecycleResource<any>>(
+  context: object,
+  klass: Constructable<Instance>,
+  thunk?: Thunk
+): Instance;
+
+/**
+ * For use in the body of a class.
+ * Constructs a cached Resource that will reactively respond to tracked data changes
+ *
+ */
+export function useResource<Instance extends Resource<any>>(
   context: object,
   klass: Constructable<Instance>,
   thunk?: Thunk
@@ -57,7 +69,7 @@ export function useResource<Instance extends object, Args extends unknown[]>(
     `Expected second argument, klass, to be a Resource. ` +
       `This is different from the v1 series where useResource could be used for both functions and class-based Resources. ` +
       `If you intended to pass a function, you'll now (since v2) want to use useFunction instead`,
-    isLifecycleResource(klass)
+    isLifecycleResource(klass) || isSimpleResource(klass)
   );
   let target = useUnproxiedResource<Instance>(context, klass, thunk || DEFAULT_THUNK);
 
@@ -66,4 +78,8 @@ export function useResource<Instance extends object, Args extends unknown[]>(
 
 function isLifecycleResource(classOrFn: Constructable | ResourceFn): classOrFn is Constructable {
   return classOrFn.prototype instanceof LifecycleResource;
+}
+
+function isSimpleResource(classOrFn: Constructable | ResourceFn): classOrFn is Constructable {
+  return classOrFn.prototype instanceof Resource;
 }
