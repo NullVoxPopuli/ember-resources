@@ -2,12 +2,13 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { setComponentTemplate } from '@ember/component';
 import { destroy } from '@ember/destroyable';
+import { registerDestructor } from '@ember/destroyable';
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
-import { LifecycleResource, useResource } from 'ember-resources';
+import { LifecycleResource, Resource, useResource } from 'ember-resources';
 
 import type { Positional } from 'ember-resources';
 
@@ -184,6 +185,95 @@ module('useResource', function () {
         await click('button');
 
         assert.dom('out').hasText('2');
+      });
+    });
+  });
+
+  module('Resource', function () {
+    module('in JS', function (hooks) {
+      setupTest(hooks);
+
+      test('it works', async function (assert) {
+        class Doubler<Args extends Positional<[number]>> extends Resource<Args> {
+          @tracked num = 0;
+
+          constructor(owner: unknown, args: Args, previous?: Doubler<Args>) {
+            super(owner, args, previous);
+
+            if (!previous) {
+              this.num = this.args.positional[0] * 2;
+            } else {
+              this.num = this.args.positional[0] * 3;
+            }
+          }
+        }
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+        }
+
+        let foo = new Test();
+
+        assert.equal(foo.data.num, 0);
+
+        foo.count = 3;
+        await settled();
+
+        assert.equal(foo.data.num, 9);
+
+        foo.count = 4;
+        await settled();
+
+        assert.equal(foo.data.num, 12);
+      });
+
+      test('lifecycle', async function (assert) {
+        class Doubler<Args extends Positional<[number]>> extends Resource<Args> {
+          @tracked num = 0;
+
+          constructor(owner: unknown, args: Args, previous?: Doubler<Args>) {
+            super(owner, args, previous);
+
+            if (!previous) {
+              this.num = this.args.positional[0] * 2;
+              assert.step(`resource:setup ${this.num}`);
+            } else {
+              this.num = this.args.positional[0] * 3;
+              assert.step(`resource:update ${this.num}`);
+            }
+
+            registerDestructor(this, () => {
+              assert.step(`resource:destroy ${this.num}`);
+            });
+          }
+        }
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+        }
+
+        let foo = new Test();
+
+        foo.data.num;
+        await settled();
+
+        foo.count = 3;
+        foo.data.num;
+        await settled();
+
+        foo.count = 4;
+        foo.data.num;
+        await settled();
+
+        assert.verifySteps([
+          'resource:setup 0',
+          'resource:update 9',
+          'resource:destroy 0',
+          'resource:update 12',
+          'resource:destroy 9',
+        ]);
       });
     });
   });
