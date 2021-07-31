@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.0.1...v3.1.0) (2021-07-31)
+
+
+### Features
+
+* **resource:** Resource without lifecycle hooks ([ae0656f](https://github.com/NullVoxPopuli/ember-resources/commit/ae0656fa45a5abf540efcb75699740b126e6638f))
+
 ## [3.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v3.0.0...v3.0.1) (2021-07-25)
 
 
