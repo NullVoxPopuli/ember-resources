@@ -6,13 +6,15 @@ export interface Positional<T extends Array<unknown>> {
   positional: T;
 }
 
-export interface Named<T extends Record<string, unknown>> {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface Named<T extends {}> {
   named: T;
 }
 
 export interface ArgsWrapper {
   positional?: unknown[];
-  named?: Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  named?: {};
 }
 
 // typed-ember should provide this from
