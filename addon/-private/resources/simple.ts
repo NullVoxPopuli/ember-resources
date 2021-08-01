@@ -9,13 +9,13 @@ import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache } from '../types';
+import type { ArgsWrapper, Cache, LooseArgs } from '../types';
 
-export declare interface Resource<T extends ArgsWrapper = ArgsWrapper> {
+export declare interface Resource<T extends LooseArgs = ArgsWrapper> {
   args: T;
 }
 
-export class Resource<T extends ArgsWrapper> {
+export class Resource<T extends LooseArgs = ArgsWrapper> {
   static next<Args extends ArgsWrapper, R extends Resource<Args>>(prev: R, args: Args) {
     // TS does not infer subclass static types
     return new this(getOwner(prev), args, prev) as R;
