@@ -1,3 +1,11 @@
+## [3.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.0...v3.1.1) (2021-08-01)
+
+
+### Bug Fixes
+
+* **108:** ensure that Args can be ommitted from Resources when unknown is ok ([34c07ff](https://github.com/NullVoxPopuli/ember-resources/commit/34c07fffd809cf3c89ae85650c4e3f36d58a7d01))
+* **issue#108:** loosen the constraint on what named arguments are ([dff5be3](https://github.com/NullVoxPopuli/ember-resources/commit/dff5be3cef53bbee9c4c74cf8cceed72638bf78a)), closes [issue#108](https://github.com/issue/issues/108)
+
 # [3.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.0.1...v3.1.0) (2021-07-31)
 
 
