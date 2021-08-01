@@ -5,7 +5,7 @@ import { setupTest } from 'ember-qunit';
 
 import { Resource } from 'ember-resources';
 
-import type { ArgsWrapper, Positional } from 'ember-resources';
+import type { Named, Positional } from 'ember-resources';
 
 module('Resource', function (hooks) {
   setupTest(hooks);
@@ -21,8 +21,8 @@ module('Resource', function (hooks) {
   });
 
   test('can define a constructor', function (assert) {
-    class MyResource extends Resource {
-      constructor(owner: unknown, args: ArgsWrapper, previous?: MyResource) {
+    class MyResource<Args extends Named<{ test: number }>> extends Resource<Args> {
+      constructor(owner: unknown, args: Args, previous?: MyResource<Args>) {
         super(owner, args, previous);
       }
     }
