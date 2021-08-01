@@ -5,7 +5,7 @@ import { setupTest } from 'ember-qunit';
 
 import { LifecycleResource } from 'ember-resources';
 
-import type { ArgsWrapper, Positional } from 'ember-resources';
+import type { Named, Positional } from 'ember-resources';
 
 module('LifecycleResource', function (hooks) {
   setupTest(hooks);
@@ -21,8 +21,8 @@ module('LifecycleResource', function (hooks) {
   });
 
   test('can define a constructor', function (assert) {
-    class MyResource extends LifecycleResource {
-      constructor(owner: unknown, args: ArgsWrapper) {
+    class MyResource<Args extends Named<{ test: number }>> extends LifecycleResource<Args> {
+      constructor(owner: unknown, args: Args) {
         super(owner, args);
       }
     }

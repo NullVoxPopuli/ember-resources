@@ -6,8 +6,15 @@ export interface Positional<T extends Array<unknown>> {
   positional: T;
 }
 
-export interface Named<T extends Record<string, unknown>> {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface Named<T extends {} = Record<string, unknown>> {
   named: T;
+}
+
+export interface LooseArgs {
+  positional?: unknown[];
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  named?: {};
 }
 
 export interface ArgsWrapper {
