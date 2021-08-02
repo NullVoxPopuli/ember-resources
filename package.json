@@ -37,7 +37,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^2.2.9",
+    "@ember/test-helpers": "^2.3.0",
     "@embroider/test-setup": "^0.43.3",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
