@@ -9,16 +9,16 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache } from '../types';
+import type { ArgsWrapper, Cache, LooseArgs } from '../types';
 
-export declare interface LifecycleResource<T extends ArgsWrapper = ArgsWrapper> {
+export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
   args: T;
   setup(): void;
   update(): void;
   teardown(): void;
 }
 
-export class LifecycleResource<T extends ArgsWrapper> {
+export class LifecycleResource<T extends LooseArgs = ArgsWrapper> {
   constructor(owner: unknown, public args: T) {
     setOwner(this, owner);
   }
