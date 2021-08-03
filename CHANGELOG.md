@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.1...v3.1.2) (2021-08-03)
+
+
+### Bug Fixes
+
+* **types:** loosen the args type on the lifecycle resource ([56f96b0](https://github.com/NullVoxPopuli/ember-resources/commit/56f96b040488f7ee0a5b4c6cd4b6d03255186d73))
+
 ## [3.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.0...v3.1.1) (2021-08-01)
 
 
