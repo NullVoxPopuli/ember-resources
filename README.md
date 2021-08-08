@@ -591,6 +591,12 @@ test('my test', async function (assert) {
   assert.equal(foo.data.num, 6);
 ```
 
+## Related addons
+
+List of addons that use and wrap `ember-resources` to provide more specific functionality:
+
+- [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources) - resources for reactive data fetching with ember-data
+- [ember-array-map-resource](https://github.com/NullVoxPopuli/ember-array-map-resource) - provides a useArrayMap function which returns a resource that reactively maps data per-element, so that when the overall collection is dirtied, only the changed/new/removed elements affect the mapped collection
 
 ## Contributing
 
