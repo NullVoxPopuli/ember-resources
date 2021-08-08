@@ -591,6 +591,11 @@ test('my test', async function (assert) {
   assert.equal(foo.data.num, 6);
 ```
 
+## Related addons
+
+List of addons that use and wrap `ember-resources` to provide more specific functionality:
+
+- [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources) - resources for reactive data fetching with ember-data
 
 ## Contributing
 
