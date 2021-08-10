@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { setComponentTemplate } from '@ember/component';
 import { destroy } from '@ember/destroyable';
 import { registerDestructor } from '@ember/destroyable';
@@ -116,6 +116,46 @@ module('useResource', function () {
         await settled();
 
         assert.verifySteps(['setup', 'update', 'update', 'teardown']);
+      });
+
+      test('lifecycle: on args that are not passed', async function (assert) {
+        class Doubler extends LifecycleResource<{ named: { missing?: string; present: boolean } }> {
+          @cached
+          get usesMissing() {
+            assert.step('usesMissing');
+
+            return this.args.named.missing;
+          }
+
+          setup() {
+            assert.step('setup');
+            this.args.named.present;
+          }
+
+          update() {
+            assert.step('update');
+            this.args.named.present;
+          }
+
+          teardown() {
+            assert.step('teardown');
+          }
+        }
+
+        class Test {
+          @tracked flag = false;
+
+          data = useResource(this, Doubler, () => ({ present: this.flag }));
+        }
+
+        let foo = new Test();
+
+        foo.data.usesMissing;
+        foo.flag = true;
+        foo.data.usesMissing;
+        await settled();
+
+        assert.verifySteps(['setup', 'usesMissing', 'update']);
       });
 
       test('setup is optional', async function (assert) {
