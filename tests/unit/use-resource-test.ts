@@ -122,19 +122,20 @@ module('useResource', function () {
         class Doubler extends LifecycleResource<{ named: { missing?: string; present: boolean } }> {
           @cached
           get usesMissing() {
-            assert.step('usesMissing');
+            let { missing } = this.args.named;
 
-            return this.args.named.missing;
+            assert.step(`usesMissing: ${missing}`);
+
+            return missing;
           }
 
-          setup() {
-            assert.step('setup');
-            this.args.named.present;
-          }
+          @cached
+          get usesPresent() {
+            let { present } = this.args.named;
 
-          update() {
-            assert.step('update');
-            this.args.named.present;
+            assert.step(`usesPresent: ${present}`);
+
+            return present;
           }
 
           teardown() {
@@ -151,11 +152,13 @@ module('useResource', function () {
         let foo = new Test();
 
         foo.data.usesMissing;
+        foo.data.usesPresent;
         foo.flag = true;
         foo.data.usesMissing;
+        foo.data.usesPresent;
         await settled();
 
-        assert.verifySteps(['setup', 'usesMissing', 'update']);
+        assert.verifySteps(['usesMissing: undefined', 'usesPresent: false', 'usesPresent: true']);
       });
 
       test('setup is optional', async function (assert) {
@@ -314,6 +317,45 @@ module('useResource', function () {
           'resource:update 12',
           'resource:destroy 9',
         ]);
+      });
+
+      test('lifecycle: on args that are not passed', async function (assert) {
+        class Doubler extends Resource<{ named: { missing?: string; present: boolean } }> {
+          @cached
+          get usesMissing() {
+            let { missing } = this.args.named;
+
+            assert.step(`usesMissing: ${missing}`);
+
+            return missing;
+          }
+
+          @cached
+          get usesPresent() {
+            let { present } = this.args.named;
+
+            assert.step(`usesPresent: ${present}`);
+
+            return present;
+          }
+        }
+
+        class Test {
+          @tracked flag = false;
+
+          data = useResource(this, Doubler, () => ({ present: this.flag }));
+        }
+
+        let foo = new Test();
+
+        foo.data.usesMissing;
+        foo.data.usesPresent;
+        foo.flag = true;
+        foo.data.usesMissing;
+        foo.data.usesPresent;
+        await settled();
+
+        assert.verifySteps(['usesMissing: undefined', 'usesPresent: false', 'usesPresent: true']);
       });
     });
   });

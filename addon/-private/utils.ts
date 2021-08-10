@@ -3,6 +3,21 @@ import type { ArgsWrapper, Thunk } from './types';
 
 export const DEFAULT_THUNK = () => [];
 
+// TODO: this has got to be exported somewhere from Ember, right?
+// TODO: RFC making the utility public api if it isn't already
+//       https://github.com/glimmerjs/glimmer-vm/blob/4f1bef0d9a8a3c3ebd934c5b6e09de4c5f6e4468/packages/%40glimmer/manager/lib/util/args-proxy.ts#L56
+
+/**
+ * But the args-proxy may not work, because:
+ *  - even if we access _any_ property, and lazily evaluate the thunk,
+ *  - all tracked data within the thunk is consumed
+ *  - accessing any property on the args entangles with all the args
+ *
+ *  We need to
+ *   - evaluate the thunk _without tracking_ (but still collect the REFs?)
+ *   - wrap in a proxy
+ *   - upon access, entangle with the source REF
+ */
 export function normalizeThunk(thunk: Thunk): ArgsWrapper {
   let args = thunk();
 
