@@ -7,7 +7,16 @@
   ],
   "automerge": true,
   "masterIssue": true,
-  "rangeStrategy": "bump",
+  // bump for apps
+  // update-lockfile for addons/libraries
+  "rangeStrategy": "update-lockfile",
+  // From the docs:
+  // https://docs.renovatebot.com/configuration-options/#packagerules
+  // Important to know: Renovate will evaluate all packageRules and not stop once it gets a first match.
+  // Therefore, you should order your packageRules in order of importance so that later rules can override
+  // settings from earlier rules if necessary.
+  //
+  // (so if something is to be disabled, place that rule last)
   "packageRules": [
     ////////////////////////////////////////
     // Grouping namespaced packages together
@@ -17,7 +26,13 @@
     {
       "groupName": "Type Definitions",
       "packagePatterns": ["^@types\/*"],
-      "schedule": ["after 9pm on sunday"],
+      "schedule": ["after 9pm on sunday"]
+    },
+    // This library needs to be bumped, because otherwise we would not
+    // receive blueprint updates whenever a release occurs
+    {
+      "packageNames": ["ember-addon-automated-ci"],
+      "rangeStrategy": "bump"
     },
     {
       "groupName": "Lint Dependencies",
@@ -76,6 +91,11 @@
         "qunit",
         "npm-run-all"
       ]
+    },
+    {
+      // changing peerDependencies *at all* is a breaking change
+      "matchDepTypes": ["peerDependencies"],
+      "enabled": false
     }
   ]
 }

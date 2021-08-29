@@ -9,8 +9,16 @@
           "name": "addon",
           "outputRepo": "https://github.com/ember-cli/ember-addon-output",
           "codemodsSource": "ember-addon-codemods-manifest@1",
-          "isBaseBlueprint": true,
-          "options": []
+          "isBaseBlueprint": true
+        }
+      ]
+    },
+    {
+      "name": "ember-addon-automated-ci",
+      "version": "2.1.0",
+      "blueprints": [
+        {
+          "name": "ember-addon-automated-ci"
         }
       ]
     }
