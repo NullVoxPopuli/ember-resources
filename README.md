@@ -16,6 +16,7 @@ An implementation of Resources in Ember.JS without decorators.
   - [LifecycleResource](#lifecycleresource)
   - [Functions](#function-resources)
   - [Thunks](#thunks)
+  - [Composition](#composition)
 - [Public Types](#public-types)
 - [Testing](#testing)
 - [Contributing](#contributing)
@@ -423,6 +424,90 @@ when an object is passed containing either keys: `named` or `positional`:
  - `this.args.positional` will be the value of the result of the thunk's `positional` property
 
 This is the same shape of args used throughout Ember's Helpers, Modifiers, etc
+
+### Composition
+
+These patterns are primarily unexplored so if you run in to any issues,
+please [open a bug report / issue](https://github.com/NullVoxPopuli/ember-resources/issues/new).
+
+Composing class-based resources is expected to "just work", as classes maintain their own state.
+
+#### useFunction + useFunction
+
+```js
+import Component from '@glimmer/component';
+import { useFunction } from 'ember-resources';
+
+class MyComponent extends Component {
+  rand = useFunction(this, () => {
+    return useFunction(this, () => Math.random());
+  });
+}
+```
+Accessing the result of `Math.random()` would be done via:
+```hbs
+{{this.rand.value.value}}
+```
+
+Something to note about composing resources is that if arguments passed to the
+outer resource change, the inner resources are discarded entirely.
+
+For example, you'll need to manage the inner resource's cache invalidation yourself if you want
+the inner resource's behavior to be reactive based on outer arguments:
+
+<details><summary>Example data fetching composed functions</summary>
+
+```js
+import Component from '@glimmer/component';
+import { useFunction } from 'ember-resources';
+
+class MyComponent extends Component {
+  @tracked id = 1;
+  @tracked storeName = 'blogs';
+
+  records = useFunction(this, (state, storeName) => {
+      let result: Array<string | undefined> = [];
+
+      if (state?.previous?.storeName === storeName) {
+        return state.previous.innerFunction;
+      }
+
+      let innerFunction = useFunction(this, (prev, id) => {
+        // pretend we fetched a record using the store service
+        let newValue = `record:${storeName}-${id}`;
+
+        result = [...(prev || []), newValue];
+
+        return result;
+        },
+        () => [this.id]
+      );
+
+      return new Proxy(innerFunction, {
+        get(target, key, receiver) {
+          if (key === 'previous') {
+            return {
+              innerFunction,
+              storeName,
+            };
+          }
+
+          return Reflect.get(target, key, receiver);
+        },
+      });
+    },
+    () => [this.storeName]
+  );
+}
+```
+```hbs
+{{this.records.value.value}} -- an array of "records"
+```
+
+
+</details>
+
+
 
 
 ## Public Types
