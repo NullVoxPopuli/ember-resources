@@ -1,3 +1,16 @@
+# [3.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.3...v3.2.0) (2021-08-29)
+
+
+### Bug Fixes
+
+* **useFunction, typescript:** you may now specify a return type without specifying the args type ([fe0acff](https://github.com/NullVoxPopuli/ember-resources/commit/fe0acff308d1aa11c0e1933ba18e7bd538e19d2b))
+
+
+### Features
+
+* **readme:** document and test how would would compose useFunction ([cbc99c0](https://github.com/NullVoxPopuli/ember-resources/commit/cbc99c0782c2f8d94bfe19644f8cdeabc936aac7))
+* **useHelper:** can now reactively invoke helpers from JS ([b51f10f](https://github.com/NullVoxPopuli/ember-resources/commit/b51f10fcc2fd9d0cd27ac8319325198ee3142a00))
+
 ## [3.1.3](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.2...v3.1.3) (2021-08-18)
 
 
