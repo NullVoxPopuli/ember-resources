@@ -1,31 +1,46 @@
-name: Types
-
-# based on:
-#  - https://github.com/NullVoxPopuli/eslint-plugin-decorator-position/blob/master/.github/workflows/lint.yml
-#  - https://github.com/NullVoxPopuli/ember-autostash-modifier/blob/master/.github/workflows/ci.yml
-#  - https://github.com/emberjs/ember-test-helpers/blob/master/.github/workflows/ci-build.yml
+name: "Types"
 on:
   pull_request:
   push:
     # filtering branches here prevents duplicate builds from pull_request and push
     branches:
       - main
+      - master
 
 env:
   CI: true
 
 jobs:
-  types:
+  install_dependencies:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    name: Type Checking
+    name: Install Dependencies
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: volta-cli/action@v1
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+    - run: npm install
 
-      - run: npm install
+  types:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: "Type Correctness"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [install_dependencies]
 
-      - name: Type Checking
-        # run: yarn tsc --build
-        run: npm run prepack
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+    - run: npm run prepack
+    # - run: yarn tsc --build
+    # - run: npm run prepack
+    # - run: npm exec tsc --build
