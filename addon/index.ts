@@ -6,6 +6,7 @@ export { Resource } from './-private/resources/simple';
 export { useTask } from './-private/ember-concurrency';
 export { useFunction } from './-private/use-function';
 export { useResource } from './-private/use-resource';
+export { useHelper } from './-private/use-helper';
 
 // Public Type Utilities
 export type { ArgsWrapper, Named, Positional } from './-private/types';
