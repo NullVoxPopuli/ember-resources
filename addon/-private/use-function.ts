@@ -44,7 +44,7 @@ type UseFunctionArgs<Return, Args extends unknown[]> =
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function useFunction<Return, Args extends unknown[]>(
+export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: NonReactiveVanilla<Return, Args>
 ): { value: Return };
 /**
@@ -55,7 +55,7 @@ export function useFunction<Return, Args extends unknown[]>(
  * @param {Function} theFunction the function to run with the return value available on .value
  * @param {Function} thunk to generate / bind tracked data to the function so that the function can re-run when the tracked data updates
  */
-export function useFunction<Return, Args extends unknown[]>(
+export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: VanillaArgs<Return, Args>
 ): { value: Return };
 /**
@@ -67,7 +67,7 @@ export function useFunction<Return, Args extends unknown[]>(
  * @param {Function} theFunction the function to run with the return value available on .value
  * @param {Function} thunk to generate / bind tracked data to the function so that the function can re-run when the tracked data updates
  */
-export function useFunction<Return, Args extends unknown[]>(
+export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: WithInitialValueArgs<Return, Args>
 ): { value: Return };
 /**
@@ -78,11 +78,11 @@ export function useFunction<Return, Args extends unknown[]>(
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function useFunction<Return, Args extends unknown[]>(
+export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: NonReactiveWithInitialValue<Return, Args>
 ): { value: Return };
 
-export function useFunction<Return, Args extends unknown[]>(
+export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passedArgs: UseFunctionArgs<Return, Args>
 ): { value: Return } {
   let [context] = passedArgs;
