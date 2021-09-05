@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.0...v3.2.1) (2021-09-05)
+
+
+### Bug Fixes
+
+* **types:** useResource types now reflect that you *can* make non-reactive resources ([9059c90](https://github.com/NullVoxPopuli/ember-resources/commit/9059c904d3eb082a244c4bbc306b186e2e665458)), closes [#48](https://github.com/NullVoxPopuli/ember-resources/issues/48)
+
 # [3.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.1.3...v3.2.0) (2021-08-29)
 
 
