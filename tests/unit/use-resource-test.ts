@@ -147,6 +147,24 @@ module('useResource', function () {
       });
     });
 
+    test('does not need args', async function (assert) {
+      class TestResource extends Resource {
+        foo = 3;
+      }
+
+      class Test {
+        dataArray = useResource(this, TestResource, () => []);
+        dataVoid = useResource(this, TestResource, () => {});
+        dataOmitted = useResource(this, TestResource);
+      }
+
+      let foo = new Test();
+
+      assert.equal(foo.dataArray.foo, 3);
+      assert.equal(foo.dataVoid.foo, 3);
+      assert.equal(foo.dataOmitted.foo, 3);
+    });
+
     module('in templates', function (hooks) {
       setupRenderingTest(hooks);
 

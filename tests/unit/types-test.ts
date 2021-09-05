@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LifecycleResource, Resource } from 'ember-resources';
+import { LifecycleResource, Resource, useResource } from 'ember-resources';
 
 import type { Named } from 'ember-resources';
 
@@ -21,4 +21,15 @@ export function Issue108TypeTest() {
   console.log({ Issue108, Issue108lc });
 
   return issue108p2a.args.named?.foo;
+}
+
+// https://github.com/NullVoxPopuli/ember-resources/issues/48
+export function Issue48TypeTest(): unknown {
+  class TestResource extends Resource {}
+
+  return class TestCaseComponent {
+    test = useResource(this, TestResource, () => {});
+    testArray = useResource(this, TestResource, () => []);
+    testVoid = useResource(this, TestResource);
+  };
 }
