@@ -37,6 +37,9 @@ export interface Helper {
 }
 
 export type Thunk =
+  // No Args
+  | (() => [])
+  | (() => void)
   // plain array / positional args
   | (() => Required<ArgsWrapper>['positional'])
   // plain named args
