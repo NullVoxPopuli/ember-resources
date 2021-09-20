@@ -54,6 +54,8 @@ class ResourceManager {
     let instance: Resource<ArgsWrapper>;
 
     let cache: Cache = createCache(() => {
+      console.log({ ...args.positional }, { ...(instance?.args?.positional || []) });
+
       let newInstance = new Class(owner, args, instance);
 
       associateDestroyableChild(cache, newInstance);
