@@ -293,6 +293,44 @@ module('useResource', function () {
           'resource:destroy 9',
         ]);
       });
+
+      test('previous args', async function (assert) {
+        class Doubler<Args extends Positional<[number]>> extends Resource<Args> {
+          @tracked num = 0;
+
+          constructor(owner: unknown, args: Args, previous?: Doubler<Args>) {
+            super(owner, args, previous);
+
+            let prevCount = previous?.args?.positional[0];
+            let thisCount = args.positional[0];
+
+            assert.step(`prevCount: ${prevCount} -> thisCount: ${thisCount}`);
+          }
+        }
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+        }
+
+        let foo = new Test();
+
+        assert.equal(foo.data.num, 0);
+
+        foo.count = 3;
+        foo.data.num;
+        await settled();
+
+        foo.count = 4;
+        foo.data.num;
+        await settled();
+
+        assert.verifySteps([
+          'prevCount: undefined -> thisCount: 0',
+          'prevCount: 0 -> thisCount: 3',
+          'prevCount: 3 -> thisCount: 4',
+        ]);
+      });
     });
   });
 });
