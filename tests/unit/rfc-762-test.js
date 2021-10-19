@@ -12,7 +12,7 @@ import { setupRenderingTest } from 'ember-qunit';
 module('RFC#762', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('lazy tracked data', async function (assert) {
+  test('lazy tracked data with getters', async function (assert) {
     assert.expect(4);
 
     class RemoteData extends Helper {
@@ -32,6 +32,52 @@ module('RFC#762', function (hooks) {
               assert.ok(this instanceof PlusOne, `this instanceof PlusOne`);
               return this.startingNumber;
             },
+          },
+        };
+      });
+
+      get result() {
+        return getValue(this.plusOne);
+      }
+
+      increment = () => this.startingNumber++;
+    }
+
+    setComponentTemplate(
+      hbs`
+      <output>{{this.result}}</output>
+
+      <button {{on 'click' this.increment}}>Increment</button>
+    `,
+      PlusOne
+    );
+
+    this.setProperties({ PlusOne });
+
+    await render(hbs`<this.PlusOne />`);
+
+    assert.dom('output').hasText('2');
+    await click('button');
+    assert.dom('output').hasText('3');
+  });
+
+  test('lazy tracked data many thunks', async function (assert) {
+    assert.expect(2);
+
+    class RemoteData extends Helper {
+      compute(params, { foo }) {
+        return foo() + 1;
+      }
+    }
+
+    class PlusOne extends Component {
+      @tracked startingNumber = 1;
+
+      plusOne = invokeHelper(this, RemoteData, () => {
+        return {
+          positional: [],
+          named: {
+            foo: () => this.startingNumber,
           },
         };
       });
