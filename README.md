@@ -7,6 +7,7 @@ An implementation of Resources in Ember.JS without decorators.
  - [More information on Resources](https://www.pzuraq.com/introducing-use/)
  - [Inspiration, ember-could-get-used-to-this](https://github.com/pzuraq/ember-could-get-used-to-this)
 
+_This is a [V2-format Addon](https://github.com/emberjs/rfcs/pull/507) with V1 compatibility_
 
 - [Installation](#installation)
 - [Usage](#usage)
