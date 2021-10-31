@@ -5,6 +5,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 import { Addon } from '@embroider/addon-dev/rollup';
 
+import packageJson from './package.json';
+
 const addon = new Addon({
   srcDir: 'src',
   destDir: 'dist',
@@ -18,6 +20,14 @@ const rollupConfig = {
   // This provides defaults that work well alongside `publicEntrypoints` below.
   // You can augment this if you need to.
   output: { ...addon.output(), entryFileNames: '[name].js' },
+
+  // We do not want to bundle these ourselves, and instead want the consuming
+  // project to provide these dependencies
+  //
+  // This was added because the test app's webpack was including two copies
+  // of @ember/test-waiters, and this broke the waiter system
+  // (caught by a test!)
+  external: Object.keys(packageJson['peerDependencies']),
 
   plugins: [
     nodeResolve({ extensions }),
@@ -48,7 +58,5 @@ const rollupConfig = {
     addon.clean(),
   ],
 };
-
-console.debug(rollupConfig);
 
 export default rollupConfig;

@@ -232,6 +232,8 @@ module('useFunction', function () {
       assert.dom('out').hasText('');
 
       await settled();
+      // await timeout(30);
+      // debugger;
       assert.dom('out').hasText('2');
 
       click('button');
@@ -239,6 +241,7 @@ module('useFunction', function () {
       assert.dom('out').hasText('2');
 
       await settled();
+      // await timeout(30);
       assert.dom('out').hasText('4');
     });
 

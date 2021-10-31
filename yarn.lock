@@ -1296,7 +1296,7 @@
 
 "@ember/test-waiters@^3.0.0":
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@ember/test-waiters/-/test-waiters-3.0.0.tgz#b66a35cd5b78ec3c296a6f5f5fb3852780a5d3c8"
+  resolved "https://registry.npmjs.org/@ember/test-waiters/-/test-waiters-3.0.0.tgz#b66a35cd5b78ec3c296a6f5f5fb3852780a5d3c8"
   integrity sha512-z6+gIlq/rXLKroWv2wxAoiiLtgSOGQFCw6nUufERausV+jLnA7CYbWwzEo5R7XaOejSDpgA5d6haXIBsD5j0oQ==
   dependencies:
     calculate-cache-key-for-tree "^2.0.0"
@@ -3177,7 +3177,7 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-2.0.0.tgz#52520b8ae5b569215b354efc0caa3fe1e45a8adc"
   integrity sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==
 
-archy@~1.0.0:
+archy@^1.0.0, archy@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/archy/-/archy-1.0.0.tgz#f9c8c13757cc1dd7bc379ac77b2c62a5c2868c40"
   integrity sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
@@ -6460,6 +6460,16 @@ ember-cli-dependency-checker@^3.2.0:
     is-git-url "^1.0.0"
     resolve "^1.5.0"
     semver "^5.3.0"
+
+ember-cli-dependency-lint@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/ember-cli-dependency-lint/-/ember-cli-dependency-lint-2.0.1.tgz#a51fcf845779ec855549e63fde60a2f9f15cfa36"
+  integrity sha512-FIWdE2ijwp9ZvgM43ZCnFtTLTM74QVrZmYy8tmEnAmDir2bWKtyryF0LmeiW29vfznRy7UvaDW7YiOFegTtHUA==
+  dependencies:
+    archy "^1.0.0"
+    broccoli-plugin "^1.3.0"
+    chalk "^2.3.0"
+    semver "^5.5.0"
 
 ember-cli-get-component-path-option@^1.0.0:
   version "1.0.0"
