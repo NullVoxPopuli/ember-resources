@@ -86,6 +86,7 @@ jobs:
         run: yarn install
       - name: test
         run: yarn ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+        working-directory: ./testing/ember-app
 
   publish:
     name: Release
