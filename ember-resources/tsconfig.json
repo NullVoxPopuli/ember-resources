@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "baseUrl": ".",
+    "declarationDir": "declarations",
     "experimentalDecorators": true,
     "allowJs": false,
     "moduleResolution": "node",
@@ -18,7 +20,6 @@
     "noImplicitReturns": true,
     "noEmitOnError": false,
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
       "ember-resources": [
         "src"

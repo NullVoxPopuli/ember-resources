@@ -15,10 +15,16 @@
   },
   "files": [
     "addon-main.cjs",
-    "dist"
+    "dist",
+    "declarations",
+    "CHANGELOG.md",
+    "README.md"
   ],
   "scripts": {
-    "build": "rollup -c && cp ../README.md ./README.md",
+    "build": "npm-run-all --aggregate-output --parallel \"build:*\"",
+    "build:js": "rollup -c",
+    "build:types": "tsc --build",
+    "build:docs": "cp ../README.md ./README.md",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",

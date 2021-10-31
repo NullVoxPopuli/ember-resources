@@ -7,6 +7,10 @@
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "author": "NullVoxPopuli",
+  "scripts": {
+    "build": "yarn workspace ember-resources build",
+    "prepare": "yarn build"
+  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
