@@ -83,8 +83,14 @@
     "main": "addon-main.cjs"
   },
   "exports": {
+    ".": "./dist/index.js",
     "./*": "./dist/*",
     "./addon-main.js": "./addon-main.cjs"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["declarations/*", "declarations/*/index"]
+    }
   },
   "release": {
     "branches": [

@@ -5,10 +5,10 @@
     "moduleResolution": "node",
     // We only use tsc for type checking and declaration output
     "declarationDir": "declarations",
+    "emitDeclarationOnly": true,
     "declaration": true,
     // Build settings
     "noEmitOnError": false,
-    "noEmit": true,
     "module": "ESNext",
     "target": "ESNext",
     // Features
@@ -32,14 +32,10 @@
       ],
       "ember-resources/*": [
         "src/*"
-      ],
-      "*": [
-        "types/*"
       ]
     }
   },
   "include": [
-    "src/**/*",
-    "types/**/*"
+    "src/**/*"
   ]
 }
