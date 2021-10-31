@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -111,8 +112,6 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
     (thunk || DEFAULT_THUNK) as () => Args
   );
 
-  // :(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return proxyClass<any>(target) as { value: Return };
 }
 
@@ -122,7 +121,9 @@ function isVanillaArgs<R, A extends unknown[]>(
   return typeof args[1] === 'function';
 }
 
-const FUNCTION_CACHE = new WeakMap<ResourceFn<unknown, unknown[]>, Constructable<FunctionRunner>>();
+type Fn = (...args: any[]) => any;
+
+const FUNCTION_CACHE = new WeakMap<Fn, Constructable<any>>();
 
 /**
  * The function is wrapped in a bespoke resource per-function definition
@@ -139,10 +140,10 @@ function buildUnproxiedFunctionResource<Return, ArgsList extends unknown[]>(
   fn: ResourceFn<Return, ArgsList>,
   thunk: () => ArgsList
 ): { value: Return } {
+  type Klass = Constructable<FunctionRunner<Return, ArgsList>>;
+
   let resource: Cache<Return>;
-
-  let klass: Constructable<FunctionRunner>;
-
+  let klass: Klass;
   let existing = FUNCTION_CACHE.get(fn);
 
   if (existing) {
@@ -151,7 +152,7 @@ function buildUnproxiedFunctionResource<Return, ArgsList extends unknown[]>(
     klass = class AnonymousFunctionRunner extends FunctionRunner<Return, ArgsList> {
       [INITIAL_VALUE] = initial;
       [FUNCTION_TO_RUN] = fn;
-    };
+    } as Klass;
 
     FUNCTION_CACHE.set(fn, klass);
   }

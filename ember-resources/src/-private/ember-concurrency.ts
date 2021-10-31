@@ -17,42 +17,45 @@ import { DEFAULT_THUNK, normalizeThunk } from './utils';
 import type { TaskInstance, TaskIsh } from './resources/ember-concurrency-task';
 import type { Cache, Constructable } from './types';
 
-export function useTask<Return = unknown, Args extends unknown[] = unknown[]>(
-  context: object,
-  task: TaskIsh<Return, Args>,
-  thunk?: () => Args
-) {
+export function useTask<
+  Return = unknown,
+  Args extends unknown[] = unknown[],
+  LocalTask extends TaskIsh<Args, Return> = TaskIsh<Args, Return>
+>(context: object, task: LocalTask, thunk?: () => Args) {
   assert(`Task does not have a perform method. Is it actually a task?`, 'perform' in task);
 
   let target = buildUnproxiedTaskResource(context, task, (thunk || DEFAULT_THUNK) as () => Args);
 
   // TS can't figure out what the proxy is doing
-  return proxyClass<TaskResource<Return, Args>>(target) as never as TaskInstance<Return>;
+  return proxyClass(target as any) as never as TaskInstance<Return>;
 }
 
-const TASK_CACHE = new WeakMap<TaskIsh, Constructable<TaskResource>>();
+const TASK_CACHE = new WeakMap<object, any>();
 
-function buildUnproxiedTaskResource<Return, ArgsList extends unknown[] = unknown[]>(
-  context: object,
-  task: TaskIsh<Return, ArgsList>,
-  thunk: () => ArgsList
-) {
+function buildUnproxiedTaskResource<
+  ArgsList extends any[],
+  Return,
+  LocalTask extends TaskIsh<ArgsList, Return> = TaskIsh<ArgsList, Return>
+>(context: object, task: LocalTask, thunk: () => ArgsList) {
+  type LocalResource = TaskResource<ArgsList, Return, LocalTask>;
+  type Klass = Constructable<LocalResource>;
+
   let resource: Cache<Return>;
-  let klass: Constructable<TaskResource>;
+  let klass: Klass;
   let existing = TASK_CACHE.get(task);
 
   if (existing) {
     klass = existing;
   } else {
-    klass = class AnonymousTaskRunner extends TaskResource<Return, ArgsList> {
+    klass = class AnonymousTaskRunner extends TaskResource<ArgsList, Return, LocalTask> {
       [TASK] = task;
-    };
+    } as Klass;
 
     TASK_CACHE.set(task, klass);
   }
 
   return {
-    get value(): TaskResource<Return, ArgsList> {
+    get value(): LocalResource {
       if (!resource) {
         resource = invokeHelper(context, klass, () => {
           return normalizeThunk(thunk);
@@ -64,7 +67,16 @@ function buildUnproxiedTaskResource<Return, ArgsList extends unknown[] = unknown
   };
 }
 
-export function proxyClass<Instance extends TaskResource>(target: { value: Instance }) {
+export function proxyClass<
+  ArgsList extends any[],
+  Return,
+  LocalTask extends TaskIsh<ArgsList, Return>,
+  Instance extends TaskResource<ArgsList, Return, LocalTask> = TaskResource<
+    ArgsList,
+    Return,
+    LocalTask
+  >
+>(target: { value: Instance }) {
   return new Proxy(target, {
     get(target, key): unknown {
       const taskRunner = target.value;

@@ -1,25 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    // Path resolution
     "baseUrl": ".",
+    "moduleResolution": "node",
+    // We only use tsc for type checking and declaration output
     "declarationDir": "declarations",
+    "declaration": true,
+    // Build settings
+    "noEmitOnError": false,
+    "noEmit": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    // Features
     "experimentalDecorators": true,
     "allowJs": false,
-    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    // Strictness / Correctness
+    "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
-    "strict": true,
     "strictPropertyInitialization": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noEmitOnError": false,
-    "noEmit": true,
     "paths": {
       "ember-resources": [
         "src"
