@@ -16,6 +16,7 @@ export function Issue108TypeTest() {
   // args can also be accessed on a resource if no generic is specified,
   // but the args' values are all "unknown"
   class Issue108p2 extends Resource {}
+
   const issue108p2a = {} as unknown as Issue108p2;
 
   console.log({ Issue108, Issue108lc });

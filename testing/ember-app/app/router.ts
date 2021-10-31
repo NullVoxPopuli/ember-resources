@@ -1,4 +1,5 @@
 import EmberRouter from '@ember/routing/router';
+
 import config from 'ember-app/config/environment';
 
 export default class Router extends EmberRouter {
@@ -6,4 +7,6 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
-Router.map(function () {});
+Router.map(function () {
+  /* empty! */
+});
