@@ -1,3 +1,10 @@
+## [3.2.3](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.2...v3.2.3) (2021-10-31)
+
+
+### Bug Fixes
+
+* **readme:** specify v2 format ([3f6bb1b](https://github.com/NullVoxPopuli/ember-resources/commit/3f6bb1b63c748f1e57b9f9463ae9c4f471f8808d))
+
 ## [3.2.2](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.1...v3.2.2) (2021-10-19)
 
 
