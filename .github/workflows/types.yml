@@ -23,8 +23,8 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-    - run: npm install
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - run: yarn install
 
   types:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
@@ -39,8 +39,10 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-    - run: npm run prepack
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - run: yarn build:types
+      working-directory: ./ember-resources
+    # - run: npm run prepack
     # - run: yarn tsc --build
     # - run: npm run prepack
     # - run: npm exec tsc --build
