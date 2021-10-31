@@ -83,7 +83,7 @@ jobs:
         with:
           node-version: 12.x
       - name: install dependencies
-        run: npm install
+        run: yarn install
       - name: test
         run: yarn ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
