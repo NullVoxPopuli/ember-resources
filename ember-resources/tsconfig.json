@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     // Path resolution
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "moduleResolution": "node",
     // We only use tsc for type checking and declaration output
-    "declarationDir": "declarations",
+    "declarationDir": "./declarations",
     "emitDeclarationOnly": true,
     "declaration": true,
     // Build settings
@@ -28,10 +28,10 @@
     "noImplicitReturns": true,
     "paths": {
       "ember-resources": [
-        "src"
+        "."
       ],
       "ember-resources/*": [
-        "src/*"
+        "./*"
       ]
     }
   },
