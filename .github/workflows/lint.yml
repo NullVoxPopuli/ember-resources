@@ -77,6 +77,10 @@ jobs:
 
       - name: Semantic Release
         run: yarn semantic-release --dry-run
+        working-directory: ./ember-resources
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # docs:
   #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
