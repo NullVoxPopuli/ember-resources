@@ -12,23 +12,71 @@ env:
   CI: true
 
 jobs:
+  install_dependencies:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - run: yarn install
+
   source:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     name: Source
     runs-on: ubuntu-latest
+    needs: [install_dependencies]
 
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-
-      - run: npm install
-
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: ESLint
-        run: npm run lint:js
+        run: yarn lint:js
+        working-directory: ./ember-resources
 
-      - name: Templates
-        run: npm run lint:hbs
+  test_app:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Test App
+    runs-on: ubuntu-latest
+    needs: [install_dependencies]
 
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: ESLint
+        run: yarn lint:js
+        working-directory: ./testing/ember-app
+
+  tooling:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Tooling
+    runs-on: ubuntu-latest
+    needs: [install_dependencies]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Semantic Release
+        run: yarn semantic-release --dry-run
 
   # docs:
   #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"

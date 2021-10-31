@@ -1,0 +1,114 @@
+{
+  "name": "ember-resources",
+  "version": "3.2.2",
+  "keywords": [
+    "ember-addon"
+  ],
+  "description": "An implementation of Resources with some helpful utilities",
+  "repository": "https://github.com/NullVoxPopuli/ember-resources",
+  "license": "MIT",
+  "type": "module",
+  "author": "NullVoxPopuli",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "files": [
+    "addon-main.cjs",
+    "dist",
+    "declarations",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
+    "build:js": "rollup -c",
+    "build:types": "tsc --build",
+    "build:docs": "cp ../README.md ./README.md",
+    "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
+    "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
+    "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",
+    "lint:hbs:fix": "yarn lint:hbs --fix",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix --config",
+    "start": "rollup --config --watch",
+    "test": "echo 'Addon does not have tests, run tests in test-app'",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^0.47.0"
+  },
+  "peerDependencies": {
+    "@ember/test-waiters": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.16.0",
+    "@babel/plugin-proposal-class-properties": "7.16.0",
+    "@babel/plugin-proposal-decorators": "7.16.0",
+    "@babel/plugin-syntax-decorators": "7.16.0",
+    "@babel/preset-typescript": "7.16.0",
+    "@embroider/addon-dev": "0.47.1",
+    "@nullvoxpopuli/eslint-configs": "^2.1.1",
+    "@rollup/plugin-babel": "5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@semantic-release/changelog": "^5.0.0",
+    "@semantic-release/git": "^9.0.0",
+    "babel-eslint": "10.1.0",
+    "ember-template-lint": "3.11.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-decorator-position": "^4.0.0",
+    "eslint-plugin-ember": "^10.5.3",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "npm-run-all": "4.1.5",
+    "rollup": "2.58.3",
+    "semantic-release": "^17.0.0",
+    "typescript": "^4.4.2"
+  },
+  "engines": {
+    "node": ">=12.2.0 < 13 || >= 14"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*",
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["declarations/*", "declarations/*/index"]
+    }
+  },
+  "release": {
+    "branches": [
+      "main",
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
+  "volta": {
+    "extends": "../package.json"
+  }
+}
