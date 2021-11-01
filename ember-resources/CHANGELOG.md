@@ -1,3 +1,10 @@
+## [3.2.4](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.3...v3.2.4) (2021-11-01)
+
+
+### Bug Fixes
+
+* **internal:** use correct config for the tooling lints ([7e6e8a4](https://github.com/NullVoxPopuli/ember-resources/commit/7e6e8a4e31d176dfc89b70c092a5b3b495a13112))
+
 ## [3.2.3](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.2...v3.2.3) (2021-10-31)
 
 
