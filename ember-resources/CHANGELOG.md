@@ -1,3 +1,38 @@
+# [4.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.4...v4.0.0) (2021-11-01)
+
+
+### Features
+
+* **readme:** declare ember-auto-import compatibility ([2701891](https://github.com/NullVoxPopuli/ember-resources/commit/2701891d342c91ce4bd9159c4f9d61732d5fc902))
+
+
+### BREAKING CHANGES
+
+* **readme:** ember-auto-import compatibility was not declared.
+
+If any projects that previously used ember-auto-import@1,
+this addon will no longer work for those projects until those projects
+upgrade to either ember-auto-import@v2 or embroider.
+
+This breaking change is to communicate the accidental compatibility
+breaking with older projects. The last available version projects
+without ember-auto-import@v2 can use is v3.2.2.
+
+I'm declaring this an accidental breakage soley because compatibility
+was not previosuly declared and any compatibliity with older projects
+may as well have been "accidental".
+
+For projects that already were using ember-auto-import@v2, there is no
+breaking change. There is no behavioral difference in this addon's
+features.
+
+However, embroider and ember-auto-import@v2 users will no longer have
+ember-resources count against their build times as V2 Addons are
+pre-built during publish.
+
+If you have any questions, feel free to open an issue at:
+https://github.com/NullVoxPopuli/ember-resources/issues
+
 ## [3.2.4](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.3...v3.2.4) (2021-11-01)
 
 
