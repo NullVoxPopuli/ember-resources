@@ -1,3 +1,29 @@
+## 3.2.5 (2021-11-05)
+
+### Internal
+
+* ember-auto-import@v1 support is now on a separate branch: [ember-auto-import-v1-support](https://github.com/nullvoxpopuli/ember-resources/tree/ember-auto-import-v1-support)
+  * bugfixes for `ember-resources` that need ember-auto-import@v1 support should target this branch
+* the v3 series of `ember-resources` will be from now on be a traditional V1 addon, as there are some folks that still have not upgraded to ember-auto-import@v2
+
+### Bug Fixes
+
+* re-add ember-concurerncy@v1 testing to the C.I. matrix
+* fix an issue with ember-concurrency@v1 where tasks used via `useTask` would not have their state entangled if `isRunning` was not accessed.
+  For example, in this code:
+  ```js
+  export default class MyComponent extends Component {
+    myTask = useTask(this, ...);
+  }
+  ```
+  ```hbs
+  {{this.myTask.value}}
+  ```
+
+  the value would _not_ update, _unless_ `{{this.myTask.isRunning}}` was also accessed.
+  **This issue was not present in ember-concurrency@v2**
+
+
 ## [3.2.2](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.1...v3.2.2) (2021-10-19)
 
 

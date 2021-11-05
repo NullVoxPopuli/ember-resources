@@ -1,6 +1,6 @@
 {
   "name": "ember-resources",
-  "version": "3.2.2",
+  "version": "3.2.5",
   "keywords": [
     "ember-addon"
   ],
@@ -141,3 +141,5 @@
     "configPath": "tests/dummy/config"
   }
 }
+
+
