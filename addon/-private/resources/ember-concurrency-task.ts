@@ -1,3 +1,6 @@
+/* eslint-disable ember/no-get */
+import { get as consumeTag } from '@ember/object';
+
 import { LifecycleResource } from './lifecycle';
 
 export interface TaskIsh<Return = unknown, Args extends unknown[] = unknown[]> {
@@ -44,6 +47,11 @@ export class TaskResource<
   }
 
   get value() {
+    // in ember-concurrency@v1, value is not consumable tracked data
+    // until the task is resolved, so we need to consume the isRunning
+    // property so that value updates
+    consumeTag(this.currentTask, 'isRunning');
+
     return this.currentTask.value ?? this.lastTask?.value;
   }
 
