@@ -1381,6 +1381,32 @@
     resolve "^1.8.1"
     semver "^7.3.2"
 
+"@embroider/macros@^0.47.1":
+  version "0.47.1"
+  resolved "https://registry.npmjs.org/@embroider/macros/-/macros-0.47.1.tgz#b3ef5e79b679295d10efdf6a2449527c95698d3d"
+  integrity sha512-asTmkWMmagL/ID38R8eqwIg3fRPBF9AYE+FBr83u4KW+JUxKloILEosO8tBlu1bEzXqGBb3aO6fAq/mDMBMn0Q==
+  dependencies:
+    "@embroider/shared-internals" "0.47.1"
+    assert-never "^1.2.1"
+    ember-cli-babel "^7.26.6"
+    find-up "^5.0.0"
+    lodash "^4.17.21"
+    resolve "^1.20.0"
+    semver "^7.3.2"
+
+"@embroider/shared-internals@0.47.1", "@embroider/shared-internals@^0.47.1":
+  version "0.47.1"
+  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.47.1.tgz#75ed441045ef1b86bad37bbc8ad5805d6856add8"
+  integrity sha512-Sb4AGcOkfU3ttIvGHqa574G6LNQbmo9tAQf+Wk9xPhE0RlNk7JrYrHx8FTpz3QUoLI43zoQ9g1oTiKvclnALKQ==
+  dependencies:
+    babel-import-util "^0.2.0"
+    ember-rfc176-data "^0.3.17"
+    fs-extra "^9.1.0"
+    lodash "^4.17.21"
+    resolve-package-path "^4.0.1"
+    semver "^7.3.5"
+    typescript-memoize "^1.0.1"
+
 "@embroider/shared-internals@^0.40.0":
   version "0.40.0"
   resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.40.0.tgz#2f768c60f4f35ba5f9228f046f70324851e8bfe2"
@@ -1393,19 +1419,6 @@
     resolve-package-path "^1.2.2"
     semver "^7.3.2"
     typescript-memoize "^1.0.0-alpha.3"
-
-"@embroider/shared-internals@^0.47.1":
-  version "0.47.1"
-  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.47.1.tgz#75ed441045ef1b86bad37bbc8ad5805d6856add8"
-  integrity sha512-Sb4AGcOkfU3ttIvGHqa574G6LNQbmo9tAQf+Wk9xPhE0RlNk7JrYrHx8FTpz3QUoLI43zoQ9g1oTiKvclnALKQ==
-  dependencies:
-    babel-import-util "^0.2.0"
-    ember-rfc176-data "^0.3.17"
-    fs-extra "^9.1.0"
-    lodash "^4.17.21"
-    resolve-package-path "^4.0.1"
-    semver "^7.3.5"
-    typescript-memoize "^1.0.1"
 
 "@embroider/test-setup@^0.47.1":
   version "0.47.1"
@@ -3314,7 +3327,7 @@ asn1@~0.2.3:
   dependencies:
     safer-buffer "~2.1.0"
 
-assert-never@^1.1.0:
+assert-never@^1.1.0, assert-never@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/assert-never/-/assert-never-1.2.1.tgz#11f0e363bf146205fb08193b5c7b90f4d1cf44fe"
   integrity sha512-TaTivMB6pYI1kXwrFlEhLeGfOqoDNdTxjCdwRfFFkEA30Eu+k48W34nlok2EYWJfFFzqaEmichdNM7th6M5HNw==

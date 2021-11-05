@@ -6,132 +6,140 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
-import { restartableTask, timeout } from 'ember-concurrency';
+import { dependencySatisfies, importSync } from '@embroider/macros';
 import { taskFor } from 'ember-concurrency-ts';
 import { useTask } from 'ember-resources';
 
 module('useTask', function () {
-  module('in JS', function (hooks) {
-    setupTest(hooks);
+  if (dependencySatisfies('ember-concurrency', '^2.0.0')) {
+    interface EConcurrencyV2 {
+      timeout: (wait: number) => Promise<void>;
+      restartableTask: PropertyDecorator;
+    }
 
-    test('it works', async function (assert) {
-      class Test {
-        @tracked input = '';
+    const { restartableTask, timeout } = importSync('ember-concurrency') as EConcurrencyV2;
 
-        search = useTask(this, taskFor(this._search), () => [this.input]);
+    module('in JS', function (hooks) {
+      setupTest(hooks);
 
-        @restartableTask
-        *_search(input: string) {
-          // or some bigger timeout for an actual search task to debounce
-          yield timeout(0);
+      test('it works', async function (assert) {
+        class Test {
+          @tracked input = '';
 
-          // or some api data if actual search task
-          return { results: [input] };
+          search = useTask(this, taskFor(this._search), () => [this.input]);
+
+          @restartableTask
+          *_search(input: string) {
+            // or some bigger timeout for an actual search task to debounce
+            yield timeout(0);
+
+            // or some api data if actual search task
+            return { results: [input] };
+          }
         }
-      }
 
-      let foo = new Test();
+        let foo = new Test();
 
-      // task is initiated upon first access
-      foo.search;
-      await settled();
+        // task is initiated upon first access
+        foo.search;
+        await settled();
 
-      assert.equal(foo.search.value, null);
-      assert.false(foo.search.isFinished);
-      assert.true(foo.search.isRunning);
+        assert.equal(foo.search.value, null);
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
 
-      await settled();
+        await settled();
 
-      assert.true(foo.search.isFinished);
-      assert.false(foo.search.isRunning);
-      assert.deepEqual(foo.search.value, { results: [''] });
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: [''] });
 
-      foo.input = 'Hello there!';
-      await settled();
+        foo.input = 'Hello there!';
+        await settled();
 
-      assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
-      assert.false(foo.search.isFinished);
-      assert.true(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
 
-      await settled();
+        await settled();
 
-      assert.true(foo.search.isFinished);
-      assert.false(foo.search.isRunning);
-      assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
+      });
+
+      test('it works without the thunk', async function (assert) {
+        class Test {
+          @tracked input = '';
+
+          search = useTask(this, taskFor(this._search));
+
+          @restartableTask
+          *_search() {
+            // NOTE: args must be consumed before the first yield
+            let { input } = this;
+
+            // or some bigger timeout for an actual search task to debounce
+            yield timeout(0);
+
+            // or some api data if actual search task
+            return { results: [input] };
+          }
+        }
+
+        let foo = new Test();
+
+        // task is initiated upon first access
+        foo.search;
+        await settled();
+
+        assert.equal(foo.search.value, null);
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: [''] });
+
+        foo.input = 'Hello there!';
+        await settled();
+
+        assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
+      });
     });
 
-    test('it works without the thunk', async function (assert) {
-      class Test {
-        @tracked input = '';
+    module('in templates', function (hooks) {
+      setupRenderingTest(hooks);
 
-        search = useTask(this, taskFor(this._search));
+      test('it works', async function (assert) {
+        class Test extends Component {
+          @tracked input = 'Hello there';
 
-        @restartableTask
-        *_search() {
-          // NOTE: args must be consumed before the first yield
-          let { input } = this;
+          search = useTask(this, taskFor(this._search), () => [this.input]);
 
-          // or some bigger timeout for an actual search task to debounce
-          yield timeout(0);
+          @restartableTask
+          *_search(input: string) {
+            yield timeout(50);
 
-          // or some api data if actual search task
-          return { results: [input] };
+            return input;
+          }
         }
-      }
 
-      let foo = new Test();
+        const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
 
-      // task is initiated upon first access
-      foo.search;
-      await settled();
+        this.setProperties({ TestComponent });
 
-      assert.equal(foo.search.value, null);
-      assert.false(foo.search.isFinished);
-      assert.true(foo.search.isRunning);
-
-      await settled();
-
-      assert.true(foo.search.isFinished);
-      assert.false(foo.search.isRunning);
-      assert.deepEqual(foo.search.value, { results: [''] });
-
-      foo.input = 'Hello there!';
-      await settled();
-
-      assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
-      assert.false(foo.search.isFinished);
-      assert.true(foo.search.isRunning);
-
-      await settled();
-
-      assert.true(foo.search.isFinished);
-      assert.false(foo.search.isRunning);
-      assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
-    });
-  });
-
-  module('in templates', function (hooks) {
-    setupRenderingTest(hooks);
-
-    test('it works', async function (assert) {
-      class Test extends Component {
-        @tracked input = 'Hello there';
-
-        search = useTask(this, taskFor(this._search), () => [this.input]);
-
-        @restartableTask
-        *_search(input: string) {
-          yield timeout(50);
-
-          return input;
-        }
-      }
-
-      const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
-
-      this.setProperties({ TestComponent });
-
-      render(hbs`
+        render(hbs`
         <this.TestComponent as |ctx|>
           {{#if ctx.search.isRunning}}
             Loading
@@ -141,14 +149,170 @@ module('useTask', function () {
         </this.TestComponent>
       `);
 
-      // This could introduce flakiness / timing issues
-      await timeout(10);
+        // This could introduce flakiness / timing issues
+        await timeout(10);
 
-      assert.dom().hasText('Loading');
+        assert.dom().hasText('Loading');
 
-      await settled();
+        await settled();
 
-      assert.dom().hasText('Hello there');
+        assert.dom().hasText('Hello there');
+      });
     });
-  });
+  } else {
+    interface EConcurrencyV2 {
+      timeout: (wait: number) => Promise<void>;
+      restartableTask: PropertyDecorator;
+    }
+
+    interface EConcurrencyDecorators {
+      restartableTask: PropertyDecorator;
+    }
+
+    const { timeout } = importSync('ember-concurrency') as EConcurrencyV2;
+    const { restartableTask } = importSync(
+      'ember-concurrency-decorators'
+    ) as EConcurrencyDecorators;
+
+    module('in JS', function (hooks) {
+      setupTest(hooks);
+
+      test('it works', async function (assert) {
+        class Test {
+          @tracked input = '';
+
+          search = useTask(this, taskFor(this._search), () => [this.input]);
+
+          @restartableTask
+          *_search(input: string) {
+            // or some bigger timeout for an actual search task to debounce
+            yield timeout(0);
+
+            // or some api data if actual search task
+            return { results: [input] };
+          }
+        }
+
+        let foo = new Test();
+
+        // task is initiated upon first access
+        foo.search;
+        await settled();
+
+        assert.equal(foo.search.value, null);
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: [''] });
+
+        foo.input = 'Hello there!';
+        await settled();
+
+        assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
+      });
+
+      test('it works without the thunk', async function (assert) {
+        class Test {
+          @tracked input = '';
+
+          search = useTask(this, taskFor(this._search));
+
+          @restartableTask
+          *_search() {
+            // NOTE: args must be consumed before the first yield
+            let { input } = this;
+
+            // or some bigger timeout for an actual search task to debounce
+            yield timeout(0);
+
+            // or some api data if actual search task
+            return { results: [input] };
+          }
+        }
+
+        let foo = new Test();
+
+        // task is initiated upon first access
+        foo.search;
+        await settled();
+
+        assert.equal(foo.search.value, null);
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: [''] });
+
+        foo.input = 'Hello there!';
+        await settled();
+
+        assert.deepEqual(foo.search.value, { results: [''] }, 'previous value is retained');
+        assert.false(foo.search.isFinished);
+        assert.true(foo.search.isRunning);
+
+        await settled();
+
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
+        assert.deepEqual(foo.search.value, { results: ['Hello there!'] });
+      });
+    });
+
+    module('in templates', function (hooks) {
+      setupRenderingTest(hooks);
+
+      test('it works', async function (assert) {
+        class Test extends Component {
+          @tracked input = 'Hello there';
+
+          search = useTask(this, taskFor(this._search), () => [this.input]);
+
+          @restartableTask
+          *_search(input: string) {
+            yield timeout(50);
+
+            return input;
+          }
+        }
+
+        const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
+
+        this.setProperties({ TestComponent });
+
+        render(hbs`
+        <this.TestComponent as |ctx|>
+          {{#if ctx.search.isRunning}}
+            Loading
+          {{else}}
+            {{ctx.search.value}}
+          {{/if}}
+        </this.TestComponent>
+      `);
+
+        // This could introduce flakiness / timing issues
+        await timeout(10);
+
+        assert.dom().hasText('Loading');
+
+        await settled();
+
+        assert.dom().hasText('Hello there');
+      });
+    });
+  }
 });
