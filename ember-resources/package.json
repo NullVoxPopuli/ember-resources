@@ -37,8 +37,7 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@embroider/addon-shim": "^0.47.0",
-    "@embroider/macros": "^0.47.1"
+    "@embroider/addon-shim": "^0.47.0"
   },
   "peerDependencies": {
     "@ember/test-waiters": "^3.0.0"

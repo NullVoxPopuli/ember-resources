@@ -1,4 +1,7 @@
+/* eslint-disable ember/no-get */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { get as consumeTag } from '@ember/object';
+
 import { LifecycleResource } from './lifecycle';
 
 // type AsyncReturnType<T extends (...args: any) => Promise<any>> =
@@ -56,6 +59,11 @@ export class TaskResource<
   }
 
   get value() {
+    // in ember-concurrency@v1, value is not consumable tracked data
+    // until the task is resolved, so we need to consume the isRunning
+    // property so that value updates
+    consumeTag(this.currentTask, 'isRunning');
+
     return this.currentTask.value ?? this.lastTask?.value;
   }
 
