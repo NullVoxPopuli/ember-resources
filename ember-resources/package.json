@@ -55,7 +55,7 @@
     "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
     "babel-eslint": "10.1.0",
-    "ember-template-lint": "3.11.0",
+    "ember-template-lint": "3.12.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-decorator-position": "^4.0.0",
