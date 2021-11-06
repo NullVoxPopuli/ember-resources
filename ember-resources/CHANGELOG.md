@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.0.0...v4.0.1) (2021-11-06)
+
+
+### Bug Fixes
+
+* **useTask:** re-test against ember-concurrency@v1 ([0bf0122](https://github.com/NullVoxPopuli/ember-resources/commit/0bf0122b684417fff0184ed03152841d34bd9fef))
+
 # [4.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v3.2.4...v4.0.0) (2021-11-01)
 
 
