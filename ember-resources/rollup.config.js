@@ -1,11 +1,9 @@
 import path from 'path';
-
-import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
-import { Addon } from '@embroider/addon-dev/rollup';
+import { babel } from '@rollup/plugin-babel';
 
-import packageJson from './package.json';
+import { Addon } from '@embroider/addon-dev/rollup';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -21,16 +19,9 @@ const rollupConfig = {
   // You can augment this if you need to.
   output: { ...addon.output(), entryFileNames: '[name].js' },
 
-  // We do not want to bundle these ourselves, and instead want the consuming
-  // project to provide these dependencies
-  //
-  // This was added because the test app's webpack was including two copies
-  // of @ember/test-waiters, and this broke the waiter system
-  // (caught by a test!)
-  external: Object.keys(packageJson['peerDependencies']),
-
   plugins: [
-    nodeResolve({ extensions }),
+    // this is needed so we can have files that import other files...
+    nodeResolve({ resolveOnly: ['./'], extensions }),
 
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
@@ -47,8 +38,10 @@ const rollupConfig = {
     // See `babel.config.json` for the actual Babel configuration!
     babel({ babelHelpers: 'bundled', extensions }),
 
-    // Ensure that standalone .hbs files are properly integrated as Javascript.
-    addon.hbs(),
+    // Follow the V2 Addon rules about dependencies. Your code can import from
+    // `dependencies` and `peerDependencies` as well as standard Ember-provided
+    // package names.
+    addon.dependencies(),
 
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.
