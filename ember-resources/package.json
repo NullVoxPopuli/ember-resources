@@ -8,6 +8,7 @@
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "type": "module",
+  "main": "dist/index.js",
   "author": "NullVoxPopuli",
   "directories": {
     "doc": "doc",
@@ -21,6 +22,7 @@
     "README.md"
   ],
   "scripts": {
+    "start": "rollup -c --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
     "build:js": "rollup -c",
     "build:types": "tsc --build",
@@ -30,8 +32,7 @@
     "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",
     "lint:hbs:fix": "yarn lint:hbs --fix",
     "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix --config",
-    "start": "rollup --config --watch",
+    "lint:js:fix": "eslint . --fix",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
     "prepare": "yarn build",
     "prepublishOnly": "yarn build"
@@ -115,3 +116,5 @@
     "extends": "../package.json"
   }
 }
+
+
