@@ -1338,9 +1338,9 @@
     walk-sync "^3.0.0"
     yargs "^17.0.1"
 
-"@embroider/addon-shim@^0.47.2":
+"@embroider/addon-shim@^0.47.0":
   version "0.47.2"
-  resolved "https://registry.npmjs.org/@embroider/addon-shim/-/addon-shim-0.47.2.tgz#a1dc77e8cf00d2c797f6551cba9a6868d8166fec"
+  resolved "https://registry.yarnpkg.com/@embroider/addon-shim/-/addon-shim-0.47.2.tgz#a1dc77e8cf00d2c797f6551cba9a6868d8166fec"
   integrity sha512-5M/q5CdrTyInczKlH+f54vpoMROz/DrbMTWSHHauFx5grCyLROkgY8iVcmZEF8H0h7LFO74RpB42fo2w6NcgdA==
   dependencies:
     "@embroider/shared-internals" "^0.47.2"
