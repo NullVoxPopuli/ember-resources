@@ -264,9 +264,9 @@
   integrity sha512-TEHWXf0xxpi9wKVyBCmRcSSDjbJ/cl6LUdlbYUHEaNQUJGhreJbZrXT6sR4+fZLxVUJqNRB4KyOvjuy/D9009A==
 
 "@babel/parser@^7.16.0", "@babel/parser@^7.16.3", "@babel/parser@^7.7.0":
-  version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.3.tgz#271bafcb811080905a119222edbc17909c82261d"
-  integrity sha512-dcNwU1O4sx57ClvLBVFbEgx0UZWfd0JQX5X6fxFRCLHelFBGXFfSz6Y0FAq2PEwUqlqLkdVjVr4VASEOuUnLJw==
+  version "7.16.4"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.4.tgz#d5f92f57cf2c74ffe9b37981c0e72fee7311372e"
+  integrity sha512-6V0qdPUaiVHH3RtZeLIsc+6pDhbYzHR8ogA8w+f+Wc77DuXto19g2QUwveINoS34Uw+W8/hQDGJCx+i4n7xcng==
 
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.16.0":
   version "7.16.0"
@@ -1870,9 +1870,9 @@
     read-package-json-fast "^2.0.1"
 
 "@nullvoxpopuli/eslint-configs@^2.1.1":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@nullvoxpopuli/eslint-configs/-/eslint-configs-2.1.5.tgz#ef177b44f2b538558254de9687db13274e5ed31b"
-  integrity sha512-nJbVyXL6nF/R1EQjEytscHJNqobLTMUw3MIkeuzzfAxnNkR4qi7qsuvHtIOJM7wO7CvAEGtadVfOe0kaNJrI0A==
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@nullvoxpopuli/eslint-configs/-/eslint-configs-2.1.7.tgz#1f8e46b2fb3edba2bba21663397a2d37d851bc0b"
+  integrity sha512-ZQcuxa5OC2JjUU/qIEAZxyqq1oPdeTa+MV2y8mMu7Zgql5aBiDs5ybdA2FaHdBKucX01HeZ8D9n7yMBibwNzAw==
   dependencies:
     "@typescript-eslint/eslint-plugin" "5.4.0"
     "@typescript-eslint/parser" "5.4.0"
@@ -1880,14 +1880,14 @@
     eslint "7.32.0"
     eslint-config-prettier "8.3.0"
     eslint-plugin-decorator-position "4.0.1"
-    eslint-plugin-ember "10.5.7"
+    eslint-plugin-ember "10.5.8"
     eslint-plugin-import "^2.25.3"
     eslint-plugin-json "^3.1.0"
     eslint-plugin-node "11.1.0"
     eslint-plugin-prettier "4.0.0"
     eslint-plugin-qunit "7.1.0"
     eslint-plugin-simple-import-sort "^7.0.0"
-    prettier "2.4.1"
+    prettier "2.5.0"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -3093,9 +3093,9 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     uri-js "^4.2.2"
 
 ajv@^8.0.1:
-  version "8.8.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.8.0.tgz#c501f10df72914bb77a458919e79fc73e4a2f9ef"
-  integrity sha512-L+cJ/+pkdICMueKR6wIx3VP2fjIx3yAhuvadUv/osv9yFD7OVZy442xFF+Oeu3ZvmhBGQzoF6mTSt+LUWBmGQg==
+  version "8.8.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.8.2.tgz#01b4fef2007a28bf75f0b7fc009f62679de4abbb"
+  integrity sha512-x9VuX+R/jcFj1DHo/fCp99esgGDWiHENrKxaCENuCxpoMCmAt/COCGVDwA7kleEpEzJjDnvh3yGoOuLu0Dtllw==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -7503,7 +7503,21 @@ eslint-plugin-decorator-position@4.0.1, eslint-plugin-decorator-position@^4.0.0:
     ember-rfc176-data "^0.3.12"
     snake-case "^3.0.3"
 
-eslint-plugin-ember@10.5.7, eslint-plugin-ember@^10.5.3, eslint-plugin-ember@^10.5.4:
+eslint-plugin-ember@10.5.8:
+  version "10.5.8"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-10.5.8.tgz#87e004a5ebed88f94008364554daf57df2c9c718"
+  integrity sha512-d21mJ+F+htgi6HhrjwbOfllJojF4ZWGruW13HkBoGS2SaHqKUyvIH/8j3EjSxlsGFiNfhTEUWkNaUSLJxgbtWg==
+  dependencies:
+    "@ember-data/rfc395-data" "^0.0.4"
+    css-tree "^1.0.0-alpha.39"
+    ember-rfc176-data "^0.3.15"
+    eslint-utils "^3.0.0"
+    estraverse "^5.2.0"
+    lodash.kebabcase "^4.1.1"
+    requireindex "^1.2.0"
+    snake-case "^3.0.3"
+
+eslint-plugin-ember@^10.5.3, eslint-plugin-ember@^10.5.4:
   version "10.5.7"
   resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-10.5.7.tgz#132dcd139fc9e830b707910d1ee4a458b83ab9d4"
   integrity sha512-PTnZxbexrvRgEUtiuTaRjcFIIezzNsaJLUkvOoKhmxXTZnWgSPV36PGv5ml0BOallWYAOocefjTgv9SWvlmEdw==
@@ -12257,7 +12271,12 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@2.4.1, prettier@^2.3.2:
+prettier@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.5.0.tgz#a6370e2d4594e093270419d9cc47f7670488f893"
+  integrity sha512-FM/zAKgWTxj40rH03VxzIPdXmj39SwSjwG0heUcNFwI+EMZJnY93yAiKXM3dObIKAM5TA88werc8T/EwhB45eg==
+
+prettier@^2.3.2:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
   integrity sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==
@@ -14473,9 +14492,9 @@ ts-node@^9:
     yn "3.1.1"
 
 tsconfig-paths@^3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.11.0.tgz#954c1fe973da6339c78e06b03ce2e48810b65f36"
-  integrity sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.12.0.tgz#19769aca6ee8f6a1a341e38c8fa45dd9fb18899b"
+  integrity sha512-e5adrnOYT6zqVnWqZu7i/BQ3BnhzvGbjEjejFXO20lKIKpwTaupkCPgEfv4GZK1IBciJUEhYs3J3p75FdaTFVg==
   dependencies:
     "@types/json5" "^0.0.29"
     json5 "^1.0.1"
