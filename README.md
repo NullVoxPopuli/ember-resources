@@ -337,6 +337,56 @@ While functions can be "stateless", Resources don't provide much value unless
 you can have state. `function` Resources solve this by passing the previous
 invocation's return value as an argument to the next time the function is called.
 
+In addition to that state, all function resources inherently track async state for you
+so you can use plain functions, async or not, in your derived data patterns in you apps
+and libraries.
+
+There are two flavors of function resources
+ - `trackedFunction`
+ - `useFunction`
+
+##### `trackedFunction`
+
+This is the simpler of the two function resources, where
+
+Any tracked data accessed in a tracked function _before_ an `await`
+will "entangle" with the function -- we can call these accessed tracked
+properties, the "tracked prelude". If any properties within the tracked
+payload  change, the function will re-run.
+
+```js
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { trackedFunction }  from 'ember-resources';
+
+class Demo extends Component {
+  @tracked id = 1;
+
+  request = trackedFunction(this, async () => {
+    let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
+    let data = await response.json();
+
+    return data; // { name: 'Luke Skywalker', ... }
+  });
+
+  updateId = (event) => this.id = event.target.value;
+
+  // Renders "Luke Skywalker"
+  <template>
+    {{this.request.value.name}}
+
+    <input value={{this.id}} {{on 'input' this.updateId}}>
+  </template>
+}
+```
+_Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]
+
+[rfc-799]: https://github.com/emberjs/rfcs/pull/779
+
+
+##### `useFunction`
+
+
 Example:
 ```ts
 import { useFunction } from 'ember-resources';

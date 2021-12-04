@@ -11,8 +11,9 @@ export const FUNCTION_TO_RUN = Symbol('FUNCTION TO RUN');
 export const INITIAL_VALUE = Symbol('INITIAL VALUE');
 
 const HAS_RUN = Symbol('HAS RUN');
+const RUNNER = Symbol('RUNNER');
 
-const SECRET_VALUE = '___ Secret Value ___';
+export const SECRET_VALUE = '___ Secret Value ___';
 
 // type UnwrapAsync<T> = T extends Promise<infer U> ? U : T;
 // type GetReturn<T extends () => unknown> = UnwrapAsync<ReturnType<T>>;
@@ -23,6 +24,58 @@ export type ResourceFn<Return = unknown, Args extends unknown[] = unknown[]> = (
 
 export interface BaseArgs<FnArgs extends unknown[]> extends ArgsWrapper {
   positional: FnArgs;
+}
+
+export class TrackedFunctionRunner<
+  Return = unknown,
+  Fn extends ResourceFn<Return, never[]> = ResourceFn<Return, never[]>
+> extends LifecycleResource<BaseArgs<never[]>> {
+  protected declare [FUNCTION_TO_RUN]: Fn;
+  protected declare [SECRET_VALUE]: Return | undefined;
+
+  get value(): Return | undefined {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return consume(this, SECRET_VALUE as any);
+  }
+
+  setup() {
+    waitForPromise(this[RUNNER]());
+  }
+
+  update() {
+    waitForPromise(this[RUNNER]());
+  }
+
+  private async [RUNNER]() {
+    const { [FUNCTION_TO_RUN]: fn } = this;
+
+    if (fn === undefined) {
+      return;
+    }
+
+    let previousValue = this[SECRET_VALUE];
+    let value = fn(previousValue, ...[]);
+
+    // disconnect from the tracking frame, no matter the type of function
+    await Promise.resolve();
+
+    if (isDestroying(this) || isDestroyed(this)) {
+      return;
+    }
+
+    if (typeof value === 'object' && 'then' in value) {
+      // value is actually a promise, so we don't want to return
+      // an unresolved promise.
+      value = await value;
+
+      if (isDestroying(this) || isDestroyed(this)) {
+        return;
+      }
+    }
+
+    this[SECRET_VALUE] = value;
+    dirty(this, SECRET_VALUE);
+  }
 }
 
 export class FunctionRunner<
@@ -55,11 +108,6 @@ export class FunctionRunner<
     this.update();
   }
 
-  /**
-   * NOTE: there is no reliable way to determine if a function is async before the function is ran.
-   *   - we can't use fun[Symbol.toStringtag] === 'AsyncFunction' because minifiers may remove the
-   *     async keyword
-   */
   update() {
     /**
      * NOTE: All positional args are consumed
