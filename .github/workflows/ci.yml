@@ -86,8 +86,13 @@ jobs:
       - name: install dependencies
         run: yarn install
       - name: test
-        run: yarn ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
-        working-directory: ./testing/ember-app
+        run: |
+          cd ember-resources
+          yarn build
+          yarn link
+          cd ../testing/ember-app
+          # ember-try does the other side of the link
+          yarn ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
   publish:
     name: Release
