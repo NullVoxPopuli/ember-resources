@@ -64,5 +64,5 @@ jobs:
     - run: |
         cd ember-resources
         yarn build:types
-        cd ../testing/ember-concurrency-v1-tests/
+        cd ../testing/ember-concurrency-v1/
         tsc --build
