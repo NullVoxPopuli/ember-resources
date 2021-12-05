@@ -4,6 +4,7 @@ export { Resource } from './-private/resources/simple';
 
 // Public API -- for reducing consumed API surface
 export { useTask } from './-private/ember-concurrency';
+export { trackedFunction } from './-private/tracked-function';
 export { useFunction } from './-private/use-function';
 export { useHelper } from './-private/use-helper';
 export { useResource } from './-private/use-resource';
