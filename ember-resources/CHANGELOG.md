@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.0...v4.1.1) (2021-12-05)
+
+
+### Bug Fixes
+
+* **types:** better ember-concurrency@v1 support in typescript ([91c8b20](https://github.com/NullVoxPopuli/ember-resources/commit/91c8b2066de18c2b7ec4b204c3649c4956e63d49))
+
 # [4.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.0.1...v4.1.0) (2021-12-05)
 
 
