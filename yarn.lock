@@ -7044,15 +7044,7 @@ ember-concurrency-decorators@2.0.3:
     ember-cli-htmlbars "^4.3.1"
     ember-cli-typescript "^3.1.4"
 
-ember-concurrency-ts@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ember-concurrency-ts/-/ember-concurrency-ts-0.2.2.tgz#794013a9b7b3b59e256d98c69851ffc740ef18f1"
-  integrity sha512-03/NEhXczd93tpg0ycusj3bgXZS15wymU0K8eMvWftyzWS4B+UE03RzimOFrtOxJmE2mNj64hLJUZR9P8LelFw==
-  dependencies:
-    ember-cli-babel "^7.19.0"
-    ember-cli-htmlbars "^4.3.1"
-
-ember-concurrency-ts@^0.3.1:
+ember-concurrency-ts@0.3.1, ember-concurrency-ts@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/ember-concurrency-ts/-/ember-concurrency-ts-0.3.1.tgz#0b3b524a6a96c8ab749b20e1d4da00569773567a"
   integrity sha512-lE9uqPgK1Y9PN/0BJ5zE2a+h95izRCn6FCyt7qVV3012TlblTynsBaoUuAbN1T3KfzFsrJaXwsxzRbDjEde2Sw==
