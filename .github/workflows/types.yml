@@ -46,3 +46,23 @@ jobs:
     # - run: yarn tsc --build
     # - run: npm run prepack
     # - run: npm exec tsc --build
+
+  types_concurrency_1:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: "Type Correctness (w/ concurrency@v1)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [install_dependencies]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - run: |
+        cd ember-resources
+        yarn build:types
+        cd ../testing/ember-concurrency-v1/
+        tsc --build

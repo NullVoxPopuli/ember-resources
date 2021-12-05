@@ -34,7 +34,7 @@ export interface TaskInstance<Return = unknown> extends Promise<Return> {
   readonly isFinished: boolean;
   readonly isRunning: boolean;
   readonly isDropped: boolean;
-  cancel(reason?: string): Promise<void>;
+  cancel(reason?: string): void | Promise<void>;
 }
 
 // @private
