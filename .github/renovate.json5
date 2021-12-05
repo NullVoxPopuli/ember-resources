@@ -102,6 +102,10 @@
       // therefor engine changes are breaking changes
       "depTypeList": ["engines"],
       "enabled": false
+    },
+    {
+      "matchPaths": ["testing/**"],
+      "enabled": false
     }
   ]
 }
