@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.0.1...v4.1.0) (2021-12-05)
+
+
+### Features
+
+* add trackedFunction ([4d7a89b](https://github.com/NullVoxPopuli/ember-resources/commit/4d7a89b1f6498646076515cbaf13059929b808ed))
+
 ## [4.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.0.0...v4.0.1) (2021-11-06)
 
 
