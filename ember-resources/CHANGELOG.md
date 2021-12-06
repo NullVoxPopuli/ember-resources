@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.1...v4.1.2) (2021-12-06)
+
+
+### Bug Fixes
+
+* **types:** compat with TS 4.5.1 ([88c9db9](https://github.com/NullVoxPopuli/ember-resources/commit/88c9db96ddfd8541799ceb86a5cda48b6ed3e659))
+
 ## [4.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.0...v4.1.1) (2021-12-05)
 
 
