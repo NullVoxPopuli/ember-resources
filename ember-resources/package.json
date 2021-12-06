@@ -9,6 +9,7 @@
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
+  "types": "declarations",
   "author": "NullVoxPopuli",
   "directories": {
     "doc": "doc",
@@ -89,14 +90,6 @@
     ".": "./dist/index.js",
     "./*": "./dist/*",
     "./addon-main.js": "./addon-main.cjs"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "declarations/*",
-        "declarations/*/index"
-      ]
-    }
   },
   "release": {
     "branches": [
