@@ -27,9 +27,6 @@
       "ember-concurrency-v1-tests/*": [
         "app/*"
       ],
-      "ember-resources": [
-        "../../ember-resources/declarations"
-      ],
       "*": [
         "types/*"
       ]
