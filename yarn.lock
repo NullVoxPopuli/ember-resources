@@ -360,15 +360,10 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.0.tgz#cf147d7ada0a3655e79bf4b08ee846f00a00a295"
   integrity sha512-TEHWXf0xxpi9wKVyBCmRcSSDjbJ/cl6LUdlbYUHEaNQUJGhreJbZrXT6sR4+fZLxVUJqNRB4KyOvjuy/D9009A==
 
-"@babel/parser@^7.16.0", "@babel/parser@^7.7.0":
+"@babel/parser@^7.16.0", "@babel/parser@^7.16.5", "@babel/parser@^7.7.0":
   version "7.16.6"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.6.tgz#8f194828193e8fa79166f34a4b4e52f3e769a314"
   integrity sha512-Gr86ujcNuPDnNOY8mi383Hvi8IYrJVJYuf3XcuBM/Dgd+bINn/7tHqsj+tKkoreMbmGsFLsltI/JJd8fOFWGDQ==
-
-"@babel/parser@^7.16.5":
-  version "7.16.5"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.16.5.tgz#beb3af702e54d24796341ab9420fb329131ad658"
-  integrity sha512-+Ce7T5iPNWzfu9C1aB5tN3Lyafs5xb3Ic7vBWyZL2KXT3QSdD1dD3CvgOzPmQKoNNRt6uauc0XwNJTQtXC2/Mw==
 
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.16.0":
   version "7.16.0"
@@ -1877,9 +1872,9 @@
     fastq "^1.6.0"
 
 "@nullvoxpopuli/eslint-configs@^2.1.1":
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/@nullvoxpopuli/eslint-configs/-/eslint-configs-2.1.11.tgz#beba3639d5936fd6edaaa154b1e4c439ffee3375"
-  integrity sha512-UiT+RLhUpwJvv7Qjj7kBJ2wu2BP9XiONQ+EXK02c81lIBC4lRdoC0Z+1zUlVFYRCKVXpRwHpAchyw8VVNLakOw==
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/@nullvoxpopuli/eslint-configs/-/eslint-configs-2.1.12.tgz#b89a0288f82bc96524d8d0dfb2158458413b52da"
+  integrity sha512-aYv/d+5/NYSZCZUQWD8ZRTdbzlExWc3smUZt9mQc0wmsaifI8n8gAkeusvZsPGIXVqwow3sr7g2VfTRFpJh1dQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "5.7.0"
     "@typescript-eslint/parser" "5.7.0"
@@ -1892,7 +1887,7 @@
     eslint-plugin-json "^3.1.0"
     eslint-plugin-node "11.1.0"
     eslint-plugin-prettier "4.0.0"
-    eslint-plugin-qunit "7.1.0"
+    eslint-plugin-qunit "7.2.0"
     eslint-plugin-simple-import-sort "^7.0.0"
     prettier "2.5.1"
 
@@ -7843,10 +7838,10 @@ eslint-plugin-prettier@^3.4.1:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-qunit@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-qunit/-/eslint-plugin-qunit-7.1.0.tgz#d0d4f9f9f2b9623953a4b7f1ca8a71f4aa7df2b7"
-  integrity sha512-w1+iL/+idpHGNgWYKknY7uPA3EaVDgl4HT4ndkNM2ONr/MW3FTM3FLRpy6yDZ5YE3km372Ym9Vr/N28E3OI6Jg==
+eslint-plugin-qunit@7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-qunit/-/eslint-plugin-qunit-7.2.0.tgz#ad00e0007dc0bbd1d59309cc6388238b6a8784a3"
+  integrity sha512-ebT6aOpmMj4vchG0hVw9Ukbutk/lgywrc8gc9w9hH2/4WjKqwMlyM7iVwqB7OAXv6gtQMJZuziT0wNjjymAuWA==
   dependencies:
     eslint-utils "^3.0.0"
     requireindex "^1.2.0"
