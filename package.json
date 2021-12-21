@@ -11,6 +11,9 @@
     "build": "yarn workspace ember-resources build",
     "prepare": "yarn build"
   },
+  "resolutions": {
+    "@embroider/addon-shim": "0.48.1"
+  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
