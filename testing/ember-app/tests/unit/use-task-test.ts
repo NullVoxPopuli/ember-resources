@@ -44,9 +44,9 @@ module('useTask', function () {
 
           // task is initiated upon first access
           foo.search;
-          // await settled();
+          await settled();
 
-          assert.strictEqual(foo.search.value, null);
+          assert.strictEqual(foo.search.value, undefined);
           assert.false(foo.search.isFinished);
           assert.true(foo.search.isRunning);
 
@@ -93,9 +93,9 @@ module('useTask', function () {
 
           // task is initiated upon first access
           foo.search;
-          // await settled();
+          await settled();
 
-          assert.strictEqual(foo.search.value, null);
+          assert.strictEqual(foo.search.value, undefined);
           assert.false(foo.search.isFinished);
           assert.true(foo.search.isRunning);
 
@@ -203,7 +203,7 @@ module('useTask', function () {
           foo.search;
           await settled();
 
-          assert.strictEqual(foo.search.value, null);
+          assert.strictEqual(foo.search.value, undefined);
           assert.false(foo.search.isFinished);
           assert.true(foo.search.isRunning);
 
@@ -252,7 +252,7 @@ module('useTask', function () {
           foo.search;
           await settled();
 
-          assert.strictEqual(foo.search.value, null);
+          assert.strictEqual(foo.search.value, undefined);
           assert.false(foo.search.isFinished);
           assert.true(foo.search.isRunning);
 
