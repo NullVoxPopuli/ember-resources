@@ -1,3 +1,10 @@
+## [4.1.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.2...v4.1.3) (2021-12-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @embroider/addon-shim to v0.48.1 ([b7342c4](https://github.com/NullVoxPopuli/ember-resources/commit/b7342c48116cb60e30f7b252e2e94c1fdaeab5c8))
+
 ## [4.1.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.1...v4.1.2) (2021-12-06)
 
 
