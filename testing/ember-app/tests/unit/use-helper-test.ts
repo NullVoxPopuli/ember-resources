@@ -25,12 +25,12 @@ module('Helpers', function () {
 
       setOwner(foo, this.owner);
 
-      assert.equal(foo.doubler.value, 2);
+      assert.strictEqual(foo.doubler.value, 2);
 
       foo.count = 4;
       await settled();
 
-      assert.equal(foo.doubler.value, 8);
+      assert.strictEqual(foo.doubler.value, 8);
     });
   });
 });

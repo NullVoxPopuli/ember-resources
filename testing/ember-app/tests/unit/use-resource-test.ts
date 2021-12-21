@@ -37,17 +37,17 @@ module('useResource', function () {
 
         let foo = new Test();
 
-        assert.equal(foo.data.num, 0);
+        assert.strictEqual(foo.data.num, 0);
 
         foo.count = 3;
         await settled();
 
-        assert.equal(foo.data.num, 6);
+        assert.strictEqual(foo.data.num, 6);
 
         foo.count = 4;
         await settled();
 
-        assert.equal(foo.data.num, 8);
+        assert.strictEqual(foo.data.num, 8);
       });
 
       test('can take a typed array https://github.com/NullVoxPopuli/ember-resources/issues/48', async function (assert) {
@@ -133,17 +133,17 @@ module('useResource', function () {
 
         let foo = new Test();
 
-        assert.equal(foo.data.num, 0);
+        assert.strictEqual(foo.data.num, 0);
 
         foo.count = 3;
         await settled();
 
-        assert.equal(foo.data.num, 6);
+        assert.strictEqual(foo.data.num, 6);
 
         foo.count = 4;
         await settled();
 
-        assert.equal(foo.data.num, 8);
+        assert.strictEqual(foo.data.num, 8);
       });
     });
 
@@ -160,9 +160,9 @@ module('useResource', function () {
 
       let foo = new Test();
 
-      assert.equal(foo.dataArray.foo, 3);
-      assert.equal(foo.dataVoid.foo, 3);
-      assert.equal(foo.dataOmitted.foo, 3);
+      assert.strictEqual(foo.dataArray.foo, 3);
+      assert.strictEqual(foo.dataVoid.foo, 3);
+      assert.strictEqual(foo.dataOmitted.foo, 3);
     });
 
     module('in templates', function (hooks) {
@@ -233,17 +233,17 @@ module('useResource', function () {
 
         let foo = new Test();
 
-        assert.equal(foo.data.num, 0);
+        assert.strictEqual(foo.data.num, 0);
 
         foo.count = 3;
         await settled();
 
-        assert.equal(foo.data.num, 9);
+        assert.strictEqual(foo.data.num, 9);
 
         foo.count = 4;
         await settled();
 
-        assert.equal(foo.data.num, 12);
+        assert.strictEqual(foo.data.num, 12);
       });
 
       test('lifecycle', async function (assert) {
