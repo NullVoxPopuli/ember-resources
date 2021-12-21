@@ -37,7 +37,7 @@ module('trackedFunction', function () {
 
       let foo = new Test();
 
-      assert.equal(foo.data.value, undefined);
+      assert.strictEqual(foo.data.value, undefined);
 
       foo.data.value;
       await settled();
@@ -65,28 +65,28 @@ module('trackedFunction', function () {
 
       let foo = new Test();
 
-      assert.equal(foo.data.value, undefined);
+      assert.strictEqual(foo.data.value, undefined);
       await settled();
 
-      assert.equal(foo.data.value, 1);
+      assert.strictEqual(foo.data.value, 1);
 
       foo.count = 2;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 2);
+      assert.strictEqual(foo.data.value, 2);
 
       foo.count = 6;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 12);
+      assert.strictEqual(foo.data.value, 12);
 
       foo.count = 7;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 84);
+      assert.strictEqual(foo.data.value, 84);
     });
 
     test('it works with async functions', async function (assert) {
@@ -105,23 +105,23 @@ module('trackedFunction', function () {
 
       let foo = new Test();
 
-      assert.equal(foo.data.value, undefined);
+      assert.strictEqual(foo.data.value, undefined);
 
       foo.data.value;
       await settled();
-      assert.equal(foo.data.value, 1);
+      assert.strictEqual(foo.data.value, 1);
 
       foo.count = 2;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 2);
+      assert.strictEqual(foo.data.value, 2);
 
       foo.count = 6;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 12);
+      assert.strictEqual(foo.data.value, 12);
     });
 
     test('async functions can have a fallback/initial value', async function (assert) {
@@ -142,17 +142,17 @@ module('trackedFunction', function () {
 
       let foo = new Test();
 
-      assert.equal(foo.data.value, initialValue);
+      assert.strictEqual(foo.data.value, initialValue);
 
       foo.data.value;
       await settled();
-      assert.equal(foo.data.value, 1);
+      assert.strictEqual(foo.data.value, 1);
 
       foo.count = 2;
       foo.data.value;
       await settled();
 
-      assert.equal(foo.data.value, 2);
+      assert.strictEqual(foo.data.value, 2);
     });
   });
 

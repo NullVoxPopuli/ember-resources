@@ -17,7 +17,7 @@ module('Resource', function (hooks) {
 
     let instance = new MyResource(this.owner, {});
 
-    assert.equal(instance.count, 0);
+    assert.strictEqual(instance.count, 0);
   });
 
   test('can define a constructor', function (assert) {
@@ -29,7 +29,7 @@ module('Resource', function (hooks) {
 
     let instance = new MyResource(this.owner, { named: { test: 2 } });
 
-    assert.equal(instance.args.named?.test, 2);
+    assert.strictEqual(instance.args.named?.test, 2);
   });
 
   test('it can be interacted with like a normal class', async function (assert) {
@@ -61,8 +61,8 @@ module('Resource', function (hooks) {
 
     await settled();
 
-    assert.equal(instance.count, 1);
-    assert.equal(
+    assert.strictEqual(instance.count, 1);
+    assert.strictEqual(
       instance.initial,
       0,
       'invokeHelper not needed, because we manage our own lifecycle in the constructor'
@@ -71,26 +71,26 @@ module('Resource', function (hooks) {
     ctx.num = 3;
     await settled();
 
-    assert.equal(instance.initial, 0, 'invokeHelper not used, args not reactive');
+    assert.strictEqual(instance.initial, 0, 'invokeHelper not used, args not reactive');
 
     instance = MyResource.next(instance, { positional: [ctx] });
     await settled();
 
-    assert.equal(instance.count, 1);
-    assert.equal(instance.initial, 6);
-    assert.equal(instance.num, 6);
+    assert.strictEqual(instance.count, 1);
+    assert.strictEqual(instance.initial, 6);
+    assert.strictEqual(instance.num, 6);
 
     instance.count = 4;
     await settled();
 
-    assert.equal(
+    assert.strictEqual(
       instance.count,
       4,
       'invokeHelper is not relevant for internally tracked properties'
     );
 
-    assert.equal(instance.count, 4);
-    assert.equal(instance.initial, 6);
-    assert.equal(instance.num, 24);
+    assert.strictEqual(instance.count, 4);
+    assert.strictEqual(instance.initial, 6);
+    assert.strictEqual(instance.num, 24);
   });
 });

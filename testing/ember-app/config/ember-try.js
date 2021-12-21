@@ -75,6 +75,9 @@ module.exports = async function () {
             'ember-concurrency': '^1.0.0',
             'ember-concurrency-decorators': '^2.0.0',
           },
+          devDependencies: {
+            'ember-source': '~3.28.0',
+          },
         },
       },
       embroiderSafe(),

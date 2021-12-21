@@ -28,7 +28,7 @@ module('composition of hooks', function () {
         // @ts-ignore
         consumeTag(foo, 'rand.value.value');
 
-        assert.equal(foo.rand.value?.value, undefined);
+        assert.strictEqual(foo.rand.value?.value, undefined);
         await settled();
 
         assert.notEqual(foo.rand.value?.value, undefined);
@@ -64,10 +64,10 @@ module('composition of hooks', function () {
         // @ts-ignore
         consumeTag(foo, 'rand.value.value');
 
-        assert.equal(foo.rand.value?.value, undefined);
+        assert.strictEqual(foo.rand.value?.value, undefined);
         await settled();
 
-        assert.equal(foo.rand.value.value.length, 1);
+        assert.strictEqual(foo.rand.value.value.length, 1);
         assert.notEqual(foo.rand.value.value[0], undefined);
 
         let originalFirst = foo.rand.value.value[0];
@@ -80,10 +80,10 @@ module('composition of hooks', function () {
         consumeTag(foo, 'rand.value.value');
         await settled();
 
-        assert.equal(foo.rand.value.value.length, 2);
+        assert.strictEqual(foo.rand.value.value.length, 2);
         assert.notEqual(foo.rand.value.value[0], undefined);
         assert.notEqual(foo.rand.value.value[1], undefined);
-        assert.equal(originalFirst, foo.rand.value.value[0]);
+        assert.strictEqual(originalFirst, foo.rand.value.value[0]);
         assert.true((foo.rand.value.value[1] ?? -1) > 2);
       });
 
@@ -142,11 +142,11 @@ module('composition of hooks', function () {
         // @ts-ignore
         consumeTag(foo, 'records.value.value');
 
-        assert.equal(foo.records.value?.value, undefined);
+        assert.strictEqual(foo.records.value?.value, undefined);
         await settled();
 
-        assert.equal(foo.records.value.value.length, 1);
-        assert.equal(foo.records.value.value[0], 'record:blogs-1');
+        assert.strictEqual(foo.records.value.value.length, 1);
+        assert.strictEqual(foo.records.value.value[0], 'record:blogs-1');
 
         foo.id = 2;
 
@@ -156,9 +156,9 @@ module('composition of hooks', function () {
         consumeTag(foo, 'records.value.value');
         await settled();
 
-        assert.equal(foo.records.value.value.length, 2);
-        assert.equal(foo.records.value.value[0], 'record:blogs-1');
-        assert.equal(foo.records.value.value[1], 'record:blogs-2');
+        assert.strictEqual(foo.records.value.value.length, 2);
+        assert.strictEqual(foo.records.value.value[0], 'record:blogs-1');
+        assert.strictEqual(foo.records.value.value[1], 'record:blogs-2');
 
         foo.id = 4;
         foo.storeName = 'posts';
@@ -169,8 +169,8 @@ module('composition of hooks', function () {
         consumeTag(foo, 'records.value.value');
         await settled();
 
-        assert.equal(foo.records.value.value.length, 1);
-        assert.equal(foo.records.value.value[0], 'record:posts-4');
+        assert.strictEqual(foo.records.value.value.length, 1);
+        assert.strictEqual(foo.records.value.value[0], 'record:posts-4');
       });
     });
   });
