@@ -44,7 +44,7 @@ module('useTask', function () {
 
           // task is initiated upon first access
           foo.search;
-          await settled();
+          // await settled();
 
           assert.strictEqual(foo.search.value, null);
           assert.false(foo.search.isFinished);
@@ -93,7 +93,7 @@ module('useTask', function () {
 
           // task is initiated upon first access
           foo.search;
-          await settled();
+          // await settled();
 
           assert.strictEqual(foo.search.value, null);
           assert.false(foo.search.isFinished);
