@@ -6283,6 +6283,11 @@ date-fns@^2.27.0:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.27.0.tgz#e1ff3c3ddbbab8a2eaadbb6106be2929a5a2d92b"
   integrity sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q==
 
+date-fns@^2.28.0:
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
+
 date-time@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/date-time/-/date-time-2.1.0.tgz#0286d1b4c769633b3ca13e1e62558d2dbdc2eba2"
@@ -7454,7 +7459,28 @@ ember-source@~4.0.1:
     semver "^7.3.4"
     silent-error "^1.1.1"
 
-ember-template-lint@3.15.0, ember-template-lint@^3.6.0:
+ember-template-lint@3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-3.16.0.tgz#7af2ec8d4386f4726be08c14c39ba121c56f0896"
+  integrity sha512-hbP4JefkOLx9tMkrZ3UIvdBNoEnrT7rg6c70tIxpB9F+KpPneDbmpGMBsQVhhK4BirTXIFwAIfnwKcwkIk3bPQ==
+  dependencies:
+    "@ember-template-lint/todo-utils" "^10.0.0"
+    chalk "^4.1.2"
+    ci-info "^3.3.0"
+    date-fns "^2.28.0"
+    ember-template-recast "^5.0.3"
+    find-up "^5.0.0"
+    fuse.js "^6.5.3"
+    get-stdin "^8.0.0"
+    globby "^11.0.4"
+    is-glob "^4.0.3"
+    micromatch "^4.0.4"
+    requireindex "^1.2.0"
+    resolve "^1.20.0"
+    v8-compile-cache "^2.3.0"
+    yargs "^16.2.0"
+
+ember-template-lint@^3.6.0:
   version "3.15.0"
   resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-3.15.0.tgz#ba2f9454e8a134d276451dd2c3819130177d69a3"
   integrity sha512-FhCZek0e7selesdQ2Ezh0vR0AD/k2/83R9uuSMgC1z1NnVM1BgQrELOfxb4TzlGE106NKuJaRpQkMlVTvOv5ZA==
@@ -8802,6 +8828,11 @@ fuse.js@^6.4.6:
   version "6.4.6"
   resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.4.6.tgz#62f216c110e5aa22486aff20be7896d19a059b79"
   integrity sha512-/gYxR/0VpXmWSfZOIPS3rWwU8SHgsRTwWuXhyb2O6s7aRuVtHtxCkR33bNYu3wyLyNx/Wpv0vU7FZy8Vj53VNw==
+
+fuse.js@^6.5.3:
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.5.3.tgz#7446c0acbc4ab0ab36fa602e97499bdb69452b93"
+  integrity sha512-sA5etGE7yD/pOqivZRBvUBd/NaL2sjAu6QuSaFoe1H2BrJSkH/T/UXAJ8CdXdw7DvY3Hs8CXKYkDWX7RiP5KOg==
 
 gauge@^4.0.0:
   version "4.0.0"
