@@ -69,6 +69,13 @@ In this example, `trackedFunction` will make a call to [StarWars API](https://sw
 and if `endpoint` changes from `starships` to `planets`, the `trackedFunction` will
 automatically re-call the StarWars API to fetch the planets.
 
+## Related addons
+
+List of addons that use and wrap `ember-resources` to provide more specific functionality:
+
+- [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources) - resources for reactive data fetching with ember-data
+- [ember-array-map-resource](https://github.com/NullVoxPopuli/ember-array-map-resource) - provides a useArrayMap function which returns a resource that reactively maps data per-element, so that when the overall collection is dirtied, only the changed/new/removed elements affect the mapped collection
+
 ## What is a Resource?
 
 > They are most similar to class-based Ember helpers, but with a more targeted goal overall. Resources are meant to bridge a gap between imperative programming and declarative programming.
@@ -1047,13 +1054,6 @@ test('my test', async function (assert) {
 
   assert.equal(foo.data.num, 6);
 ```
-
-## Related addons
-
-List of addons that use and wrap `ember-resources` to provide more specific functionality:
-
-- [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources) - resources for reactive data fetching with ember-data
-- [ember-array-map-resource](https://github.com/NullVoxPopuli/ember-array-map-resource) - provides a useArrayMap function which returns a resource that reactively maps data per-element, so that when the overall collection is dirtied, only the changed/new/removed elements affect the mapped collection
 
 ## Contributing
 
