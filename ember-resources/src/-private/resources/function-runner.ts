@@ -4,6 +4,7 @@ import { schedule } from '@ember/runloop';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { LifecycleResource } from './lifecycle';
+import { Resource } from './simple';
 
 import type { ArgsWrapper } from '../types';
 
@@ -29,21 +30,19 @@ export interface BaseArgs<FnArgs extends unknown[]> extends ArgsWrapper {
 export class TrackedFunctionRunner<
   Return = unknown,
   Fn extends ResourceFn<Return, never[]> = ResourceFn<Return, never[]>
-> extends LifecycleResource<BaseArgs<never[]>> {
+> extends Resource<BaseArgs<never[]>> {
   protected declare [FUNCTION_TO_RUN]: Fn;
   protected declare [SECRET_VALUE]: Return | undefined;
+
+  constructor(owner: unknown, args: BaseArgs<never[]>) {
+    super(owner, args);
+
+    waitForPromise(this[RUNNER]());
+  }
 
   get value(): Return | undefined {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return consume(this, SECRET_VALUE as any);
-  }
-
-  setup() {
-    waitForPromise(this[RUNNER]());
-  }
-
-  update() {
-    waitForPromise(this[RUNNER]());
   }
 
   private async [RUNNER]() {
@@ -144,8 +143,5 @@ export class FunctionRunner<
     };
 
     waitForPromise(asyncWaiter());
-
-    // If we ever want to bring sync-support back:
-    // this[SECRET_VALUE] = fun(previous, ...this.funArgs) as Return;
   }
 }
