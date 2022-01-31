@@ -1,0 +1,11 @@
+<h3>trackedFunction</h3>
+<button {{on 'click' this.trackedFnToggle}}>
+  change {{this.endpoint}} | trackedFunction
+</button>
+<br>
+
+{{#each this.records as |record|}}
+  {{record.name}}<hr>
+{{/each}}
+
+<hr>

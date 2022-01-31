@@ -1,3 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type Fn = (...args: any[]) => any;
+
+export type ResourceFn<Return = unknown, Args extends unknown[] = unknown[]> = (
+  previous: Return | undefined,
+  ...args: Args
+) => Return | Promise<Return>;
+
 export interface Constructable<T = unknown> {
   new (...args: unknown[]): T;
 }

@@ -1,59 +1,54 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isDestroyed, isDestroying } from '@ember/destroyable';
 import { get as consume, notifyPropertyChange as dirty } from '@ember/object';
 import { schedule } from '@ember/runloop';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { LifecycleResource } from './lifecycle';
-import { Resource } from './simple';
 
-import type { ArgsWrapper } from '../types';
+import type { ArgsWrapper, Fn } from '../types';
 
 export const FUNCTION_TO_RUN = Symbol('FUNCTION TO RUN');
 export const INITIAL_VALUE = Symbol('INITIAL VALUE');
-
-const HAS_RUN = Symbol('HAS RUN');
-const RUNNER = Symbol('RUNNER');
-
+export const FN_SETUP = '__ FN __';
 export const SECRET_VALUE = '___ Secret Value ___';
-
-// type UnwrapAsync<T> = T extends Promise<infer U> ? U : T;
-// type GetReturn<T extends () => unknown> = UnwrapAsync<ReturnType<T>>;
-export type ResourceFn<Return = unknown, Args extends unknown[] = unknown[]> = (
-  previous: Return | undefined,
-  ...args: Args
-) => Return | Promise<Return>;
 
 export interface BaseArgs<FnArgs extends unknown[]> extends ArgsWrapper {
   positional: FnArgs;
 }
 
-export class TrackedFunctionRunner<
-  Return = unknown,
-  Fn extends ResourceFn<Return, never[]> = ResourceFn<Return, never[]>
-> extends Resource<BaseArgs<never[]>> {
-  protected declare [FUNCTION_TO_RUN]: Fn;
-  protected declare [SECRET_VALUE]: Return | undefined;
+interface TrackedArgs extends ArgsWrapper {
+  positional: [Fn, unknown];
+}
 
-  constructor(owner: unknown, args: BaseArgs<never[]>) {
-    super(owner, args);
+export class TrackedFunctionRunner extends LifecycleResource<TrackedArgs> {
+  // non-tracked so we can read and make changes
+  // without engaging in auto-tracking
+  private declare [SECRET_VALUE]: unknown | undefined;
 
-    waitForPromise(this[RUNNER]());
+  setup() {
+    waitForPromise(this.runner());
   }
 
-  get value(): Return | undefined {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return consume(this, SECRET_VALUE as any);
+  update() {
+    waitForPromise(this.runner());
   }
 
-  private async [RUNNER]() {
-    const { [FUNCTION_TO_RUN]: fn } = this;
+  get value() {
+    return consume(this, SECRET_VALUE as any) || this.args.positional[1];
+  }
 
-    if (fn === undefined) {
+  get fn() {
+    return this.args.positional[0];
+  }
+
+  async runner() {
+    if (this.fn === undefined) {
       return;
     }
 
     let previousValue = this[SECRET_VALUE];
-    let value = fn(previousValue, ...[]);
+    let value = this.fn(previousValue, ...[]);
 
     // disconnect from the tracking frame, no matter the type of function
     await Promise.resolve();
@@ -62,7 +57,7 @@ export class TrackedFunctionRunner<
       return;
     }
 
-    if (typeof value === 'object' && 'then' in value) {
+    if (value && typeof value === 'object' && 'then' in value) {
       // value is actually a promise, so we don't want to return
       // an unresolved promise.
       value = await value;
@@ -77,49 +72,66 @@ export class TrackedFunctionRunner<
   }
 }
 
-export class FunctionRunner<
-  Return = unknown,
-  Args extends unknown[] = unknown[],
-  Fn extends ResourceFn<Return, Args> = ResourceFn<Return, Args>
-> extends LifecycleResource<BaseArgs<Args>> {
-  // Set when using useResource
-  protected declare [FUNCTION_TO_RUN]: Fn;
-  protected declare [INITIAL_VALUE]: Return | undefined;
-  private declare [SECRET_VALUE]: Return | undefined;
-  private [HAS_RUN] = false;
+interface ThunkFunctionArgs extends ArgsWrapper {
+  positional: unknown[];
+  named: {
+    [FN_SETUP]: {
+      fn: Fn;
+      initial?: unknown;
+    };
+  };
+}
 
-  get value(): Return | undefined {
+export class FunctionRunner extends LifecycleResource<ThunkFunctionArgs> {
+  // Set when using useResource
+  private declare [SECRET_VALUE]: unknown | undefined;
+
+  #hasRun = false;
+
+  constructor(owner: unknown, args: ThunkFunctionArgs) {
+    super(owner, args);
+  }
+
+  setup() {
+    this.#runner();
+  }
+
+  update() {
+    this.#runner();
+  }
+
+  get value(): unknown | undefined {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     consume(this, SECRET_VALUE as any);
 
-    if (!this[HAS_RUN] && this[INITIAL_VALUE]) {
-      return this[INITIAL_VALUE];
+    if (!this.#hasRun && this.#initial) {
+      return this.#initial;
     }
 
     return this[SECRET_VALUE];
   }
 
-  get funArgs() {
+  get #fn() {
+    return this.args.named[FN_SETUP].fn;
+  }
+
+  get #funArgs() {
     return this.args.positional;
   }
 
-  setup() {
-    this.update();
+  get #initial() {
+    return this.args.named[FN_SETUP].initial;
   }
 
-  update() {
+  #runner() {
     /**
      * NOTE: All positional args are consumed
      */
-    for (let i = 0; i < this.funArgs.length; i++) {
-      this.funArgs[i];
+    for (let i = 0; i < this.#funArgs.length; i++) {
+      this.#funArgs[i];
     }
 
-    const fun = this[FUNCTION_TO_RUN];
-
-    /**
-     * Do not access "value" directly in this function. You'll have infinite re-rendering errors
-     */
+    const fun = this.#fn;
     const previous = this[SECRET_VALUE];
 
     const asyncWaiter = async () => {
@@ -131,14 +143,14 @@ export class FunctionRunner<
         return;
       }
 
-      const value = await fun(previous, ...this.funArgs);
+      const value = await fun(previous, ...this.#funArgs);
 
       if (isDestroying(this) || isDestroyed(this)) {
         return;
       }
 
       this[SECRET_VALUE] = value;
-      this[HAS_RUN] = true;
+      this.#hasRun = true;
       dirty(this, SECRET_VALUE);
     };
 

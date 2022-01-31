@@ -22,6 +22,15 @@ export default {
       },
     ],
     [
+      // Allow authoring in private fields,
+      // but don't ship them natively quite yet
+      // coming soon....
+      resolve('@babel/plugin-proposal-private-methods'),
+      {
+        loose: true,
+      }
+    ],
+    [
       resolve('@babel/plugin-proposal-class-properties'),
       {
         // Only support browsers that also support class properties...

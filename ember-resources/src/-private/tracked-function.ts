@@ -10,11 +10,11 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { FUNCTION_TO_RUN, SECRET_VALUE, TrackedFunctionRunner } from './resources/function-runner';
+import { TrackedFunctionRunner } from './resources/function-runner';
 import { proxyClass } from './utils';
 
 import type { ResourceFn } from './resources/function-runner';
-import type { Cache, Constructable } from './types';
+import type { Cache } from './types';
 
 type Vanilla<Return> = [object, ResourceFn<Return>];
 type WithInitialValue<Return> = [object, NotFunction<Return>, ResourceFn<Return>];
@@ -49,7 +49,7 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>):
   let fn: ResourceFn<Return>;
 
   assert(
-    `Expected second argument to useFunction to either be an initialValue or the function to run`,
+    `Expected second argument to trackedFunction to either be an initialValue or the function to run`,
     passedArgs[1] !== undefined
   );
 
@@ -69,46 +69,20 @@ function hasNoInitialValue<R>(args: UseFunctionArgs<R>): args is Vanilla<R> {
   return args.length === 2;
 }
 
-type Fn = (...args: any[]) => any;
-
-const FUNCTION_CACHE = new WeakMap<Fn, Constructable<any>>();
-
-/**
- * The function is wrapped in a bespoke resource per-function definition
- * because passing a vanilla function to invokeHelper would trigger a
- * different HelperManager, which we want to work a bit differently.
- * See:
- *  - function HelperManager in ember-could-get-used-to-this
- *  - Default Managers RFC
- *
- */
 function buildUnproxiedFunctionResource<Return>(
   context: object,
   initial: Return | undefined,
   fn: ResourceFn<Return, never[]>
 ): { value: Return } {
-  type Klass = Constructable<TrackedFunctionRunner<Return>>;
-
   let resource: Cache<Return>;
-  let klass: Klass;
-  let existing = FUNCTION_CACHE.get(fn);
-
-  if (existing) {
-    klass = existing;
-  } else {
-    klass = class AnonymousFunctionRunner extends TrackedFunctionRunner<Return> {
-      [SECRET_VALUE] = initial;
-      [FUNCTION_TO_RUN] = fn;
-    } as Klass;
-
-    FUNCTION_CACHE.set(fn, klass);
-  }
 
   return {
     get value(): Return {
       if (!resource) {
-        resource = invokeHelper(context, klass, () => {
-          /* no thunk, no args */
+        resource = invokeHelper(context, TrackedFunctionRunner, () => {
+          return {
+            positional: [fn, initial],
+          };
         }) as Cache<Return>;
       }
 

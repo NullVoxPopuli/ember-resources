@@ -10,11 +10,10 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { FUNCTION_TO_RUN, FunctionRunner, INITIAL_VALUE } from './resources/function-runner';
+import { FN_SETUP, FunctionRunner } from './resources/function-runner';
 import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
-import type { ResourceFn } from './resources/function-runner';
-import type { Cache, Constructable } from './types';
+import type { ArgsWrapper, Cache, ResourceFn } from './types';
 
 type NonReactiveVanilla<Return, Args extends unknown[]> = [object, ResourceFn<Return, Args>];
 type VanillaArgs<Return, Args extends unknown[]> = [object, ResourceFn<Return, Args>, () => Args];
@@ -121,10 +120,6 @@ function isVanillaArgs<R, A extends unknown[]>(
   return typeof args[1] === 'function';
 }
 
-type Fn = (...args: any[]) => any;
-
-const FUNCTION_CACHE = new WeakMap<Fn, Constructable<any>>();
-
 /**
  * The function is wrapped in a bespoke resource per-function definition
  * because passing a vanilla function to invokeHelper would trigger a
@@ -140,28 +135,24 @@ function buildUnproxiedFunctionResource<Return, ArgsList extends unknown[]>(
   fn: ResourceFn<Return, ArgsList>,
   thunk: () => ArgsList
 ): { value: Return } {
-  type Klass = Constructable<FunctionRunner<Return, ArgsList>>;
-
   let resource: Cache<Return>;
-  let klass: Klass;
-  let existing = FUNCTION_CACHE.get(fn);
-
-  if (existing) {
-    klass = existing;
-  } else {
-    klass = class AnonymousFunctionRunner extends FunctionRunner<Return, ArgsList> {
-      [INITIAL_VALUE] = initial;
-      [FUNCTION_TO_RUN] = fn;
-    } as Klass;
-
-    FUNCTION_CACHE.set(fn, klass);
-  }
 
   return {
     get value(): Return {
       if (!resource) {
-        resource = invokeHelper(context, klass, () => {
-          return normalizeThunk(thunk);
+        resource = invokeHelper(context, FunctionRunner, () => {
+          let normalized = normalizeThunk(thunk) || ({} as ArgsWrapper);
+
+          if (!normalized.named) {
+            normalized.named = {};
+          }
+
+          normalized.named[FN_SETUP] = {
+            fn,
+            initial,
+          };
+
+          return normalized;
         }) as Cache<Return>;
       }
 
