@@ -10,7 +10,7 @@ An implementation of Resources in Ember.JS without decorators.
 _This is a [V2-format Addon](https://github.com/emberjs/rfcs/pull/507) with V1 compatibility_
 
 - [Installation](#installation)
-- [Why](#what-is-a-resource)
+- [What is a Resource?](#what-is-a-resource)
   - [By Example](#by-example)
 - [Usage](#api-and-usage)
   - [useResource](#useresource)
