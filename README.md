@@ -130,7 +130,7 @@ may not have the time to create a library so that your app's code is minimal.
 
 Async data is a common problem in user interfaces.
 In Ember, it's standard practice to load _minimally required_
-data for in a route, and any secondary or supplementary data in components.
+data in a route, and any secondary or supplementary data in components.
 
 For more information on thinking about async data,
 _[Async data and autotracking in ember octane](https://v5.chriskrycho.com/journal/async-data-and-autotracking-in-ember-octane/)
