@@ -146,8 +146,7 @@ export default class LoadRecords extends Helper {
       this.value = existing;
     }
 
-    let response = await fetch(`https://swapi.dev/api/${endpoint}`);
-    let json = await response.json();
+    let results = await get(`https://swapi.dev/api/${endpoint}`);
 
     // Destruction protection, as we can't assign values to destroyed objects
     // below (this.value = ...)
@@ -159,9 +158,16 @@ export default class LoadRecords extends Helper {
       return;
     }
 
-    this.value = json.results;
-    this.cache.set(endpoint, json.results);
+    this.value = results;
+    this.cache.set(endpoint, results);
   }
+}
+
+async function get(endpoint) {
+  let response = await fetch(`https://swapi.dev/api/${endpoint}`);
+  let json = await response.json();
+
+  return json.results;
 }
 ```
 and then once your helper exists, usage would like the following:
