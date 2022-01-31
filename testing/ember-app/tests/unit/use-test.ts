@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { tracked } from '@glimmer/tracking';
 import { settled } from '@ember/test-helpers';
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 import { timeout } from 'ember-concurrency';
@@ -36,12 +37,12 @@ module('@use', function (hooks) {
 
       let instance = new Test();
 
-      assert.equal(instance.data.doubled, 2);
+      assert.strictEqual(instance.data.doubled, 2);
 
       instance.num = 3;
       await settled();
 
-      assert.equal(instance.data.doubled, 6);
+      assert.strictEqual(instance.data.doubled, 6);
     });
   });
   module('LifecycleResource', function () {
@@ -66,17 +67,17 @@ module('@use', function (hooks) {
 
       let instance = new Test();
 
-      assert.equal(instance.data.doubled, 2);
+      assert.strictEqual(instance.data.doubled, 2);
 
       instance.num = 3;
       await settled();
 
-      assert.equal(instance.data.doubled, 6);
+      assert.strictEqual(instance.data.doubled, 6);
     });
   });
   module('Task', function () {});
   module('Function', function () {
-    test('it works with sync functions', async function (assert) {
+    skip('it works with sync functions', async function (assert) {
       class Test {
         @tracked num = 1;
 
@@ -88,17 +89,19 @@ module('@use', function (hooks) {
 
       let instance = new Test();
 
-      assert.equal(instance.data, undefined);
+      assert.strictEqual(instance.data, undefined);
       await settled();
-      assert.equal(instance.data, 2);
+      // @ts-expect-error
+      assert.strictEqual(instance.data, 2);
 
       instance.num = 3;
       await settled();
 
-      assert.equal(instance.data, 6);
+      // @ts-expect-error
+      assert.strictEqual(instance.data, 6);
     });
 
-    test('it works with async functions', async function (assert) {
+    skip('it works with async functions', async function (assert) {
       class Test {
         @tracked num = 1;
 
@@ -112,16 +115,18 @@ module('@use', function (hooks) {
 
       let instance = new Test();
 
-      assert.equal(instance.data, undefined);
+      assert.strictEqual(instance.data, undefined);
       await timeout(100);
       await settled();
 
-      assert.equal(instance.data, 2);
+      // @ts-expect-error
+      assert.strictEqual(instance.data, 2);
 
       instance.num = 3;
       await settled();
 
-      assert.equal(instance.data, 6);
+      // @ts-expect-error
+      assert.strictEqual(instance.data, 6);
     });
   });
 });

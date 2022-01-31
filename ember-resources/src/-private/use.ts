@@ -11,7 +11,6 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { FUNCTION_TO_RUN, FunctionRunner, INITIAL_VALUE } from './resources/function-runner';
 import { normalizeThunk } from './utils';
 
 import type { Thunk } from './types';
@@ -29,7 +28,7 @@ interface Descriptor {
  * - resources (both Resource and LifecycleResource)
  * - functions
  */
-export function use(prototype: object, key: string, descriptor?: Descriptor): void {
+export function use(_prototype: object, key: string, descriptor?: Descriptor): void {
   if (!descriptor) return;
 
   assert(`@use can only be used with string-keys`, typeof key === 'string');
@@ -61,17 +60,7 @@ export function use(prototype: object, key: string, descriptor?: Descriptor): vo
           wrapper = { resource, type: 'class' };
           resources.set(this as object, wrapper);
         } else if (typeof initialized === 'function') {
-          let klass = class AnonymousFunctionRunner extends FunctionRunner<unknown, unknown[]> {
-            [INITIAL_VALUE] = undefined;
-            [FUNCTION_TO_RUN] = initialized;
-          };
-
-          let resource = invokeHelper(this, klass, () => {
-            return normalizeThunk();
-          });
-
-          wrapper = { resource, type: 'function' };
-          resources.set(this as object, wrapper);
+          throw new Error('Functions are not yet supported by @use');
         }
       }
 
