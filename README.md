@@ -380,7 +380,11 @@ typescript is happy / correct.
 `useResource` takes either a `Resource` or `LifecycleResource` and an args thunk.
 
 `useResource` is what allows _Resources_ to be used in JS, they hide the reactivity APIs
-from the consumer so that the surface API is smaller.
+from the consumer so that the surface API is smaller. Though, from an end-user-api
+ergonomics perspective, you wouldn't typically want to rely on this. As in
+[ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)
+the useResource + Resource class are coupled together in to more meaningful APIs --
+allowing only a single import in most cases.
 
 ```ts
 import { useResource } from 'ember-resources';
