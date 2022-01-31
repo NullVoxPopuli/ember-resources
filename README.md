@@ -62,6 +62,24 @@ class MyClass {
 
 ## Usage
 
+### `@use`
+
+The `@use` decorator abstractions away the underlying reactivity configuration
+needed to use a Resource. `@use` can work with `Resource` or `LifecycleResource`.
+
+```js
+class MyClass {
+  @use data = SomeResource.with(() => [arg list]);
+}
+```
+
+All subclasses of `Resource` and `LifecycleResource` have a static method, `with`.
+This `with` method takes the same argument Thunk you'll see throughout other usages
+of Resources in this document.
+
+The `type` of `data` in this example will be an instance of `SomeResource`, so that
+typescript is happy / correct.
+
 ### `useResource`
 
 `useResource` takes either a `Resource` or `LifecycleResource` and an args thunk.
