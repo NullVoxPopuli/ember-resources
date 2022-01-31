@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.3...v4.2.0) (2022-01-31)
+
+
+### Features
+
+* add [@use](https://github.com/use) decorator -- see README for usage ([1edfddf](https://github.com/NullVoxPopuli/ember-resources/commit/1edfddfff46f68a87b587e1dd5a2778eb926b259))
+
 ## [4.1.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.2...v4.1.3) (2021-12-21)
 
 
