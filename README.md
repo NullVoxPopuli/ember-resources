@@ -79,7 +79,44 @@ automatically re-call the StarWars API to fetch the planets.
   <cite>pzuraq on "<em>Introducing @use</em>"</cite>
 </div>
 
+So.. _what_ is a Resource, really?
+
+A _Resource_ is a behavior that can be used in both templates and javascript.
+
+### In JavaScript
+
+A Resource is an alternate API for
+```js
+import { cached } from '@glimmer/tracking';
+
+class A {
+  @cached
+  get myResource() {
+    return new MyResource(this.args.foo)
+  }
+}
+```
+In this example, `myResource` returns an instance of a class and will re-create that
+class if `@foo` changes. That class can have its own internal state.
+
+### In Templates
+
+A Resource is a stateful helper:
+```hbs
+{{#let (my-resource @foo) as |myResource|}}
+  {{!-- ... --}}
+{{/let}}
+```
+In this example, `my-resource` returns an instance of a class and will re-create that
+class if `@foo` changes. That class can have its own internal state and is available
+for use via the local variable `myResource`.
+
 ### By example
+
+Throughout all of these examples, you may notice that some _can be_ a bit of work,
+maybe more suited towards libraries, rather than end-user app code.
+It's still good to know the problem space, because when your developing an app, you
+may not have the time to create a library so that your app's code is minimal.
 
 #### How do you deal with async data?
 
@@ -299,6 +336,25 @@ export default class LoadRecords extends Component {
 
 </details>
 
+### Web Permissions
+
+TODO
+
+### Selection
+
+This example, non-async,
+
+internal state management.
+
+Could be written as
+
+```js
+@cached
+get selection() {
+  return new Selection(/* initial args here */)
+}
+```
+
 ## API and Usage
 
 ### `@use`
@@ -322,6 +378,9 @@ typescript is happy / correct.
 ### `useResource`
 
 `useResource` takes either a `Resource` or `LifecycleResource` and an args thunk.
+
+`useResource` is what allows _Resources_ to be used in JS, they hide the reactivity APIs
+from the consumer so that the surface API is smaller.
 
 ```ts
 import { useResource } from 'ember-resources';
