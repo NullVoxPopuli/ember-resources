@@ -9,7 +9,7 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache, LooseArgs } from '../types';
+import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '../types';
 
 export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
   args: T;
@@ -19,6 +19,15 @@ export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
 }
 
 export class LifecycleResource<T extends LooseArgs = ArgsWrapper> {
+  static with<Args extends ArgsWrapper, SubClass extends LifecycleResource<Args>>(
+    /* hack to get inheritence in static methods */
+    this: { new (owner: unknown, args: Args, previous?: SubClass): SubClass },
+    thunk: Thunk
+  ): SubClass {
+    // Lie about the type because `with` must be used with the `@use` decorator
+    return [this, thunk] as unknown as SubClass;
+  }
+
   constructor(owner: unknown, public args: T) {
     setOwner(this, owner);
   }

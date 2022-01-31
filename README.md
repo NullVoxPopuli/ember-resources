@@ -29,10 +29,6 @@ _This is a [V2-format Addon](https://github.com/emberjs/rfcs/pull/507) with V1 c
 * typeScript v4.2+
 * ember-auto-import v2+
 
-_NOTE_: if you are also using ember-could-get-used-to-this, `@use` is not compatible with
-this library's `LifecycleResource`, and `useResource` does not work with ember-could-get-used-to-this' `Resource`.
-However, both libraries can still be used in the same project.
-
 ## Installation
 
 ```bash
@@ -61,6 +57,24 @@ class MyClass {
 ```
 
 ## Usage
+
+### `@use`
+
+The `@use` decorator abstractions away the underlying reactivity configuration
+needed to use a Resource. `@use` can work with `Resource` or `LifecycleResource`.
+
+```js
+class MyClass {
+  @use data = SomeResource.with(() => [arg list]);
+}
+```
+
+All subclasses of `Resource` and `LifecycleResource` have a static method, `with`.
+This `with` method takes the same argument Thunk you'll see throughout other usages
+of Resources in this document.
+
+The `type` of `data` in this example will be an instance of `SomeResource`, so that
+typescript is happy / correct.
 
 ### `useResource`
 
