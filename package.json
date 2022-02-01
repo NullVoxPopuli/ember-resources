@@ -2,6 +2,7 @@
   "private": "true",
   "workspaces": [
     "ember-resources",
+    "docs",
     "testing/*"
   ],
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
@@ -9,6 +10,8 @@
   "author": "NullVoxPopuli",
   "scripts": {
     "build": "yarn workspace ember-resources build",
+    "build:docs": "yarn workspace docs docs:collect",
+    "start:docs": "yarn build:docs --watch",
     "prepare": "yarn build"
   },
   "resolutions": {

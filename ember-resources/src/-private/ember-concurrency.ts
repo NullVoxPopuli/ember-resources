@@ -17,6 +17,47 @@ import { DEFAULT_THUNK, normalizeThunk } from './utils';
 import type { TaskInstance, TaskIsh } from './resources/ember-concurrency-task';
 import type { Cache, Constructable } from './types';
 
+/**
+ * @utility uses [[LifecycleResource]] to make ember-concurrency tasks reactive.
+ *
+ * -------------------------
+ *
+ * @note `ember-resources` does not provide or depend on ember-concurrency.
+ * If you want to use [[useTask]], you'll need to add ember-concurrency as a dependency
+ * in your project.
+ *
+ * @example
+ *  When `this.id` changes, the task will automatically be re-invoked.
+ * ```js
+ * import { tracked } from '@glimmer/tracking';
+ * import { task, timeout } from 'ember-concurrency';
+ * import { useTask } from 'ember-resources';
+ *
+ * class Demo {
+ *   @tracked id = 1;
+ *
+ *   last = useTask(this, this.searchTask, () => [this.id]);
+ *
+ *   @task
+ *   *searchTask(id) {
+ *     yield timeout(200);
+ *     yield fetch('...');
+ *
+ *     return 'the-value';
+ *   }
+ * }
+ * ```
+ * ```hbs
+ * Available Properties:
+ *  {{this.last.value}}
+ *  {{this.last.isFinished}}
+ *  {{this.last.isRunning}}
+ *  {{this.last.value}}
+ * ```
+ *  (and all other properties on a [TaskInstance](https://ember-concurrency.com/api/TaskInstance.html))
+ *
+ *
+ */
 export function useTask<
   Return = unknown,
   Args extends unknown[] = unknown[],

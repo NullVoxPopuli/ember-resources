@@ -27,6 +27,26 @@ interface Descriptor {
  * works with
  * - resources (both Resource and LifecycleResource)
  * - functions
+ *
+ * The `@use` decorator abstractions away the underlying reactivity configuration
+ * needed to use a Resource. `@use` can work with `Resource` or `LifecycleResource`.
+ *
+ * ```js
+ * import { use } from 'ember-resources';
+ * import { SomeResource } from './some-resource';
+ *
+ * class MyClass {
+ *   @use data = SomeResource.with(() => [arg list]);
+ * }
+ * ```
+ *
+ * All subclasses of [[Resource]] and [[LifecycleResource]] have a static method, `with`.
+ * This `with` method takes the same argument Thunk you'll see throughout other usages
+ * of Resources in this document.
+ *
+ * The `type` of `data` in this example will be an instance of `SomeResource`, so that
+ * typescript is happy / correct.
+ *
  */
 export function use(_prototype: object, key: string, descriptor?: Descriptor): void {
   if (!descriptor) return;
