@@ -24,13 +24,15 @@ interface Descriptor {
 }
 
 /**
- * works with
- * - resources (both Resource and LifecycleResource)
- * - functions
+ * @decorator `@use`
  *
- * The `@use` decorator abstractions away the underlying reactivity configuration
- * needed to use a Resource. `@use` can work with `Resource` or `LifecycleResource`.
+ * -------------
  *
+ * The `@use` decorator abstracts away the underlying reactivity configuration
+ * needed to use a [[Resource]].
+ * `@use` can work with [[Resource]] or [[LifecycleResource]].
+ *
+ * @example
  * ```js
  * import { use } from 'ember-resources';
  * import { SomeResource } from './some-resource';

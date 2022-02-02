@@ -126,7 +126,7 @@ export class FunctionRunner<
     const asyncWaiter = async () => {
       // in case the async function tries to consume things on the parent `this`,
       // be sure we start with a fresh frame
-      await new Promise((resolve) => schedule('afterRender', resolve));
+      await new Promise((resolve) => schedule('afterRender', resolve, null));
 
       if (isDestroying(this) || isDestroyed(this)) {
         return;

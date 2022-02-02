@@ -92,14 +92,22 @@ export interface Helper {
 }
 
 /**
- * @protected
- *
  * With the exception of the `useResource` + `class` combination, all Thunks are optional.
  * The main caveat is that if your resources will not update without a thunk -- or consuming
  * tracked data within setup / initialization (which is done for you with `useFunction`).
  *
- *
  *  - The thunk is "just a function" that allows tracked data to be lazily consumed by the resource.
+ *
+ * Note that thunks are awkward when they aren't required -- they may even be awkward
+ * when they are required. Whenever possible, we should rely on auto-tracking, such as
+ * what [[trackedFunction]] provides.
+ *
+ * So when and why are thunks needed?
+ * - when we want to manage reactivity *separately* from a calling context.
+ * - in many cases, the thunk is invoked during setup and update of various Resources,
+ *   so that the setup and update evaluations can "entangle" with any tracked properties
+ *   accessed within the thunk. This allows changes to those tracked properties to
+ *   cause the Resources to (re)update.
  *
  * The args thunk accepts the following data shapes:
  * ```

@@ -1,11 +1,7 @@
 {
   "tsconfig": "../ember-resources/tsconfig.json",
   "readme": "../README.md",
-  "exclude": [
-  ],
-  "includes": [
-    "./docs/"
-  ],
+  "exclude": [],
   "json": "./docs.json",
   "out": "dist",
   "pretty": true,
@@ -15,6 +11,7 @@
   "disableSources": true,
   "plugin": [
     "typedoc-plugin-merge-modules",
-    "typedoc-plugin-mdn-links"
+    "typedoc-plugin-mdn-links",
+    "typedoc-github-wiki-theme"
   ]
 }
