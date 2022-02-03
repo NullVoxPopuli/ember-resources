@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.2.0...v4.3.0) (2022-02-03)
+
+
+### Features
+
+* **readme:** async-data example ([74e0682](https://github.com/NullVoxPopuli/ember-resources/commit/74e068276fc310c335d32535ce477fcf19d4db72))
+
 # [4.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.1.3...v4.2.0) (2022-01-31)
 
 
