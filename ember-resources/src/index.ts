@@ -12,3 +12,7 @@ export { useResource } from './-private/use-resource';
 
 // Public Type Utilities
 export type { ArgsWrapper, Named, Positional } from './-private/types';
+
+// Protected Type Utilities that need to be documented,
+// but hopefully shouldn't be used in consuming apps.
+export type { Thunk } from './-private/types';

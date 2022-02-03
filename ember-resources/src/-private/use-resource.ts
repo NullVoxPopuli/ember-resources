@@ -40,8 +40,37 @@ function useUnproxiedResource<Instance = unknown>(
 
 /**
  * For use in the body of a class.
- * Constructs a cached LifecycleResource that will reactively respond to tracked data changes
  *
+ * `useResource` takes either a [[Resource]] or [[LifecycleResource]] and an args [[Thunk]].
+ *
+ * `useResource` is what allows _Resources_ to be used in JS, they hide the reactivity APIs
+ * from the consumer so that the surface API is smaller. Though, from an end-user-api
+ * ergonomics perspective, you wouldn't typically want to rely on this. As in
+ * [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)
+ * the useResource + Resource class are coupled together in to more meaningful APIs --
+ * allowing only a single import in most cases.
+ *
+ * ```ts
+ * import { useResource } from 'ember-resources';
+ *
+ * class MyClass {
+ *   data = useResource(this, SomeResource, () => [arg list]);
+ * }
+ * ```
+ *
+ * When any tracked data in the args thunk is updated, the Resource will be updated as well
+ *
+ *  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
+ *  - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards
+ *    access to the data, like:
+ *    ```hbs
+ *    {{#if this.isModalShowing}}
+ *       <Modal>{{this.data.someProperty}}</Modal>
+ *    {{/if}}
+ *    ```
+ *    the Resource will not be instantiated until `isModalShowing` is true.
+ *
+ *  - For more info on Thunks, scroll to the bottom of the README
  */
 export function useResource<Instance extends LifecycleResource<any>>(
   context: object,

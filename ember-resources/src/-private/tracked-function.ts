@@ -43,6 +43,46 @@ export function trackedFunction<Return>(...passed: WithInitialValue<Return>): {
   value: Return;
 };
 
+/**
+ *
+ * This is the simpler of the two function resources, where
+ *
+ * Any tracked data accessed in a tracked function _before_ an `await`
+ * will "entangle" with the function -- we can call these accessed tracked
+ * properties, the "tracked prelude". If any properties within the tracked
+ * payload  change, the function will re-run.
+ *
+ * ```js
+ * import Component from '@glimmer/component';
+ * import { tracked } from '@glimmer/tracking';
+ * import { trackedFunction }  from 'ember-resources';
+ *
+ * class Demo extends Component {
+ *   @tracked id = 1;
+ *
+ *   request = trackedFunction(this, async () => {
+ *     let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
+ *     let data = await response.json();
+ *
+ *     return data; // { name: 'Luke Skywalker', ... }
+ *   });
+ *
+ *   updateId = (event) => this.id = event.target.value;
+ *
+ *   // Renders "Luke Skywalker"
+ *   <template>
+ *     {{this.request.value.name}}
+ *
+ *     <input value={{this.id}} {{on 'input' this.updateId}}>
+ *   </template>
+ * }
+ * ```
+ * _Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]
+ *
+ * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
+ *
+ *
+ */
 export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>): { value: Return } {
   let [context] = passedArgs;
   let initialValue: Return | undefined;

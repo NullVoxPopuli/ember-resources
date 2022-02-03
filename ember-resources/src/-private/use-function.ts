@@ -14,7 +14,7 @@ import { FUNCTION_TO_RUN, FunctionRunner, INITIAL_VALUE } from './resources/func
 import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
 import type { ResourceFn } from './resources/function-runner';
-import type { Cache, Constructable } from './types';
+import type { Cache, Constructable, Fn } from './types';
 
 type NonReactiveVanilla<Return, Args extends unknown[]> = [object, ResourceFn<Return, Args>];
 type VanillaArgs<Return, Args extends unknown[]> = [object, ResourceFn<Return, Args>, () => Args];
@@ -38,9 +38,153 @@ type UseFunctionArgs<Return, Args extends unknown[]> =
   | VanillaArgs<Return, Args>
   | WithInitialValueArgs<Return, Args>;
 
+const FUNCTION_CACHE = new WeakMap<Fn, Constructable<any>>();
+
 /**
+ *
+ * @deprecated use `trackedFunction` instead
+ *
+ * @description
+ * [[useFunction]] provides a way reactively call a function
+ * when args to that function change.
  * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
+ *
+ * @example
+ * ```ts
+ * import { useFunction } from 'ember-resources';
+ *
+ * class StarWarsInfo {
+ *   // access result on info.value
+ *   info = useFunction(this, async (state, ...args) => {
+ *     if (state) {
+ *       let { characters } = state;
+ *
+ *       return { characters };
+ *     }
+ *
+ *     let [ids] = args;
+ *     let response = await fetch(`/characters/${ids}`) ;
+ *     let characters = await response.json();
+ *
+ *     return { characters };
+ *   }, () => [this.ids]) // this.ids defined somewhere
+ * }
+ * ```
+ *
+ * > `characters` would be accessed via `this.info.value.characters` in the `StarWarsInfo` class
+ *
+ * While this example is a bit contrived, hopefully it demonstrates how the `state` arg
+ * works. During the first invocation, `state` is falsey, allowing the rest of the
+ * function to execute. The next time `this.ids` changes, the function will be called
+ * again, except `state` will be the `{ characters }` value during the first invocation,
+ * and the function will return the initial data.
+ *
+ * This particular technique could be used to run any async function _safely_ (as long
+ * as the function doesn't interact with `this`).
+ *
+ * In this example, where the function is `async`, the "value" of `info.value` is `undefined` until the
+ * function completes.
+ *
+ * To help prevent accidental async footguns, even if a function is synchronous, it is still ran
+ * asynchronously, therefor, the thunk cannot be avoided.
+ *
+ * ```ts
+ * import { useFunction } from 'ember-resources';
+ *
+ * class MyClass {
+ *   @tracked num = 3;
+ *
+ *   info = useFunction(this, () => {
+ *     return this.num * 2;
+ *   });
+ * }
+ * ```
+ *
+ * `this.info.value` will be  `undefined`, then `6` and will not change when `num` changes.
+ *
+ *
+ * @example
+ * These patterns are primarily unexplored so if you run in to any issues,
+ * please [open a bug report / issue](https://github.com/NullVoxPopuli/ember-resources/issues/new).
+ *
+ * Composing class-based resources is expected to "just work", as classes maintain their own state.
+ *
+ * #### useFunction + useFunction
+ *
+ * ```js
+ * import Component from '@glimmer/component';
+ * import { useFunction } from 'ember-resources';
+ *
+ * class MyComponent extends Component {
+ *   rand = useFunction(this, () => {
+ *     return useFunction(this, () => Math.random());
+ *   });
+ * }
+ * ```
+ * Accessing the result of `Math.random()` would be done via:
+ * ```hbs
+ * {{this.rand.value.value}}
+ * ```
+ *
+ * Something to note about composing resources is that if arguments passed to the
+ * outer resource change, the inner resources are discarded entirely.
+ *
+ * For example, you'll need to manage the inner resource's cache invalidation yourself if you want
+ * the inner resource's behavior to be reactive based on outer arguments:
+ *
+ * <details><summary>Example data fetching composed functions</summary>
+ *
+ * ```js
+ * import Component from '@glimmer/component';
+ * import { useFunction } from 'ember-resources';
+ *
+ * class MyComponent extends Component {
+ *   @tracked id = 1;
+ *   @tracked storeName = 'blogs';
+ *
+ *   records = useFunction(this, (state, storeName) => {
+ *       let result: Array<string | undefined> = [];
+ *
+ *       if (state?.previous?.storeName === storeName) {
+ *         return state.previous.innerFunction;
+ *       }
+ *
+ *       let innerFunction = useFunction(this, (prev, id) => {
+ *         // pretend we fetched a record using the store service
+ *         let newValue = `record:${storeName}-${id}`;
+ *
+ *         result = [...(prev || []), newValue];
+ *
+ *         return result;
+ *         },
+ *         () => [this.id]
+ *       );
+ *
+ *       return new Proxy(innerFunction, {
+ *         get(target, key, receiver) {
+ *           if (key === 'previous') {
+ *             return {
+ *               innerFunction,
+ *               storeName,
+ *             };
+ *           }
+ *
+ *           return Reflect.get(target, key, receiver);
+ *         },
+ *       });
+ *     },
+ *     () => [this.storeName]
+ *   );
+ * }
+ * ```
+ * ```hbs
+ * {{this.records.value.value}} -- an array of "records"
+ * ```
+ *
+ *
+ * </details>
+ *
+ *
  *
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Function} theFunction the function to run with the return value available on .value
@@ -49,8 +193,6 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: NonReactiveVanilla<Return, Args>
 ): { value: Return };
 /**
- * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
  *
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Function} theFunction the function to run with the return value available on .value
@@ -60,8 +202,6 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: VanillaArgs<Return, Args>
 ): { value: Return };
 /**
- * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
  *
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
@@ -72,8 +212,6 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: WithInitialValueArgs<Return, Args>
 ): { value: Return };
 /**
- * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
  *
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
@@ -83,6 +221,8 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passed: NonReactiveWithInitialValue<Return, Args>
 ): { value: Return };
 
+/**
+ */
 export function useFunction<Return, Args extends unknown[] = unknown[]>(
   ...passedArgs: UseFunctionArgs<Return, Args>
 ): { value: Return } {
@@ -95,6 +235,12 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
     `Expected second argument to useFunction to either be an initialValue or the function to run`,
     passedArgs[1] !== undefined
   );
+
+  function isVanillaArgs<R, A extends unknown[]>(
+    args: UseFunctionArgs<R, A>
+  ): args is VanillaArgs<R, A> | NonReactiveVanilla<R, A> {
+    return typeof args[1] === 'function';
+  }
 
   if (isVanillaArgs(passedArgs)) {
     fn = passedArgs[1];
@@ -114,16 +260,6 @@ export function useFunction<Return, Args extends unknown[] = unknown[]>(
 
   return proxyClass<any>(target) as { value: Return };
 }
-
-function isVanillaArgs<R, A extends unknown[]>(
-  args: UseFunctionArgs<R, A>
-): args is VanillaArgs<R, A> | NonReactiveVanilla<R, A> {
-  return typeof args[1] === 'function';
-}
-
-type Fn = (...args: any[]) => any;
-
-const FUNCTION_CACHE = new WeakMap<Fn, Constructable<any>>();
 
 /**
  * The function is wrapped in a bespoke resource per-function definition
