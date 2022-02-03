@@ -1,9 +1,8 @@
-import { createRequire } from 'module';
+'use strict';
 
-const require = createRequire(import.meta.url);
-const resolve = require.resolve;
+const { resolve } = require;
 
-export default {
+module.exports = {
   plugins: [
     [
       resolve('@babel/plugin-transform-typescript'),
@@ -29,6 +28,5 @@ export default {
         loose: true,
       },
     ],
-    resolve('@embroider/addon-dev/template-colocation-plugin'),
   ],
 };
