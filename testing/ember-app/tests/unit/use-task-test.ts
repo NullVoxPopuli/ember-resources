@@ -318,6 +318,16 @@ module('useTask', function () {
           assert.dom().hasText('Hello there');
         });
 
+        module('every TaskInstance API works', function () {
+          test('error', async function (assert) {});
+          test('hasStarted', async function (assert) {});
+          test('isCanceled', async function (assert) {});
+          test('isError', async function (assert) {});
+          test('isFinished', async function (assert) {});
+          test('isSuccessful', async function (assert) {});
+          test('value', async function (assert) {});
+        });
+
         test('works when accessed via getter', async function (assert) {
           class Test extends Component {
             get colors() {

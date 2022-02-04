@@ -118,17 +118,31 @@ export function proxyClass<
     LocalTask
   >
 >(target: { value: Instance }) {
+  /*
+   * This proxy defaults to returning the underlying data on
+   * the task runner when '.value' is accessed.
+   *
+   * When working with ember-concurrency tasks, users have the expectation
+   * that they'll be able to inspect the status of the tasks, such as
+   * `isRunning`, `isFinished`, etc.
+   *
+   * To support that, we need to proxy to the `currentTask`.
+   *
+   */
   return new Proxy(target, {
     get(target, key): unknown {
       const taskRunner = target.value;
 
       if (key === 'value') {
         /**
-         * getter than fallsback to the previous task's value
+         * getter than falls back to the previous task's value
          */
         return taskRunner.value;
       }
 
+      /**
+       * If the key is anything other than value, query on the currentTask
+       */
       const instance = taskRunner.currentTask;
 
       const value = Reflect.get(instance as object, key, instance);
