@@ -36,7 +36,7 @@
     "@embroider/test-setup": "^1.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "@nullvoxpopuli/eslint-configs": "^2.1.1",
+    "@nullvoxpopuli/eslint-configs": "^2.1.19",
     "@types/ember-data": "^4.0.0",
     "@types/ember-data__adapter": "^4.0.0",
     "@types/ember-data__model": "^4.0.0",

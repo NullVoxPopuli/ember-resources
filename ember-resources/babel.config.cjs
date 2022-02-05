@@ -1,9 +1,8 @@
-import { createRequire } from 'module';
+'use strict';
 
-const require = createRequire(import.meta.url);
 const resolve = require.resolve;
 
-export default {
+module.exports = {
   plugins: [
     [
       resolve('@babel/plugin-transform-typescript'),
@@ -29,6 +28,7 @@ export default {
         loose: true,
       },
     ],
+    // eslint-disable-next-line node/no-missing-require
     resolve('@embroider/addon-dev/template-colocation-plugin'),
   ],
 };

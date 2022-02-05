@@ -10,9 +10,9 @@ import { assert } from '@ember/debug';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
-import { get } from '@ember/object';
 
-// import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import { TASK, TaskResource } from './resources/ember-concurrency-task';
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
@@ -136,24 +136,21 @@ export function proxyClass<
       const taskRunner = target.value;
       const instance = taskRunner.currentTask;
 
-      if (typeof key === 'string') {
-        /**
-         * In ember-concurrency@v1, the reactivity is whacky, and
-         * we have to do extra work to make the overall API for ember-resources
-         * the same
-         */
-        // See: https://github.com/embroider-build/embroider/issues/1111
-        // if (macroCondition(dependencySatisfies('ember-concurrency', '^1.0.0'))) {
-        // let { get } = importSync('@ember/object') as any;
+      /**
+       * In ember-concurrency@v1, the reactivity is whacky, and
+       * we have to do extra work to make the overall API for ember-resources
+       * the same
+       */
+      if (macroCondition(dependencySatisfies('ember-concurrency', '^1.0.0'))) {
+        if (typeof key === 'string') {
+          let { get } = importSync('@ember/object') as any;
 
-        // in ember-concurrency@v1, value is not consumable tracked data
-        // until the task is resolved, so we need to consume the isRunning
-        // property so that value updates
-        // eslint-disable-next-line ember/no-get
-        get(taskRunner.currentTask, 'isRunning');
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        get(taskRunner.currentTask, key);
+          // in ember-concurrency@v1, value is not consumable tracked data
+          // until the task is resolved, so we need to consume the isRunning
+          // property so that value updates
+          get(taskRunner.currentTask, 'isRunning');
+          get(taskRunner.currentTask, key);
+        }
       }
 
       if (key === 'value') {
