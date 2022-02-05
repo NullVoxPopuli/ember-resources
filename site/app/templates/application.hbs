@@ -1,0 +1,42 @@
+{{page-title "Glimmer Apollo"}}
+
+<DocfyHeader
+  @name="Glimmer Apollo"
+  @darkOnly={{true}}
+  @githubUrl="https://github.com/josemarluedke/glimmer-apollo"
+  class="overflow-x-scroll sm:overflow-x-auto"
+>
+  <:title>
+    <VisuallyHidden>Glimmer Apollo</VisuallyHidden>
+    <GlimmerApolloLogo class="h-7" />
+  </:title>
+  <:left>
+    <DocfyJumpTo />
+  </:left>
+
+  <:right as |linkClass linkClassActive|>
+    <LinkTo
+      @route="docs"
+      class="{{linkClass}} hidden sm:block"
+      @activeClass={{linkClassActive}}
+    >
+      Docs
+    </LinkTo>
+  </:right>
+</DocfyHeader>
+
+{{outlet}}
+
+<div
+  class="mb-20 sm:mb-0 border-t border-gray-300 dark:border-gray-700 p-4 text-center text-sm text-gray-700 dark:text-gray-300"
+>
+  Released under MIT License - Created by
+  <a
+    href="https://github.com/josemarluedke"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="whitespace-nowrap"
+  >
+    Josemar Luedke
+  </a>
+</div>

@@ -3,6 +3,7 @@
   "workspaces": [
     "ember-resources",
     "docs",
+    "site",
     "testing/*"
   ],
   "repository": "https://github.com/NullVoxPopuli/ember-resources",

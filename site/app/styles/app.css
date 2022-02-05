@@ -1,0 +1,41 @@
+/* purgecss start ignore */
+@import './highlight.css';
+
+.remark-code-title {
+  @apply py-2 px-4 bg-gray-900 border-b border-gray-800 text-white rounded-t-lg mt-5 text-sm;
+}
+
+.remark-code-title + .prose pre:first-child {
+  @apply rounded-t-none;
+}
+
+@import './highlight.css';
+@import './docfy-demo.css';
+
+.prose h2,
+.prose h3,
+.prose h4,
+.docfy-demo__description__header__title {
+  & > a {
+    @apply ml-6;
+
+    &::before {
+      content: '#';
+      @apply text-primary-600 dark:text-primary-400 -ml-6 pr-2 absolute opacity-100;
+    }
+
+    @screen lg {
+      @apply ml-0;
+
+      &::before {
+        @apply opacity-0 pr-1;
+      }
+    }
+  }
+  &:hover {
+    & > a::before {
+      @apply opacity-100;
+    }
+  }
+}
+/* purgecss end ignore */

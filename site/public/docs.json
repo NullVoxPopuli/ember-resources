@@ -1,0 +1,2148 @@
+{
+	"id": 0,
+	"name": "ember-resources",
+	"kind": 1,
+	"kindString": "Project",
+	"flags": {},
+	"originalName": "",
+	"children": [
+		{
+			"id": 1,
+			"name": "LifecycleResource",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {},
+			"comment": {
+				"shortText": "When possible, you'll want to favor `Resource` over `LifecycleResource` as `Resource` is simpler.",
+				"text": "They key differences are that the `LifecycleResource` base class has 3 lifecycle hooks\n - `setup` - called upon first access of the resource\n - `update` - called when any `tracked` used during `setup` changes\n - `teardown` - called when the containing context is torn down\n\nThe main advantage to the `LifecycleResource` is that the teardown hook is for \"last teardown\",\nwhereas with `Resource`, if a destructor is registered in the destructor, there is no way to know\nif that destruction is the final destruction.\n\n\nAn example of when you'd want to reach for the `LifecycleResource` is when you're managing external long-lived\nstate that needs a final destruction call, such as with XState, which requires that the \"State machine interpreter\"\nis stopped when you are discarding the parent context (such as a component).\n\nAn example\n```js\nimport { LifecycleResource } from 'ember-resources';\nimport { createMachine, interpret } from 'xstate';\n\nconst machine = createMachine(); // ... see XState docs for this function this ...\n\nclass MyResource extends LifecycleResource {\n  @tracked state;\n\n  setup() {\n    this.interpreter = interpret(machine).onTransition(state => this.state = state);\n  }\n\n  update() {\n    this.interpreter.send('ARGS_UPDATED', this.args);\n  }\n\n  teardown() {\n    this.interpreter.stop();\n  }\n}\n```\n\nUsing this Resource is the exact same as `Resource`\n```ts\nimport { useResource } from 'ember-resources';\n\nclass ContainingClass {\n  state = useResource(this, MyResource, () => [...])\n}\n```\n\nThere _is_ however a semi-unintuitive technique you could use to continue to use `Resource` for the `final` teardown:\n\n```js\nimport { Resource } from 'ember-resources';\nimport { registerDestructor, unregisterDestructior } from '@ember/destroyable';\n\nclass MyResource extends Resource {\n  constructor(owner, args, previous) {\n    super(owner, args, previous);\n\n    registerDestructor(this, this.myFinalCleanup);\n\n    if (previous) {\n      // prevent destruction\n      unregisterDestructor(prev, prev.myFinalCleanup);\n    } else {\n      // setup\n    }\n  }\n\n  @action myFinalCleanup() {  }\n}\n```\n"
+			},
+			"children": [
+				{
+					"id": 7,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 8,
+							"name": "new LifecycleResource",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"typeParameter": [
+								{
+									"id": 9,
+									"name": "T",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "LooseArgs"
+									},
+									"default": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 10,
+									"name": "owner",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "unknown"
+									}
+								},
+								{
+									"id": 11,
+									"name": "args",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 9,
+										"name": "T"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 1,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 9,
+										"name": "T"
+									}
+								],
+								"name": "LifecycleResource"
+							}
+						}
+					]
+				},
+				{
+					"id": 12,
+					"name": "args",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"id": 9,
+						"name": "T"
+					}
+				},
+				{
+					"id": 13,
+					"name": "setup",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 14,
+							"name": "setup",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 17,
+					"name": "teardown",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 18,
+							"name": "teardown",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 15,
+					"name": "update",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 16,
+							"name": "update",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 2,
+					"name": "with",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"signatures": [
+						{
+							"id": 3,
+							"name": "with",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"typeParameter": [
+								{
+									"id": 4,
+									"name": "Args",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								},
+								{
+									"id": 5,
+									"name": "SubClass",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 1,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 4,
+												"name": "Args"
+											},
+											{
+												"type": "reference",
+												"id": 5,
+												"name": "SubClass"
+											}
+										],
+										"name": "LifecycleResource"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 6,
+									"name": "thunk",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 121,
+										"name": "Thunk"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 5,
+								"name": "SubClass"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						7
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						12
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						13,
+						17,
+						15,
+						2
+					]
+				}
+			],
+			"typeParameter": [
+				{
+					"id": 19,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"name": "LooseArgs"
+					},
+					"default": {
+						"type": "reference",
+						"id": 111,
+						"name": "ArgsWrapper"
+					}
+				}
+			]
+		},
+		{
+			"id": 20,
+			"name": "Resource",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {},
+			"children": [
+				{
+					"id": 32,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 33,
+							"name": "new Resource",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"comment": {},
+							"typeParameter": [
+								{
+									"id": 34,
+									"name": "T",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "LooseArgs"
+									},
+									"default": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 35,
+									"name": "owner",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "unknown"
+									}
+								},
+								{
+									"id": 36,
+									"name": "args",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 34,
+										"name": "T"
+									}
+								},
+								{
+									"id": 37,
+									"name": "previous",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"id": 20,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 34,
+												"name": "T"
+											}
+										],
+										"name": "Resource"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 20,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 34,
+										"name": "T"
+									}
+								],
+								"name": "Resource"
+							}
+						}
+					]
+				},
+				{
+					"id": 38,
+					"name": "args",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"id": 34,
+						"name": "T"
+					}
+				},
+				{
+					"id": 21,
+					"name": "next",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"signatures": [
+						{
+							"id": 22,
+							"name": "next",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"typeParameter": [
+								{
+									"id": 23,
+									"name": "Args",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								},
+								{
+									"id": 24,
+									"name": "R",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 20,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 23,
+												"name": "Args"
+											},
+											{
+												"type": "reference",
+												"id": 24,
+												"name": "R"
+											}
+										],
+										"name": "Resource"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 25,
+									"name": "prev",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 24,
+										"name": "R"
+									}
+								},
+								{
+									"id": 26,
+									"name": "args",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 23,
+										"name": "Args"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 24,
+								"name": "R"
+							}
+						}
+					]
+				},
+				{
+					"id": 27,
+					"name": "with",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true
+					},
+					"signatures": [
+						{
+							"id": 28,
+							"name": "with",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"typeParameter": [
+								{
+									"id": 29,
+									"name": "Args",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								},
+								{
+									"id": 30,
+									"name": "SubClass",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 20,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 29,
+												"name": "Args"
+											},
+											{
+												"type": "reference",
+												"id": 30,
+												"name": "SubClass"
+											}
+										],
+										"name": "Resource"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 31,
+									"name": "thunk",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 121,
+										"name": "Thunk"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 30,
+								"name": "SubClass"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						32
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						38
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						21,
+						27
+					]
+				}
+			],
+			"typeParameter": [
+				{
+					"id": 39,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"name": "LooseArgs"
+					},
+					"default": {
+						"type": "reference",
+						"id": 111,
+						"name": "ArgsWrapper"
+					}
+				}
+			]
+		},
+		{
+			"id": 111,
+			"name": "ArgsWrapper",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "This is a utility interface that represents all of the args used throughout\nEmber.",
+				"tags": [
+					{
+						"tag": "example",
+						"text": "\n```ts\nimport { Resource } from 'ember-resources';\n\nimport type { ArgsWrapper } from 'ember-resources';\n\nclass MyResource extends Resource { // default args type\n  constructor(owner: unknown, args: ArgsWrapper) {\n    super(owner, args);\n  }\n}\n```\n\n\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 113,
+					"name": "named",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "string"
+							},
+							{
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						],
+						"qualifiedName": "Record",
+						"package": "typescript",
+						"name": "Record"
+					}
+				},
+				{
+					"id": 112,
+					"name": "positional",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "unknown"
+						}
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						113,
+						112
+					]
+				}
+			]
+		},
+		{
+			"id": 114,
+			"name": "Named",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "This shorthand is 3 character shorter than using `named:` in ArgsWrapper",
+				"tags": [
+					{
+						"tag": "example",
+						"text": "\n\n```ts\nimport { Resource } from 'ember-resources';\n\nimport type { Named } from 'ember-resources';\n\nclass MyResource extends Resource<Named<{ bananas: number }>> {\n\n}\n```\n\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 115,
+					"name": "named",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"id": 117,
+						"name": "T"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						115
+					]
+				}
+			],
+			"typeParameter": [
+				{
+					"id": 117,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {},
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 116,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"default": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "string"
+							},
+							{
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						],
+						"qualifiedName": "Record",
+						"package": "typescript",
+						"name": "Record"
+					}
+				}
+			]
+		},
+		{
+			"id": 118,
+			"name": "Positional",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "This shorthand is 3 character shorter than using `positional:` in ArgsWrapper",
+				"tags": [
+					{
+						"tag": "example",
+						"text": "\n\n```ts\nimport { Resource } from 'ember-resources';\n\nimport type { Positional } from 'ember-resources';\n\nclass MyResource extends Resource<Positional<[number]>> {\n\n}\n```\n\n\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 119,
+					"name": "positional",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"id": 120,
+						"name": "T"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						119
+					]
+				}
+			],
+			"typeParameter": [
+				{
+					"id": 120,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {},
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "unknown"
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 121,
+			"name": "Thunk",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {},
+			"comment": {
+				"shortText": "With the exception of the `useResource` + `class` combination, all Thunks are optional.\nThe main caveat is that if your resources will not update without a thunk -- or consuming\ntracked data within setup / initialization (which is done for you with `useFunction`).",
+				"text": " - The thunk is \"just a function\" that allows tracked data to be lazily consumed by the resource.\n\nNote that thunks are awkward when they aren't required -- they may even be awkward\nwhen they are required. Whenever possible, we should rely on auto-tracking, such as\nwhat [[trackedFunction]] provides.\n\nSo when and why are thunks needed?\n- when we want to manage reactivity *separately* from a calling context.\n- in many cases, the thunk is invoked during setup and update of various Resources,\n  so that the setup and update evaluations can \"entangle\" with any tracked properties\n  accessed within the thunk. This allows changes to those tracked properties to\n  cause the Resources to (re)update.\n\nThe args thunk accepts the following data shapes:\n```\n() => [an, array]\n() => ({ hello: 'there' })\n() => ({ named: {...}, positional: [...] })\n```\n\n#### An array\n\nwhen an array is passed, inside the Resource, `this.args.named` will be empty\nand `this.args.positional` will contain the result of the thunk.\n\n_for function resources, this is the only type of thunk allowed._\n\n#### An object of named args\n\nwhen an object is passed where the key `named` is not present,\n`this.args.named` will contain the result of the thunk and `this.args.positional`\nwill be empty.\n\n#### An object containing both named args and positional args\n\nwhen an object is passed containing either keys: `named` or `positional`:\n - `this.args.named` will be the value of the result of the thunk's `named` property\n - `this.args.positional` will be the value of the result of the thunk's `positional` property\n\nThis is the same shape of args used throughout Ember's Helpers, Modifiers, etc\n\n"
+			},
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "reflection",
+						"declaration": {
+							"id": 122,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 123,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "tuple"
+									}
+								}
+							]
+						}
+					},
+					{
+						"type": "reflection",
+						"declaration": {
+							"id": 124,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 125,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "void"
+									}
+								}
+							]
+						}
+					},
+					{
+						"type": "reflection",
+						"declaration": {
+							"id": 126,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 127,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "indexedAccess",
+										"indexType": {
+											"type": "literal",
+											"value": "positional"
+										},
+										"objectType": {
+											"type": "reference",
+											"typeArguments": [
+												{
+													"type": "reference",
+													"id": 111,
+													"name": "ArgsWrapper"
+												}
+											],
+											"qualifiedName": "Required",
+											"package": "typescript",
+											"name": "Required"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"type": "reflection",
+						"declaration": {
+							"id": 128,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 129,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "indexedAccess",
+										"indexType": {
+											"type": "literal",
+											"value": "named"
+										},
+										"objectType": {
+											"type": "reference",
+											"typeArguments": [
+												{
+													"type": "reference",
+													"id": 111,
+													"name": "ArgsWrapper"
+												}
+											],
+											"qualifiedName": "Required",
+											"package": "typescript",
+											"name": "Required"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"type": "reflection",
+						"declaration": {
+							"id": 130,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 131,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 111,
+										"name": "ArgsWrapper"
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": 50,
+			"name": "trackedFunction",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 51,
+					"name": "trackedFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "For use in the body of a class.\nConstructs a cached Resource that will reactively respond to tracked data changes",
+						"text": "Any tracked data accessed in a tracked function _before_ an `await`\nwill \"entangle\" with the function -- we can call these accessed tracked\nproperties, the \"tracked prelude\". If any properties within the tracked\npayload  change, the function will re-run.\n\n```js\nimport Component from '@glimmer/component';\nimport { tracked } from '@glimmer/tracking';\nimport { trackedFunction }  from 'ember-resources';\n\nclass Demo extends Component {\n  @tracked id = 1;\n\n  request = trackedFunction(this, async () => {\n    let response = await fetch(`https://swapi.dev/api/people/${this.id}`);\n    let data = await response.json();\n\n    return data; // { name: 'Luke Skywalker', ... }\n  });\n\n  updateId = (event) => this.id = event.target.value;\n\n  // Renders \"Luke Skywalker\"\n  <template>\n    {{this.request.value.name}}\n\n    <input value={{this.id}} {{on 'input' this.updateId}}>\n  </template>\n}\n```\n_Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]\n\n[rfc-799]: https://github.com/emberjs/rfcs/pull/779\n\n\n"
+					},
+					"typeParameter": [
+						{
+							"id": 52,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 53,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 52,
+										"name": "Return"
+									}
+								],
+								"name": "Vanilla"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 54,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 55,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 52,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										55
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 56,
+					"name": "trackedFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "For use in the body of a class.\nConstructs a cached Resource that will reactively respond to tracked data changes",
+						"text": "Any tracked data accessed in a tracked function _before_ an `await`\nwill \"entangle\" with the function -- we can call these accessed tracked\nproperties, the \"tracked prelude\". If any properties within the tracked\npayload  change, the function will re-run.\n\n```js\nimport Component from '@glimmer/component';\nimport { tracked } from '@glimmer/tracking';\nimport { trackedFunction }  from 'ember-resources';\n\nclass Demo extends Component {\n  @tracked id = 1;\n\n  request = trackedFunction(this, async () => {\n    let response = await fetch(`https://swapi.dev/api/people/${this.id}`);\n    let data = await response.json();\n\n    return data; // { name: 'Luke Skywalker', ... }\n  });\n\n  updateId = (event) => this.id = event.target.value;\n\n  // Renders \"Luke Skywalker\"\n  <template>\n    {{this.request.value.name}}\n\n    <input value={{this.id}} {{on 'input' this.updateId}}>\n  </template>\n}\n```\n_Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]\n\n[rfc-799]: https://github.com/emberjs/rfcs/pull/779\n\n\n"
+					},
+					"typeParameter": [
+						{
+							"id": 57,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 58,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 57,
+										"name": "Return"
+									}
+								],
+								"name": "WithInitialValue"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 59,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 60,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 57,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										60
+									]
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 61,
+			"name": "use",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 62,
+					"name": "use",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "decorator",
+								"text": "`@use`\n\n-------------\n\nThe `@use` decorator abstracts away the underlying reactivity configuration\nneeded to use a [[Resource]].\n`@use` can work with [[Resource]] or [[LifecycleResource]].\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nimport { use } from 'ember-resources';\nimport { SomeResource } from './some-resource';\n\nclass MyClass {\n  @use data = SomeResource.with(() => [arg list]);\n}\n```\n\nAll subclasses of [[Resource]] and [[LifecycleResource]] have a static method, `with`.\nThis `with` method takes the same argument Thunk you'll see throughout other usages\nof Resources in this document.\n\nThe `type` of `data` in this example will be an instance of `SomeResource`, so that\ntypescript is happy / correct.\n\n"
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 63,
+							"name": "_prototype",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "object"
+							}
+						},
+						{
+							"id": 64,
+							"name": "key",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 65,
+							"name": "descriptor",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isOptional": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "Descriptor"
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "void"
+					}
+				}
+			]
+		},
+		{
+			"id": 66,
+			"name": "useFunction",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 67,
+					"name": "useFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "use `trackedFunction` instead\n"
+							},
+							{
+								"tag": "description",
+								"text": "\n[[useFunction]] provides a way reactively call a function\nwhen args to that function change.\nFor use in the body of a class.\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport { useFunction } from 'ember-resources';\n\nclass StarWarsInfo {\n  // access result on info.value\n  info = useFunction(this, async (state, ...args) => {\n    if (state) {\n      let { characters } = state;\n\n      return { characters };\n    }\n\n    let [ids] = args;\n    let response = await fetch(`/characters/${ids}`) ;\n    let characters = await response.json();\n\n    return { characters };\n  }, () => [this.ids]) // this.ids defined somewhere\n}\n```\n\n> `characters` would be accessed via `this.info.value.characters` in the `StarWarsInfo` class\n\nWhile this example is a bit contrived, hopefully it demonstrates how the `state` arg\nworks. During the first invocation, `state` is falsey, allowing the rest of the\nfunction to execute. The next time `this.ids` changes, the function will be called\nagain, except `state` will be the `{ characters }` value during the first invocation,\nand the function will return the initial data.\n\nThis particular technique could be used to run any async function _safely_ (as long\nas the function doesn't interact with `this`).\n\nIn this example, where the function is `async`, the \"value\" of `info.value` is `undefined` until the\nfunction completes.\n\nTo help prevent accidental async footguns, even if a function is synchronous, it is still ran\nasynchronously, therefor, the thunk cannot be avoided.\n\n```ts\nimport { useFunction } from 'ember-resources';\n\nclass MyClass {\n  @tracked num = 3;\n\n  info = useFunction(this, () => {\n    return this.num * 2;\n  });\n}\n```\n\n`this.info.value` will be  `undefined`, then `6` and will not change when `num` changes.\n\n"
+							},
+							{
+								"tag": "example",
+								"text": "\nThese patterns are primarily unexplored so if you run in to any issues,\nplease [open a bug report / issue](https://github.com/NullVoxPopuli/ember-resources/issues/new).\n\nComposing class-based resources is expected to \"just work\", as classes maintain their own state.\n\n#### useFunction + useFunction\n\n```js\nimport Component from '@glimmer/component';\nimport { useFunction } from 'ember-resources';\n\nclass MyComponent extends Component {\n  rand = useFunction(this, () => {\n    return useFunction(this, () => Math.random());\n  });\n}\n```\nAccessing the result of `Math.random()` would be done via:\n```hbs\n{{this.rand.value.value}}\n```\n\nSomething to note about composing resources is that if arguments passed to the\nouter resource change, the inner resources are discarded entirely.\n\nFor example, you'll need to manage the inner resource's cache invalidation yourself if you want\nthe inner resource's behavior to be reactive based on outer arguments:\n\n<details><summary>Example data fetching composed functions</summary>\n\n```js\nimport Component from '@glimmer/component';\nimport { useFunction } from 'ember-resources';\n\nclass MyComponent extends Component {\n  @tracked id = 1;\n  @tracked storeName = 'blogs';\n\n  records = useFunction(this, (state, storeName) => {\n      let result: Array<string | undefined> = [];\n\n      if (state?.previous?.storeName === storeName) {\n        return state.previous.innerFunction;\n      }\n\n      let innerFunction = useFunction(this, (prev, id) => {\n        // pretend we fetched a record using the store service\n        let newValue = `record:${storeName}-${id}`;\n\n        result = [...(prev || []), newValue];\n\n        return result;\n        },\n        () => [this.id]\n      );\n\n      return new Proxy(innerFunction, {\n        get(target, key, receiver) {\n          if (key === 'previous') {\n            return {\n              innerFunction,\n              storeName,\n            };\n          }\n\n          return Reflect.get(target, key, receiver);\n        },\n      });\n    },\n    () => [this.storeName]\n  );\n}\n```\n```hbs\n{{this.records.value.value}} -- an array of \"records\"\n```\n\n\n</details>\n\n\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 68,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 69,
+							"name": "Args",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							},
+							"default": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 70,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 68,
+										"name": "Return"
+									},
+									{
+										"type": "reference",
+										"id": 69,
+										"name": "Args"
+									}
+								],
+								"name": "NonReactiveVanilla"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 71,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 72,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 68,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										72
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 73,
+					"name": "useFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {},
+					"typeParameter": [
+						{
+							"id": 74,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 75,
+							"name": "Args",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							},
+							"default": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 76,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 74,
+										"name": "Return"
+									},
+									{
+										"type": "reference",
+										"id": 75,
+										"name": "Args"
+									}
+								],
+								"name": "VanillaArgs"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 77,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 78,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 74,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										78
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 79,
+					"name": "useFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {},
+					"typeParameter": [
+						{
+							"id": 80,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 81,
+							"name": "Args",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							},
+							"default": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 82,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 80,
+										"name": "Return"
+									},
+									{
+										"type": "reference",
+										"id": 81,
+										"name": "Args"
+									}
+								],
+								"name": "WithInitialValueArgs"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 83,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 84,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 80,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										84
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 85,
+					"name": "useFunction",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {},
+					"typeParameter": [
+						{
+							"id": 86,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 87,
+							"name": "Args",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							},
+							"default": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 88,
+							"name": "passed",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isRest": true
+							},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 86,
+										"name": "Return"
+									},
+									{
+										"type": "reference",
+										"id": 87,
+										"name": "Args"
+									}
+								],
+								"name": "NonReactiveWithInitialValue"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 89,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 90,
+									"name": "value",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 86,
+										"name": "Return"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"kind": 1024,
+									"children": [
+										90
+									]
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 91,
+			"name": "useHelper",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 92,
+					"name": "useHelper",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "utility",
+								"text": "implemented with raw `invokeHelper` API, no classes from `ember-resources` used.\n\n-----------------------\n\nEnables the use of template-helpers in JavaScript\n\nNote that it should be preferred to use regular functions in javascript\nwhenever possible, as the runtime cost of \"things as resources\" is non-0.\nFor example, if using `@ember/component/helper` utilities, it's a common p\npractice to split the actual behavior from the framework construct\n```js\nexport function plainJs() {}\n\nexport default helper(() => plainJs())\n```\nso in this case `plainJs` can be used separately.\n\nThis differentiation makes less of a difference since\n[plain functions as helpers](https://github.com/emberjs/rfcs/pull/756)\nwill be supported soon.\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nimport intersect from 'ember-composable-helpers/addon/helpers/intersect';\n\nimport { useHelper } from 'ember-resources';\n\nclass Demo {\n  @tracked listA = [...];\n  @tracked listB = [...]\n\n  intersection = useHelper(this, intersect, () => [this.listA, this.listB])\n\n  toString = (array) => array.join(', ');\n}\n```\n```hbs\n{{this.toString this.intersection.value}}\n```\n"
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 93,
+							"name": "context",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "object"
+							}
+						},
+						{
+							"id": 94,
+							"name": "helper",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"qualifiedName": "HelperSignature",
+												"package": "@types/ember__component",
+												"name": "HelperSignature"
+											}
+										],
+										"qualifiedName": "Helper",
+										"package": "@types/ember__component",
+										"name": "default"
+									},
+									{
+										"type": "reference",
+										"typeArguments": [
+											{
+												"type": "reflection",
+												"declaration": {
+													"id": 95,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {}
+												}
+											}
+										],
+										"qualifiedName": "FunctionBasedHelper",
+										"package": "@types/ember__component",
+										"name": "FunctionBasedHelper"
+									}
+								]
+							}
+						},
+						{
+							"id": 96,
+							"name": "thunk",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 121,
+								"name": "Thunk"
+							},
+							"defaultValue": "DEFAULT_THUNK"
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 97,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 98,
+									"name": "value",
+									"kind": 262144,
+									"kindString": "Accessor",
+									"flags": {},
+									"getSignature": [
+										{
+											"id": 99,
+											"name": "value",
+											"kind": 524288,
+											"kindString": "Get signature",
+											"flags": {},
+											"type": {
+												"type": "intrinsic",
+												"name": "unknown"
+											}
+										}
+									]
+								}
+							],
+							"groups": [
+								{
+									"title": "Accessors",
+									"kind": 262144,
+									"children": [
+										98
+									]
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 100,
+			"name": "useResource",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 101,
+					"name": "useResource",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "For use in the body of a class.",
+						"text": "`useResource` takes either a [[Resource]] or [[LifecycleResource]] and an args [[Thunk]].\n\n`useResource` is what allows _Resources_ to be used in JS, they hide the reactivity APIs\nfrom the consumer so that the surface API is smaller. Though, from an end-user-api\nergonomics perspective, you wouldn't typically want to rely on this. As in\n[ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)\nthe useResource + Resource class are coupled together in to more meaningful APIs --\nallowing only a single import in most cases.\n\n```ts\nimport { useResource } from 'ember-resources';\n\nclass MyClass {\n  data = useResource(this, SomeResource, () => [arg list]);\n}\n```\n\nWhen any tracked data in the args thunk is updated, the Resource will be updated as well\n\n - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.\n - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards\n   access to the data, like:\n   ```hbs\n   {{#if this.isModalShowing}}\n      <Modal>{{this.data.someProperty}}</Modal>\n   {{/if}}\n   ```\n   the Resource will not be instantiated until `isModalShowing` is true.\n\n - For more info on Thunks, scroll to the bottom of the README\n"
+					},
+					"typeParameter": [
+						{
+							"id": 102,
+							"name": "Instance",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 1,
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "any"
+									},
+									{
+										"type": "reference",
+										"id": 102,
+										"name": "Instance"
+									}
+								],
+								"name": "LifecycleResource"
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 103,
+							"name": "context",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "object"
+							}
+						},
+						{
+							"id": 104,
+							"name": "klass",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 102,
+										"name": "Instance"
+									}
+								],
+								"name": "Constructable"
+							}
+						},
+						{
+							"id": 105,
+							"name": "thunk",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isOptional": true
+							},
+							"type": {
+								"type": "reference",
+								"id": 121,
+								"name": "Thunk"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 102,
+						"name": "Instance"
+					}
+				},
+				{
+					"id": 106,
+					"name": "useResource",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "For use in the body of a class.\nConstructs a cached Resource that will reactively respond to tracked data changes"
+					},
+					"typeParameter": [
+						{
+							"id": 107,
+							"name": "Instance",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 20,
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "any"
+									},
+									{
+										"type": "reference",
+										"id": 107,
+										"name": "Instance"
+									}
+								],
+								"name": "Resource"
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 108,
+							"name": "context",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "object"
+							}
+						},
+						{
+							"id": 109,
+							"name": "klass",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 107,
+										"name": "Instance"
+									}
+								],
+								"name": "Constructable"
+							}
+						},
+						{
+							"id": 110,
+							"name": "thunk",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isOptional": true
+							},
+							"type": {
+								"type": "reference",
+								"id": 121,
+								"name": "Thunk"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 107,
+						"name": "Instance"
+					}
+				}
+			]
+		},
+		{
+			"id": 40,
+			"name": "useTask",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"signatures": [
+				{
+					"id": 41,
+					"name": "useTask",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "utility",
+								"text": "uses [[LifecycleResource]] to make ember-concurrency tasks reactive.\n\n-------------------------\n"
+							},
+							{
+								"tag": "note",
+								"text": "`ember-resources` does not provide or depend on ember-concurrency.\nIf you want to use [[useTask]], you'll need to add ember-concurrency as a dependency\nin your project.\n"
+							},
+							{
+								"tag": "example",
+								"text": "\n When `this.id` changes, the task will automatically be re-invoked.\n```js\nimport { tracked } from '@glimmer/tracking';\nimport { task, timeout } from 'ember-concurrency';\nimport { useTask } from 'ember-resources';\n\nclass Demo {\n  @tracked id = 1;\n\n  last = useTask(this, this.searchTask, () => [this.id]);\n\n  @task\n  *searchTask(id) {\n    yield timeout(200);\n    yield fetch('...');\n\n    return 'the-value';\n  }\n}\n```\n```hbs\nAvailable Properties:\n {{this.last.value}}\n {{this.last.isFinished}}\n {{this.last.isRunning}}\n {{this.last.value}}\n```\n (and all other properties on a [TaskInstance](https://ember-concurrency.com/api/TaskInstance.html))\n\n\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 42,
+							"name": "Return",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						},
+						{
+							"id": 43,
+							"name": "Args",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							},
+							"default": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "unknown"
+								}
+							}
+						},
+						{
+							"id": 44,
+							"name": "LocalTask",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 43,
+										"name": "Args"
+									},
+									{
+										"type": "reference",
+										"id": 42,
+										"name": "Return"
+									},
+									{
+										"type": "reference",
+										"id": 44,
+										"name": "LocalTask"
+									}
+								],
+								"name": "TaskIsh"
+							},
+							"default": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 43,
+										"name": "Args"
+									},
+									{
+										"type": "reference",
+										"id": 42,
+										"name": "Return"
+									}
+								],
+								"name": "TaskIsh"
+							}
+						}
+					],
+					"parameters": [
+						{
+							"id": 45,
+							"name": "context",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "object"
+							}
+						},
+						{
+							"id": 46,
+							"name": "task",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 44,
+								"name": "LocalTask"
+							}
+						},
+						{
+							"id": 47,
+							"name": "thunk",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isOptional": true
+							},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 48,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 49,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 43,
+												"name": "Args"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 42,
+								"name": "Return"
+							}
+						],
+						"name": "TaskInstance"
+					}
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Classes",
+			"kind": 128,
+			"children": [
+				1,
+				20
+			]
+		},
+		{
+			"title": "Interfaces",
+			"kind": 256,
+			"children": [
+				111,
+				114,
+				118
+			]
+		},
+		{
+			"title": "Type aliases",
+			"kind": 4194304,
+			"children": [
+				121
+			]
+		},
+		{
+			"title": "Functions",
+			"kind": 64,
+			"children": [
+				50,
+				61,
+				66,
+				91,
+				100,
+				40
+			]
+		}
+	]
+}

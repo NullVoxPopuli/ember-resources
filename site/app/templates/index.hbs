@@ -1,0 +1,66 @@
+<div class="px-4 py-12 overflow-hidden text-center md:pt-24 md:pb-30">
+  <div class="max-w-4xl md:mx-auto">
+
+    <div class="flex items-center justify-center">
+      <Illustration class="w-52 mb-10" />
+    </div>
+
+    <h2
+      class="mb-6 text-4xl md:mx-auto md:text-5xl font-semibold italic tracking-tighter"
+    >
+      Glimmer Apollo
+
+    </h2>
+    <p class="text-gray-700 dark:text-gray-300 max-w-200 text-lg md:mx-auto">
+      Glimmer Apollo integrates GraphQL in your Ember and Glimmer apps using
+      Apollo Client.
+    </p>
+
+    <LinkTo
+      @route="docs"
+      class="inline-flex text-xl items-center px-6 py-4 mt-10 font-semibold text-black bg-primary-500 rounded hover:bg-primary-400 outline-none focus-visible:ring"
+    >
+      Get Started
+      <svg
+        class="w-4 ml-2"
+        viewBox="0 0 14 13"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M7.25647 0.256191C7.42056 0.0921521 7.64308 0 7.8751 0C8.10713 0 8.32965 0.0921521 8.49374 0.256191L13.7438 5.50626C13.9078 5.67035 14 5.89287 14 6.12489C14 6.35692 13.9078 6.57944 13.7438 6.74353L8.49374 11.9936C8.32871 12.153 8.10768 12.2412 7.87825 12.2392C7.64883 12.2372 7.42937 12.1452 7.26713 11.9829C7.1049 11.8207 7.01287 11.6012 7.01088 11.3718C7.00889 11.1424 7.09708 10.9214 7.25647 10.7563L11.0129 6.99991H0.875012C0.642944 6.99991 0.420381 6.90772 0.256285 6.74362C0.0921884 6.57952 0 6.35696 0 6.12489C0 5.89283 0.0921884 5.67026 0.256285 5.50617C0.420381 5.34207 0.642944 5.24988 0.875012 5.24988H11.0129L7.25647 1.49346C7.09243 1.32937 7.00028 1.10685 7.00028 0.874825C7.00028 0.642803 7.09243 0.42028 7.25647 0.256191Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    </LinkTo>
+  </div>
+</div>
+
+<div
+  class="grid grid-cols-1 md:grid-cols-3 gap-10 px-4 py-10 max-w-screen-lg mx-auto border-t border-gray-300 dark:border-gray-700"
+>
+  <div>
+    <h3 class="text-xl pb-4 font-bold">Reactive</h3>
+    <p class="text-gray-700 dark:text-gray-300">
+      Queries are automatically re-executed when arguments change. The UI
+      reflects any changes when cache data is updated.
+    </p>
+  </div>
+  <div>
+    <h3 class="text-xl pb-4 font-bold">Declarative API</h3>
+    <p class="text-gray-700 dark:text-gray-300">
+      Glimmer's auto-tracking system allows for simple and declarative APIs. We
+      use the Resource pattern for forward-looking API.
+    </p>
+  </div>
+  <div>
+    <h3 class="text-xl pb-4 font-bold">TypeScript</h3>
+    <p class="text-gray-700 dark:text-gray-300">
+      It's written in TypeScript, allowing APIs to specify the shape of the
+      result data and variables. It also provides friendly IntelliSense while
+      coding.
+    </p>
+  </div>
+</div>
