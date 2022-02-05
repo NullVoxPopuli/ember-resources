@@ -11,7 +11,7 @@
     "test": "tests"
   },
   "scripts": {
-    "docs:collect": "typedoc --options ./typedoc.config.json ../../ember-resources/src/index.ts",
+    "docs:collect": "typedoc --options ./typedoc.config.json ../ember-resources/src/index.ts",
     "docs:watch": "yarn docs:collect --watch",
     "build": "ember build --environment=production",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",

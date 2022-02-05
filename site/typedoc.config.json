@@ -1,5 +1,5 @@
 {
-  "tsconfig": "../../ember-resources/tsconfig.json",
+  "tsconfig": "../ember-resources/tsconfig.json",
   "readme": "../README.md",
   "exclude": [],
   "json": "./public/docs.json",
