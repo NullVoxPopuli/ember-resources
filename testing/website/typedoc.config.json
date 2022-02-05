@@ -1,9 +1,8 @@
 {
-  "tsconfig": "../ember-resources/tsconfig.json",
+  "tsconfig": "../../ember-resources/tsconfig.json",
   "readme": "../README.md",
   "exclude": [],
-  "json": "./docs.json",
-  "out": "dist",
+  "json": "./public/docs.json",
   "pretty": true,
   "excludePrivate": true,
   "excludeProtected": false,
