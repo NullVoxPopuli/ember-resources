@@ -10,7 +10,9 @@ import { assert } from '@ember/debug';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
+import { get } from '@ember/object';
 
+// import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 import { TASK, TaskResource } from './resources/ember-concurrency-task';
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
@@ -118,19 +120,52 @@ export function proxyClass<
     LocalTask
   >
 >(target: { value: Instance }) {
+  /*
+   * This proxy defaults to returning the underlying data on
+   * the task runner when '.value' is accessed.
+   *
+   * When working with ember-concurrency tasks, users have the expectation
+   * that they'll be able to inspect the status of the tasks, such as
+   * `isRunning`, `isFinished`, etc.
+   *
+   * To support that, we need to proxy to the `currentTask`.
+   *
+   */
   return new Proxy(target, {
     get(target, key): unknown {
       const taskRunner = target.value;
+      const instance = taskRunner.currentTask;
+
+      if (typeof key === 'string') {
+        /**
+         * In ember-concurrency@v1, the reactivity is whacky, and
+         * we have to do extra work to make the overall API for ember-resources
+         * the same
+         */
+        // See: https://github.com/embroider-build/embroider/issues/1111
+        // if (macroCondition(dependencySatisfies('ember-concurrency', '^1.0.0'))) {
+        // let { get } = importSync('@ember/object') as any;
+
+        // in ember-concurrency@v1, value is not consumable tracked data
+        // until the task is resolved, so we need to consume the isRunning
+        // property so that value updates
+        // eslint-disable-next-line ember/no-get
+        get(taskRunner.currentTask, 'isRunning');
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        get(taskRunner.currentTask, key);
+      }
 
       if (key === 'value') {
         /**
-         * getter than fallsback to the previous task's value
+         * getter than falls back to the previous task's value
          */
         return taskRunner.value;
       }
 
-      const instance = taskRunner.currentTask;
-
+      /**
+       * If the key is anything other than value, query on the currentTask
+       */
       const value = Reflect.get(instance as object, key, instance);
 
       return typeof value === 'function' ? value.bind(instance) : value;
