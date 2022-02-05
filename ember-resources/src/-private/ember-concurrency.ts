@@ -11,7 +11,7 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+import { dependencySatisfies, importSync } from '@embroider/macros';
 
 import { TASK, TaskResource } from './resources/ember-concurrency-task';
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
@@ -141,7 +141,7 @@ export function proxyClass<
        * we have to do extra work to make the overall API for ember-resources
        * the same
        */
-      if (macroCondition(dependencySatisfies('ember-concurrency', '^1.0.0'))) {
+      if (dependencySatisfies('ember-concurrency', '^1.0.0')) {
         if (typeof key === 'string') {
           let { get } = importSync('@ember/object') as any;
 
