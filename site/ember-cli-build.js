@@ -1,10 +1,18 @@
 'use strict';
 
+// Enable FastBoot Rehydration
+process.env.EXPERIMENTAL_RENDER_MODE_SERIALIZE = true;
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
-    // Add options here
+    prember: {
+      urls: ['/']
+    },
+    fastboot: {
+      hostWhitelist: [/^localhost:\d+$/]
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

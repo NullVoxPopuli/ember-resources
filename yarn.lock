@@ -1654,7 +1654,15 @@
     walk-sync "^3.0.0"
     yargs "^17.0.1"
 
-"@embroider/addon-shim@1.0.0", "@embroider/addon-shim@^0.50.0", "@embroider/addon-shim@^1.0.0":
+"@embroider/addon-shim@^0.50.0":
+  version "0.50.2"
+  resolved "https://registry.npmjs.org/@embroider/addon-shim/-/addon-shim-0.50.2.tgz#9be2ed8cee1086cef63c5baecf8dde8dcdacc24e"
+  integrity sha512-a+pFlXZPovcCNFo05HxXBW9ole43mPyFZnkhvZlLF0f1sHEn9j0sD1Ld2BM/NCERmHcYz9eXQnX1FPNLCDoGEA==
+  dependencies:
+    "@embroider/shared-internals" "^0.50.2"
+    semver "^7.3.5"
+
+"@embroider/addon-shim@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@embroider/addon-shim/-/addon-shim-1.0.0.tgz#e56327dd46ccbf87f82729614bafd07b88cb298c"
   integrity sha512-RkUkQDe56M/15pA7rAL9mTdxYnw/MukQYM2JcJ+9x8mTjkFc6mRnuHVdjVt/r6mUw9YG6FvN3G5nIadsDdXTyQ==
@@ -1731,6 +1739,19 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-1.0.0.tgz#b081708ac79e4582f17ba0f3e3796e6612a8976c"
   integrity sha512-Vx3dmejJxI5MG/qC7or3EUZY0AZBSBNOAR50PYotX3LxUSb4lAm5wISPnFbwEY4bbo2VhL/6XtWjMv8ZMcaP+g==
+  dependencies:
+    babel-import-util "^1.1.0"
+    ember-rfc176-data "^0.3.17"
+    fs-extra "^9.1.0"
+    lodash "^4.17.21"
+    resolve-package-path "^4.0.1"
+    semver "^7.3.5"
+    typescript-memoize "^1.0.1"
+
+"@embroider/shared-internals@^0.50.2":
+  version "0.50.2"
+  resolved "https://registry.npmjs.org/@embroider/shared-internals/-/shared-internals-0.50.2.tgz#567c5451db31a1f3edc2f64376ce5a0dcaaabacb"
+  integrity sha512-l3SKn1YdxTFBjY3ylYTLHxFY0dG2XxIsjbtZt7Mm6QyZFssWBDg3oWYwBoUpkw/ysjNJf8IcI7reXhB23WXwDw==
   dependencies:
     babel-import-util "^1.1.0"
     ember-rfc176-data "^0.3.17"
@@ -2451,6 +2472,15 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@tailwindcss/typography@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/@tailwindcss/typography/-/typography-0.5.1.tgz#486248a9426501f11a9b0295f7cfc0eb29659c46"
+  integrity sha512-AmSzZSgLhHKlILKduU+PKBTHL6c+al82syZlRid1xgmlWwXagLigO+O++B4C0scpMfzW//f/3YCRcwwEHWoU3w==
+  dependencies:
+    lodash.castarray "^4.4.0"
+    lodash.isplainobject "^4.0.6"
+    lodash.merge "^4.6.2"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -2811,13 +2841,6 @@
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
-
-"@types/hast@^2.0.0":
-  version "2.3.4"
-  resolved "https://registry.npmjs.org/@types/hast/-/hast-2.3.4.tgz#8aa5ef92c117d20d974a82bdfb6a648b08c0bafc"
-  integrity sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==
-  dependencies:
-    "@types/unist" "*"
 
 "@types/htmlbars-inline-precompile@*", "@types/htmlbars-inline-precompile@^3.0.0":
   version "3.0.0"
@@ -13784,15 +13807,13 @@ rehype-stringify@^8.0.0:
   dependencies:
     hast-util-to-html "^7.1.1"
 
-remark-autolink-headings@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.npmjs.org/remark-autolink-headings/-/remark-autolink-headings-6.1.0.tgz#45fa1f8860e0fc6b78bcbc4b0f5d5dd696170e04"
-  integrity sha512-oeMSIfjaNboWPDVKahQAjF8iJ8hsz5aI8KFzAmmBdznir7zBvkgUjYE/BrpWvd02DCf/mSQ1IklznLkl3dVvZQ==
+remark-autolink-headings@^5.0.0:
+  version "5.2.2"
+  resolved "https://registry.npmjs.org/remark-autolink-headings/-/remark-autolink-headings-5.2.2.tgz#6ff4682b43a1614c8ba343627abe3d9805173677"
+  integrity sha512-rEbbStDy8BAd020/fhLCRRY9hPQE1HxffH2ou6s0S4nsk1lQMVQF/CJmbWIrwX4R3p7kpc1gvHAswJ0+WrzuXw==
   dependencies:
-    "@types/hast" "^2.0.0"
-    extend "^3.0.0"
-    unified "^9.0.0"
-    unist-util-visit "^2.0.0"
+    extend "^3.0.2"
+    unist-util-visit "^1.0.1"
 
 remark-code-titles@^0.1.2:
   version "0.1.2"
@@ -15916,7 +15937,7 @@ unist-util-visit-parents@^3.0.0:
     "@types/unist" "^2.0.0"
     unist-util-is "^4.0.0"
 
-unist-util-visit@^1.1.0, unist-util-visit@^1.4.0:
+unist-util-visit@^1.0.1, unist-util-visit@^1.1.0, unist-util-visit@^1.4.0:
   version "1.4.1"
   resolved "https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-1.4.1.tgz#4724aaa8486e6ee6e26d7ff3c8685960d560b1e3"
   integrity sha512-AvGNk7Bb//EmJZyhtRUnNMEpId/AZ5Ph/KUpTI09WHQuDZHKovQ1oEv3mfmKpWKtoMzyMC4GLBm1Zy5k12fjIw==
