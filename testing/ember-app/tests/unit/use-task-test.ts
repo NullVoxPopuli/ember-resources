@@ -351,7 +351,17 @@ module('useTask', function () {
     });
   }
 
-  module(`ember-concurrency's TaskInstance API`, function (hooks) {
+  let version;
+
+  if (dependencySatisfies('ember-concurrency', '^2.0.0')) {
+    version = '^2.0.0';
+  } else if (dependencySatisfies('ember-concurrency', '^1.0.0')) {
+    version = '^1.0.0';
+  } else {
+    version = 'unknown version';
+  }
+
+  module(`ember-concurrency's TaskInstance API :: ${version}`, function (hooks) {
     setupRenderingTest(hooks);
 
     let onError = window.onerror;
