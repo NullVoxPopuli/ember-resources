@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.0...v4.3.1) (2022-02-05)
+
+
+### Bug Fixes
+
+* **useTask:** provide better ember-concurrency@v1 support ([eb7387e](https://github.com/NullVoxPopuli/ember-resources/commit/eb7387e32e639388a557fa34de50ddc799770ba8))
+
 # [4.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.2.0...v4.3.0) (2022-02-03)
 
 
