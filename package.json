@@ -14,9 +14,6 @@
     "start:docs": "yarn build:docs --watch",
     "prepare": "yarn build"
   },
-  "resolutions": {
-    "@embroider/addon-shim": "1.0.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
