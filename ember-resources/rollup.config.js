@@ -17,7 +17,7 @@ const rollupConfig = {
 
   // This provides defaults that work well alongside `publicEntrypoints` below.
   // You can augment this if you need to.
-  output: { ...addon.output(), entryFileNames: '[name].js' },
+  output: { ...addon.output(), entryFileNames: '[name].js', sourcemap: true },
 
   plugins: [
     // this is needed so we can have files that import other files...

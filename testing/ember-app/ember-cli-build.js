@@ -9,6 +9,9 @@ module.exports = function (defaults) {
     // Add options here
     autoImport: {
       watchDependencies: Object.keys(packageJson.dependencies),
+      webpack: {
+        devtool: 'inline-source-map',
+      },
     },
   });
 

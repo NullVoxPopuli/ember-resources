@@ -42,7 +42,13 @@
     "@embroider/macros": "^1.0.0"
   },
   "peerDependencies": {
-    "@ember/test-waiters": "^3.0.0"
+    "@ember/test-waiters": "^3.0.0",
+    "ember-concurrency": "^1.0.0 || ^2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "ember-concurrency": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/core": "7.17.0",
