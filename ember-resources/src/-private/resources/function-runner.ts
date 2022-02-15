@@ -57,20 +57,11 @@ export class TrackedFunctionRunner<
     let value = fn(previousValue, ...[]);
 
     // disconnect from the tracking frame, no matter the type of function
-    await Promise.resolve();
+    // and resolve value if promise
+    value = await Promise.resolve(value);
 
     if (isDestroying(this) || isDestroyed(this)) {
       return;
-    }
-
-    if (typeof value === 'object' && 'then' in value) {
-      // value is actually a promise, so we don't want to return
-      // an unresolved promise.
-      value = await value;
-
-      if (isDestroying(this) || isDestroyed(this)) {
-        return;
-      }
     }
 
     this[SECRET_VALUE] = value;
