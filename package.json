@@ -15,7 +15,7 @@
     "prepare": "yarn build"
   },
   "resolutions": {
-    "@embroider/addon-shim": "1.0.0"
+    "@embroider/addon-shim": "1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
