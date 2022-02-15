@@ -39,8 +39,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@embroider/addon-shim": "^1.0.0",
-    "@embroider/macros": "^1.0.0"
+    "@embroider/addon-shim": "^1.2.0",
+    "@embroider/macros": "^1.2.0"
   },
   "peerDependencies": {
     "@ember/test-waiters": "^3.0.0"
@@ -51,7 +51,7 @@
     "@babel/plugin-proposal-decorators": "7.17.2",
     "@babel/plugin-syntax-decorators": "7.17.0",
     "@babel/preset-typescript": "7.16.7",
-    "@embroider/addon-dev": "1.0.0",
+    "@embroider/addon-dev": "1.2.0",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
     "@rollup/plugin-babel": "5.3.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
