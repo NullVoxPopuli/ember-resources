@@ -14554,9 +14554,7 @@ typedoc-plugin-markdown-pages@^0.3.0:
   integrity sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==
 
 typedoc-plugin-markdown@^3.11.11:
-  version "3.11.13"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-3.11.13.tgz#d0c937d60bd58b117fa6600a99b9278bcc251fae"
-  integrity sha512-9Y7eWWmUF5i8LMfetPlOP+kTn5L3Q71fm/AUHZhxWYoAiugbybQujhjQk4h09uY2WghPP2BldOivtTxnOwj85A==
+  version: "3.11.14"
   dependencies:
     handlebars "^4.7.7"
 
