@@ -6,7 +6,7 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 
 - [Installation](#installation)
 - [What is a Resource?](#what-is-a-resource)
-- [API Documentation](./modules.html)
+- [API Documentation](https://ember-resources.pages.dev/modules)
 <!-- - [Examples](./examples) -->
 <!-- - [Testing]('./testing') -->
 - [Contributing](#contributing)
