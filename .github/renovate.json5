@@ -93,6 +93,15 @@
       ]
     },
     {
+      // We will handle this ourselves
+      "groupName": "Automated Release Dependencies",
+      "enabled": false,
+      "packagePatterns": [
+        "@semantic-release*",
+        "semantic-release*"
+      ]
+    },
+    {
       // changing peerDependencies *at all* is a breaking change
       "matchDepTypes": ["peerDependencies"],
       "enabled": false
