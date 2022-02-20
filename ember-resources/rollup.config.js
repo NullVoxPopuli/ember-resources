@@ -10,7 +10,7 @@ const addon = new Addon({
 });
 
 export default defineConfig({
-  output: addon.output(),
+  output: { ...addon.output(), sourcemap: true },
   plugins: [
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
@@ -22,7 +22,8 @@ export default defineConfig({
     addon.appReexports([
       'components/**/*.{js,ts}',
       'instance-initializers/**/*.{js,ts}',
-      'initializers/**/*.{js,ts}', 'instance-initializers/**/*.{js,ts}'
+      'initializers/**/*.{js,ts}',
+      'instance-initializers/**/*.{js,ts}',
     ]),
     // This babel config should *not* apply presets or compile away ES modules.
     // It exists only to provide development niceties for you, like automatic
