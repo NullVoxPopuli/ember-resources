@@ -25,5 +25,7 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  return app.toTree();
+  const { maybeEmbroider } = require('@embroider/test-setup');
+
+  return maybeEmbroider(app);
 };

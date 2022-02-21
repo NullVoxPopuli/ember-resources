@@ -80,8 +80,28 @@ module.exports = async function () {
           },
         },
       },
-      embroiderSafe(),
-      embroiderOptimized(),
+      embroiderSafe({
+        npm: {
+          dependencies: {
+            'ember-auto-import': '^2.0.0',
+          },
+          devDependencies: {
+            'ember-source': await getChannelURL('release'),
+            webpack: '^5.0.0',
+          },
+        },
+      }),
+      embroiderOptimized({
+        npm: {
+          dependencies: {
+            'ember-auto-import': '^2.0.0',
+          },
+          devDependencies: {
+            'ember-source': await getChannelURL('release'),
+            webpack: '^5.0.0',
+          },
+        },
+      }),
     ],
   };
 };
