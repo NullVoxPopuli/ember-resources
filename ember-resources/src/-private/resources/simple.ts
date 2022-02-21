@@ -1,7 +1,7 @@
 // typed-ember has not published types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { createCache, getValue } from '@glimmer/tracking/primitives/cache.js';
+import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { getOwner, setOwner } from '@ember/application';
 import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // typed-ember has not published types for this yet

@@ -2,7 +2,7 @@
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { getValue } from '@glimmer/tracking/primitives/cache.js';
+import { getValue } from '@glimmer/tracking/primitives/cache';
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
