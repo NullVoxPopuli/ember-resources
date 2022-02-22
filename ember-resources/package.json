@@ -7,7 +7,6 @@
   "description": "An implementation of Resources with some helpful utilities",
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
-  "type": "module",
   "main": "dist/index.js",
   "types": "declarations",
   "author": "NullVoxPopuli",
