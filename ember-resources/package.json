@@ -25,7 +25,6 @@
     "start": "rollup -c --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
     "build:js": "rollup -c",
-    "build:types": "tsc --build",
     "build:docs": "cp ../README.md ./README.md",
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
