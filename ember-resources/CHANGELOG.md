@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.1...v4.3.2) (2022-02-22)
+
+
+### Bug Fixes
+
+* **package:** remove type:module for embroider compat ([635404c](https://github.com/NullVoxPopuli/ember-resources/commit/635404c33a6d1002a58579d70a049e47130b6799))
+
 ## [4.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.0...v4.3.1) (2022-02-05)
 
 
