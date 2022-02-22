@@ -102,6 +102,13 @@
       ]
     },
     {
+      // Max Semver compatibility
+      "packagePatterns": [
+        "@ember/test-waiters"
+      ],
+      "rangeStrategy": "widen"
+    },
+    {
       // changing peerDependencies *at all* is a breaking change
       "matchDepTypes": ["peerDependencies"],
       "enabled": false
