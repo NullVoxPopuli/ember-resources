@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@embroider/macros": "^1.2.0",
+    "@ember/test-waiters": "^3.0.1",
     "ember-concurrency": "^2.0.0",
     "ember-concurrency-ts": "^0.3.1",
     "ember-resources": "*"
@@ -31,7 +32,6 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",
-    "@ember/test-waiters": "^3.0.1",
     "@embroider/test-setup": "^1.2.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",

@@ -7,7 +7,6 @@
   "description": "An implementation of Resources with some helpful utilities",
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
-  "type": "module",
   "main": "dist/index.js",
   "types": "declarations",
   "author": "NullVoxPopuli",
@@ -26,7 +25,6 @@
     "start": "rollup -c --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
     "build:js": "rollup -c",
-    "build:types": "tsc --build",
     "build:docs": "cp ../README.md ./README.md",
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
@@ -40,9 +38,7 @@
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.2.0",
-    "@embroider/macros": "^1.2.0"
-  },
-  "peerDependencies": {
+    "@embroider/macros": "^1.2.0",
     "@ember/test-waiters": "^3.0.0"
   },
   "devDependencies": {
