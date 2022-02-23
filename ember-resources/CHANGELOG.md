@@ -1,3 +1,10 @@
+## [4.3.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.2...v4.3.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* types field in package.json now correctly points at the new file ([f3ab39c](https://github.com/NullVoxPopuli/ember-resources/commit/f3ab39c7d75b89b3aa041a0e648fb45015dc8592))
+
 ## [4.3.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.1...v4.3.2) (2022-02-22)
 
 
