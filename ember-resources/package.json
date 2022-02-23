@@ -8,7 +8,7 @@
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "declarations",
+  "types": "dist/index.d.ts",
   "author": "NullVoxPopuli",
   "directories": {
     "doc": "doc",
