@@ -13,11 +13,25 @@ env:
   CI: true
 
 jobs:
+  build_test:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    name: Base Tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+      - run: yarn install
+      - run: yarn test
+        working-directory: ./testing/build
+
+
   tests:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     name: Base Tests
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    needs: [build_test]
     strategy:
       matrix:
         node:
