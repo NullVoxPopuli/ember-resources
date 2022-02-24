@@ -19,7 +19,8 @@ export default defineConfig({
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
     // not everything in publicEntrypoints necessarily needs to go here.
-    addon.appReexports([]),
+    // addon.appReexports([]),
+
     // This babel config should *not* apply presets or compile away ES modules.
     // It exists only to provide development niceties for you, like automatic
     // template colocation.
@@ -42,7 +43,7 @@ export default defineConfig({
     addon.dependencies(),
 
     // Ensure that standalone .hbs files are properly integrated as Javascript.
-    addon.hbs(),
+    // addon.hbs(),
 
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.
