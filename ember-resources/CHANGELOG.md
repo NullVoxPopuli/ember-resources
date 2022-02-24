@@ -1,3 +1,10 @@
+## [4.3.5](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.4...v4.3.5) (2022-02-24)
+
+
+### Bug Fixes
+
+* **types:** export TaskInstance and TaskIsh for ts-consumers ([96b8d64](https://github.com/NullVoxPopuli/ember-resources/commit/96b8d64087ff12058729d4dc52df5460651ae0fb))
+
 ## [4.3.4](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.3...v4.3.4) (2022-02-24)
 
 
