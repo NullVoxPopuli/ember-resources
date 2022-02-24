@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.5...v4.4.0) (2022-02-24)
+
+
+### Features
+
+* add declaration maps ([eff33e4](https://github.com/NullVoxPopuli/ember-resources/commit/eff33e4e813e6a32764f2da26747f6a7f1e5f5a7))
+
 ## [4.3.5](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.4...v4.3.5) (2022-02-24)
 
 
