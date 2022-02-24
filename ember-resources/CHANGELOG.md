@@ -1,3 +1,10 @@
+## [4.3.4](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.3...v4.3.4) (2022-02-24)
+
+
+### Bug Fixes
+
+* `@ember/test-waiters` must be a peer dependency ([01866c7](https://github.com/NullVoxPopuli/ember-resources/commit/01866c7a251bc41e13b8db830bbea316285cfb4b)), closes [/github.com/NullVoxPopuli/ember-resources/issues/403#issuecomment-1048404119](https://github.com//github.com/NullVoxPopuli/ember-resources/issues/403/issues/issuecomment-1048404119)
+
 ## [4.3.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.2...v4.3.3) (2022-02-23)
 
 
