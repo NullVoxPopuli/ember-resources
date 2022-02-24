@@ -33,7 +33,12 @@ export default defineConfig({
       browserslist: ['last 2 firefox versions', 'last 2 chrome versions'],
       tsconfig: {
         fileName: 'tsconfig.json',
-        hook: (config) => ({ ...config, declaration: true, declarationDir: 'dist' }),
+        hook: (config) => ({
+          ...config,
+          declaration: true,
+          declarationDir: 'dist',
+          declarationMap: true,
+        }),
       },
     }),
 
