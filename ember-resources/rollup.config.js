@@ -43,7 +43,7 @@ export default defineConfig({
     addon.dependencies(),
 
     // Ensure that standalone .hbs files are properly integrated as Javascript.
-    addon.hbs(),
+    // addon.hbs(),
 
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.

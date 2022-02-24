@@ -14,7 +14,7 @@ env:
 
 jobs:
   build_test:
-    name: Base Tests
+    name: Build Tests
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
