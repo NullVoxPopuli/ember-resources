@@ -15,4 +15,7 @@ export type { ArgsWrapper, Named, Positional } from './-private/types';
 
 // Protected Type Utilities that need to be documented,
 // but hopefully shouldn't be used in consuming apps.
+// These types may *need* to be exported for folks relying on
+// inference
+export type { TaskInstance, TaskIsh } from './-private/resources/ember-concurrency-task';
 export type { Thunk } from './-private/types';
