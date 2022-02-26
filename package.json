@@ -9,10 +9,10 @@
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
-    "build": "yarn workspace ember-resources build",
-    "build:docs": "yarn workspace docs docs:collect",
-    "start:docs": "yarn build:docs --watch",
-    "prepare": "yarn build"
+    "build": "pnpm run --filter ember-resources build",
+    "build:docs": "pnpm run --filter docs docs:collect",
+    "start:docs": "pnpm run build:docs --watch",
+    "prepare": "pnpm run build"
   },
   "resolutions": {
     "@embroider/addon-shim": "1.2.0"
@@ -36,6 +36,12 @@
     "node": "16.14.0",
     "yarn": "1.22.17",
     "npm": "8.5.2"
+  },
+  "packageManager": "pnpm@6.32.1",
+  "pnpm": {
+    "overrides": {
+      "@embroider/addon-shim": "1.2.0"
+    }
   },
   "engines": {
     "node": ">= 12"

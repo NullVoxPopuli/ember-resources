@@ -21,11 +21,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
-    - uses: actions/cache@v2
+    - name: Cache pnpm modules
+      uses: actions/cache@v2
       with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-    - run: yarn install
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-
+
+    - uses: pnpm/action-setup@v2.1.0
+      with:
+        version: 6.32.1
+        run_install: true
 
   source:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
@@ -36,12 +43,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-      - uses: actions/cache@v2
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+          run_install: true
       - name: ESLint
-        run: yarn lint:js
+        run: pnpm run lint:js
         working-directory: ./ember-resources
 
   test_app:
@@ -53,12 +68,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-      - uses: actions/cache@v2
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+          run_install: true
       - name: ESLint
-        run: yarn lint:js
+        run: pnpm run lint:js
         working-directory: ./testing/ember-app
 
   tooling:
@@ -72,13 +95,21 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 12 # min-supported
-      - uses: actions/cache@v2
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+          run_install: true
 
       - name: Semantic Release
-        run: yarn semantic-release --dry-run
+        run: pnpm exec semantic-release --dry-run
         working-directory: ./ember-resources
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

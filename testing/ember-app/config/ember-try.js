@@ -5,7 +5,7 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
-    command: 'yarn link ember-resources && ember test',
+    usePnpm: true,
     scenarios: [
       {
         name: 'ember-3.25',
