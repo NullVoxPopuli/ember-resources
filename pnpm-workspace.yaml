@@ -1,0 +1,4 @@
+packages:
+  - "ember-resources"
+  - "docs"
+  - "testing/*"

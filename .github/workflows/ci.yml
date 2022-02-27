@@ -20,9 +20,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-      - run: yarn install
-      - run: yarn test
-        working-directory: ./testing/build
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+      - run: pnpm install
+      - run: pnpm --filter ember-resources-build-test test
 
 
   tests:
@@ -41,12 +51,20 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: ${{ matrix.node }}
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
-      - run: yarn install
-
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+      - run: pnpm install
       - name: Test with ${{ matrix.node }}
-        run: yarn ember test
-        working-directory: ./testing/ember-app
+        run: pnpm --filter ember-app run ember:test
 
   # floating-dependencies:
   #   if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
@@ -94,16 +112,23 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 12.x
-      - name: install dependencies
-        run: yarn install
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+
+      - run: pnpm install
       - name: test
+        working-directory: testing/ember-app
         run: |
-          cd ember-resources
-          yarn build
-          yarn link
-          cd ../testing/ember-app
-          # ember-try does the other side of the link
-          yarn ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+          node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
   publish:
     name: Release
@@ -116,15 +141,20 @@ jobs:
         with:
           persist-credentials: false
       - uses: volta-cli/action@v1
-      - uses: actions/cache@v2
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-      - run: yarn install
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.1
+      - run: pnpm install
       - name: Release
-        run: yarn semantic-release
-        working-directory: ./ember-resources
+        run: pnpm --filter ember-resources exec semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
