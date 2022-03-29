@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 overrides:
-  '@embroider/addon-shim': 1.2.0
+  '@embroider/addon-shim': 1.5.0
 
 importers:
 
@@ -64,8 +64,8 @@ importers:
       '@babel/plugin-transform-runtime': ^7.17.0
       '@babel/preset-typescript': 7.16.7
       '@ember/test-waiters': ^3.0.0
-      '@embroider/addon-dev': 1.2.0
-      '@embroider/addon-shim': 1.2.0
+      '@embroider/addon-dev': ^1.2.0
+      '@embroider/addon-shim': 1.5.0
       '@embroider/macros': ^1.2.0
       '@nullvoxpopuli/eslint-configs': ^2.1.1
       '@semantic-release/changelog': ^5.0.0
@@ -90,7 +90,7 @@ importers:
       semantic-release: ^17.0.0
       typescript: ^4.4.2
     dependencies:
-      '@embroider/addon-shim': 1.2.0
+      '@embroider/addon-shim': 1.5.0
       '@embroider/macros': 1.2.0
     devDependencies:
       '@babel/core': 7.17.5
@@ -2547,11 +2547,11 @@ packages:
       - rollup
     dev: true
 
-  /@embroider/addon-shim/1.2.0:
-    resolution: {integrity: sha512-GnhJWjvOWRU87eZrswO8/CmAWbyeG48B5/3Ana0reUzxpoTJHnkrBHdDcnrOYshF4YPgWmAMEkJVCXyjM1joNA==}
+  /@embroider/addon-shim/1.5.0:
+    resolution: {integrity: sha512-5zgwA/wTYjgn2Oo6hKRQhF/5Gnwb+hGhj/WXhZQa5yA7fRRdBV1tVMS7b7SLawZcmOhuWkyPwFdgsYtGBvDB0w==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
-      '@embroider/shared-internals': 1.2.0
+      '@embroider/shared-internals': 1.5.0
       semver: 7.3.5
 
   /@embroider/babel-loader-8/1.2.0_fb5e37b94767037df0a007a2b77ef7c2:
@@ -2706,6 +2706,18 @@ packages:
 
   /@embroider/shared-internals/1.2.0:
     resolution: {integrity: sha512-11RfGuXxT+m2xPcpny/ENHjw53CuKPcrx7222LFQ53+I09hLxsvPCsH8be5E99LePDA46YGX41vxOxxfowD4OQ==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      babel-import-util: 1.1.0
+      ember-rfc176-data: 0.3.17
+      fs-extra: 9.1.0
+      lodash: 4.17.21
+      resolve-package-path: 4.0.3
+      semver: 7.3.5
+      typescript-memoize: 1.1.0
+
+  /@embroider/shared-internals/1.5.0:
+    resolution: {integrity: sha512-kdR7Fh2YdzsNofJO+DJxLfrlMbW4/NNf78aMXgE21z/tg9GO5W2mKlI1DzsO2JlO5yfZdiYfqb9C9vSLJEx14A==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
       babel-import-util: 1.1.0
@@ -8492,7 +8504,7 @@ packages:
     resolution: {integrity: sha512-r0gFsXLbqh9xwFAFaq9IVz7IhQ9WgIwE7WszUhGoRCRZu+MwxZ+Ovrr2xlXErntqjvFXgqLdhr6iP5zvVoDTLQ==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
-      '@embroider/addon-shim': 1.2.0
+      '@embroider/addon-shim': 1.5.0
     dev: true
 
   /emoji-regex/8.0.0:

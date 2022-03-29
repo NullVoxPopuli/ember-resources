@@ -14,9 +14,6 @@
     "start:docs": "pnpm run build:docs --watch",
     "prepare": "pnpm run build"
   },
-  "resolutions": {
-    "@embroider/addon-shim": "1.2.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -40,7 +37,7 @@
   "packageManager": "pnpm@6.32.1",
   "pnpm": {
     "overrides": {
-      "@embroider/addon-shim": "1.2.0"
+      "@embroider/addon-shim": "1.5.0"
     }
   },
   "engines": {
