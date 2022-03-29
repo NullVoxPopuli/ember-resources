@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docs:collect": "typedoc --options ./typedoc.config.json ../ember-resources/src/index.ts",
-    "docs:watch": "yarn docs:collect --watch"
+    "docs:watch": "pnpm run docs:collect --watch"
   },
   "devDependencies": {
     "typedoc": "^0.22.0",

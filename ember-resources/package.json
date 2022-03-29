@@ -29,12 +29,12 @@
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",
-    "lint:hbs:fix": "yarn lint:hbs --fix",
+    "lint:hbs:fix": "pnpm run lint:hbs --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn build"
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.2.0",
@@ -51,7 +51,7 @@
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-typescript": "7.16.7",
     "@ember/test-waiters": "^3.0.0",
-    "@embroider/addon-dev": "1.2.0",
+    "@embroider/addon-dev": "^1.2.0",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
     "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
