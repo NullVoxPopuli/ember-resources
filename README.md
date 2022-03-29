@@ -15,7 +15,7 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 ## Compatibility
 
 * ember-source v3.25+
-* typeScript v4.2+
+* typescript v4.2+
 * ember-auto-import v2+
 
 ## Installation
@@ -114,6 +114,9 @@ However, you must be using embroider to take advantage of them.
 Sourcemaps should work with ember-auto-import@v2+ in non-embroider builds as well,
 but is untested.
 
+
+Note, ember-resources is not guaranteed to be compatible with usage within `@computed` getters.
+Only auto-tracking is supported.
 
 ## Related addons
 
