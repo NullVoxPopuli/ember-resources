@@ -29,12 +29,12 @@
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",
-    "lint:hbs:fix": "yarn lint:hbs --fix",
+    "lint:hbs:fix": "pnpm run lint:hbs --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn build"
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.2.0",
