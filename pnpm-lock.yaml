@@ -45,16 +45,16 @@ importers:
       typedoc-plugin-markdown-pages: ^0.3.0
       typedoc-plugin-mdn-links: ^1.0.4
       typedoc-plugin-merge-modules: ^3.1.0
-      typescript: 4.5.5
+      typescript: 4.6.3
     devDependencies:
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
       typedoc-github-wiki-theme: 1.0.0_12bbd5f5da74caa5f62982ac395382df
       typedoc-gitlab-wiki-theme: 1.0.0_12bbd5f5da74caa5f62982ac395382df
       typedoc-plugin-markdown: 3.11.14_typedoc@0.22.12
       typedoc-plugin-markdown-pages: 0.3.0
       typedoc-plugin-mdn-links: 1.0.5_typedoc@0.22.12
       typedoc-plugin-merge-modules: 3.1.0_typedoc@0.22.12
-      typescript: 4.5.5
+      typescript: 4.6.3
 
   ember-resources:
     specifiers:
@@ -15267,7 +15267,7 @@ packages:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
       typedoc-plugin-markdown: 3.11.14_typedoc@0.22.12
     dev: true
 
@@ -15277,7 +15277,7 @@ packages:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
       typedoc-plugin-markdown: 3.11.14_typedoc@0.22.12
     dev: true
 
@@ -15291,7 +15291,7 @@ packages:
       typedoc: '>=0.22.0'
     dependencies:
       handlebars: 4.7.7
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
     dev: true
 
   /typedoc-plugin-mdn-links/1.0.5_typedoc@0.22.12:
@@ -15299,7 +15299,7 @@ packages:
     peerDependencies:
       typedoc: 0.22.x
     dependencies:
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
     dev: true
 
   /typedoc-plugin-merge-modules/3.1.0_typedoc@0.22.12:
@@ -15307,10 +15307,10 @@ packages:
     peerDependencies:
       typedoc: 0.21.x || 0.22.x
     dependencies:
-      typedoc: 0.22.12_typescript@4.5.5
+      typedoc: 0.22.12_typescript@4.6.3
     dev: true
 
-  /typedoc/0.22.12_typescript@4.5.5:
+  /typedoc/0.22.12_typescript@4.6.3:
     resolution: {integrity: sha512-FcyC+YuaOpr3rB9QwA1IHOi9KnU2m50sPJW5vcNRPCIdecp+3bFkh7Rq5hBU1Fyn29UR2h4h/H7twZHWDhL0sw==}
     engines: {node: '>= 12.10.0'}
     hasBin: true
@@ -15322,7 +15322,7 @@ packages:
       marked: 4.0.12
       minimatch: 3.1.2
       shiki: 0.10.1
-      typescript: 4.5.5
+      typescript: 4.6.3
     dev: true
 
   /typescript-memoize/1.1.0:
@@ -15330,6 +15330,12 @@ packages:
 
   /typescript/4.5.5:
     resolution: {integrity: sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript/4.6.3:
+    resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
