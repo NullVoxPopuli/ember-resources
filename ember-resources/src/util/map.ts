@@ -68,6 +68,8 @@ export interface MappedArray<MappedTo> {
    */
   length: number;
   // ^ in TS 4.3+, this can change to get length(): number;
+  //   as a funny side-effect of changing this back to just a simple property,
+  //   type-declaration-maps work again
 
   /**
    * Iterate over the mapped array, lazily invoking the passed map function
