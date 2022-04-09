@@ -201,7 +201,7 @@ jobs:
           version: 6.32.1
       - run: pnpm install
       - name: Release
-        run: ./node_modules/.bin/semantic-release -e semantic-release-monorepo
+        run: ./node_modules/.bin/semantic-release
         working-directory: ./ember-resources
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
