@@ -6,6 +6,7 @@ import { invokeHelper } from '@ember/helper';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
 import type { Cache, Thunk } from '../core/types';
+// @ts-ignore
 import type { helper as emberHelper } from '@ember/component/helper';
 import type EmberHelper from '@ember/component/helper';
 
