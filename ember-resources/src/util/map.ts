@@ -42,6 +42,8 @@ import { Resource } from '../core';
  * ```
  */
 export interface MappedArray<MappedTo> {
+  [index: number]: MappedTo;
+
   /**
    * evaluate and return an array of all mapped items.
    *
@@ -205,6 +207,8 @@ export function map<Element = unknown, MapTo = unknown>(
    *
    * Unfortunately this means the returned value is
    * Proxy -> Proxy -> wrapper object -> *then* the class instance
+   *
+   * Maybe JS has a way to implement array-index access, but I don't know how
    */
   return new Proxy(resource, {
     get(target, property, receiver) {
@@ -239,6 +243,9 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
   }>
   implements MappedArray<MappedTo>
 {
+  // Tells TS that we can array-index-access
+  [index: number]: MappedTo;
+
   #map = new WeakMap<Element & object, MappedTo>();
 
   @tracked private declare _records: (Element & object)[];

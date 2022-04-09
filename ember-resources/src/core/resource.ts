@@ -10,10 +10,6 @@ import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
 import type { ArgsWrapper, Cache, Thunk } from './types';
 
-export declare interface Resource<T extends ArgsWrapper> {
-  modify(positional: T['positional'], named: T['named']): void;
-}
-
 /**
  * The 'Resource' base class has only one lifecycle hook, `modify`, which is called during
  * instantiation of the resource as well as on every update of any of any consumed args.
@@ -69,19 +65,18 @@ export declare interface Resource<T extends ArgsWrapper> {
  *
  * ```
  *
- * When using in javascript, you'll need the `resourceOf` utility
+ * When using in javascript, you'll need the `from` utility
  * ```ts
- * import { resourceOf } from 'ember-resources/core';
  * import { MyResource } from './somewhere';
  *
  * class ContainingClass {
- *   state = resourceOf(this, MyResource, () => [...])
+ *   state = MyResource.from(this, () => [...])
  * }
  * ```
  * However, when authoring a Resource, it's useful to co-locate an export of a helper function:
  * ```js
  * export function myResource(destroyable, options) {
- *   return resourceOf(destroyable, MyResource, () => ({
+ *   return MyResource.from(destroyable, () => ({
  *     foo: () => options.foo,
  *     bar: () => options.bar,
  *   }))
@@ -91,12 +86,109 @@ export declare interface Resource<T extends ArgsWrapper> {
  * This way, consumers only need one import.
  *
  */
-export class Resource<T = ArgsWrapper> {
+export class Resource<T extends ArgsWrapper = ArgsWrapper> {
+  /**
+   * For use in the body of a class.
+   *
+   * `of` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller. Though, from an end-user-api
+   * ergonomics perspective, you wouldn't typically want to rely on this. As in
+   * [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)
+   *
+   * Given this potential use:
+   * ```ts
+   * import { Resource } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = Resource.of(this, SomeResource, () => [arg list]);
+   * }
+   * ```
+   *
+   * a better user-facing api, may be provided by:
+   * ```js
+   * export function someResource(context, args) {
+   *   return Resource.of(context, SomeResource, () =>  ... );
+   * }
+   * ```
+   *  usage:
+   * ```js
+   * import { someResource } from 'your-library';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = someResource(this, () => [arg list]);
+   * }
+   * ```
+   *
+   * When any tracked data in the args thunk is updated, the Resource will be updated as well
+   *
+   *  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
+   *  - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards
+   *    access to the data, like:
+   *    ```hbs
+   *    {{#if this.isModalShowing}}
+   *       <Modal>{{this.data.someProperty}}</Modal>
+   *    {{/if}}
+   *    ```
+   *    the Resource will not be instantiated until `isModalShowing` is true.
+   */
   static of = resourceOf;
 
-  constructor(owner: unknown, public args: T) {
+  /**
+   * For use in the body of a class.
+   *
+   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller.
+   * Unlike `of`, due to the fewer arguments required in `from`, though it _may_ be more
+   * convenient to not wrap your resource abstraction in a helper function.
+   *
+   * import { Resource } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = SomeResource.from(this, () => [arg list]);
+   * }
+   * ```
+   *
+   * However, if you have argument defaults or need to change the shape of arguments
+   * depending on what ergonimics you want your users to have, a wrapper function
+   * may be better.
+   *
+   * ```js
+   * export function someResource(context, args) {
+   *   return Resource.of(context, SomeResource, () =>  ... );
+   * }
+   * ```
+   *  usage:
+   * ```js
+   * import { someResource } from 'your-library';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = someResource(this, () => [arg list]);
+   * }
+   * ```
+   */
+  static from<Instance extends Resource<ArgsWrapper>>(
+    this: (new (...args: unknown[]) => Instance) & {
+      of: typeof resourceOf;
+    },
+    context: object,
+    thunk?: Thunk | (() => unknown)
+  ) {
+    return this.of(context, this, thunk);
+  }
+
+  constructor(owner: unknown) {
     setOwner(this, owner);
   }
+
+  modify?(positional: T['positional'], named: T['named']): void;
 }
 
 class ResourceManager {
@@ -114,12 +206,12 @@ class ResourceManager {
 
     let cache: Cache = createCache(() => {
       if (instance === undefined) {
-        instance = new Class(owner, args);
+        instance = new Class(owner);
 
         associateDestroyableChild(cache, instance);
       }
 
-      if ('modify' in instance) {
+      if (instance.modify) {
         instance.modify(args.positional, args.named);
       }
 
@@ -142,40 +234,6 @@ class ResourceManager {
 
 setHelperManager((owner: unknown) => new ResourceManager(owner), Resource);
 
-/**
- * For use in the body of a class.
- *
- * `useResource` takes either a [[Resource]] or [[LifecycleResource]] and an args [[Thunk]].
- *
- * `useResource` is what allows _Resources_ to be used in JS, they hide the reactivity APIs
- * from the consumer so that the surface API is smaller. Though, from an end-user-api
- * ergonomics perspective, you wouldn't typically want to rely on this. As in
- * [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)
- * the useResource + Resource class are coupled together in to more meaningful APIs --
- * allowing only a single import in most cases.
- *
- * ```ts
- * import { useResource } from 'ember-resources';
- *
- * class MyClass {
- *   data = useResource(this, SomeResource, () => [arg list]);
- * }
- * ```
- *
- * When any tracked data in the args thunk is updated, the Resource will be updated as well
- *
- *  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
- *  - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards
- *    access to the data, like:
- *    ```hbs
- *    {{#if this.isModalShowing}}
- *       <Modal>{{this.data.someProperty}}</Modal>
- *    {{/if}}
- *    ```
- *    the Resource will not be instantiated until `isModalShowing` is true.
- *
- *  - For more info on Thunks, scroll to the bottom of the README
- */
 function resourceOf<Instance extends Resource<ArgsWrapper>, Args extends unknown[] = unknown[]>(
   context: object,
   klass: new (...args: unknown[]) => Instance,

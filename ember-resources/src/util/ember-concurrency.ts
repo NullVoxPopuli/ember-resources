@@ -232,10 +232,6 @@ export class TaskResource<
   declare currentTask: TaskInstance<Return>;
   declare lastTask: TaskInstance<Return> | undefined;
 
-  get taskArgs() {
-    return this.args.positional;
-  }
-
   get value() {
     // in ember-concurrency@v1, value is not consumable tracked data
     // until the task is resolved, so we need to consume the isRunning
@@ -245,12 +241,12 @@ export class TaskResource<
     return this.currentTask.value ?? this.lastTask?.value;
   }
 
-  modify() {
+  modify(positional: Args) {
     if (this.currentTask) {
       this.lastTask = this.currentTask;
     }
 
-    this.currentTask = this[TASK].perform(...this.taskArgs);
+    this.currentTask = this[TASK].perform(...positional);
   }
 
   teardown() {

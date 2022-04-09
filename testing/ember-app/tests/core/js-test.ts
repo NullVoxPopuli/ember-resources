@@ -8,7 +8,6 @@ import { setupTest } from 'ember-qunit';
 import { Resource } from 'ember-resources/core';
 
 import type { Positional } from 'ember-resources';
-import type { ArgsWrapper } from 'ember-resources/core/types';
 
 // not testing in template, because that's the easy part
 module('Core | Resource | js', function (hooks) {
@@ -46,8 +45,8 @@ module('Core | Resource | js', function (hooks) {
 
   test('destroyables are correct', async function (assert) {
     class Doubler extends Resource {
-      constructor(owner: unknown, args: ArgsWrapper) {
-        super(owner, args);
+      constructor(owner: unknown) {
+        super(owner);
 
         registerDestructor(this, () => assert.step('destroyed'));
       }
@@ -56,7 +55,7 @@ module('Core | Resource | js', function (hooks) {
     class Test {
       @tracked count = 0;
 
-      data = Resource.of(this, Doubler, () => [this.count]);
+      data = Doubler.from(this, () => [this.count]);
     }
 
     let foo = new Test();
@@ -102,8 +101,8 @@ module('Core | Resource | js', function (hooks) {
     class Doubler extends Resource<{ positional: [number] }> {
       @tracked num = 0;
 
-      constructor(owner: unknown, args: { positional: [number] }) {
-        super(owner, args);
+      constructor(owner: unknown) {
+        super(owner);
 
         registerDestructor(this, () => assert.step('teardown'));
       }
