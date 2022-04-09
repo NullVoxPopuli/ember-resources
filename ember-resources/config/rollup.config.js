@@ -1,8 +1,7 @@
 // @ts-nocheck
 import ts from 'rollup-plugin-ts';
-import { defineConfig } from 'rollup';
-
 import { Addon } from '@embroider/addon-dev/rollup';
+import { defineConfig } from 'rollup';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -10,11 +9,17 @@ const addon = new Addon({
 });
 
 export default defineConfig({
+  // https://github.com/rollup/rollup/issues/1828
+  watch: {
+    chokidar: {
+      usePolling: true,
+    },
+  },
   output: { ...addon.output(), sourcemap: true },
   plugins: [
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
-    addon.publicEntrypoints(['index.ts']),
+    addon.publicEntrypoints(['**/*.ts']),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
@@ -24,20 +29,28 @@ export default defineConfig({
     // This babel config should *not* apply presets or compile away ES modules.
     // It exists only to provide development niceties for you, like automatic
     // template colocation.
-    // See `babel.config.json` for the actual Babel configuration!
+    //
+    // By default, this will load the actual babel config from the file
+    // babel.config.json.
     ts({
       // can be changed to swc or other transpilers later
       // but we need the ember plugins converted first
       // (template compilation and co-location)
       transpiler: 'babel',
+      babelConfig: './babel.config.cjs',
       browserslist: ['last 2 firefox versions', 'last 2 chrome versions'],
       tsconfig: {
         fileName: 'tsconfig.json',
         hook: (config) => ({
           ...config,
           declaration: true,
-          declarationDir: 'dist',
+          // TODO: these aren't being generated? why?
           declarationMap: true,
+          // See: https://devblogs.microsoft.com/typescript/announcing-typescript-4-5/#beta-delta
+          // Allows us to use `exports` to define types per export
+          // However, it was declared as not ready
+          // as a result, we need extra / fallback references in the package.json
+          declarationDir: './dist',
         }),
       },
     }),
