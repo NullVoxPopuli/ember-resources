@@ -1,18 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
-
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 import { get } from '@ember/object';
 
-// import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 import { TASK, TaskResource } from './resources/ember-concurrency-task';
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
@@ -20,6 +12,7 @@ import type { TaskInstance, TaskIsh } from './resources/ember-concurrency-task';
 import type { Cache, Constructable } from './types';
 
 /**
+ * @deprecated
  * @utility uses [[LifecycleResource]] to make ember-concurrency tasks reactive.
  *
  * -------------------------

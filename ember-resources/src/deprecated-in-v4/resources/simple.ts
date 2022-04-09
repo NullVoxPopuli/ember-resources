@@ -15,6 +15,9 @@ export declare interface Resource<T extends LooseArgs = ArgsWrapper> {
   args: T;
 }
 
+/**
+ * @deprecated
+ */
 export class Resource<T extends LooseArgs = ArgsWrapper> {
   static next<Args extends ArgsWrapper, R extends Resource<Args>>(prev: R, args: Args) {
     // TS does not infer subclass static types

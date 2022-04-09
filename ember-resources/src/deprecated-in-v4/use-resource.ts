@@ -1,12 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
@@ -39,6 +33,7 @@ function useUnproxiedResource<Instance = unknown>(
 }
 
 /**
+ * @deprecated
  * For use in the body of a class.
  *
  * `useResource` takes either a [[Resource]] or [[LifecycleResource]] and an args [[Thunk]].
@@ -79,6 +74,7 @@ export function useResource<Instance extends LifecycleResource<any>>(
 ): Instance;
 
 /**
+ * @deprecated
  * For use in the body of a class.
  * Constructs a cached Resource that will reactively respond to tracked data changes
  *

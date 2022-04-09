@@ -44,6 +44,7 @@ export function trackedFunction<Return>(...passed: WithInitialValue<Return>): {
 };
 
 /**
+ * @deprecated
  *
  * This is the simpler of the two function resources, where
  *

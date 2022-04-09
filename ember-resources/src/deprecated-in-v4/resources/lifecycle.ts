@@ -9,7 +9,7 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '../types';
+import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '[deprecated-types]';
 
 export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
   args: T;
@@ -19,6 +19,8 @@ export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
 }
 
 /**
+ *
+ * @deprecated
  *
  *
  * When possible, you'll want to favor `Resource` over `LifecycleResource` as `Resource` is simpler.
