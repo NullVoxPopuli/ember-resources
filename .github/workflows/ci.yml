@@ -201,7 +201,8 @@ jobs:
           version: 6.32.1
       - run: pnpm install
       - name: Release
-        run: pnpm --filter ember-resources run release
+        run: pnpm run release
+        working-directory: ./ember-resources
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
