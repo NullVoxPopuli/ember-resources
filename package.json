@@ -11,7 +11,7 @@
   "scripts": {
     "build": "pnpm run --filter ember-resources build",
     "build:docs": "pnpm run --filter docs docs:collect",
-    "start:docs": "pnpm run build:docs --watch",
+    "start:docs": "pnpm run --filter docs docs:watch",
     "prepare": "pnpm run build"
   },
   "devDependencies": {
