@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { setComponentTemplate } from '@ember/component';
-import { destroy } from '@ember/destroyable';
-import { registerDestructor } from '@ember/destroyable';
+import { destroy, isDestroyed, registerDestructor } from '@ember/destroyable';
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
@@ -48,6 +48,36 @@ module('useResource', function () {
         await settled();
 
         assert.strictEqual(foo.data.num, 8);
+      });
+
+      test('destroyables are correct', async function (assert) {
+        class Doubler extends LifecycleResource<Positional<[number]>> {
+          constructor(owner: unknown, args: Positional<[number]>) {
+            super(owner, args);
+
+            registerDestructor(this, () => assert.step('destroyed'));
+          }
+        }
+
+        class Test {
+          @tracked count = 0;
+
+          data = useResource(this, Doubler, () => [this.count]);
+        }
+
+        let foo = new Test();
+
+        // Intentionally doesn't exist
+        (foo.data as any).anything;
+
+        assert.notOk(isDestroyed(foo), 'not destroyed');
+        assert.verifySteps([]);
+
+        destroy(foo);
+        await settled();
+
+        assert.ok(isDestroyed(foo), 'destroyed');
+        assert.verifySteps(['destroyed']);
       });
 
       test('can take a typed array https://github.com/NullVoxPopuli/ember-resources/issues/48', async function (assert) {

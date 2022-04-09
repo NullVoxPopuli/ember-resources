@@ -24,6 +24,7 @@ interface Descriptor {
 }
 
 /**
+ * @deprecated
  * @decorator `@use`
  *
  * -------------

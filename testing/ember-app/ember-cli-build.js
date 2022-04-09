@@ -27,5 +27,18 @@ module.exports = function (defaults) {
 
   const { maybeEmbroider } = require('@embroider/test-setup');
 
-  return maybeEmbroider(app);
+  return maybeEmbroider(app, {
+    packageRules: [
+      {
+        package: 'ember-app',
+        // Pre-strict mode, helpers and components are ambiguous
+        helpers: {
+          '{{step}}': { safeToIgnore: true },
+        },
+        components: {
+          '{{step}}': { safeToIgnore: true },
+        },
+      },
+    ],
+  });
 };

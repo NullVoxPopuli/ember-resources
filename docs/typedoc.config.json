@@ -1,5 +1,11 @@
 {
   "tsconfig": "../ember-resources/tsconfig.json",
+  "entryPoints": [
+    "../ember-resources/src/index.ts",
+    "../ember-resources/src/core/index.ts",
+    "../ember-resources/src/util/"
+  ],
+  "entryPointStrategy": "expand",
   "readme": "../README.md",
   "exclude": [],
   "json": "./docs.json",
@@ -10,7 +16,6 @@
   "excludeExternals": true,
   "disableSources": true,
   "plugin": [
-    "typedoc-plugin-merge-modules",
     "typedoc-plugin-mdn-links",
     "typedoc-github-wiki-theme"
   ]

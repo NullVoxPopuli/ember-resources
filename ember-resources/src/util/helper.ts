@@ -1,18 +1,14 @@
-/* eslint-disable @typescript-eslint/ban-types */
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
-// typed-ember has not publihsed types for this yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { DEFAULT_THUNK, normalizeThunk } from './utils';
+import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
-import type { Cache, Thunk } from './types';
-import type { helper as emberFunctionHelper } from '@ember/component/helper';
-import type Helper from '@ember/component/helper';
+import type { Cache, Thunk } from '../core/types';
+// @ts-ignore
+import type { helper as emberHelper } from '@ember/component/helper';
+import type EmberHelper from '@ember/component/helper';
 
 /**
  * @utility implemented with raw `invokeHelper` API, no classes from `ember-resources` used.
@@ -40,13 +36,13 @@ import type Helper from '@ember/component/helper';
  * ```js
  * import intersect from 'ember-composable-helpers/addon/helpers/intersect';
  *
- * import { useHelper } from 'ember-resources';
+ * import { helper } from 'ember-resources/util/helper';
  *
  * class Demo {
  *   @tracked listA = [...];
  *   @tracked listB = [...]
  *
- *   intersection = useHelper(this, intersect, () => [this.listA, this.listB])
+ *   intersection = helper(this, intersect, () => [this.listA, this.listB])
  *
  *   toString = (array) => array.join(', ');
  * }
@@ -55,11 +51,11 @@ import type Helper from '@ember/component/helper';
  * {{this.toString this.intersection.value}}
  * ```
  */
-export function useHelper(
+export function helper(
   context: object,
-  helper: Helper | ReturnType<typeof emberFunctionHelper>,
+  helper: EmberHelper | ReturnType<typeof emberHelper>,
   thunk: Thunk = DEFAULT_THUNK
-) {
+): { value: unknown } {
   let resource: Cache<unknown>;
 
   return {

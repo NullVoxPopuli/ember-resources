@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable ember/no-get */
 
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -10,14 +11,14 @@ import { assert } from '@ember/debug';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
+import { get as consumeTag } from '@ember/object';
 import { get } from '@ember/object';
 
+import { Resource } from '../core';
 // import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
-import { TASK, TaskResource } from './resources/ember-concurrency-task';
-import { DEFAULT_THUNK, normalizeThunk } from './utils';
+import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
-import type { TaskInstance, TaskIsh } from './resources/ember-concurrency-task';
-import type { Cache, Constructable } from './types';
+import type { Cache } from '../core/types';
 
 /**
  * @utility uses [[LifecycleResource]] to make ember-concurrency tasks reactive.
@@ -60,7 +61,7 @@ import type { Cache, Constructable } from './types';
  *
  *
  */
-export function useTask<
+export function task<
   Return = unknown,
   Args extends unknown[] = unknown[],
   LocalTask extends TaskIsh<Args, Return> = TaskIsh<Args, Return>
@@ -73,6 +74,8 @@ export function useTask<
   return proxyClass(target as any) as never as TaskInstance<Return>;
 }
 
+export const trackedTask = task;
+
 const TASK_CACHE = new WeakMap<object, any>();
 
 function buildUnproxiedTaskResource<
@@ -81,7 +84,7 @@ function buildUnproxiedTaskResource<
   LocalTask extends TaskIsh<ArgsList, Return> = TaskIsh<ArgsList, Return>
 >(context: object, task: LocalTask, thunk: () => ArgsList) {
   type LocalResource = TaskResource<ArgsList, Return, LocalTask>;
-  type Klass = Constructable<LocalResource>;
+  type Klass = new (...args: unknown[]) => LocalResource;
 
   let resource: Cache<Return>;
   let klass: Klass;
@@ -177,4 +180,76 @@ export function proxyClass<
       return Reflect.getOwnPropertyDescriptor(target.value, key);
     },
   }) as never as Instance;
+}
+
+// type AsyncReturnType<T extends (...args: any) => Promise<any>> =
+//     T extends (...args: any) => Promise<infer R> ? R : any
+
+export type TaskReturnType<T> = T extends TaskIsh<any, infer Return> ? Return : unknown;
+export type TaskArgsType<T> = T extends TaskIsh<infer Args, any> ? Args : unknown[];
+
+export interface TaskIsh<Args extends any[], Return> {
+  perform: (...args: Args) => TaskInstance<Return>;
+  cancelAll: () => void;
+}
+
+/**
+ * @private
+ *
+ * Need to define this ourselves, because between
+ * ember-concurrency 1, 2, -ts, decorators, etc
+ * there are 5+ ways the task type is defined
+ *
+ * https://github.com/machty/ember-concurrency/blob/f53656876748973cf6638f14aab8a5c0776f5bba/addon/index.d.ts#L280
+ */
+export interface TaskInstance<Return = unknown> extends Promise<Return> {
+  readonly value: Return | null;
+  readonly error: unknown;
+  readonly isSuccessful: boolean;
+  readonly isError: boolean;
+  readonly isCanceled: boolean;
+  readonly hasStarted: boolean;
+  readonly isFinished: boolean;
+  readonly isRunning: boolean;
+  readonly isDropped: boolean;
+  cancel(reason?: string): void | Promise<void>;
+}
+
+// @private
+export const TASK = Symbol('TASK');
+
+// @private
+export class TaskResource<
+  Args extends any[],
+  Return,
+  LocalTask extends TaskIsh<Args, Return>
+> extends Resource<{
+  positional: Args;
+}> {
+  // Set via useTask
+  declare [TASK]: LocalTask;
+  // Set during setup/update
+  declare currentTask: TaskInstance<Return>;
+  declare lastTask: TaskInstance<Return> | undefined;
+
+  get value() {
+    // in ember-concurrency@v1, value is not consumable tracked data
+    // until the task is resolved, so we need to consume the isRunning
+    // property so that value updates
+    consumeTag(this.currentTask, 'isRunning');
+
+    return this.currentTask.value ?? this.lastTask?.value;
+  }
+
+  modify(positional: Args) {
+    if (this.currentTask) {
+      this.lastTask = this.currentTask;
+    }
+
+    this.currentTask = this[TASK].perform(...positional);
+  }
+
+  teardown() {
+    this[TASK].cancelAll();
+  }
 }

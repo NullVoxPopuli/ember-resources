@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { ArgsWrapper, Thunk } from './types';
+import type { ArgsWrapper, Thunk } from '[deprecated-types]';
 
 export const DEFAULT_THUNK = () => [];
 
