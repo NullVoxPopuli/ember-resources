@@ -27,6 +27,7 @@
       "ember-app/*": [
         "app/*"
       ],
+      "ember-resources/*": ["../../ember-resources/dist/*"],
       "*": [
         "types/*"
       ]

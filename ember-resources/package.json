@@ -8,7 +8,21 @@
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./core": "./dist/core/index.js",
+    "./util": "./dist/util/index.js",
+    "./util/map": "./dist/util/map.js",
+    "./util/helper": "./dist/util/helper.js",
+    "./util/function": "./dist/util/function.js",
+    "./util/ember-concurrency": "./dist/util/ember-concurrency.js",
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "typesVersions": {
+    ">= 4.0.0": {
+      "./*": ["./dist/*"]
+    }
+  },
   "author": "NullVoxPopuli",
   "directories": {
     "doc": "doc",
@@ -22,9 +36,9 @@
     "README.md"
   ],
   "scripts": {
-    "start": "rollup -c --watch",
+    "start": "rollup -c ./config/rollup.config.js --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
-    "build:js": "rollup -c",
+    "build:js": "rollup -c ./config/rollup.config.js",
     "build:docs": "cp ../README.md ./README.md",
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
@@ -37,28 +51,48 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@babel/runtime": "^7.17.8",
     "@embroider/addon-shim": "^1.2.0",
     "@embroider/macros": "^1.2.0"
   },
   "peerDependencies": {
-    "@ember/test-waiters": "^3.0.0"
+    "@ember/test-waiters": "^3.0.0",
+    "@glimmer/tracking": "^1.0.0",
+    "ember-async-data": "^0.6.0",
+    "ember-concurrency": "^1.0.0 || ^2.0.0",
+    "ember-source": ">= 3.25.0"
+  },
+  "peerDependenciesMeta": {
+    "ember-concurrency": {
+      "optional": true
+    },
+    "@ember/test-waiters": {
+      "optional": true
+    },
+    "ember-async-data": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/core": "7.17.9",
     "@babel/plugin-proposal-class-properties": "7.16.7",
-    "@babel/plugin-proposal-decorators": "7.17.9",
+    "@babel/plugin-proposal-decorators": "7.17.8",
     "@babel/plugin-syntax-decorators": "7.17.0",
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-typescript": "7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
     "@ember/test-waiters": "^3.0.0",
     "@embroider/addon-dev": "^1.2.0",
+    "@glimmer/tracking": "^1.0.4",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
     "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
+    "@types/ember__component": "^4.0.0",
+    "@types/ember__debug": "^4.0.0",
     "@types/ember__destroyable": "^4.0.0",
-    "@types/ember__string": "^3.0.0",
+    "@types/ember__helper": "^4.0.0",
     "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
+    "ember-async-data": "^0.6.0",
     "ember-template-lint": "3.16.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -73,7 +107,8 @@
     "rollup": "2.70.1",
     "rollup-plugin-ts": "^2.0.5",
     "semantic-release": "^17.0.0",
-    "typescript": "^4.4.2"
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.5"
   },
   "engines": {
     "node": ">=12.2.0 < 13 || >= 14"
@@ -89,11 +124,6 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {}
-  },
-  "exports": {
-    ".": "./dist/index.js",
-    "./*": "./dist/*",
-    "./addon-main.js": "./addon-main.cjs"
   },
   "release": {
     "branches": [
