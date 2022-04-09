@@ -110,7 +110,6 @@
     "rollup": "2.70.1",
     "rollup-plugin-ts": "^2.0.5",
     "semantic-release": "^19.0.2",
-    "semantic-release-pnpm": "github:ysaskia/semantic-release-pnpm",
     "tslib": "^2.3.1",
     "typescript": "~4.2.0"
   },
@@ -135,7 +134,7 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      "semantic-release-pnpm",
+      "@semantic-release/npm",
       "@semantic-release/github",
       "@semantic-release/git"
     ]

@@ -1,3 +1,17 @@
+# [4.5.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.4.0...v4.5.0) (2022-04-09)
+
+
+### Bug Fixes
+
+* **docs:** pin @types/eslint so docs can build ([bc10593](https://github.com/NullVoxPopuli/ember-resources/commit/bc105932292c2de7ec534bc884522fe9f17dbcf1))
+* Move @ember/test-waiters to peerDependencies ([c6db46b](https://github.com/NullVoxPopuli/ember-resources/commit/c6db46bbb82c8a35fff6f1bcd9ecd6c89835133c))
+
+
+### Features
+
+* add replacement APIs under new import paths ([0025d3b](https://github.com/NullVoxPopuli/ember-resources/commit/0025d3bdb167068aeca7c7b6185346d85dd8f180))
+* **docs, types:** fix types with the map resource. update docs ([4cce0c5](https://github.com/NullVoxPopuli/ember-resources/commit/4cce0c53d0478f2db6c868275eb036469da1bf84))
+
 # [4.4.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.3.5...v4.4.0) (2022-02-24)
 
 
