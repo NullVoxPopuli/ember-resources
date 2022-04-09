@@ -36,6 +36,7 @@
     "README.md"
   ],
   "scripts": {
+    "release": "semantic-release",
     "start": "rollup -c ./config/rollup.config.js --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
     "build:js": "rollup -c ./config/rollup.config.js",
