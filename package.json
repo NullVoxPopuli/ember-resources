@@ -40,8 +40,5 @@
       "@embroider/addon-shim": "1.5.0",
       "@types/eslint": "7.29.0"
     }
-  },
-  "engines": {
-    "node": ">= 12"
   }
 }
