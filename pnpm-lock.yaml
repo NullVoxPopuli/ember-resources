@@ -58,7 +58,7 @@ importers:
     specifiers:
       '@babel/core': 7.17.9
       '@babel/plugin-proposal-class-properties': 7.16.7
-      '@babel/plugin-proposal-decorators': 7.17.8
+      '@babel/plugin-proposal-decorators': 7.17.9
       '@babel/plugin-syntax-decorators': 7.17.0
       '@babel/plugin-transform-runtime': ^7.17.0
       '@babel/preset-typescript': ^7.16.7
@@ -101,7 +101,7 @@ importers:
     devDependencies:
       '@babel/core': 7.17.9
       '@babel/plugin-proposal-class-properties': 7.16.7_@babel+core@7.17.9
-      '@babel/plugin-proposal-decorators': 7.17.8_@babel+core@7.17.9
+      '@babel/plugin-proposal-decorators': 7.17.9_@babel+core@7.17.9
       '@babel/plugin-syntax-decorators': 7.17.0_@babel+core@7.17.9
       '@babel/plugin-transform-runtime': 7.17.0_@babel+core@7.17.9
       '@babel/preset-typescript': 7.16.7_@babel+core@7.17.9
@@ -1329,22 +1329,6 @@ packages:
       '@babel/helper-plugin-utils': 7.16.7
       '@babel/helper-replace-supers': 7.16.7
       '@babel/plugin-syntax-decorators': 7.17.0_@babel+core@7.17.5
-      charcodes: 0.2.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /@babel/plugin-proposal-decorators/7.17.8_@babel+core@7.17.9:
-    resolution: {integrity: sha512-U69odN4Umyyx1xO1rTII0IDkAEC+RNlcKXtqOblfpzqy1C+aOplb76BQNq0+XdpVkOaPlpEDwd++joY8FNFJKA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.17.9
-      '@babel/helper-create-class-features-plugin': 7.17.9_@babel+core@7.17.9
-      '@babel/helper-plugin-utils': 7.16.7
-      '@babel/helper-replace-supers': 7.16.7
-      '@babel/plugin-syntax-decorators': 7.17.0_@babel+core@7.17.9
       charcodes: 0.2.0
     transitivePeerDependencies:
       - supports-color
@@ -3236,7 +3220,7 @@ packages:
       '@babel/code-frame': 7.16.7
       '@babel/generator': 7.17.7
       '@babel/helper-environment-visitor': 7.16.7
-      '@babel/helper-function-name': 7.16.7
+      '@babel/helper-function-name': 7.17.9
       '@babel/helper-hoist-variables': 7.16.7
       '@babel/helper-split-export-declaration': 7.16.7
       '@babel/parser': 7.17.8
@@ -3254,7 +3238,7 @@ packages:
       '@babel/code-frame': 7.16.7
       '@babel/generator': 7.17.7
       '@babel/helper-environment-visitor': 7.16.7
-      '@babel/helper-function-name': 7.16.7
+      '@babel/helper-function-name': 7.17.9
       '@babel/helper-hoist-variables': 7.16.7
       '@babel/helper-split-export-declaration': 7.16.7
       '@babel/parser': 7.17.8
