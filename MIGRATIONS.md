@@ -1,12 +1,22 @@
 # Migrations
 
 - [5.0](#5.0)
-  - tl;dr
-  - Overview
-  - Nomenclature changes
-  - LifecycleResource
-  - Resource
-  - Utilities
+  - [tl;dr](#tldr)
+  - [Overview](#overview)
+  - [Nomenclature changes](#nomenclature-changes)
+  - [LifecycleResource](#lifecycleresource)
+  - [Resource](#resource)
+    - [args](#args)
+    - [setup](#setup)
+    - [update](#update)
+    - [teardown](#teardown)
+  - [Utilities](#utilities)
+    - [useTask](#usetask)
+    - [useFunction](#usefunction)
+    - [useHelper](#usehelper)
+    - [useResource](#useresource);
+  - [References](#references)
+
 
 ## 5.0
 
