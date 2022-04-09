@@ -1,10 +1,5 @@
 {
   "private": "true",
-  "workspaces": [
-    "ember-resources",
-    "docs",
-    "testing/*"
-  ],
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "author": "NullVoxPopuli",
