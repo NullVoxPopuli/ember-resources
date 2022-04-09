@@ -5,43 +5,27 @@ import { Resource } from '../core';
 
 /**
  * Public API of the return value of the [[map]] resource.
- *
- * This is proxied, so you can still do array-index-style access.
- *
- * ```js
- *  class Foo {
- *    myMappedData = map(this, {
- *      data: () => [1, 2, 3],
- *      map: (num) => `hi, ${num}!`
- *    });
- *
- *    get first() {
- *      return this.myMappedData[0];
- *    }
- *  }
- * ```
- *
- * Iteration is also possible:
- * ```js
- *  class Foo {
- *    myMappedData = map(this, {
- *      data: () => [1, 2, 3],
- *      map: (num) => `hi, ${num}!`
- *    });
- *
- *    get mapAgain() {
- *      let results = [];
- *
- *      for (let datum of this.myMappedData) {
- *        results.push(datum);
- *      }
- *
- *      return datum;
- *    }
- *  }
- * ```
  */
 export interface MappedArray<MappedTo> {
+  /**
+   * Array-index access to specific mapped data.
+   *
+   * If the map function hasn't ran yet on the source data, it will be ran, an cached
+   * for subsequent accesses.
+   *
+   * ```js
+   *  class Foo {
+   *    myMappedData = map(this, {
+   *      data: () => [1, 2, 3],
+   *      map: (num) => `hi, ${num}!`
+   *    });
+   *
+   *    get first() {
+   *      return this.myMappedData[0];
+   *    }
+   *  }
+   * ```
+   */
   [index: number]: MappedTo;
 
   /**
@@ -82,7 +66,8 @@ export interface MappedArray<MappedTo> {
    *  }
    * ```
    */
-  get length(): number;
+  length: number;
+  // ^ in TS 4.3+, this can change to get length(): number;
 
   /**
    * Iterate over the mapped array, lazily invoking the passed map function
