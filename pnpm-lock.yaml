@@ -145,14 +145,14 @@ importers:
       chalk: ^4.1.2
       eslint: ^8.2.0
       gzip-size: ^6.0.0
-      pretty-bytes: ^5.6.0
+      pretty-bytes: ^6.0.0
       rollup: ^2.60.0
     dependencies:
       brotli-size: 4.0.0
       chalk: 4.1.2
       eslint: 8.13.0
       gzip-size: 6.0.0
-      pretty-bytes: 5.6.0
+      pretty-bytes: 6.0.0
       rollup: 2.70.1
 
   testing/build:
@@ -14429,9 +14429,9 @@ packages:
     hasBin: true
     dev: true
 
-  /pretty-bytes/5.6.0:
-    resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
-    engines: {node: '>=6'}
+  /pretty-bytes/6.0.0:
+    resolution: {integrity: sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: false
 
   /pretty-ms/3.2.0:
