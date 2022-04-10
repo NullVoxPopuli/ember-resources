@@ -2,6 +2,8 @@
 import ts from 'rollup-plugin-ts';
 import { Addon } from '@embroider/addon-dev/rollup';
 import { defineConfig } from 'rollup';
+import { summary } from '@nullvoxpopuli/rollup-bundle-summary';
+import { terser } from 'rollup-plugin-terser';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -67,6 +69,15 @@ export default defineConfig({
     // to leave alone and keep in the published output.
     // addon.keepAssets(['**/*.css']),
 
+    // Start with a clean output directory before building
     addon.clean(),
+
+    // Minify!
+    // This encourages addon devs to worry less about bundle size
+    // of this library when evaluating.
+    terser(),
+
+    // // output stats to the CLI during build
+    summary(),
   ],
 });
