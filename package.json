@@ -4,10 +4,10 @@
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
+    "ci:update": "pnpm run --filter @nullvoxpopuli/github-workflows build",
     "build": "pnpm run --filter ember-resources build",
     "build:docs": "pnpm run --filter docs docs:collect",
-    "start:docs": "pnpm run --filter docs docs:watch",
-    "prepare": "pnpm run build"
+    "start:docs": "pnpm run --filter docs docs:watch"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",

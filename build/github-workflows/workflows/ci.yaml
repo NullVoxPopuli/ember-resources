@@ -1,65 +1,63 @@
 name: CI
+
 on:
-  pull_request: null
+  pull_request:
   push:
     branches:
       - main
       - master
   schedule:
-    - cron: 0 3 * * 0
+    - cron: "0 3 * * 0" # every Sunday at 3am
+
 env:
   CI: true
   dist: ember-resources/dist
+
 jobs:
   build_test:
     name: Build Tests
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    <<: { timeout-minutes: 5, runs-on: ubuntu-latest }: &ubuntu
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
-      - name: Cache pnpm modules
+      - &depCache
+        name: Cache pnpm modules
         uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
+      - &pnpm
+        uses: pnpm/action-setup@v2.2.1
         with:
           version: 6.32.1
-      - name: Install Dependencies
+      - &install
+        name: 'Install Dependencies'
         run: pnpm install
+
       - run: pnpm --filter ember-resources-build-test test
       - uses: actions/upload-artifact@v1
         with:
           name: dist
           path: ${{ env.dist }}
+
   asset-sizes:
     name: Measure Asset Sizes
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    <<: *ubuntu
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.32.1
-      - name: Install Dependencies
-        run: pnpm install
-      - name: Download built package from cache
+      - *depCache
+      - *pnpm
+      - *install
+      - &getDist
+        name: 'Download built package from cache'
         uses: actions/download-artifact@v1
         with:
           name: dist
           path: ${{ env.dist }}
-      - name: measure asset sizes
+      - name: 'measure asset sizes'
         run: node ./build/estimate-bytes/index.js
       - name: comment on PR
         uses: machine-learning-apps/pr-comment@master
@@ -67,10 +65,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: ./build/estimate-bytes/comment.txt
+
+
   tests:
     name: Base Tests
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    <<: *ubuntu
     strategy:
       matrix:
         node:
@@ -82,25 +81,19 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.32.1
-      - name: Install Dependencies
-        run: pnpm install
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
       - name: Test with ${{ matrix.node }}
         run: pnpm --filter ember-app run ember:test
+
   try-scenarios:
-    name: Ember Compatibility
+    name: "Ember Compatibility"
+    <<: *ubuntu
     timeout-minutes: 10
-    runs-on: ubuntu-latest
     needs: tests
+
     strategy:
       fail-fast: true
       matrix:
@@ -120,39 +113,34 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 12.x
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.32.1
-      - name: Install Dependencies
-        run: pnpm install
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
       - name: test
         working-directory: testing/ember-app
-        run: >
-          node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }}
-          --skip-cleanup
+        run: |
+          node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+
   typescript-compatibility:
     name: Type checking - ${{ matrix.typescript-scenario }}
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    <<: *ubuntu
     continue-on-error: true
     needs: build_test
+
     strategy:
       fail-fast: true
       matrix:
         typescript-scenario:
-          - typescript@4.2
-          - typescript@4.3
-          - typescript@4.4
-          - typescript@4.5
-          - typescript@4.6
-          - typescript@next
+          [
+            typescript@4.2,
+            typescript@4.3,
+            typescript@4.4,
+            typescript@4.5,
+            typescript@4.6,
+            typescript@next,
+          ]
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -160,49 +148,33 @@ jobs:
       - uses: volta-cli/action@v1
         with:
           node-version: 12.x
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.32.1
-      - name: Install Dependencies
-        run: pnpm install
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
       - name: Update TS Version
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
         working-directory: testing/ember-app
       - name: Type checking
         run: pnpm --filter ember-app exec tsc --build
+
+
+
   publish:
     name: Release
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    <<: *ubuntu
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    needs:
-      - tests
-      - typescript-compatibility
-      - try-scenarios
+    needs: [tests, typescript-compatibility, try-scenarios]
+
     steps:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
       - uses: volta-cli/action@v1
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.32.1
-      - name: Install Dependencies
-        run: pnpm install
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
       - name: Release
         run: ./node_modules/.bin/semantic-release
         working-directory: ./ember-resources

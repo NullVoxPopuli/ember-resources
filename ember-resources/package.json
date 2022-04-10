@@ -87,7 +87,6 @@
     "@embroider/addon-dev": "^1.2.0",
     "@glimmer/tracking": "^1.0.4",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
-    "@nullvoxpopuli/rollup-bundle-summary": "*",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@types/ember__component": "^4.0.0",
