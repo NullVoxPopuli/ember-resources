@@ -142,14 +142,14 @@ importers:
   rollup-plugins/bundle-summary:
     specifiers:
       brotli-size: ^4.0.0
-      chalk: ^4.1.2
+      chalk: ^5.0.0
       eslint: ^8.2.0
       gzip-size: ^6.0.0
       pretty-bytes: ^5.6.0
       rollup: ^2.60.0
     dependencies:
       brotli-size: 4.0.0
-      chalk: 4.1.2
+      chalk: 5.0.1
       eslint: 8.13.0
       gzip-size: 6.0.0
       pretty-bytes: 5.6.0
@@ -7846,7 +7846,6 @@ packages:
   /chalk/5.0.1:
     resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: true
 
   /charcodes/0.2.0:
     resolution: {integrity: sha512-Y4kiDb+AM4Ecy58YkuZrrSRJBDQdQ2L+NyS1vHHFtNtUjgutcZfx3yp1dAONI/oPaPmyGfCLx5CxL+zauIMyKQ==}
