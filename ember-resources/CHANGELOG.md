@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.5.0...v4.6.0) (2022-04-10)
+
+
+### Features
+
+* **bundle:** minify built assets. core bundle is 827 bytes ([34113ae](https://github.com/NullVoxPopuli/ember-resources/commit/34113ae80f874fb699ebfe42f11da320e10f1c54))
+
 # [4.5.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.4.0...v4.5.0) (2022-04-09)
 
 
