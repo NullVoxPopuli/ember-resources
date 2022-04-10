@@ -288,7 +288,7 @@ class MyResource extends Resource {
 #### `teardown()`
 
 Since ember-source@3.22, we no longer need to have teardown hooks implemented.
-the [`@ember/destroyable`][e-destroybale] APIs allow us to consistently have
+the [`@ember/destroyable`][e-destroyable] APIs allow us to consistently have
 destruction / cleanup behavior on any class/object.
 
 [e-destroyable]: https://api.emberjs.com/ember/release/modules/@ember%2Fdestroyable
