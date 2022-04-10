@@ -2,3 +2,4 @@ packages:
   - "ember-resources"
   - "docs"
   - "testing/*"
+  - "rollup-plugins/*"
