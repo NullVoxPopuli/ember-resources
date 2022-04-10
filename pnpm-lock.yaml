@@ -144,14 +144,14 @@ importers:
       brotli-size: ^4.0.0
       chalk: ^4.1.2
       eslint: ^8.2.0
-      gzip-size: ^6.0.0
+      gzip-size: ^7.0.0
       pretty-bytes: ^5.6.0
       rollup: ^2.60.0
     dependencies:
       brotli-size: 4.0.0
       chalk: 4.1.2
       eslint: 8.13.0
-      gzip-size: 6.0.0
+      gzip-size: 7.0.0
       pretty-bytes: 5.6.0
       rollup: 2.70.1
 
@@ -11523,9 +11523,9 @@ packages:
     resolution: {integrity: sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=}
     dev: true
 
-  /gzip-size/6.0.0:
-    resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
-    engines: {node: '>=10'}
+  /gzip-size/7.0.0:
+    resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       duplexer: 0.1.2
     dev: false
