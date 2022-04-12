@@ -14,6 +14,8 @@ env:
     ubuntu:
       timeout-minutes: 5
       runs-on: ubuntu-latest
+  _onlyPR:
+    if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
 jobs:
   build_test:
     name: Build Tests
@@ -43,6 +45,7 @@ jobs:
     name: Measure Asset Sizes
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
@@ -66,9 +69,7 @@ jobs:
       - name: measure asset sizes
         run: node ./build/estimate-bytes/index.js
       - name: comment on PR
-        uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: ./build/estimate-bytes/comment.txt
   tests:
