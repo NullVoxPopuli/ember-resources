@@ -9,10 +9,27 @@ import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '../types';
+import type { deprecate as emberDebugDeprecate } from '@ember/debug';
+
+let deprecate: typeof emberDebugDeprecate;
 
 export declare interface Resource<T extends LooseArgs = ArgsWrapper> {
   args: T;
+}
+
+if (
+  macroCondition(
+    dependencySatisfies('ember-source', '^3.28') || dependencySatisfies('ember-source', '^4.0.0')
+  )
+) {
+  // @ts-ignore
+  deprecate = importSync('@ember/debug').deprecate;
+} else {
+  // @ts-ignore
+  deprecate = (globalThis.Ember || importSync('@ember/debug')).deprecate;
 }
 
 /**
@@ -49,6 +66,20 @@ export class Resource<T extends LooseArgs = ArgsWrapper> {
     /* eslint-enable @typescript-eslint/no-unused-vars */
   ) {
     setOwner(this, owner);
+
+    deprecate(
+      `The hookless-Resource is deprecated. Please migrate to Resource, exported from 'ember-resources/core'`,
+      false,
+      {
+        id: 'ember-resources.OldResource',
+        until: '5.0.0',
+        url: 'https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md#resource',
+        for: 'ember-resources',
+        since: {
+          available: '4.6',
+        },
+      }
+    );
   }
 }
 

@@ -4,12 +4,29 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import { LifecycleResource } from './resources/lifecycle';
 import { Resource } from './resources/simple';
 import { DEFAULT_THUNK, normalizeThunk, proxyClass } from './utils';
 
 import type { ResourceFn } from './resources/function-runner';
 import type { Cache, Constructable, Thunk } from './types';
+import type { deprecate as emberDebugDeprecate } from '@ember/debug';
+
+let deprecate: typeof emberDebugDeprecate;
+
+if (
+  macroCondition(
+    dependencySatisfies('ember-source', '^3.28') || dependencySatisfies('ember-source', '^4.0.0')
+  )
+) {
+  // @ts-ignore
+  deprecate = importSync('@ember/debug').deprecate;
+} else {
+  // @ts-ignore
+  deprecate = (globalThis.Ember || importSync('@ember/debug')).deprecate;
+}
 
 // https://github.com/josemarluedke/glimmer-apollo/blob/main/packages/glimmer-apollo/src/-private/use-resource.ts
 function useUnproxiedResource<Instance = unknown>(
@@ -90,6 +107,16 @@ export function useResource<Instance extends object, Args extends unknown[]>(
   klass: Constructable<Instance>,
   thunk?: Thunk | (() => Args)
 ): Instance {
+  deprecate(`useResource is deprecated. Please migrate to Resource.from. `, false, {
+    id: 'ember-resources.useResource',
+    until: '5.0.0',
+    url: 'https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md#useresource',
+    for: 'ember-resources',
+    since: {
+      available: '4.6',
+    },
+  });
+
   assert(
     `Expected second argument, klass, to be a Resource. ` +
       `This is different from the v1 series where useResource could be used for both functions and class-based Resources. ` +
