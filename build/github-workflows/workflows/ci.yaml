@@ -13,14 +13,12 @@ env:
   CI: true
   dist: ember-resources/dist
 
-  _anchors:
-    ubuntu: &ubuntu
-      timeout-minutes: 5
-      runs-on: ubuntu-latest
+_ubuntu: &ubuntu
+  timeout-minutes: 5
+  runs-on: ubuntu-latest
 
-
-  _onlyPR: &onlyPR
-    if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+_onlyPR: &onlyPR
+  if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
 
 jobs:
   build_test:
