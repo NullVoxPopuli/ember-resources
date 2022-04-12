@@ -1,3 +1,10 @@
+## [4.6.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.0...v4.6.1) (2022-04-12)
+
+
+### Bug Fixes
+
+* **build:** remove minification from built assets ([3bb54c7](https://github.com/NullVoxPopuli/ember-resources/commit/3bb54c7928f23560cf7067cb7cd48103ce31d2ad))
+
 # [4.6.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.5.0...v4.6.0) (2022-04-10)
 
 
