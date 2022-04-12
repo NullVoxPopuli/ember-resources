@@ -13,10 +13,15 @@ env:
   CI: true
   dist: ember-resources/dist
 
+  _anchors:
+    ubuntu: &ubuntu
+      timeout-minutes: 5
+      runs-on: ubuntu-latest
+
 jobs:
   build_test:
     name: Build Tests
-    <<: { timeout-minutes: 5, runs-on: ubuntu-latest }: &ubuntu
+    <<: *ubuntu
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1

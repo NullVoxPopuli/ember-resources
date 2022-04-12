@@ -10,6 +10,10 @@ on:
 env:
   CI: true
   dist: ember-resources/dist
+  _anchors:
+    ubuntu:
+      timeout-minutes: 5
+      runs-on: ubuntu-latest
 jobs:
   build_test:
     name: Build Tests
@@ -94,6 +98,11 @@ jobs:
           version: 6.32.1
       - name: Install Dependencies
         run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
       - name: Test with ${{ matrix.node }}
         run: pnpm --filter ember-app run ember:test
   try-scenarios:
@@ -132,6 +141,11 @@ jobs:
           version: 6.32.1
       - name: Install Dependencies
         run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
       - name: test
         working-directory: testing/ember-app
         run: >
@@ -172,6 +186,11 @@ jobs:
           version: 6.32.1
       - name: Install Dependencies
         run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
       - name: Update TS Version
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
         working-directory: testing/ember-app
@@ -203,6 +222,11 @@ jobs:
           version: 6.32.1
       - name: Install Dependencies
         run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
       - name: Release
         run: ./node_modules/.bin/semantic-release
         working-directory: ./ember-resources
