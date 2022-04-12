@@ -59,7 +59,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -99,7 +99,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -142,7 +142,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -187,7 +187,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -223,7 +223,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
