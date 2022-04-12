@@ -1,0 +1,15 @@
+{
+  "name": "@nullvoxpopuli/github-workflows",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ./index.js"
+  },
+  "devDependencies": {
+    "yaml": "2.0.0",
+    "js-yaml": "4.1.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

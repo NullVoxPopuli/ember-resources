@@ -1,0 +1,191 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+  schedule:
+    - cron: "0 3 * * 0" # every Sunday at 3am
+
+env:
+  CI: true
+  dist: ember-resources/dist
+
+_ubuntu: &ubuntu
+  timeout-minutes: 5
+  runs-on: ubuntu-latest
+
+_onlyPR: &onlyPR
+  if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+
+jobs:
+  build_test:
+    name: Build Tests
+    <<: *ubuntu
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - &depCache
+        name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - &pnpm
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.1
+      - &install
+        name: 'Install Dependencies'
+        run: pnpm install
+
+      - name: 'Build and Assert Output'
+        run: pnpm --filter ember-resources-build-test test
+      - uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
+
+  asset-sizes:
+    name: Measure Asset Sizes
+    <<: [ *ubuntu, *onlyPR ]
+    needs: ['build_test']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - *depCache
+      - *pnpm
+      - *install
+      - &getDist
+        name: 'Download built package from cache'
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          path: ${{ env.dist }}
+      - name: 'measure asset sizes'
+        run: node ./build/estimate-bytes/index.js
+      - name: comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: ./build/estimate-bytes/comment.txt
+
+
+  tests:
+    name: Base Tests
+    <<: *ubuntu
+    needs: ['build_test']
+    strategy:
+      matrix:
+        node:
+          - "12"
+          - "14"
+          - "16"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
+      - name: Test with ${{ matrix.node }}
+        run: pnpm --filter ember-app run ember:test
+
+  try-scenarios:
+    name: "Ember Compatibility"
+    <<: *ubuntu
+    timeout-minutes: 10
+    needs: tests
+
+    strategy:
+      fail-fast: true
+      matrix:
+        ember-try-scenario:
+          - ember-3.25
+          - ember-3.26
+          - ember-3.28
+          - ember-4.0.0
+          - ember-concurrency-v1
+          - ember-release
+          - ember-beta
+          - ember-canary
+          - embroider-safe
+          - embroider-optimized
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+        with:
+          node-version: 12.x
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
+      - name: test
+        working-directory: testing/ember-app
+        run: |
+          node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
+
+  typescript-compatibility:
+    name: Type checking - ${{ matrix.typescript-scenario }}
+    <<: *ubuntu
+    continue-on-error: true
+    needs: build_test
+
+    strategy:
+      fail-fast: true
+      matrix:
+        typescript-scenario:
+          [
+            typescript@4.2,
+            typescript@4.3,
+            typescript@4.4,
+            typescript@4.5,
+            typescript@4.6,
+            typescript@next,
+          ]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: volta-cli/action@v1
+        with:
+          node-version: 12.x
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
+      - name: Update TS Version
+        run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
+        working-directory: testing/ember-app
+      - name: Type checking
+        run: pnpm --filter ember-app exec tsc --build
+
+
+
+  publish:
+    name: Release
+    <<: *ubuntu
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    needs: [tests, typescript-compatibility, try-scenarios]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: volta-cli/action@v1
+      - *depCache
+      - *pnpm
+      - *install
+      - *getDist
+      - name: Release
+        run: ./node_modules/.bin/semantic-release
+        working-directory: ./ember-resources
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

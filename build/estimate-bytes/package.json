@@ -1,0 +1,18 @@
+{
+  "name": "@nullvoxpopuli/estimate-bytes",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "esbuild": "^0.14.34",
+    "filesize": "^8.0.7",
+    "globby": "^13.1.1",
+    "gzip-cli": "^1.2.0",
+    "js-yaml": "4.1.0",
+    "terser": "^5.12.1",
+    "tmp-promise": "^3.0.3",
+    "yaml": "2.0.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

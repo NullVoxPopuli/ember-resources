@@ -24,7 +24,17 @@ async function main() {
 }
 
 async function build() {
-  await execa('yarn', ['build:js'], { cwd: addonPath, preferLocal: true });
+  if (process.env.CI) {
+    await execa('pnpm', ['run', 'build:js'], {
+      cwd: addonPath,
+      preferLocal: true,
+      stdio: 'inherit',
+    });
+
+    return;
+  }
+
+  await execa('pnpm', ['run', 'build:js'], { cwd: addonPath, preferLocal: true });
 }
 
 async function getExpected() {
