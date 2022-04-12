@@ -22,44 +22,20 @@ const bundlePatterns = ['core/index.js', 'util/*.js'];
 async function collectStats() {
   let { path: tmp } = await tmpDir();
 
-  let paths = await globby(bundlePatterns.map((p) => path.join(dist, p)));
+  let originalDistPaths = await globby(bundlePatterns.map((p) => path.join(dist, p)));
   let stats = {};
-  let sources = {};
 
-  for (let entry of paths) {
+  for (let entry of originalDistPaths) {
     let name = entry.endsWith('core/index.js') ? 'core.js' : path.basename(entry);
     let outFile = path.join(tmp, name);
 
-    sources[outFile] = entry;
+    await bundle(entry, outFile);
+    await minify(outFile);
+    await compress(outFile);
 
-    await esbuild.build({
-      entryPoints: [entry],
-      outfile: outFile,
-      minify: true,
-    });
+    let label = entry.replace(dist, '');
 
-    let { code: minified } = await terser.minify((await fs.readFile(outFile)).toString());
-
-    await fs.writeFile(outFile + '.min', minified);
-    await gzip({ patterns: [`${tmp}/*.min`], outputExtensions: ['gz', 'br'] });
-
-    let sourceFile = sources[outFile];
-    let label = sourceFile.replace(dist, '');
-
-    stats[label] = {};
-
-    let jsStat = await fs.stat(sourceFile);
-
-    stats[label].js = filesize(jsStat.size);
-
-    let paths = await globby([`${outFile}.*`, `${outFile}.min`, `${outFile}.min.*`]);
-
-    for (let filePath of paths) {
-      let stat = await fs.stat(filePath);
-      let key = filePath.replace(tmp, '').split('.').slice(1).join('.');
-
-      stats[label][key] = filesize(stat.size);
-    }
+    stats[label] = await statsFor(outFile, { tmp });
   }
 
   // This will get posted to github as a comment, so let's use a markdown table
@@ -76,6 +52,57 @@ async function collectStats() {
   console.debug(output);
 
   await fs.writeFile(path.join(__dirname, 'comment.txt'), output);
+}
+
+async function bundle(entry, outFile) {
+  /**
+   * Utils are one file
+   */
+  if (entry.includes('util')) {
+    await fs.copyFile(entry, outFile);
+  } else {
+    await esbuild.build({
+      entryPoints: [entry],
+      outfile: outFile,
+      bundle: true,
+      external: [
+        '@ember/application',
+        '@ember/debug',
+        '@ember/helper',
+        '@ember/destroyable',
+        '@glimmer/tracking',
+      ],
+    });
+  }
+}
+
+async function compress(outFile) {
+  await gzip({ patterns: [`${outFile}.min`], outputExtensions: ['gz', 'br'] });
+}
+
+async function minify(filePath) {
+  let { code } = await terser.minify((await fs.readFile(filePath)).toString());
+
+  await fs.writeFile(filePath + '.min', code);
+}
+
+async function statsFor(outFile, { tmp }) {
+  let result = {};
+
+  let jsStat = await fs.stat(outFile);
+
+  result.js = filesize(jsStat.size);
+
+  let paths = await globby([`${outFile}.*`, `${outFile}.min`, `${outFile}.min.*`]);
+
+  for (let filePath of paths) {
+    let stat = await fs.stat(filePath);
+    let key = filePath.replace(tmp, '').split('.').slice(1).join('.');
+
+    result[key] = filesize(stat.size);
+  }
+
+  return result;
 }
 
 collectStats();
