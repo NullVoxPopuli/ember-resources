@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
       - name: Build and Assert Output
         run: pnpm --filter ember-resources-build-test test
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
