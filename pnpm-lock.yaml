@@ -45,7 +45,7 @@ importers:
       js-yaml: 4.1.0
       terser: ^5.12.1
       tmp-promise: ^3.0.3
-      yaml: 2.0.0
+      yaml: 2.0.1
     devDependencies:
       esbuild: 0.14.34
       filesize: 8.0.7
@@ -54,15 +54,15 @@ importers:
       js-yaml: 4.1.0
       terser: 5.12.1
       tmp-promise: 3.0.3
-      yaml: 2.0.0
+      yaml: 2.0.1
 
   build/github-workflows:
     specifiers:
       js-yaml: 4.1.0
-      yaml: 2.0.0
+      yaml: 2.0.1
     devDependencies:
       js-yaml: 4.1.0
-      yaml: 2.0.0
+      yaml: 2.0.1
 
   docs:
     specifiers:
@@ -17520,8 +17520,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /yaml/2.0.0:
-    resolution: {integrity: sha512-JbfdlHKGP2Ik9IHylzWlGd4pPK++EU46/IxMykphS2ZKw7a7h+dHNmcXObLgpRDriBY+rpWslldikckX8oruWQ==}
+  /yaml/2.0.1:
+    resolution: {integrity: sha512-1NpAYQ3wjzIlMs0mgdBmYzLkFgWBIWrzYVDYfrixhoFNNgJ444/jT2kUT2sicRbJES3oQYRZugjB6Ro8SjKeFg==}
     engines: {node: '>= 14'}
     dev: true
 
