@@ -20,9 +20,12 @@
   },
   "typesVersions": {
     ">= 4.0.0": {
-      "./*": [
-        "./dist/*"
-      ]
+      "*": ["dist/*"],
+      "core": ["dist/core/index.d.ts"],
+      "util": ["dist/util/index.d.ts"],
+      "util/map": ["dist/util/map.d.ts"],
+      "util/helper": ["dist/util/helper.d.ts"],
+      "util/ember-concurrency": ["dist/util/ember-concurrency.d.ts"]
     }
   },
   "author": "NullVoxPopuli",
