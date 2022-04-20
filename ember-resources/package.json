@@ -1,6 +1,6 @@
 {
   "name": "ember-resources",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "keywords": [
     "ember-addon"
   ],
@@ -20,12 +20,24 @@
   },
   "typesVersions": {
     ">= 4.0.0": {
-      "*": ["dist/*"],
-      "core": ["dist/core/index.d.ts"],
-      "util": ["dist/util/index.d.ts"],
-      "util/map": ["dist/util/map.d.ts"],
-      "util/helper": ["dist/util/helper.d.ts"],
-      "util/ember-concurrency": ["dist/util/ember-concurrency.d.ts"]
+      "*": [
+        "dist/*"
+      ],
+      "core": [
+        "dist/core/index.d.ts"
+      ],
+      "util": [
+        "dist/util/index.d.ts"
+      ],
+      "util/map": [
+        "dist/util/map.d.ts"
+      ],
+      "util/helper": [
+        "dist/util/helper.d.ts"
+      ],
+      "util/ember-concurrency": [
+        "dist/util/ember-concurrency.d.ts"
+      ]
     }
   },
   "author": "NullVoxPopuli",

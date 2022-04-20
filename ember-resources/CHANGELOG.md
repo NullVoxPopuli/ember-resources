@@ -1,3 +1,10 @@
+## [4.6.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.1...v4.6.2) (2022-04-20)
+
+
+### Bug Fixes
+
+* **types:** certain typescript scenarios need explicit typesVersions entries ([1346b0e](https://github.com/NullVoxPopuli/ember-resources/commit/1346b0e556ac51c6cd7d48db460ebe45878a3b90))
+
 ## [4.6.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.0...v4.6.1) (2022-04-12)
 
 
