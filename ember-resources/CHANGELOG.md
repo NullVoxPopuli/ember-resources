@@ -1,3 +1,10 @@
+## [4.6.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.2...v4.6.3) (2022-04-21)
+
+
+### Bug Fixes
+
+* **docs, Resource:** there is no second arg passed to the constructor of Resource ([b21f386](https://github.com/NullVoxPopuli/ember-resources/commit/b21f3861bccfeed75d08ffa55e2bfbdab1d60cb2))
+
 ## [4.6.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.1...v4.6.2) (2022-04-20)
 
 
