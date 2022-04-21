@@ -111,7 +111,7 @@ _More information contained in the `docs` folder_.
 
 High-fidelity sourcemaps are provided in the original typescript.
 However, you must be using embroider to take advantage of them.
-Sourcemaps should work with ember-auto-import@v2+ in non-embroider builds as well, 
+Sourcemaps should work with ember-auto-import@v2+ in non-embroider builds as well,
 but is untested.
 
 

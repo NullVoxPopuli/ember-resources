@@ -29,8 +29,8 @@ import type { ArgsWrapper, Cache, Thunk } from './types';
  * class MyResource extends Resource {
  *   @tracked customState;
  *
- *   constructor(owner, args) {
- *     super(owner, args);
+ *   constructor(owner) {
+ *     super(owner);
  *
  *     registerDestructor(() => this.interpreter.stop());
  *   }
