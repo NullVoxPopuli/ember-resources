@@ -32,7 +32,7 @@ import type { ArgsWrapper, Cache, Thunk } from './types';
  *   constructor(owner) {
  *     super(owner);
  *
- *     registerDestructor(() => this.interpreter.stop());
+ *     registerDestructor(this, () => this.interpreter.stop());
  *   }
  *
  *   modify(positional, named) {
