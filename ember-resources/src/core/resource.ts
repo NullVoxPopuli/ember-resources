@@ -90,6 +90,8 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
   /**
    * For use in the body of a class.
    *
+   * @note prefer [[from]]
+   *
    * `of` is what allows resources to be used in JS, they hide the reactivity APIs
    * from the consumer so that the surface API is smaller. Though, from an end-user-api
    * ergonomics perspective, you wouldn't typically want to rely on this. As in
@@ -145,22 +147,23 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
    * Unlike `of`, due to the fewer arguments required in `from`, though it _may_ be more
    * convenient to not wrap your resource abstraction in a helper function.
    *
+   * ```js
    * import { Resource } from 'ember-resources';
    *
    * class SomeResource extends Resource {}
    *
    * class MyClass {
-   *   data = SomeResource.from(this, () => [arg list]);
+   *   data = SomeResource.from(this, () => [ ... ]);
    * }
    * ```
    *
    * However, if you have argument defaults or need to change the shape of arguments
-   * depending on what ergonimics you want your users to have, a wrapper function
+   * depending on what ergonomics you want your users to have, a wrapper function
    * may be better.
    *
    * ```js
-   * export function someResource(context, args) {
-   *   return Resource.of(context, SomeResource, () =>  ... );
+   * export function someResource(context, { foo, bar }) {
+   *   return SomeResource.from(context, () =>  ... );
    * }
    * ```
    *  usage:
@@ -170,7 +173,13 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
    * class SomeResource extends Resource {}
    *
    * class MyClass {
-   *   data = someResource(this, () => [arg list]);
+   *   @tracked foo;
+   *   @tracked bar;
+   *
+   *   data = someResource(this, {
+   *     foo: () => this.foo,
+   *     bar: () => this.bar
+   *   });
    * }
    * ```
    */
