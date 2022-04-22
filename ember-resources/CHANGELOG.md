@@ -1,3 +1,10 @@
+## [4.6.4](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.3...v4.6.4) (2022-04-22)
+
+
+### Bug Fixes
+
+* **package, types:** remove space in version field in typesVersion. Remove main entry ([1b1b0ea](https://github.com/NullVoxPopuli/ember-resources/commit/1b1b0ea30acd1cbf442ca34d599e0e669d1ed717))
+
 ## [4.6.3](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.2...v4.6.3) (2022-04-21)
 
 
