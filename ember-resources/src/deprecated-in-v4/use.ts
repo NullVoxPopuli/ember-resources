@@ -11,9 +11,26 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import { normalizeThunk } from './utils';
 
 import type { Thunk } from './types';
+import type { deprecate as emberDebugDeprecate } from '@ember/debug';
+
+let deprecate: typeof emberDebugDeprecate;
+
+if (
+  macroCondition(
+    dependencySatisfies('ember-source', '^3.28') || dependencySatisfies('ember-source', '^4.0.0')
+  )
+) {
+  // @ts-ignore
+  deprecate = importSync('@ember/debug').deprecate;
+} else {
+  // @ts-ignore
+  deprecate = (globalThis.Ember || importSync('@ember/debug')).deprecate;
+}
 
 interface Class<T = unknown> {
   new (...args: unknown[]): T;
@@ -53,6 +70,20 @@ interface Descriptor {
  */
 export function use(_prototype: object, key: string, descriptor?: Descriptor): void {
   if (!descriptor) return;
+
+  deprecate(
+    `The @use decorator is deprecated. Please migrate to the decorator-less Resources`,
+    false,
+    {
+      id: 'ember-resources.at-use',
+      until: '5.0.0',
+      url: 'https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md#use',
+      for: 'ember-resources',
+      since: {
+        available: '4.6',
+      },
+    }
+  );
 
   assert(`@use can only be used with string-keys`, typeof key === 'string');
 

@@ -221,7 +221,7 @@ importers:
       ember-auto-import: 2.4.0
       ember-cli: ~4.1.1
       ember-cli-app-version: ^5.0.0
-      ember-cli-babel: ^7.26.11
+      ember-cli-babel: ^7.0.0
       ember-cli-dependency-checker: ^3.2.0
       ember-cli-htmlbars: ^6.0.0
       ember-cli-inject-live-reload: ^2.1.0
@@ -10062,8 +10062,8 @@ packages:
     resolution: {integrity: sha512-89oVHVJwmLDvGvAUWgS87KpBoRhy3aZ6U0Ql6HOmU4TrPkyaa8pM0W81wj9cIwjYprcQtN9EwzZMHnq46+oUyw==}
     engines: {node: 8.* || 10.* || >= 12}
     dependencies:
-      '@babel/parser': 7.17.3
-      '@babel/traverse': 7.17.3
+      '@babel/parser': 7.17.9
+      '@babel/traverse': 7.17.9
       recast: 0.18.10
     transitivePeerDependencies:
       - supports-color

@@ -5,11 +5,28 @@ import { assert } from '@ember/debug';
 import { invokeHelper } from '@ember/helper';
 import { get } from '@ember/object';
 
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import { TASK, TaskResource } from './resources/ember-concurrency-task';
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
 import type { TaskInstance, TaskIsh } from './resources/ember-concurrency-task';
 import type { Cache, Constructable } from './types';
+import type { deprecate as emberDebugDeprecate } from '@ember/debug';
+
+let deprecate: typeof emberDebugDeprecate;
+
+if (
+  macroCondition(
+    dependencySatisfies('ember-source', '^3.28') || dependencySatisfies('ember-source', '^4.0.0')
+  )
+) {
+  // @ts-ignore
+  deprecate = importSync('@ember/debug').deprecate;
+} else {
+  // @ts-ignore
+  deprecate = (globalThis.Ember || importSync('@ember/debug')).deprecate;
+}
 
 /**
  * @deprecated
@@ -59,6 +76,20 @@ export function useTask<
   LocalTask extends TaskIsh<Args, Return> = TaskIsh<Args, Return>
 >(context: object, task: LocalTask, thunk?: () => Args) {
   assert(`Task does not have a perform method. Is it actually a task?`, 'perform' in task);
+
+  deprecate(
+    `The useTask is deprecated. Please migrate to task, exported from 'ember-resources/util/ember-concurrency'`,
+    false,
+    {
+      id: 'ember-resources.useTask',
+      until: '5.0.0',
+      url: 'https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md#usetask',
+      for: 'ember-resources',
+      since: {
+        available: '4.6',
+      },
+    }
+  );
 
   let target = buildUnproxiedTaskResource(context, task, (thunk || DEFAULT_THUNK) as () => Args);
 

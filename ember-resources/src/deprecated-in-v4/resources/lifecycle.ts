@@ -9,7 +9,24 @@ import { associateDestroyableChild, registerDestructor } from '@ember/destroyabl
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+
 import type { ArgsWrapper, Cache, LooseArgs, Thunk } from '[deprecated-types]';
+import type { deprecate as emberDebugDeprecate } from '@ember/debug';
+
+let deprecate: typeof emberDebugDeprecate;
+
+if (
+  macroCondition(
+    dependencySatisfies('ember-source', '^3.28') || dependencySatisfies('ember-source', '^4.0.0')
+  )
+) {
+  // @ts-ignore
+  deprecate = importSync('@ember/debug').deprecate;
+} else {
+  // @ts-ignore
+  deprecate = (globalThis.Ember || importSync('@ember/debug')).deprecate;
+}
 
 export declare interface LifecycleResource<T extends LooseArgs = ArgsWrapper> {
   args: T;
@@ -108,6 +125,20 @@ export class LifecycleResource<T extends LooseArgs = ArgsWrapper> {
 
   constructor(owner: unknown, public args: T) {
     setOwner(this, owner);
+
+    deprecate(
+      `The LifecycleResource is deprecated. Please migrate to Resource, exported from 'ember-resources/core'`,
+      false,
+      {
+        id: 'ember-resources.LifecycleResource',
+        until: '5.0.0',
+        url: 'https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md#lifecycleresource',
+        for: 'ember-resources',
+        since: {
+          available: '4.6',
+        },
+      }
+    );
   }
 }
 
