@@ -47,7 +47,12 @@ async function getExpected() {
 async function listFiles(ofDir = path.join(addonPath, 'dist')) {
   let read = await fs.readdir(ofDir, { withFileTypes: true });
 
-  return read.filter(Boolean).map((item) => item.name);
+  // tslib has a hash that we can't know ahead of time
+  // and it provides decorator support
+  return read
+    .filter(Boolean)
+    .filter((file) => !file.name.startsWith('tslib'))
+    .map((item) => item.name);
 }
 
 main();

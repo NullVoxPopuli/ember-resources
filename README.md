@@ -15,7 +15,7 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 ## Compatibility
 
 * ember-source v3.25+
-* typeScript v4.2+
+* typescript v4.2+
 * ember-auto-import v2+
 
 ## Installation
@@ -28,10 +28,14 @@ yarn add ember-resources
 ember install ember-resources
 ```
 
-## Example
+
+See: [API Documentation](https://ember-resources.pages.dev/modules)
+for more examples.
+
+## Example (async utility)
 
 ```js
-import { trackedFunction } from 'ember-resources';
+import { trackedFunction } from 'ember-resources/util/function';
 
 class MyClass {
   @tracked endpoint = 'starships';
@@ -52,9 +56,51 @@ class MyClass {
 {{this.records}}
 ```
 
+
 In this example, `trackedFunction` will make a call to [StarWars API](https://swapi.dev/)
 and if `endpoint` changes from `starships` to `planets`, the `trackedFunction` will
 automatically re-call the StarWars API to fetch the planets.
+
+## Example (function-resource)
+
+This alternate API is more general-purpose, but has the same behavior
+as the above example.
+
+```js
+import { resource, use } from 'ember-resources/util/function-resource';
+import { TrackedObject } from 'tracked-built-ins';
+
+class MyClass {
+  @tracked endpoint = 'starships';
+
+  @use load = resource(({ on }) => {
+    let state = new TrackedObject({});
+    let controller = new AbortController();
+
+    on.cleanup(() => controller.abort());
+
+    fetch(`https://swapi.dev/api/${this.endpoint}`, { signal: controller.signal })
+      .then(response => response.json())
+      .then(data => {
+        state.value = data;
+        // ...
+      })
+      .catch(error => {
+        state.error = error;
+        // ...
+      });
+
+    return state;
+  });
+}
+```
+```hbs
+{{#if this.load.value}}
+  ...
+{{else if this.load.error}}
+  {{this.load.error}}
+{{/if}}
+```
 
 ## What is a Resource?
 
@@ -114,6 +160,9 @@ However, you must be using embroider to take advantage of them.
 Sourcemaps should work with ember-auto-import@v2+ in non-embroider builds as well,
 but is untested.
 
+
+Note, ember-resources is not guaranteed to be compatible with usage within `@computed` getters.
+Only auto-tracking is supported.
 
 ## Related addons
 
