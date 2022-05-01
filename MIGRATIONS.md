@@ -46,10 +46,9 @@ _Migration during the v4 series is available via different imports_.
 - opt-in svelte-able imports, but lazy tree-shakable imports still available (import everything from `'ember-resources'`)
 - `Array.prototype.map` as a resource
 - new `Resource` class with sole `modify` hook
-- `trackedFunction` now wraps [ember-async-data][e-async-data] for a richer way to inspect pending and error state
+- new `resource` function for function-based resources for simpler inline resources
+- `trackedFunction` now provides additional state properties for better intermediate rendering during loading and error states
 
-
-[e-async-data]: https://github.com/chriskrycho/ember-async-data
 
 -----------------------------------
 
@@ -76,6 +75,7 @@ Primary goals of this migration:
 ### Nomenclature changes
 
 _`use*` is now either `*Of` or dropped entirely_
+(with an exception on small inline resources)
 
 The reason for this is that the "useThing" isn't descriptive of what behavior is actually happening.
 In many cases, folks are using resources to mean "a class that participates in auto-tracking" and while
@@ -391,13 +391,24 @@ _ember-concurrency@v1 is also not compatible with ember-source@v4+_
 
 #### `trackedFunction`
 
-tbd: replacement not implemented yet.
-API will be the same, but behavior will be slightly different, and there will be additional properties.
+Starting in v4.6, a `trackedFunction` utility is available from a new import path,
+`ember-resources/util/function`.
 
+This version has additional properties for better managing intermediate state.
+- `isResolved`
+- `isPending`
+- `isLoading`
+- `isError`
+- `value`
+- `error`
 
 #### `use`
 
 The `@use` decorator did not see much of any public usage and will be removed in `ember-resources@v5`
+from the `ember-resources` import path.
+
+_however_ `@use` _is_ required for function-based resources (for various technical reasons described in the API docs).
+This is a different use from the original `@use` -- this is mostly because the original `@use` did not see much of any public usage.
 
 #### `useFunction`
 
