@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.7.0...v4.7.1) (2022-05-01)
+
+
+### Bug Fixes
+
+* add deprecations for the deprecated APIs ([5b07081](https://github.com/NullVoxPopuli/ember-resources/commit/5b07081f50f28a823a2e76668704667cee0e2ebd))
+
 # [4.7.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.6.4...v4.7.0) (2022-05-01)
 
 
