@@ -44,7 +44,7 @@ export function trackedFunction<Return>(...passed: WithInitialValue<Return>): St
  * ```js
  * import Component from '@glimmer/component';
  * import { tracked } from '@glimmer/tracking';
- * import { trackedFunction }  from 'ember-resources';
+ * import { trackedFunction }  from 'ember-resources/util/function';
  *
  * class Demo extends Component {
  *   @tracked id = 1;
