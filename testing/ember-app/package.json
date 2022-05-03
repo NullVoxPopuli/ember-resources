@@ -105,6 +105,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-qunit": "^7.2.0",
     "loader.js": "^4.7.0",
+    "msw": "^0.39.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "qunit": "^2.16.0",
@@ -121,5 +122,8 @@
   "packageManager": "pnpm@6.32.1",
   "volta": {
     "extends": "../../package.json"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
