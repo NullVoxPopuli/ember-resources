@@ -168,7 +168,7 @@ jobs:
           - typescript@4.6
           - typescript@next
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: volta-cli/action@v1
