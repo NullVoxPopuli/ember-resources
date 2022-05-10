@@ -33,15 +33,15 @@ import type { Cache } from '../core/types';
  *  When `this.id` changes, the task will automatically be re-invoked.
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { task, timeout } from 'ember-concurrency';
- * import { useTask } from 'ember-resources';
+ * import { restartableTask, timeout } from 'ember-concurrency';
+ * import { task } from 'ember-resources/util/ember-concurrency';
  *
  * class Demo {
  *   @tracked id = 1;
  *
- *   last = useTask(this, this.searchTask, () => [this.id]);
+ *   last = task(this, this.searchTask, () => [this.id]);
  *
- *   @task
+ *   @restartableTask
  *   *searchTask(id) {
  *     yield timeout(200);
  *     yield fetch('...');
