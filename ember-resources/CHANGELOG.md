@@ -1,3 +1,10 @@
+# [4.8.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.7.1...v4.8.0) (2022-05-14)
+
+
+### Features
+
+* add `remoteData` and `RemoteData` utils ([f613791](https://github.com/NullVoxPopuli/ember-resources/commit/f6137916e1f75b87b2f19d0658335bebd081c76e))
+
 ## [4.7.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.7.0...v4.7.1) (2022-05-01)
 
 
