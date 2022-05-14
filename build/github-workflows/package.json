@@ -6,7 +6,7 @@
     "build": "node ./index.js"
   },
   "devDependencies": {
-    "yaml": "2.0.1",
+    "yaml": "2.1.0",
     "js-yaml": "4.1.0"
   },
   "volta": {
