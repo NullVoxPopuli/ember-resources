@@ -6,13 +6,14 @@
   "scripts": {
     "ci:update": "cd build/github-workflows && pnpm build",
     "build": "pnpm run --filter ember-resources build",
+    "lint:js": "pnpm run --filter '*' lint:js",
     "build:docs": "pnpm run --filter docs docs:collect",
     "start:docs": "pnpm run --filter docs docs:watch"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@nullvoxpopuli/eslint-configs": "^2.1.1",
+    "@nullvoxpopuli/eslint-configs": "github:oliverlj/eslint-configs#feature/babel-eslint-parser",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.1",
