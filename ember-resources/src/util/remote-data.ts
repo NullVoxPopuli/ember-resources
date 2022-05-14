@@ -26,12 +26,8 @@ class State {
 }
 
 /**
- * Native [fetch][mdn-fetch]
- * but with built-in [AbortController][mdn-abort-controller]
- *
- * [mdn-fetch]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
- * [mdn-abort-controller]: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
- *
+ * Native [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+ * but with built-in [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
  *
  * example with composition (maybe you want to implement your own version
  * that also wraps up authorization headers):
@@ -48,6 +44,23 @@ class State {
  *   );
  * }
  * ```
+ *
+ * The same example, but without `@use`
+ *
+ * ```js
+ * import { tracked } from '@glimmer/tracking';
+ * import { resource } from 'ember-resources/util/function-resource';
+ * import { remoteData } from 'ember-resources/util/remote-data';
+ *
+ * class Demo {
+ *   @tracked id = 1;
+ *
+ *   myData = resource(this, (hooks) =>
+ *     remoteData(hooks, `https://...${this.id}`)
+ *   );
+ * }
+ * ```
+ *
  */
 export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {}): State {
   let state = new State();

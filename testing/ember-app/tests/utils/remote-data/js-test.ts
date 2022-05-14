@@ -187,6 +187,26 @@ module('Utils | remote-data | js', function (hooks) {
       assert.true(test.request.isResolved);
     });
 
+    test('works without @use', async function (assert) {
+      class Test {
+        request = resource(this, (api) => remoteData(api, `/blogs/1`));
+      }
+
+      let test = new Test();
+
+      setOwner(test, this.owner);
+
+      assert.strictEqual(test.request.value, null);
+      assert.true(test.request.isLoading);
+      assert.false(test.request.isError);
+      assert.false(test.request.isResolved);
+      await settled();
+      assert.deepEqual(test.request.value, data[0]);
+      assert.false(test.request.isLoading);
+      assert.false(test.request.isError);
+      assert.true(test.request.isResolved);
+    });
+
     test('works with static options', async function (assert) {
       class Test {
         @use request = resource((api) =>
