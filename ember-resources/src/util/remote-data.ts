@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import { waitForPromise } from '@ember/test-waiters';
 
-import { resource } from './function-resource';
+import { registerResourceWrapper, resource } from './function-resource';
 
 import type { Hooks } from './function-resource';
 
@@ -188,3 +188,5 @@ export function RemoteData(
     return remoteData(hooks, targetUrl, options);
   });
 }
+
+registerResourceWrapper(RemoteData);

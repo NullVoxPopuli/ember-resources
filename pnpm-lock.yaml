@@ -310,10 +310,10 @@ importers:
       ember-try: 2.0.0
       ember-welcome-page: 6.1.0
       eslint: 7.32.0
-      eslint-config-prettier: 8.4.0_eslint@7.32.0
-      eslint-plugin-ember: 10.5.9_eslint@7.32.0
+      eslint-config-prettier: 8.5.0_eslint@7.32.0
+      eslint-plugin-ember: 10.6.1_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-prettier: 4.0.0_5u7oomrk4c6c4veizye6iqamma
+      eslint-plugin-prettier: 4.0.0_z7eskpggz6hgh3lpmotlmahgxe
       eslint-plugin-qunit: 7.2.0_eslint@7.32.0
       loader.js: 4.7.0
       msw: 0.39.2
@@ -9758,6 +9758,23 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
+  /eslint-plugin-prettier/4.0.0_z7eskpggz6hgh3lpmotlmahgxe:
+    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      eslint: '>=7.28.0'
+      eslint-config-prettier: '*'
+      prettier: '>=2.0.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 7.32.0
+      eslint-config-prettier: 8.5.0_eslint@7.32.0
+      prettier: 2.5.1
+      prettier-linter-helpers: 1.0.0
+    dev: true
+
   /eslint-plugin-qunit/7.2.0_eslint@7.32.0:
     resolution: {integrity: sha512-ebT6aOpmMj4vchG0hVw9Ukbutk/lgywrc8gc9w9hH2/4WjKqwMlyM7iVwqB7OAXv6gtQMJZuziT0wNjjymAuWA==}
     engines: {node: 12.x || 14.x || >=16.0.0}
@@ -14775,7 +14792,7 @@ packages:
   /rxjs/7.5.5:
     resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.4.0
     dev: true
 
   /safe-buffer/5.1.2:

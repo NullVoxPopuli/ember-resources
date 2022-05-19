@@ -313,8 +313,40 @@ class FunctionResourceManager {
   }
 }
 
+type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
+
+class ResourceInvokerManager {
+  capabilities = helperCapabilities('3.23', {
+    hasValue: true,
+    hasDestroyable: true,
+  });
+
+  createHelper(fn: ResourceFactory, args: any): ReturnType<typeof resource> {
+    // this calls `resource`, which registers
+    // with the other helper manager
+    return fn(...args.positional);
+  }
+
+  getValue(helper: ReturnType<typeof resource>) {
+    let result = invokeHelper(this, helper, () => ({}));
+
+    return getValue(result);
+  }
+
+  getDestroyable(helper: ReturnType<typeof resource>) {
+    return helper;
+  }
+}
+
 // Provide a singleton manager.
 const MANAGER = new FunctionResourceManager();
+const ResourceInvoker = new ResourceInvokerManager();
+
+export function registerResourceWrapper(wrapperFn: ResourceFactory) {
+  setHelperManager(() => ResourceInvoker, wrapperFn);
+
+  return wrapperFn;
+}
 
 interface Descriptor {
   initializer: () => unknown;
