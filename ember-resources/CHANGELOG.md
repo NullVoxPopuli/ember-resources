@@ -1,3 +1,10 @@
+## [4.8.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.0...v4.8.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* **RemoteData, function-resource:** wrapped template usage ([3975e65](https://github.com/NullVoxPopuli/ember-resources/commit/3975e6592bc71f8a525fd9debb6ab4f296489189))
+
 # [4.8.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.7.1...v4.8.0) (2022-05-14)
 
 
