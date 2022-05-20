@@ -54,7 +54,7 @@ import type { ArgsWrapper, Cache, Thunk } from './types';
  * In the template, the Resource can be imported (or re-exported from the helpers directory)
  *
  * When imported (using [RFC 779](https://github.com/emberjs/rfcs/pull/779)),
- * ```gjs
+ * ```
  * import { MyResource } from './somewhere';
  *
  * <template>

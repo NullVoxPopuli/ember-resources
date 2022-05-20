@@ -110,7 +110,7 @@ export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {
  * ```
  *
  * In strict mode with <template>
- * ```gjs
+ * ```
  * import { RemoteData } from 'ember-resources/util/remote-data';
  *
  * const options = (token) => ({
