@@ -75,26 +75,33 @@ jobs:
 
 
   tests:
-    name: Base Tests
+    name: Default Tests
     <<: *ubuntu
     needs: ['build_test']
-    strategy:
-      matrix:
-        node:
-          - "12"
-          - "14"
-          - "16"
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
-        with:
-          node-version: ${{ matrix.node }}
       - *depCache
       - *pnpm
       - *install
       - *getDist
-      - name: Test with ${{ matrix.node }}
-        run: pnpm --filter ember-app run ember:test
+      - run: pnpm --filter ember-app run ember:test
+
+  floating-deps-tests:
+    name: Floating Deps Test
+    <<: *ubuntu
+    needs: ['build_test']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      # Same as Default tests, but:
+      # - no cache
+      # - "different" install command
+      - *pnpm
+      - name: 'Install Dependencies'
+        run: rm pnpm-lock.yaml && pnpm install
+      - *getDist
+      - run: pnpm --filter ember-app run ember:test
 
   try-scenarios:
     name: "Ember Compatibility"
@@ -172,7 +179,7 @@ jobs:
     name: Release
     <<: *ubuntu
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    needs: [tests, typescript-compatibility, try-scenarios]
+    needs: [tests, typescript-compatibility, try-scenarios, floating-deps-tests]
 
     steps:
       - uses: actions/checkout@v3
