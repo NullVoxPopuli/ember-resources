@@ -170,11 +170,6 @@ export function resource<Value>(
     (context as any)[INTERNAL] = true;
 
     return context as ResourceFunction<Value>;
-
-    // return {
-    //   [INTERNAL]: true,
-    //   [INTERMEDIATE_VALUE]: context as ResourceFunction<Value>,
-    // };
   }
 
   setHelperManager(() => MANAGER, setup);
@@ -270,8 +265,6 @@ class FunctionResourceManager {
   });
 
   createHelper(fn: ResourceFunction) {
-    // let destroyer: Destructor | undefined;
-
     /**
      * The helper is only created once.
      * It's the cache's callback that is invoked multiple times,
