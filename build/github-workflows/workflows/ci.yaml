@@ -104,7 +104,7 @@ jobs:
       - run: pnpm --filter ember-app run ember:test
 
   try-scenarios:
-    name: "Ember Compatibility"
+    name: "Compat: ${{ matrix.ember-try-scenario }}"
     <<: *ubuntu
     timeout-minutes: 10
     needs: tests
@@ -117,6 +117,7 @@ jobs:
           - ember-3.26
           - ember-3.28
           - ember-4.0.0
+          - ember-4.4
           - ember-concurrency-v1
           - ember-release
           - ember-beta
