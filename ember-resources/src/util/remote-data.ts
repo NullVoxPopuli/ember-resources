@@ -109,6 +109,24 @@ export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {
  * }
  * ```
  *
+ * In strict mode with <template>
+ * ```gjs
+ * import { RemoteData } from 'ember-resources/util/remote-data';
+ *
+ * const options = (token) => ({
+ *   headers: {
+ *     Authorization: `Bearer ${token}`
+ *   }
+ * });
+ *
+ * <template>
+ *  {{#let (RemoteData "https://some.domain" (options "my-token")) as |state|}}
+ *    {{state.isLoading}}
+ *    {{state.value}}
+ *  {{/let}}
+ * </template>
+ * ```
+ *
  */
 export function RemoteData(url: string, options?: FetchOptions): State;
 

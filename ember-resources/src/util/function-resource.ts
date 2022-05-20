@@ -342,6 +342,62 @@ class ResourceInvokerManager {
 const MANAGER = new FunctionResourceManager();
 const ResourceInvoker = new ResourceInvokerManager();
 
+/**
+ * Allows wrapper functions to provide a [[resource]] for use in templates.
+ *
+ * Only library authors may care about this, but helper function is needed to "register"
+ * the wrapper function with a helper manager that specifically handles invoking both the
+ * resource wrapper function as well as the underlying resource.
+ *
+ * _App-devs / consumers may not ever need to know this utility function exists_
+ *
+ *  Example using strict mode + <template> syntax and a template-only component:
+ *  ```js
+ *  import { resource, registerResourceWrapper } from 'ember-resources/util/function-resource';
+ *
+ *  function RemoteData(url) {
+ *    return resource(({ on }) => {
+ *      let state = new TrackedObject({});
+ *      let controller = new AbortController();
+ *
+ *      on.cleanup(() => controller.abort());
+ *
+ *      fetch(url, { signal: controller.signal })
+ *        .then(response => response.json())
+ *        .then(data => {
+ *          state.value = data;
+ *        })
+ *        .catch(error => {
+ *          state.error = error;
+ *        });
+ *
+ *      return state;
+ *    })
+ * }
+ *
+ * registerResourceWrapper(RemoteData)
+ *
+ *  <template>
+ *    {{#let (load) as |state|}}
+ *      {{#if state.value}}
+ *        ...
+ *      {{else if state.error}}
+ *        {{state.error}}
+ *      {{/if}}
+ *    {{/let}}
+ *  </template>
+ *  ```
+ *
+ *  Alternatively, `registerResourceWrapper` can wrap the wrapper function.
+ *
+ *  ```js
+ *  const RemoteData = registerResourceWrapper((url) => {
+ *    return resource(({ on }) => {
+ *      ...
+ *    });
+ *  })
+ *  ```
+ */
 export function registerResourceWrapper(wrapperFn: ResourceFactory) {
   setHelperManager(() => ResourceInvoker, wrapperFn);
 
