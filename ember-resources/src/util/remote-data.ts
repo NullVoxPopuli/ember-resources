@@ -7,19 +7,49 @@ import type { Hooks } from './function-resource';
 
 type FetchOptions = Parameters<typeof fetch>[1];
 
-class State {
+/**
+ * @protected
+ */
+export class State {
+  /**
+   * If an exception was thrown while making the request, the error
+   * thrown will be here.
+   */
   @tracked error = null;
+  /**
+   * The resolved value of the fetch request
+   */
   @tracked value = null;
+
+  /**
+   * HTTP status code.
+   */
   @tracked status: null | number = null;
 
+  /**
+   * true if the request has finished
+   */
   get isResolved() {
     return Boolean(this.value) || Boolean(this.error);
   }
 
+  /**
+   * Alias for isLoading
+   */
+  get isPending() {
+    return this.isLoading;
+  }
+
+  /**
+   * true if the fetch request is in progress
+   */
   get isLoading() {
     return !this.isResolved;
   }
 
+  /**
+   * true if the request throws an exception
+   */
   get isError() {
     return Boolean(this.error);
   }
@@ -109,8 +139,8 @@ export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {
  * }
  * ```
  *
- * In strict mode with <template>
- * ```
+ * In strict mode with &lt;template&gt;
+ * ```jsx gjs
  * import { RemoteData } from 'ember-resources/util/remote-data';
  *
  * const options = (token) => ({

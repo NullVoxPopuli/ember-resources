@@ -41,7 +41,7 @@ export function trackedFunction<Return>(...passed: WithInitialValue<Return>): St
  * properties, the "tracked prelude". If any properties within the tracked
  * payload  change, the function will re-run.
  *
- * ```js
+ * ```jsx gjs
  * import Component from '@glimmer/component';
  * import { tracked } from '@glimmer/tracking';
  * import { trackedFunction }  from 'ember-resources/util/function';

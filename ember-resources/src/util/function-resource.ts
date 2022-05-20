@@ -118,7 +118,7 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
 /**
  *
  *  Example using strict mode + <template> syntax and a template-only component:
- *  ```js
+ *  ```jsx gjs
  *  import { resource } from 'ember-resources/util/function-resource';
  *  import { TrackedObject } from 'tracked-built-ins';
  *
