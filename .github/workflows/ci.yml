@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
       - name: Build and Assert Output
         run: pnpm --filter ember-resources-build-test test
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -59,7 +59,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -91,7 +91,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -111,7 +111,7 @@ jobs:
       - name: Install Dependencies
         run: rm pnpm-lock.yaml && pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -153,7 +153,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -179,7 +179,7 @@ jobs:
           - typescript@4.6
           - typescript@next
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: volta-cli/action@v1
@@ -198,7 +198,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
@@ -235,7 +235,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Download built package from cache
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: ${{ env.dist }}
