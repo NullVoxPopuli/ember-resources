@@ -202,7 +202,8 @@ jobs:
       - uses: volta-cli/action@v1
       - *depCache
       - *pnpm
-      - *install
+      - name: 'Install Dependencies'
+        run: rm pnpm-lock.yaml && pnpm install
       - *getDist
       - name: Update TS Version
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
