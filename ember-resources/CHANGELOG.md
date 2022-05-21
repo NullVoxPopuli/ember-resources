@@ -1,3 +1,10 @@
+## [4.8.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.1...v4.8.2) (2022-05-21)
+
+
+### Bug Fixes
+
+* **Resource:** fix an issue where certain usages would not entagle / update correctly ([83a459c](https://github.com/NullVoxPopuli/ember-resources/commit/83a459c5b3ed9f779f9eb90dbcef83b52daf60dc))
+
 ## [4.8.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.0...v4.8.1) (2022-05-20)
 
 
