@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "pnpm docs:watch",
     "docs:collect": "typedoc --options ./typedoc.config.json",
     "docs:watch": "typedoc --options ./typedoc.config.json --watch"
   },

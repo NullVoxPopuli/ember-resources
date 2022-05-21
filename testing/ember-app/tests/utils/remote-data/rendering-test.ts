@@ -1,4 +1,5 @@
-import { render } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
+import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -36,15 +37,60 @@ module('Utils | remote-data | rendering', function (hooks) {
     });
 
     test('works with dynamic url', async function (assert) {
-      this.setProperties({ RemoteData });
+      class Test {
+        @tracked id = 1;
+
+        get url() {
+          return `/blogs/${this.id}`;
+        }
+      }
+
+      let foo = new Test();
+
+      this.setProperties({ RemoteData, foo });
 
       await render(hbs`
-        {{#let (this.RemoteData "/blogs/1") as |blog|}}
+        {{#let (this.RemoteData this.foo.url) as |blog|}}
           {{blog.value.attributes.name}}
         {{/let}}
       `);
 
       assert.dom().hasText('name:1');
+
+      foo.id = 2;
+      await settled();
+
+      assert.dom().hasText('name:2');
+    });
+
+    test('works with an incrementing url', async function (assert) {
+      class Test {
+        @tracked id = 1;
+
+        get url() {
+          return `/blogs/${this.id}`;
+        }
+
+        update = () => this.id++;
+      }
+
+      let foo = new Test();
+
+      this.setProperties({ RemoteData, foo });
+
+      await render(hbs`
+        {{#let (this.RemoteData this.foo.url) as |blog|}}
+          <out>{{blog.value.attributes.name}}</out>
+        {{/let}}
+
+        <button {{on 'click' this.foo.update}} type='button'>++</button>
+      `);
+
+      assert.dom('out').hasText('name:1');
+
+      await click('button');
+
+      assert.dom('out').hasText('name:2');
     });
   });
 });
