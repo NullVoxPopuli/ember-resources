@@ -3,6 +3,7 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
 import {
   associateDestroyableChild,
+  destroy,
   registerDestructor,
   unregisterDestructor,
 } from '@ember/destroyable';
@@ -314,6 +315,7 @@ class FunctionResourceManager {
 }
 
 type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
+type InvokerState = { fn: ResourceFactory; args: any };
 
 class ResourceInvokerManager {
   capabilities = helperCapabilities('3.23', {
@@ -321,20 +323,32 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  createHelper(fn: ResourceFactory, args: any): ReturnType<typeof resource> {
-    // this calls `resource`, which registers
-    // with the other helper manager
-    return fn(...args.positional);
+  helper?: object;
+
+  createHelper(fn: ResourceFactory, args: any): InvokerState {
+    return createCache(() => {
+      return fn(...args.positional);
+    });
   }
 
-  getValue(helper: ReturnType<typeof resource>) {
+  getValue(cache: Cache) {
+    if (this.helper) {
+      destroy(this.helper);
+    }
+
+    let helper = getValue(cache);
+
     let result = invokeHelper(this, helper, () => ({}));
+
+    associateDestroyableChild(cache, helper);
+
+    this.helper = helper;
 
     return getValue(result);
   }
 
-  getDestroyable(helper: ReturnType<typeof resource>) {
-    return helper;
+  getDestroyable(cache: Cache) {
+    return cache;
   }
 }
 

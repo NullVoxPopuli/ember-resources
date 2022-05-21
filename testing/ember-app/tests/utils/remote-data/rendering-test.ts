@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-import { render, settled } from '@ember/test-helpers';
+import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -61,6 +61,36 @@ module('Utils | remote-data | rendering', function (hooks) {
       await settled();
 
       assert.dom().hasText('name:2');
+    });
+
+    test('works with an incrementing url', async function (assert) {
+      class Test {
+        @tracked id = 1;
+
+        get url() {
+          return `/blogs/${this.id}`;
+        }
+
+        update = () => this.id++;
+      }
+
+      let foo = new Test();
+
+      this.setProperties({ RemoteData, foo });
+
+      await render(hbs`
+        {{#let (this.RemoteData this.foo.url) as |blog|}}
+          <out>{{blog.value.attributes.name}}</out>
+        {{/let}}
+
+        <button {{on 'click' this.foo.update}} type='button'>++</button>
+      `);
+
+      assert.dom('out').hasText('name:1');
+
+      await click('button');
+
+      assert.dom('out').hasText('name:2');
     });
   });
 });
