@@ -176,7 +176,7 @@ export function proxyClass<
         // eslint-disable-next-line ember/no-get
         get(taskRunner.currentTask, 'isRunning');
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
+        // @ts-ignore
         get(taskRunner.currentTask, key);
       }
 
