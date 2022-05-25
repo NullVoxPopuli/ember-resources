@@ -96,9 +96,9 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "7.18.0",
+    "@babel/core": "7.18.2",
     "@babel/plugin-proposal-class-properties": "7.17.12",
-    "@babel/plugin-proposal-decorators": "7.17.12",
+    "@babel/plugin-proposal-decorators": "7.18.2",
     "@babel/plugin-syntax-decorators": "7.17.12",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/plugin-transform-typescript": "^7.16.8",
