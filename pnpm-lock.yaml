@@ -29,7 +29,7 @@ importers:
   build/estimate-bytes:
     specifiers:
       esbuild: ^0.14.34
-      filesize: ^8.0.7
+      filesize: ^9.0.0
       globby: ^13.1.1
       gzip-cli: ^1.2.0
       js-yaml: 4.1.0
@@ -38,7 +38,7 @@ importers:
       yaml: 2.1.0
     devDependencies:
       esbuild: 0.14.34
-      filesize: 8.0.7
+      filesize: 9.0.0
       globby: 13.1.1
       gzip-cli: 1.2.0
       js-yaml: 4.1.0
@@ -11581,6 +11581,11 @@ packages:
 
   /filesize/8.0.7:
     resolution: {integrity: sha512-pjmC+bkIF8XI7fWaH8KxHcZL3DPybs1roSKP4rKDvy20tAWwIObE4+JIseG2byfGKhud5ZnM4YSGKBz7Sh0ndQ==}
+    engines: {node: '>= 0.4.0'}
+    dev: true
+
+  /filesize/9.0.0:
+    resolution: {integrity: sha512-Is0jgR3gdoTVnbTOHZUYineME5w02oUtxJ9T7FI22sp0zAtUyjjy7RSGzwsTSw4Rm0U+VB+rfsL/xkXEJLwpgQ==}
     engines: {node: '>= 0.4.0'}
     dev: true
 
