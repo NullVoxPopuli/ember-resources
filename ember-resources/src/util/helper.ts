@@ -6,9 +6,6 @@ import { invokeHelper } from '@ember/helper';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
 import type { Cache, Thunk } from '../core/types';
-// @ts-ignore
-import type { helper as emberHelper } from '@ember/component/helper';
-import type EmberHelper from '@ember/component/helper';
 
 /**
  * @utility implemented with raw `invokeHelper` API, no classes from `ember-resources` used.
@@ -53,7 +50,7 @@ import type EmberHelper from '@ember/component/helper';
  */
 export function helper(
   context: object,
-  helper: EmberHelper | ReturnType<typeof emberHelper>,
+  helper: unknown,
   thunk: Thunk = DEFAULT_THUNK
 ): { value: unknown } {
   let resource: Cache<unknown>;

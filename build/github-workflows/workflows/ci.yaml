@@ -21,8 +21,8 @@ _onlyPR: &onlyPR
   if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
 
 jobs:
-  build_test:
-    name: Build Tests
+  install_dependencies:
+    name: Install Dependencies
     <<: *ubuntu
     steps:
       - uses: actions/checkout@v3
@@ -38,11 +38,53 @@ jobs:
       - &pnpm
         uses: pnpm/action-setup@v2.2.1
         with:
-          version: 6.32.1
+          version: 7.1.2
       - &install
         name: 'Install Dependencies'
         run: pnpm install
 
+  eslint:
+    name: ESLint
+    needs: ['install_dependencies']
+    <<: *ubuntu
+    strategy:
+      fail-fast: true
+      matrix:
+        path:
+          - "./ember-resources"
+          - "./testing/ember-app"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - *depCache
+      - *pnpm
+      - *install
+      - name: ESLint
+        run: pnpm run lint:js
+        working-directory: ${{ matrix.path }}
+
+  commits:
+    name: Commit Messages
+    <<: *ubuntu
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - uses: volta-cli/action@v1
+    - uses: wagoid/commitlint-github-action@v4.1.12
+
+  build_test:
+    name: Build Tests
+    needs: ['install_dependencies']
+    <<: *ubuntu
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - *depCache
+      - *pnpm
+      - *install
       - name: 'Build and Assert Output'
         run: pnpm --filter ember-resources-build-test test
       - uses: actions/upload-artifact@v3
@@ -104,7 +146,7 @@ jobs:
       - run: pnpm --filter ember-app run ember:test
 
   try-scenarios:
-    name: "Compat: ${{ matrix.ember-try-scenario }}"
+    name: "${{ matrix.ember-try-scenario }}"
     <<: *ubuntu
     timeout-minutes: 10
     needs: tests
@@ -127,8 +169,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
-        with:
-          node-version: 12.x
       - *depCache
       - *pnpm
       - *install
@@ -139,7 +179,7 @@ jobs:
           node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
   typescript-compatibility:
-    name: Type checking - ${{ matrix.typescript-scenario }}
+    name: ${{ matrix.typescript-scenario }}
     <<: *ubuntu
     continue-on-error: true
     needs: build_test
@@ -148,32 +188,31 @@ jobs:
       fail-fast: true
       matrix:
         typescript-scenario:
-          [
-            typescript@4.2,
-            typescript@4.3,
-            typescript@4.4,
-            typescript@4.5,
-            typescript@4.6,
-            typescript@next,
-          ]
+         - typescript@4.2
+         - typescript@4.3
+         - typescript@4.4
+         - typescript@4.5
+         - typescript@4.6
+         - typescript@4.7
+         # - typescript@next
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: volta-cli/action@v1
-        with:
-          node-version: 12.x
       - *depCache
       - *pnpm
-      - *install
+      - name: 'Install Dependencies'
+        run: rm pnpm-lock.yaml && pnpm install
       - *getDist
       - name: Update TS Version
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
         working-directory: testing/ember-app
       - name: Type checking
-        run: pnpm --filter ember-app exec tsc --build
-
+        run: |
+          pnpm --filter ember-app exec tsc -v
+          pnpm --filter ember-app exec tsc --build
 
 
   publish:

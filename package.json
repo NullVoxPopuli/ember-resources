@@ -27,11 +27,23 @@
     "yarn": "1.22.18",
     "npm": "8.11.0"
   },
-  "packageManager": "pnpm@6.32.18",
+  "packageManager": "pnpm@7.1.2",
   "pnpm": {
     "overrides": {
       "@embroider/addon-shim": "1.6.0",
-      "@types/eslint": "7.29.0"
+      "@types/eslint": "7.29.0",
+      "mustache": "^4.2.0"
+    },
+    "overrides-notes": {
+      "@embroider/addon-shim": "some addons from the test-app are not using ^1.0.0",
+      "@types/eslint": "webpack brings in @types/eslint@8, which breaks our type checking",
+      "mustache": "ember-cli -> testem -> consolidate -> mustache is ancient"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": ["msw"],
+      "allowedVersions": {
+        "typescript": "*"
+      }
     }
   }
 }
