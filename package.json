@@ -32,6 +32,12 @@
     "overrides": {
       "@embroider/addon-shim": "1.6.0",
       "@types/eslint": "7.29.0"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": ["msw"],
+      "allowedVersions": {
+        "typescript": "*"
+      }
     }
   }
 }
