@@ -237,6 +237,7 @@ jobs:
           - typescript@4.4
           - typescript@4.5
           - typescript@4.6
+          - typescript@4.7
           - typescript@next
     steps:
       - uses: actions/checkout@v3
