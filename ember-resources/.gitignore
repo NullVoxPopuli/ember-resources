@@ -4,3 +4,6 @@
 # output
 dist/
 declarations/
+src/**/*.d.ts
+src/**/*.d.ts.map
+src/**/*.js

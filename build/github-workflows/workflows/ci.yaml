@@ -146,7 +146,7 @@ jobs:
       - run: pnpm --filter ember-app run ember:test
 
   try-scenarios:
-    name: "Compat: ${{ matrix.ember-try-scenario }}"
+    name: "${{ matrix.ember-try-scenario }}"
     <<: *ubuntu
     timeout-minutes: 10
     needs: tests
@@ -179,7 +179,7 @@ jobs:
           node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
 
   typescript-compatibility:
-    name: Type checking - ${{ matrix.typescript-scenario }}
+    name: ${{ matrix.typescript-scenario }}
     <<: *ubuntu
     continue-on-error: true
     needs: build_test
@@ -193,7 +193,8 @@ jobs:
          - typescript@4.4
          - typescript@4.5
          - typescript@4.6
-         - typescript@next
+         - typescript@4.7
+         # - typescript@next
 
     steps:
       - uses: actions/checkout@v3
@@ -209,8 +210,9 @@ jobs:
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
         working-directory: testing/ember-app
       - name: Type checking
-        run: pnpm --filter ember-app exec tsc --build
-
+        run: |
+          pnpm --filter ember-app exec tsc -v
+          pnpm --filter ember-app exec tsc --build
 
 
   publish:

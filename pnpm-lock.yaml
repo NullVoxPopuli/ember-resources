@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 overrides:
   '@embroider/addon-shim': 1.6.0
   '@types/eslint': 7.29.0
+  mustache: ^4.2.0
 
 importers:
 
@@ -90,10 +91,13 @@ importers:
       '@nullvoxpopuli/eslint-configs': ^2.1.1
       '@semantic-release/changelog': ^6.0.1
       '@semantic-release/git': ^10.0.1
+      '@types/ember__application': ^4.0.0
       '@types/ember__component': ^4.0.0
       '@types/ember__debug': ^4.0.0
       '@types/ember__destroyable': ^4.0.0
       '@types/ember__helper': ^4.0.0
+      '@types/ember__object': ^4.0.0
+      '@types/ember__runloop': ^4.0.0
       '@types/ember__test-helpers': ^2.0.0
       babel-eslint: 10.1.0
       ember-async-data: ^0.6.0
@@ -124,10 +128,13 @@ importers:
       '@nullvoxpopuli/eslint-configs': 2.2.0_typescript@4.2.4
       '@semantic-release/changelog': 6.0.1_semantic-release@19.0.2
       '@semantic-release/git': 10.0.1_semantic-release@19.0.2
+      '@types/ember__application': 4.0.0
       '@types/ember__component': 4.0.5
       '@types/ember__debug': 4.0.1
       '@types/ember__destroyable': 4.0.0
       '@types/ember__helper': 4.0.0
+      '@types/ember__object': 4.0.1
+      '@types/ember__runloop': 4.0.0
       '@types/ember__test-helpers': 2.6.1
       babel-eslint: 10.1.0_eslint@7.32.0
       ember-async-data: 0.6.0_@babel+core@7.18.2
@@ -163,11 +170,13 @@ importers:
       '@glimmer/component': ^1.0.4
       '@glimmer/tracking': ^1.0.4
       '@nullvoxpopuli/eslint-configs': ^2.1.1
+      '@types/ember': ^4.0.0
       '@types/ember__application': ^4.0.0
       '@types/ember__array': ^4.0.1
       '@types/ember__component': ^4.0.5
       '@types/ember__controller': ^4.0.0
       '@types/ember__debug': ^4.0.1
+      '@types/ember__destroyable': ^4.0.0
       '@types/ember__engine': ^4.0.0
       '@types/ember__error': ^4.0.0
       '@types/ember__helper': ^4.0.0
@@ -199,7 +208,6 @@ importers:
       ember-cli-sri: ^2.1.1
       ember-cli-terser: ^4.0.2
       ember-cli-typescript: ^4.2.1
-      ember-cli-typescript-blueprints: ^3.0.0
       ember-concurrency: ^2.0.0
       ember-concurrency-ts: ^0.3.1
       ember-export-application-global: ^2.0.1
@@ -228,7 +236,7 @@ importers:
       prettier: ^2.3.2
       qunit: ^2.16.0
       qunit-dom: ^2.0.0
-      typescript: ^4.4.4
+      typescript: '4.2'
       webpack: ^5.72.1
     dependencies:
       '@ember/test-waiters': 3.0.1
@@ -248,12 +256,14 @@ importers:
       '@embroider/webpack': 1.6.0_xcawtvs4pwa7koczjjpyrnvpqq
       '@glimmer/component': 1.0.4_@babel+core@7.18.0
       '@glimmer/tracking': 1.0.4
-      '@nullvoxpopuli/eslint-configs': 2.2.0_typescript@4.5.5
+      '@nullvoxpopuli/eslint-configs': 2.2.0_typescript@4.2.4
+      '@types/ember': 4.0.0
       '@types/ember__application': 4.0.0
       '@types/ember__array': 4.0.1
       '@types/ember__component': 4.0.5
       '@types/ember__controller': 4.0.0
       '@types/ember__debug': 4.0.1
+      '@types/ember__destroyable': 4.0.0
       '@types/ember__engine': 4.0.0
       '@types/ember__error': 4.0.0
       '@types/ember__helper': 4.0.0
@@ -284,7 +294,6 @@ importers:
       ember-cli-sri: 2.1.1
       ember-cli-terser: 4.0.2
       ember-cli-typescript: 4.2.1
-      ember-cli-typescript-blueprints: 3.0.0
       ember-export-application-global: 2.0.1
       ember-fetch: 8.1.1
       ember-load-initializers: 2.1.2_@babel+core@7.18.0
@@ -304,12 +313,12 @@ importers:
       eslint-plugin-prettier: 4.0.0_z7eskpggz6hgh3lpmotlmahgxe
       eslint-plugin-qunit: 7.2.0_eslint@7.32.0
       loader.js: 4.7.0
-      msw: 0.40.2_typescript@4.5.5
+      msw: 0.40.2_typescript@4.2.4
       npm-run-all: 4.1.5
       prettier: 2.5.1
       qunit: 2.18.0
       qunit-dom: 2.0.0
-      typescript: 4.5.5
+      typescript: 4.2.4
       webpack: 5.72.1
 
   testing/ember-concurrency-v1:
@@ -7565,7 +7574,7 @@ packages:
     resolution: {integrity: sha512-k9Sl/Qal3xQPnjAFZaRpl7jlCh0hDEhVaxyiTMfiHKC/w5TYn4Nds+7340X/v1OrAQC5xGBtaD2JpWgPhXWaAw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      typescript: '>=3.x || >= 4.x'
+      typescript: '*'
     dependencies:
       helpertypes: 0.0.18
       typescript: 4.2.4
@@ -13389,13 +13398,13 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /msw/0.40.2_typescript@4.5.5:
+  /msw/0.40.2_typescript@4.2.4:
     resolution: {integrity: sha512-8MymevYPIniUhk3W/xxWmhaMAeZHD9uhI37fik31i4JSToDhPWFg9hO6v/8IfTEPCD2Y1r4npDUxHmNbIeaOsg==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     peerDependencies:
-      typescript: '>= 4.2.x <= 4.6.x'
+      typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -13418,16 +13427,15 @@ packages:
       statuses: 2.0.1
       strict-event-emitter: 0.2.4
       type-fest: 1.4.0
-      typescript: 4.5.5
+      typescript: 4.2.4
       yargs: 17.3.1
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: true
 
-  /mustache/3.2.1:
-    resolution: {integrity: sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==}
-    engines: {npm: '>=1.4.0'}
+  /mustache/4.2.0:
+    resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
     hasBin: true
     dev: true
 
@@ -15090,7 +15098,7 @@ packages:
       '@swc/core': '>=1.x'
       '@swc/helpers': '>=0.2'
       rollup: '>=1.x || >=2.x'
-      typescript: '>=3.2.x || >= 4.x'
+      typescript: '*'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -16299,7 +16307,7 @@ packages:
       lodash.find: 4.6.0
       lodash.uniqby: 4.7.0
       mkdirp: 0.5.5
-      mustache: 3.2.1
+      mustache: 4.2.0
       node-notifier: 9.0.1
       npmlog: 4.1.2
       printf: 0.6.1
@@ -16546,7 +16554,7 @@ packages:
     resolution: {integrity: sha512-YYGvoWy2Ba98/YC/0leD7IRsU/q5pu/KRg9dD8omzkbgoZ8g7gfYfED9mWMTyNp7J3CQiiKyvM62B7mXXHKU7Q==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      typescript: ^3.x || ^4.x
+      typescript: '*'
     dependencies:
       compatfactory: 0.0.13_typescript@4.2.4
       typescript: 4.2.4
@@ -16557,7 +16565,7 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
     peerDependencies:
-      typescript: '>=2.7'
+      typescript: '*'
     dependencies:
       arg: 4.1.3
       create-require: 1.1.1
@@ -16602,7 +16610,7 @@ packages:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
+      typescript: '*'
     dependencies:
       tslib: 1.14.1
       typescript: 4.2.4
@@ -16612,7 +16620,7 @@ packages:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
+      typescript: '*'
     dependencies:
       tslib: 1.14.1
       typescript: 4.5.5
@@ -16622,7 +16630,7 @@ packages:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
+      typescript: '*'
     dependencies:
       tslib: 1.14.1
       typescript: 4.6.4
@@ -16755,7 +16763,7 @@ packages:
     engines: {node: '>= 12.10.0'}
     hasBin: true
     peerDependencies:
-      typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x
+      typescript: '*'
     dependencies:
       glob: 7.2.0
       lunr: 2.3.9
