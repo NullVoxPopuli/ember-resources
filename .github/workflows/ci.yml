@@ -126,7 +126,7 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies
         run: pnpm install
-      - name: Download build package from cache
+      - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
           name: dist
@@ -188,7 +188,7 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies
         run: pnpm install
-      - name: Download build package from cache
+      - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
           name: dist
@@ -229,7 +229,7 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies (without lockfile)
         run: rm pnpm-lock.yaml && pnpm install
-      - name: Download build package from cache
+      - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
           name: dist
@@ -265,7 +265,7 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies
         run: pnpm install
-      - name: Download build package from cache
+      - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
           name: dist
@@ -294,7 +294,7 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies
         run: pnpm install
-      - name: Download build package from cache
+      - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
           name: dist
