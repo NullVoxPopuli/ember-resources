@@ -55,7 +55,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: ESLint
-        run: pnpm run lint:js
+        run: cd ${{ matrix.path }} && pnpm run lint:js
   commits:
     name: Commit Messages
     timeout-minutes: 5
@@ -152,6 +152,11 @@ jobs:
           version: 7.1.2
       - name: Install Dependencies (without lockfile)
         run: rm pnpm-lock.yaml && pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: ${{ env.dist }}
       - run: pnpm --filter ember-app run test:ember
   ember-try:
     name: ${{ matrix.ember-try-scenario }}
