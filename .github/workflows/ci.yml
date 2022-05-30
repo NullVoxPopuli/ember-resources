@@ -158,7 +158,7 @@ jobs:
           name: dist
           path: ${{ env.dist }}
       - run: pnpm --filter ember-app run test:ember
-  ember-try:
+  try-scenarios:
     name: ${{ matrix.ember-try-scenario }}
     timeout-minutes: 10
     runs-on: ubuntu-latest
