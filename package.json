@@ -8,7 +8,7 @@
     "dev:ember": "pnpm run --filter ember-app start --port 0",
     "dev:addon": "pnpm run --filter ember-resources start --no-watch.clearScreen",
     "dev:docs": "pnpm run --filter docs docs:watch --preserveWatchOutput",
-    "ci:update": "cd build/github-workflows && pnpm build",
+    "ci:update": "npx ember-ci-update",
     "build": "pnpm run --filter ember-resources build",
     "build:docs": "pnpm run --filter docs docs:collect"
   },
