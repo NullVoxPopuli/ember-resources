@@ -276,7 +276,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  Measure Asset Sizes:
+  MeasureAssetSizes:
     name: Measure Asset Sizes
     needs:
       - build
