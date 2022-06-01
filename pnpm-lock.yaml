@@ -96,7 +96,7 @@ importers:
       ember-template-lint: 3.16.0
       eslint: ^7.32.0
       npm-run-all: 4.1.5
-      rollup: 2.75.4
+      rollup: 2.75.5
       rollup-plugin-terser: ^7.0.2
       rollup-plugin-ts: ^2.0.7
       semantic-release: ^19.0.2
@@ -115,7 +115,7 @@ importers:
       '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.18.2
       '@babel/preset-typescript': 7.16.7_@babel+core@7.18.2
       '@ember/test-waiters': 3.0.1
-      '@embroider/addon-dev': 1.2.0_rollup@2.75.4
+      '@embroider/addon-dev': 1.2.0_rollup@2.75.5
       '@glimmer/tracking': 1.0.4
       '@nullvoxpopuli/eslint-configs': 2.2.0_typescript@4.2.4
       '@semantic-release/changelog': 6.0.1_semantic-release@19.0.2
@@ -133,9 +133,9 @@ importers:
       ember-template-lint: 3.16.0
       eslint: 7.32.0
       npm-run-all: 4.1.5
-      rollup: 2.75.4
-      rollup-plugin-terser: 7.0.2_rollup@2.75.4
-      rollup-plugin-ts: 2.0.7_phlfr352cpgwsall33znzr7opm
+      rollup: 2.75.5
+      rollup-plugin-terser: 7.0.2_rollup@2.75.5
+      rollup-plugin-ts: 2.0.7_2ofs2z7fk77cf4vjnukbbh3vbi
       semantic-release: 19.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -2927,7 +2927,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@embroider/addon-dev/1.2.0_rollup@2.75.4:
+  /@embroider/addon-dev/1.2.0_rollup@2.75.5:
     resolution: {integrity: sha512-u+Zgj750zikDonL3PF2C2tGMz2KheZ/7waRaUaf1cR30lQvCejGODPUuKrqgnQR1+kO4mIR7DuRWHh4m2tx8ig==}
     engines: {node: 12.* || 14.* || >= 16}
     hasBin: true
@@ -2936,7 +2936,7 @@ packages:
       '@rollup/pluginutils': 4.1.2
       fs-extra: 10.0.1
       minimatch: 3.1.2
-      rollup-plugin-copy-assets: 2.0.3_rollup@2.75.4
+      rollup-plugin-copy-assets: 2.0.3_rollup@2.75.5
       rollup-plugin-delete: 2.0.0
       walk-sync: 3.0.0
       yargs: 17.3.1
@@ -15967,13 +15967,13 @@ packages:
       inherits: 2.0.4
     dev: true
 
-  /rollup-plugin-copy-assets/2.0.3_rollup@2.75.4:
+  /rollup-plugin-copy-assets/2.0.3_rollup@2.75.5:
     resolution: {integrity: sha512-ETShhQGb9SoiwcNrvb3BhUNSGR89Jao0+XxxfzzLW1YsUzx8+rMO4z9oqWWmo6OHUmfNQRvqRj0cAyPkS9lN9w==}
     peerDependencies:
       rollup: '>=1.1.2'
     dependencies:
       fs-extra: 7.0.1
-      rollup: 2.75.4
+      rollup: 2.75.5
     dev: true
 
   /rollup-plugin-delete/2.0.0:
@@ -15983,19 +15983,19 @@ packages:
       del: 5.1.0
     dev: true
 
-  /rollup-plugin-terser/7.0.2_rollup@2.75.4:
+  /rollup-plugin-terser/7.0.2_rollup@2.75.5:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
     peerDependencies:
       rollup: ^2.0.0
     dependencies:
       '@babel/code-frame': 7.16.7
       jest-worker: 26.6.2
-      rollup: 2.75.4
+      rollup: 2.75.5
       serialize-javascript: 4.0.0
       terser: 5.11.0
     dev: true
 
-  /rollup-plugin-ts/2.0.7_phlfr352cpgwsall33znzr7opm:
+  /rollup-plugin-ts/2.0.7_2ofs2z7fk77cf4vjnukbbh3vbi:
     resolution: {integrity: sha512-M9sppRKX6y/b2KXbGdUdHid0tshAEK/sEeYLBHBJiBa4swukSsoFVXKGGZasLcjaXhgUnnizFuvFFj6znxwvSA==}
     engines: {node: '>=10.0.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     peerDependencies:
@@ -16032,7 +16032,7 @@ packages:
       compatfactory: 0.0.13_typescript@4.2.4
       crosspath: 1.0.0
       magic-string: 0.26.2
-      rollup: 2.75.4
+      rollup: 2.75.5
       ts-clone-node: 0.3.32_typescript@4.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -16069,8 +16069,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /rollup/2.75.4:
-    resolution: {integrity: sha512-JgZiJMJkKImMZJ8ZY1zU80Z2bA/TvrL/7D9qcBCrfl2bP+HUaIw0QHUroB4E3gBpFl6CRFM1YxGbuYGtdAswbQ==}
+  /rollup/2.75.5:
+    resolution: {integrity: sha512-JzNlJZDison3o2mOxVmb44Oz7t74EfSd1SQrplQk0wSaXV7uLQXtVdHbxlcT3w+8tZ1TL4r/eLfc7nAbz38BBA==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
