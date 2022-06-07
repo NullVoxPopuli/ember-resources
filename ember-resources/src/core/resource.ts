@@ -40,7 +40,7 @@ import type { ArgsWrapper, Cache, Thunk } from './types';
  *       // Initial Setup
  *       this.interpreter = interpret(machine).onTransition(state => this.customState = state);
  *     } else {
- *       Subsequent Updates
+ *       // Subsequent Updates
  *       this.interpreter.send('SOME_EVENT', { positional, named });
  *     }
  *   }
