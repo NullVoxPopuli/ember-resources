@@ -252,7 +252,7 @@ type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value;
 type Cache = object;
 
 const INTERMEDIATE_VALUE = '__Intermediate_Value__';
-const INTERNAL = '__INTERNAL__';
+export const INTERNAL = '__INTERNAL__';
 
 let DESTROYERS = new WeakMap();
 

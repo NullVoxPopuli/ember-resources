@@ -27,3 +27,4 @@ export function normalizeThunk(thunk?: Thunk): ArgsWrapper {
 
   return { named: args as Record<string, unknown>, positional: [] };
 }
+
