@@ -21,5 +21,12 @@ module.exports = {
         version: 'legacy',
       },
     ],
+    [
+      resolve('@babel/plugin-proposal-class-properties'),
+      {
+        // The stage 1 implementation
+        version: 'legacy',
+      },
+    ],
   ],
 };
