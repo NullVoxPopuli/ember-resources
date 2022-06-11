@@ -1,3 +1,10 @@
+# [4.9.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.2...v4.9.0) (2022-06-11)
+
+
+### Features
+
+* **util:** add debounce example util ([357e266](https://github.com/NullVoxPopuli/ember-resources/commit/357e266ee290c64ab1ba454f1318a9da1bb21fd2))
+
 ## [4.8.2](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.1...v4.8.2) (2022-05-21)
 
 
