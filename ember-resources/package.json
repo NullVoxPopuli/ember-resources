@@ -155,7 +155,7 @@
       "@semantic-release/git"
     ]
   },
-  "packageManager": "pnpm@7.2.0",
+  "packageManager": "pnpm@7.2.1",
   "volta": {
     "extends": "../package.json"
   }
