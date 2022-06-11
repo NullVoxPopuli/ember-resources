@@ -17,7 +17,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@nullvoxpopuli/eslint-configs": "^2.2.19",
-    "concurrency": "^0.1.4",
+    "concurrently": "^7.2.1",
     "eslint": "^7.32.0",
     "loader.js": "^4.7.0",
     "prettier": "^2.6.2",
@@ -41,7 +41,9 @@
       "mustache": "ember-cli -> testem -> consolidate -> mustache is ancient"
     },
     "peerDependencyRules": {
-      "ignoreMissing": ["msw"],
+      "ignoreMissing": [
+        "msw"
+      ],
       "allowedVersions": {
         "typescript": "*"
       }
