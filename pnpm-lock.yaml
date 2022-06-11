@@ -12,7 +12,7 @@ importers:
       '@commitlint/cli': ^13.1.0
       '@commitlint/config-conventional': ^13.1.0
       '@nullvoxpopuli/eslint-configs': ^2.2.19
-      concurrency: ^0.1.4
+      concurrently: ^7.2.1
       eslint: ^7.32.0
       loader.js: ^4.7.0
       prettier: ^2.6.2
@@ -21,7 +21,7 @@ importers:
       '@commitlint/cli': 13.2.1
       '@commitlint/config-conventional': 13.2.0
       '@nullvoxpopuli/eslint-configs': 2.2.19_typescript@4.6.4
-      concurrency: 0.1.4
+      concurrently: 7.2.1
       eslint: 7.32.0
       loader.js: 4.7.0
       prettier: 2.6.2
@@ -3263,7 +3263,7 @@ packages:
       lodash.get: 4.4.2
       make-error: 1.3.6
       ts-node: 9.1.1_typescript@4.6.4
-      tslib: 2.3.1
+      tslib: 2.4.0
     transitivePeerDependencies:
       - typescript
     dev: true
@@ -8114,8 +8114,20 @@ packages:
       typedarray: 0.0.6
     dev: true
 
-  /concurrency/0.1.4:
-    resolution: {integrity: sha1-MrRZC1s5lBpNc52vXWoQCAws8x8=}
+  /concurrently/7.2.1:
+    resolution: {integrity: sha512-7cab/QyqipqghrVr9qZmoWbidu0nHsmxrpNqQ7r/67vfl1DWJElexehQnTH1p+87tDkihaAjM79xTZyBQh7HLw==}
+    engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      date-fns: 2.28.0
+      lodash: 4.17.21
+      rxjs: 6.6.7
+      shell-quote: 1.7.3
+      spawn-command: 0.0.2-1
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 17.3.1
     dev: true
 
   /configstore/5.0.1:
@@ -16649,6 +16661,10 @@ packages:
     resolution: {integrity: sha1-+30L0dcP1DFr2ePew4nmX51jYbs=}
     dev: true
 
+  /spawn-command/0.0.2-1:
+    resolution: {integrity: sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==}
+    dev: true
+
   /spawn-error-forwarder/1.0.0:
     resolution: {integrity: sha1-Gv2Uc46ZmwNG17n8NzvlXgdXcCk=}
     dev: true
@@ -17505,6 +17521,11 @@ packages:
 
   /traverse/0.6.6:
     resolution: {integrity: sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=}
+    dev: true
+
+  /tree-kill/1.2.2:
+    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
+    hasBin: true
     dev: true
 
   /tree-sync/1.4.0:
