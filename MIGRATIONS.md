@@ -74,7 +74,7 @@ Primary goals of this migration:
 
 ### Nomenclature changes
 
-_`use*` is now either `*Of` or dropped entirely_
+_`use*` (as a resource-name prefix) is dropped entirely_
 (with an exception on small inline resources)
 
 The reason for this is that the "useThing" isn't descriptive of what behavior is actually happening.
@@ -129,17 +129,7 @@ models are at, without any extra noise -- this may be a provided API that _avoid
 selection = someClass(this, { /* ... */ });
 ```
 
-**Why "of"?**
-
-`of` is already common nomenclature in JavaScript.
-While `of` exists as a keyword in [`for ... of`][for-of] and [`for await ... of`][for-await-of],
-the usage that is most similar to the changes proposed for `ember-resources`
-v5 (introduced in a v4 minor) is [`Array.of`][array-of] and [`TypedArray.of`][typed-array-of].
-For both `Array` and `TypedArray`, the `of` word, in-spirit, means "Create an instance (of myself) of this configuration".
-
-For `Resource.of`, it's the same, "Create an instance of a 'Resource' with this configuration".
-
-**Why "from"?
+**Why "from"?**
 
 `from` is also common nomenclature in JavaScript.
 The usage in JavaScript that is most similar to the changse proposed for `ember-resources`

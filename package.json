@@ -10,7 +10,8 @@
     "dev:docs": "pnpm run --filter docs docs:watch --preserveWatchOutput",
     "ci:update": "npx ember-ci-update",
     "build": "pnpm run --filter ember-resources build",
-    "build:docs": "pnpm run --filter docs docs:collect"
+    "build:docs": "pnpm run --filter docs docs:collect",
+    "lint": "pnpm run --filter '*' lint:js --fix"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
