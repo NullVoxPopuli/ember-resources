@@ -3,6 +3,7 @@
 const { resolve } = require;
 
 module.exports = {
+  presets: ['@babel/preset-typescript'],
   plugins: [
     [
       resolve('@babel/plugin-transform-typescript'),
