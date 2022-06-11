@@ -21,12 +21,12 @@ import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 import type { Cache } from '../core/types';
 
 /**
- * @utility uses [[LifecycleResource]] to make ember-concurrency tasks reactive.
+ * @utility uses [[Resource]] to make ember-concurrency tasks reactive.
  *
  * -------------------------
  *
  * @note `ember-resources` does not provide or depend on ember-concurrency.
- * If you want to use [[useTask]], you'll need to add ember-concurrency as a dependency
+ * If you want to use [[task]], you'll need to add ember-concurrency as a dependency
  * in your project.
  *
  * @example
@@ -34,12 +34,12 @@ import type { Cache } from '../core/types';
  * ```js
  * import { tracked } from '@glimmer/tracking';
  * import { restartableTask, timeout } from 'ember-concurrency';
- * import { task } from 'ember-resources/util/ember-concurrency';
+ * import { task as trackedTask } from 'ember-resources/util/ember-concurrency';
  *
  * class Demo {
  *   @tracked id = 1;
  *
- *   last = task(this, this.searchTask, () => [this.id]);
+ *   last = trackedTask(this, this.searchTask, () => [this.id]);
  *
  *   @restartableTask
  *   *searchTask(id) {
