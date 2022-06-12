@@ -181,15 +181,11 @@ export function map<Element = unknown, MapTo = unknown>(
   let { data, map } = options;
 
   // Fixing this requires TS 4.7, see notes in Resource.of
-  let resource = Resource.of<TrackedArrayMap<Element, MapTo>>(
-    destroyable,
-    TrackedArrayMap as any,
-    () => {
-      let reified = data();
+  let resource = TrackedArrayMap.from<TrackedArrayMap<Element, MapTo>>(destroyable, () => {
+    let reified = data();
 
-      return { positional: [reified], named: { map } };
-    }
-  );
+    return { positional: [reified], named: { map } };
+  });
 
   /**
    * This is what allows square-bracket index-access to work.
@@ -224,6 +220,19 @@ const AT = Symbol('__AT__');
 
 /**
  * Map utility to use `map` with `@use`
+ *
+ * @example
+ *
+ * ```js
+ * class {
+ *   @tracked data = [...];
+ *
+ *   @use mapped = MappedArray({
+ *     data: () => this.data,
+ *     map: (datum) => transform(datum)
+ *   })
+ * }
+ * ```
  */
 export function MappedArray<Element = unknown, MapTo = unknown>(options: {
   /**
@@ -242,7 +251,7 @@ export function MappedArray<Element = unknown, MapTo = unknown>(options: {
    */
   map: (element: Element) => MapTo;
 }) {
-  let instance = new TrackedArrayMap(null);
+  let instance = new TrackedArrayMap<Element, MapTo>(null);
 
   return resource((api) => {
     setOwner(instance, getOwner(api));
