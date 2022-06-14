@@ -14,6 +14,12 @@ module('Utils | resource | js', function (hooks) {
   module('with teardown', function () {
     class Test {
       constructor(private assert: QUnit['assert']) {}
+      // reminder that destruction is async
+      steps: string[] = [];
+      step = (msg: string) => {
+        this.steps.push(msg);
+        this.assert.step(msg);
+      };
 
       @tracked count = 1;
 
@@ -21,9 +27,9 @@ module('Utils | resource | js', function (hooks) {
       @use data = resource(({ on }) => {
         let count = this.count;
 
-        on.cleanup(() => this.assert.step(`destroy ${count}`));
+        on.cleanup(() => this.step(`destroy ${count}`));
 
-        this.assert.step(`resolved ${count}`);
+        this.step(`resolved ${count}`);
 
         return this.count;
       });
@@ -56,14 +62,21 @@ module('Utils | resource | js', function (hooks) {
       destroy(foo);
       await settled();
 
-      assert.verifySteps([
-        'resolved 1',
-        'destroy 1',
-        'resolved 2',
-        'destroy 2',
-        'resolved 3',
-        'destroy 3',
-      ]);
+      let steps = foo.steps;
+
+      assert.verifySteps(steps);
+
+      assert.strictEqual(steps.length, 6);
+      assert.strictEqual(
+        steps.filter((s) => s.includes('resolve')).length,
+        3,
+        'resource resolved 3 times'
+      );
+      assert.strictEqual(
+        steps.filter((s) => s.includes('resolve')).length,
+        3,
+        'resource destroyed 3 times'
+      );
     });
 
     test('async reactivity', async function (assert) {
@@ -85,14 +98,21 @@ module('Utils | resource | js', function (hooks) {
       destroy(foo);
       await settled();
 
-      assert.verifySteps([
-        'resolved 1',
-        'destroy 1',
-        'resolved 2',
-        'destroy 2',
-        'resolved 3',
-        'destroy 3',
-      ]);
+      let steps = foo.steps;
+
+      assert.verifySteps(steps);
+
+      assert.strictEqual(steps.length, 6);
+      assert.strictEqual(
+        steps.filter((s) => s.includes('resolve')).length,
+        3,
+        'resource resolved 3 times'
+      );
+      assert.strictEqual(
+        steps.filter((s) => s.includes('resolve')).length,
+        3,
+        'resource destroyed 3 times'
+      );
     });
   });
 

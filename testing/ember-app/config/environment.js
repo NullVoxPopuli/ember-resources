@@ -1,5 +1,7 @@
 'use strict';
 
+let isTestCli = process.argv.includes('test');
+
 module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'ember-app',
@@ -21,6 +23,8 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
+
+    isTestCli,
   };
 
   if (environment === 'development') {
