@@ -1,7 +1,9 @@
 import { tracked } from '@glimmer/tracking';
+import { getOwner, setOwner } from '@ember/application';
 import { assert } from '@ember/debug';
 
 import { Resource } from '../core';
+import { resource } from './function-resource';
 
 /**
  * Public API of the return value of the [[map]] resource.
@@ -179,15 +181,11 @@ export function map<Element = unknown, MapTo = unknown>(
   let { data, map } = options;
 
   // Fixing this requires TS 4.7, see notes in Resource.of
-  let resource = Resource.of<TrackedArrayMap<Element, MapTo>>(
-    destroyable,
-    TrackedArrayMap as any,
-    () => {
-      let reified = data();
+  let resource = TrackedArrayMap.from<TrackedArrayMap<Element, MapTo>>(destroyable, () => {
+    let reified = data();
 
-      return { positional: [reified], named: { map } };
-    }
-  );
+    return { positional: [reified], named: { map } };
+  });
 
   /**
    * This is what allows square-bracket index-access to work.
@@ -219,6 +217,50 @@ interface NamedArgs<E = unknown, Result = unknown> {
 }
 
 const AT = Symbol('__AT__');
+
+/**
+ * Map utility to use `map` with `@use`
+ *
+ * @example
+ *
+ * ```js
+ * class {
+ *   @tracked data = [...];
+ *
+ *   @use mapped = MappedArray({
+ *     data: () => this.data,
+ *     map: (datum) => transform(datum)
+ *   })
+ * }
+ * ```
+ */
+export function MappedArray<Element = unknown, MapTo = unknown>(options: {
+  /**
+   * Array of non-primitives to map over
+   *
+   * This can be class instances, plain objects, or anything supported by WeakMap's key
+   */
+  data: () => Element[];
+  /**
+   * How to transform each element from `data`,
+   * similar to if you were to use Array map yourself.
+   *
+   * This function will be called only when needed / on-demand / lazily.
+   * - if iterating over part of the data, map will only be called for the elements observed
+   * - if not iterating, map will only be called for the elements observed.
+   */
+  map: (element: Element) => MapTo;
+}) {
+  let instance = new TrackedArrayMap<Element, MapTo>(null);
+
+  return resource((api) => {
+    setOwner(instance, getOwner(api));
+
+    instance.modify([options.data()], { map: options.map });
+
+    return instance;
+  });
+}
 
 /**
  * @private
