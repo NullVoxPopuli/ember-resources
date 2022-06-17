@@ -1,5 +1,5 @@
 // @ts-ignore
-import { getValue } from '@glimmer/tracking/primitives/cache';
+import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
 // @ts-ignore
@@ -351,15 +351,29 @@ class ResourceInvokerManager {
 
   constructor(protected owner: unknown) {}
 
-  createHelper(fn: ResourceFactory, args: any): Cache {
-    return { fn, args };
+  createHelper(fn: ResourceFactory, args: any) {
+    let helper: object;
+    /**
+     * This cache is for args passed to the ResourceInvoker/Factory
+     *
+     * We want to cache the helper result, and only re-inoke when the args
+     * change.
+     */
+    let cache = createCache(() => {
+      if (helper === undefined) {
+        let resource = fn(...args.positional) as object;
+
+        helper = invokeHelper(cache, resource);
+      }
+
+      return helper;
+    });
+
+    return { fn, args, cache: getValue(cache) };
   }
 
-  getValue({ fn, args }: { fn: ResourceFactory; args: any }) {
-    let helper = fn(...args.positional) as object;
-    let result = invokeHelper(this, helper);
-
-    return getValue(result);
+  getValue({ cache }: { cache: Cache }) {
+    return getValue(cache);
   }
 
   getDestroyable({ fn }: { fn: ResourceFactory }) {
@@ -405,7 +419,7 @@ const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(ow
  * });
  *
  *  <template>
- *    {{#let (RemoteData) as |state|}}
+ *    {{#let (RemoteData "http://....") as |state|}}
  *      {{#if state.value}}
  *        ...
  *      {{else if state.error}}
