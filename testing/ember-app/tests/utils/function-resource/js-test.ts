@@ -109,9 +109,81 @@ module('Utils | resource | js', function (hooks) {
         'resource resolved 3 times'
       );
       assert.strictEqual(
-        steps.filter((s) => s.includes('resolve')).length,
+        steps.filter((s) => s.includes('destroy')).length,
         3,
         'resource destroyed 3 times'
+      );
+    });
+
+    test('with separate tracking frame', async function (assert) {
+      class Test {
+        constructor(private assert: QUnit['assert']) {}
+        // reminder that destruction is async
+        steps: string[] = [];
+        step = (msg: string) => {
+          this.steps.push(msg);
+          this.assert.step(msg);
+        };
+
+        @tracked outerCount = 1;
+        @tracked count = 1;
+
+        // @use is required if a primitive is returned
+        @use data = resource(({ on }) => {
+          let outerCount = this.outerCount;
+
+          on.cleanup(() => this.step(`destroy ${outerCount}`));
+
+          this.step(`setup ${outerCount}`);
+
+          return () => {
+            this.step(`resolved ${outerCount}: ${this.count}`);
+
+            return this.count;
+          };
+        });
+      }
+
+      let foo = new Test(assert);
+
+      assert.strictEqual(foo.data, 1);
+
+      foo.count = 2;
+      await settled();
+
+      foo.outerCount++;
+      await settled();
+
+      assert.strictEqual(foo.data, 2);
+
+      foo.count = 3;
+      await settled();
+
+      assert.strictEqual(foo.data, 3);
+      await settled();
+
+      destroy(foo);
+      await settled();
+
+      let steps = foo.steps;
+
+      assert.verifySteps(steps);
+
+      assert.strictEqual(steps.length, 7);
+      assert.strictEqual(
+        steps.filter((s) => s.includes('setup')).length,
+        2,
+        'resource setup 2 times'
+      );
+      assert.strictEqual(
+        steps.filter((s) => s.includes('destroy')).length,
+        2,
+        'resource destroyed 3 times'
+      );
+      assert.strictEqual(
+        steps.filter((s) => s.includes('resolve')).length,
+        3,
+        'resource resolved 3 times'
       );
     });
   });

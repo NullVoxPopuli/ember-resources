@@ -150,7 +150,7 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
   setup?: ResourceFunction<Value>
-): Value | InternalIntermediate<Value> | ResourceFunction<Value> {
+): Value | InternalIntermediate<Value> | ResourceFn<Value> {
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
@@ -175,7 +175,7 @@ export function resource<Value>(
      */
     (context as any)[INTERNAL] = true;
 
-    return context as ResourceFunction<Value>;
+    return context as ResourceFn<Value>;
   }
 
   assert(
@@ -226,9 +226,9 @@ function wrapForPlainUsage<Value>(context: object, setup: ResourceFunction<Value
 
   /**
    * This proxy takes everything called on or accessed on "target"
-   * and forwards it along to target.value (where the actual resource instance is)
+   * and forwards it along to target[INTERMEDIATE_VALUE] (where the actual resource instance is)
    *
-   * It's important to only access .value within these proxy-handler methods so that
+   * It's important to only access .[INTERMEDIATE_VALUE] within these proxy-handler methods so that
    * consumers "reactively entangle with" the Resource.
    */
   return new Proxy(target, {
@@ -287,8 +287,21 @@ export type Hooks = {
     cleanup: (destroyer: Destructor) => void;
   };
 };
+
+/**
+ * Type of the callback passed to `resource`
+ */
+type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value | (() => Value);
+
+/**
+ * The perceived return value of `resource`
+ * This is a lie to TypeScript, because the effective value of
+ * of the resource is the result of the collapsed functions
+ * passed to `resource`
+ */
+type ResourceFn<Value = unknown> = (hooks: Hooks) => Value;
+
 type Destructor = () => void;
-type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value;
 type Cache = object;
 
 /**
@@ -308,35 +321,51 @@ class FunctionResourceManager {
    * However, they can access tracked data
    */
   createHelper(fn: ResourceFunction) {
+    /**
+     * We have to copy the `fn` in case there are multiple
+     * usages or invocations of the function.
+     *
+     * This copy is what we'll ultimately work with and eventually
+     * destroy.
+     */
     let thisFn = fn.bind(null);
+    let previousFn: object;
 
-    associateDestroyableChild(fn, thisFn);
+    let cache = createCache(() => {
+      if (previousFn) {
+        destroy(previousFn);
+      }
 
-    return thisFn;
+      let currentFn = thisFn.bind(null);
+
+      associateDestroyableChild(thisFn, currentFn);
+      previousFn = currentFn;
+
+      let maybeValue = currentFn({
+        on: {
+          cleanup: (destroyer: Destructor) => {
+            registerDestructor(currentFn, destroyer);
+          },
+        },
+      });
+
+      return maybeValue;
+    });
+
+    return { fn: thisFn, cache };
   }
 
-  previousFn?: object;
+  getValue({ cache }: { cache: Cache }) {
+    let maybeValue = getValue(cache);
 
-  getValue(fn: ResourceFunction) {
-    if (this.previousFn) {
-      destroy(this.previousFn);
+    if (typeof maybeValue === 'function') {
+      return maybeValue();
     }
 
-    let currentFn = fn.bind(null);
-
-    associateDestroyableChild(fn, currentFn);
-    this.previousFn = currentFn;
-
-    return currentFn({
-      on: {
-        cleanup: (destroyer: Destructor) => {
-          registerDestructor(currentFn, destroyer);
-        },
-      },
-    });
+    return maybeValue;
   }
 
-  getDestroyable(fn: ResourceFunction) {
+  getDestroyable({ fn }: { fn: ResourceFunction }) {
     return fn;
   }
 }
@@ -497,13 +526,13 @@ export function use(_prototype: object, key: string, descriptor?: Descriptor): v
         let fn = initializer.call(this);
 
         assert(
-          `Expected initialized value under @use to have used the resource wrapper function`,
+          `Expected initialized value under @use to have used the \`resource\` wrapper function`,
           isResourceInitializer(fn)
         );
 
         cache = invokeHelper(this, fn);
-
         caches.set(this as object, cache);
+        associateDestroyableChild(this, cache);
       }
 
       return getValue(cache);
@@ -513,7 +542,7 @@ export function use(_prototype: object, key: string, descriptor?: Descriptor): v
 
 type ResourceInitializer = {
   [INTERNAL]: true;
-};
+} & ResourceFunction<unknown>;
 
 function isResourceInitializer(obj: unknown): obj is ResourceInitializer {
   return typeof obj === 'function' && obj !== null && INTERNAL in obj;
