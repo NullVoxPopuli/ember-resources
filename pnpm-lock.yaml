@@ -220,6 +220,7 @@ importers:
       prettier: ^2.3.2
       qunit: ^2.16.0
       qunit-dom: ^2.0.0
+      tracked-built-ins: ^3.1.0
       typescript: '4.2'
       webpack: ^5.72.1
     dependencies:
@@ -230,6 +231,7 @@ importers:
       ember-concurrency-ts: 0.3.1_ember-concurrency@2.2.1
       ember-functions-as-helper-polyfill: 2.0.1
       ember-resources: link:../../ember-resources
+      tracked-built-ins: 3.1.0
     devDependencies:
       '@babel/core': 7.18.0
       '@ember/optional-features': 2.0.0
@@ -599,7 +601,7 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/compat-data': 7.17.10
-      '@babel/core': 7.18.0
+      '@babel/core': 7.18.0_supports-color@8.1.1
       '@babel/helper-validator-option': 7.16.7
       browserslist: 4.20.3
       semver: 6.3.0
@@ -9690,6 +9692,24 @@ packages:
       - supports-color
     dev: false
 
+  /ember-cli-typescript/5.1.0:
+    resolution: {integrity: sha512-wEZfJPkjqFEZAxOYkiXsDrJ1HY75e/6FoGhQFg8oNFJeGYpIS/3W0tgyl1aRkSEEN1NRlWocDubJ4aZikT+RTA==}
+    engines: {node: '>= 12.*'}
+    dependencies:
+      ansi-to-html: 0.6.15
+      broccoli-stew: 3.0.0
+      debug: 4.3.4
+      execa: 4.1.0
+      fs-extra: 9.1.0
+      resolve: 1.22.0
+      rsvp: 4.8.5
+      semver: 7.3.7
+      stagehand: 1.0.0
+      walk-sync: 2.2.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /ember-cli-valid-component-name/1.0.0:
     resolution: {integrity: sha1-cVUM44fgIzBl8wswsVEKot++h+8=}
     dependencies:
@@ -10327,6 +10347,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /ember-tracked-storage-polyfill/1.0.0:
+    resolution: {integrity: sha512-eL7lZat68E6P/D7b9UoTB5bB5Oh/0aju0Z7PCMi3aTwhaydRaxloE7TGrTRYU+NdJuyNVZXeGyxFxn2frvd3TA==}
+    engines: {node: 12.* || >= 14}
+    dependencies:
+      ember-cli-babel: 7.26.11
+      ember-cli-htmlbars: 5.7.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /ember-try-config/4.0.0:
     resolution: {integrity: sha512-jAv7fqYJK7QYYekPc/8Nr7KOqDpv/asqM6F8xcRnbmf9UrD35BkSffY63qUuiD9e0aR5qiMNBIQzH8f65rGDqw==}
@@ -13162,7 +13192,7 @@ packages:
     dev: true
 
   /is-stream/1.1.0:
-    resolution: {integrity: sha1-EtSj3U5o4Lec6428hBc66A2RykQ=}
+    resolution: {integrity: sha512-uQPm8kcs47jx38atAcWTVxyltQYoPT68y9aWYdV6yWXSyW8mzSat0TL6CiWdZeCdF3KrAvpVtnHbTv4RN+rqdQ==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -14656,7 +14686,7 @@ packages:
     dev: true
 
   /npm-run-path/2.0.2:
-    resolution: {integrity: sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8=}
+    resolution: {integrity: sha512-lJxZYlT4DW/bRUtFh1MQIWqmLwQfAxnqWG4HhEdjMlkrJYnJn0Jrr2u3mgxqaWsdiBc76TYkTG/mhrnYTuzfHw==}
     engines: {node: '>=4'}
     dependencies:
       path-key: 2.0.1
@@ -14846,12 +14876,12 @@ packages:
     dev: true
 
   /once/1.4.0:
-    resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
 
   /onetime/2.0.1:
-    resolution: {integrity: sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ=}
+    resolution: {integrity: sha512-oyyPpiMaKARvvcgip+JV+7zci5L8D1W9RZIz2l1o08AM3pfspitVWnPt3mzHcBPp12oYMTy0pqrFs/C+m3EwsQ==}
     engines: {node: '>=4'}
     dependencies:
       mimic-fn: 1.2.0
@@ -17592,6 +17622,17 @@ packages:
       punycode: 2.1.1
     dev: true
 
+  /tracked-built-ins/3.1.0:
+    resolution: {integrity: sha512-yPEZV1aYaw7xFWdoEluvdwNxIJIA834HaBQaMATjNAYPwd1fRqIJ46YnuRo6+9mRRWu6nM6sJqrVVa5H6UhFuw==}
+    engines: {node: 14.* || 16.* || >= 18.*}
+    dependencies:
+      ember-cli-babel: 7.26.11
+      ember-cli-typescript: 5.1.0
+      ember-tracked-storage-polyfill: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /traverse/0.6.6:
     resolution: {integrity: sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=}
     dev: true
@@ -18163,7 +18204,7 @@ packages:
     dev: true
 
   /walk-sync/0.2.7:
-    resolution: {integrity: sha1-tJvk7mhnZXrrc2l4tWop0Q+jmWk=}
+    resolution: {integrity: sha512-OH8GdRMowEFr0XSHQeX5fGweO6zSVHo7bG/0yJQx6LAj9Oukz0C8heI3/FYectT66gY0IPGe89kOvU410/UNpg==}
     dependencies:
       ensure-posix-path: 1.1.1
       matcher-collection: 1.1.2
@@ -18542,7 +18583,7 @@ packages:
     dev: true
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
   /write-file-atomic/3.0.3:
     resolution: {integrity: sha512-AvHcyZ5JnSfq3ioSyjrBkH9yW4m7Ayk8/9My/DD9onKeu/94fwrMocemO2QAJFAlnnDN+ZDS+ZjAR5ua1/PV/Q==}

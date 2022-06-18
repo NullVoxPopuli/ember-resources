@@ -1,5 +1,6 @@
 import * as QUnit from 'qunit';
 
+import ENV from 'ember-app/config/environment';
 import { rest, setupWorker } from 'msw';
 
 import type { SetupWorkerApi } from 'msw';
@@ -19,7 +20,7 @@ QUnit.begin(async () => {
    * At this point we have no request handlers, but that's what
    * setupMSW is for
    */
-  await worker.start();
+  await worker.start({ quiet: ENV.isTestCli });
 });
 
 QUnit.done(async () => {

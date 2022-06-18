@@ -1,12 +1,7 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-import {
-  associateDestroyableChild,
-  destroy,
-  registerDestructor,
-  unregisterDestructor,
-} from '@ember/destroyable';
+import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 
@@ -155,26 +150,62 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
   setup?: ResourceFunction<Value>
-):
-  | Value
-  | { [INTERNAL]: true; [INTERMEDIATE_VALUE]: ResourceFunction<Value> }
-  | ResourceFunction<Value> {
-  /**
-   * With only one argument, we have to do a bunch of lying to
-   * TS, because we need a special object to pass to `@use`
-   */
-  if (typeof context === 'function' && !setup) {
-    setHelperManager(() => MANAGER, context);
+): Value | InternalIntermediate<Value> | ResourceFunction<Value> {
+  if (!setup) {
+    assert(
+      `When using \`resource\` with @use, ` +
+        `the first argument to \`resource\` must be a function. ` +
+        `Instead, a ${typeof context} was received.`,
+      typeof context === 'function'
+    );
 
-    // Add secret key to help @use assert against
-    // using vanilla functions as resources without the resource wrapper
+    /**
+     * Functions have a different identity every time they are defined.
+     * The primary purpose of the `resource` wrapper is to individually
+     * register each function with our helper manager.
+     */
+    setHelperManager(ResourceManagerFactory, context);
+
+    /**
+     * With only one argument, we have to do a bunch of lying to
+     * TS, because we need a special object to pass to `@use`
+     *
+     * Add secret key to help @use assert against
+     * using vanilla functions as resources without the resource wrapper
+     */
     (context as any)[INTERNAL] = true;
 
     return context as ResourceFunction<Value>;
   }
 
-  setHelperManager(() => MANAGER, setup);
+  assert(
+    `Mismatched argument typs passed to \`resource\`. ` +
+      `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
+      `Received ${typeof context} instead.`,
+    typeof context === 'object'
+  );
+  assert(
+    `Mismatched argument type passed to \`resource\`. ` +
+      `Expected the second arg to be a function but instead received ${typeof setup}.`,
+    typeof setup === 'function'
+  );
 
+  setHelperManager(ResourceManagerFactory, setup);
+
+  return wrapForPlainUsage(context, setup);
+}
+
+const INTERMEDIATE_VALUE = '__Intermediate_Value__';
+const INTERNAL = '__INTERNAL__';
+
+/**
+ * This is what allows resource to be used withotu @use.
+ * The caveat though is that a property must be accessed
+ * on the return object.
+ *
+ * A resource not using use *must* be an object.
+ */
+function wrapForPlainUsage<Value>(context: object, setup: ResourceFunction<Value>) {
   let cache: Cache;
 
   /*
@@ -186,7 +217,7 @@ export function resource<Value>(
   const target = {
     get [INTERMEDIATE_VALUE]() {
       if (!cache) {
-        cache = invokeHelper(context, setup, () => ({}));
+        cache = invokeHelper(context, setup);
       }
 
       return getValue<Value>(cache);
@@ -221,6 +252,15 @@ export function resource<Value>(
   }) as never as Value;
 }
 
+/**
+ * Secret args to allow `resource` to be used without
+ * a decorator
+ */
+interface InternalIntermediate<Value> {
+  [INTERNAL]: true;
+  [INTERMEDIATE_VALUE]: ResourceFunction<Value>;
+}
+
 export type Hooks = {
   on: {
     /**
@@ -251,13 +291,9 @@ type Destructor = () => void;
 type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value;
 type Cache = object;
 
-const INTERMEDIATE_VALUE = '__Intermediate_Value__';
-const INTERNAL = '__INTERNAL__';
-
-let DESTROYERS = new WeakMap();
-
 /**
- * Note, a function-resource receives
+ * Note, a function-resource receives on object, hooks.
+ *    We have to build that manually in this helper manager
  */
 class FunctionResourceManager {
   capabilities = helperCapabilities('3.23', {
@@ -265,57 +301,47 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
+  constructor(protected owner: unknown) {}
+
+  /**
+   * Resources do not take args.
+   * However, they can access tracked data
+   */
   createHelper(fn: ResourceFunction) {
-    /**
-     * The helper is only created once.
-     * It's the cache's callback that is invoked multiple times,
-     * based on reactive behavior
-     *
-     */
-    let cache: Cache = createCache(() => {
-      let destroyer = DESTROYERS.get(fn);
+    let thisFn = fn.bind(null);
 
-      /**
-       * Because every function invocation shares the same cache,
-       * we gotta take care of destruction manually.
-       *
-       * Glimmer will handle the last destruction for us when it tears down the cache
-       *
-       * It is not guaranteed if destruction is async or sync, and this may change in the future if it needs to
-       */
-      if (destroyer) {
-        unregisterDestructor(fn, destroyer);
-        destroyer();
-      }
+    associateDestroyableChild(fn, thisFn);
 
-      let value = fn({
-        on: {
-          cleanup: (destroyer: Destructor) => {
-            associateDestroyableChild(cache, fn);
-            registerDestructor(fn, destroyer);
+    return thisFn;
+  }
 
-            DESTROYERS.set(fn, destroyer);
-          },
+  previousFn?: object;
+
+  getValue(fn: ResourceFunction) {
+    if (this.previousFn) {
+      destroy(this.previousFn);
+    }
+
+    let currentFn = fn.bind(null);
+
+    associateDestroyableChild(fn, currentFn);
+    this.previousFn = currentFn;
+
+    return currentFn({
+      on: {
+        cleanup: (destroyer: Destructor) => {
+          registerDestructor(currentFn, destroyer);
         },
-      });
-
-      return value;
+      },
     });
-
-    return cache;
   }
 
-  getValue(cache: Cache) {
-    return getValue(cache);
-  }
-
-  getDestroyable(cache: Cache) {
-    return cache;
+  getDestroyable(fn: ResourceFunction) {
+    return fn;
   }
 }
 
 type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
-type InvokerState = { fn: ResourceFactory; args: any };
 
 class ResourceInvokerManager {
   capabilities = helperCapabilities('3.23', {
@@ -323,38 +349,41 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  helper?: object;
+  constructor(protected owner: unknown) {}
 
-  createHelper(fn: ResourceFactory, args: any): InvokerState {
-    return createCache(() => {
-      return fn(...args.positional);
+  createHelper(fn: ResourceFactory, args: any) {
+    let helper: object;
+    /**
+     * This cache is for args passed to the ResourceInvoker/Factory
+     *
+     * We want to cache the helper result, and only re-inoke when the args
+     * change.
+     */
+    let cache = createCache(() => {
+      if (helper === undefined) {
+        let resource = fn(...args.positional) as object;
+
+        helper = invokeHelper(cache, resource);
+      }
+
+      return helper;
     });
+
+    return { fn, args, cache: getValue(cache) };
   }
 
-  getValue(cache: Cache) {
-    if (this.helper) {
-      destroy(this.helper);
-    }
-
-    let helper = getValue(cache);
-
-    let result = invokeHelper(this, helper, () => ({}));
-
-    associateDestroyableChild(cache, helper);
-
-    this.helper = helper;
-
-    return getValue(result);
+  getValue({ cache }: { cache: Cache }) {
+    return getValue(cache);
   }
 
-  getDestroyable(cache: Cache) {
-    return cache;
+  getDestroyable({ fn }: { fn: ResourceFactory }) {
+    return fn;
   }
 }
 
 // Provide a singleton manager.
-const MANAGER = new FunctionResourceManager();
-const ResourceInvoker = new ResourceInvokerManager();
+const ResourceManagerFactory = (owner: unknown) => new FunctionResourceManager(owner);
+const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(owner);
 
 /**
  * Allows wrapper functions to provide a [[resource]] for use in templates.
@@ -367,9 +396,9 @@ const ResourceInvoker = new ResourceInvokerManager();
  *
  *  Example using strict mode + <template> syntax and a template-only component:
  *  ```js
- *  import { resource, registerResourceWrapper } from 'ember-resources/util/function-resource';
+ *  import { resource, resourceFactory } from 'ember-resources/util/function-resource';
  *
- *  function RemoteData(url) {
+ *  const RemoteData = resourceFactory((url) => {
  *    return resource(({ on }) => {
  *      let state = new TrackedObject({});
  *      let controller = new AbortController();
@@ -387,12 +416,10 @@ const ResourceInvoker = new ResourceInvokerManager();
  *
  *      return state;
  *    })
- * }
- *
- * registerResourceWrapper(RemoteData)
+ * });
  *
  *  <template>
- *    {{#let (load) as |state|}}
+ *    {{#let (RemoteData "http://....") as |state|}}
  *      {{#if state.value}}
  *        ...
  *      {{else if state.error}}
@@ -402,21 +429,26 @@ const ResourceInvoker = new ResourceInvokerManager();
  *  </template>
  *  ```
  *
- *  Alternatively, `registerResourceWrapper` can wrap the wrapper function.
+ *  Alternatively, `resourceFactory` can wrap the wrapper function.
  *
  *  ```js
- *  const RemoteData = registerResourceWrapper((url) => {
+ *  const RemoteData = resourceFactory((url) => {
  *    return resource(({ on }) => {
  *      ...
  *    });
  *  })
  *  ```
  */
-export function registerResourceWrapper(wrapperFn: ResourceFactory) {
-  setHelperManager(() => ResourceInvoker, wrapperFn);
+export function resourceFactory(wrapperFn: ResourceFactory) {
+  setHelperManager(ResourceInvokerFactory, wrapperFn);
 
   return wrapperFn;
 }
+
+/**
+ * @deprecated - use resourceFactory (same behavior, just renamed)
+ */
+export const registerResourceWrapper = resourceFactory;
 
 interface Descriptor {
   initializer: () => unknown;
@@ -458,8 +490,8 @@ export function use(_prototype: object, key: string, descriptor?: Descriptor): v
 
   // https://github.com/pzuraq/ember-could-get-used-to-this/blob/master/addon/index.js
   return {
-    get() {
-      let cache = caches.get(this as object);
+    get(this: object) {
+      let cache = caches.get(this);
 
       if (!cache) {
         let fn = initializer.call(this);
@@ -469,7 +501,7 @@ export function use(_prototype: object, key: string, descriptor?: Descriptor): v
           isResourceInitializer(fn)
         );
 
-        cache = invokeHelper(this, fn, () => ({}));
+        cache = invokeHelper(this, fn);
 
         caches.set(this as object, cache);
       }
