@@ -30,9 +30,9 @@ _Migration during the v4 series is available via different imports_.
 - Removed exports:
   - `LifecycleResource`
   - constructor-oriented `Resource`
-  - `@use`
+  - `@use` (re-implemented under a different import)
 - Renamed utilities:
-  - `useResource` => `Resource.of`
+  - `useResource` => `Resource.from`
   - `useHelper` => `helper`
   - `useTask` => `task` with alias `trackedTask`
 - Changed behavior:
@@ -44,10 +44,13 @@ _Migration during the v4 series is available via different imports_.
 **New features**
 
 - opt-in svelte-able imports, but lazy tree-shakable imports still available (import everything from `'ember-resources'`)
-- `Array.prototype.map` as a resource
 - new `Resource` class with sole `modify` hook
 - new `resource` function for function-based resources for simpler inline resources
 - `trackedFunction` now provides additional state properties for better intermediate rendering during loading and error states
+- new utilities / example resources
+  - `Array.prototype.map` as a resource
+  - `RemoteData` & `remoteData`
+  - `debounce`
 
 
 -----------------------------------
@@ -56,8 +59,8 @@ _Migration during the v4 series is available via different imports_.
 
 
 Migrating to 5.0 requires some adjustments to how folks author Resources
- - `LifecycleResource` will be renamed to `Resource` and there will be a single `modify` hook
  - `Resource` will be removed
+ - `LifecycleResource` will be renamed to `Resource` and there will be a single `modify` hook
  - to opt-in to non-deprecated behaviors, there will be new import paths to use. Once 5.0 hits,
    the current top-level imports will re-export the classes and utilities from the new paths
    introduced in as a part of this migration effort (for convenience, totally optional)
@@ -135,17 +138,9 @@ selection = someClass(this, { /* ... */ });
 The usage in JavaScript that is most similar to the changse proposed for `ember-resources`
 v5 (introduced in a v4 minor) is [`Array.from`][array-from] and [`TypedArray.from`][typed-array-from].
 
-This is very similar to `of`, except that for a `Resource`, we do not
-need to pass the class that we want to instantiate a resource for.
-
-For example, the difference:
 ```js
-class Foo {
-  a = Resource.of(this, SomeResource, () => {/* ... */});
-  a = SomeResource.from(this, () => {/* ... */});
-}
+selection = Selection.from(this, () => { /* ... */ })
 ```
-
 
 
 
@@ -479,7 +474,7 @@ export function findAll(destroyable, modelName, thunk) {
 After
 ```js
 export function findAll(destroyable, modelName, thunk) {
-  return Resource.of(destroyable, FindAll, () => {
+  return FindAll.from(destroyable, () => {
     let reified = thunk?.() || {};
     let options = 'options' in reified ? reified.options : reified;
 
