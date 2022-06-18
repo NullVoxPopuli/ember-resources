@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.9.0...v4.9.1) (2022-06-18)
+
+
+### Bug Fixes
+
+* **function-resource:** lifecycle fixes ([eb7c6b6](https://github.com/NullVoxPopuli/ember-resources/commit/eb7c6b6d3e48f9016efd5f6247f04972463426ad))
+
 # [4.9.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.8.2...v4.9.0) (2022-06-11)
 
 
