@@ -23,7 +23,7 @@ module('Core | Resource | rendering', function (hooks) {
     class Test extends Component {
       @tracked count = 0;
 
-      data = Resource.of(this, Doubler, () => [this.count]);
+      data = Doubler.from(this, () => [this.count]);
       increment = () => this.count++;
     }
 
