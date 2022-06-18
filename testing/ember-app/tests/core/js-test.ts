@@ -25,7 +25,7 @@ module('Core | Resource | js', function (hooks) {
     class Test {
       @tracked count = 0;
 
-      data = Resource.of(this, Doubler, () => [this.count]);
+      data = Doubler.from(this, () => [this.count]);
     }
 
     let foo = new Test();
@@ -84,7 +84,7 @@ module('Core | Resource | js', function (hooks) {
     class Test {
       @tracked numbers = [0, 1, 2, 3];
 
-      data = Resource.of(this, DoubleEverything, () => [...this.numbers]);
+      data = DoubleEverything.from(this, () => [...this.numbers]);
     }
 
     let foo = new Test();
@@ -116,7 +116,7 @@ module('Core | Resource | js', function (hooks) {
     class Test {
       @tracked count = 0;
 
-      data = Resource.of(this, Doubler, () => [this.count]);
+      data = Doubler.from(this, () => [this.count]);
     }
 
     let foo = new Test();
@@ -141,9 +141,9 @@ module('Core | Resource | js', function (hooks) {
     }
 
     class Test {
-      dataArray = Resource.of(this, TestResource, () => []);
-      dataVoid = Resource.of(this, TestResource, () => {});
-      dataOmitted = Resource.of(this, TestResource);
+      dataArray = TestResource.from(this, () => []);
+      dataVoid = TestResource.from(this, () => {});
+      dataOmitted = TestResource.from(this);
     }
 
     let foo = new Test();
