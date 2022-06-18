@@ -9,6 +9,7 @@ tsconfig.tsbuildinfo
 node_modules/
 
 # misc
+.vscode
 .env*
 .pnp*
 .sass-cache

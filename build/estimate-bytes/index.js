@@ -11,17 +11,32 @@ import filesize from 'filesize';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
 const dist = path.join(root, 'ember-resources/dist');
+const packageJsonPath = path.join(root, 'ember-resources/package.json');
 
-const bundlePatterns = ['core/index.js', 'util/*.js'];
+let packageJson;
 
+const config = {
+  bundles: {
+    'index.js': {
+      alias: '.',
+      // Uncomment in v5
+      // nest: ['core/index.js', 'util/function-resource.js']
+    },
+    'core/index.js': { alias: 'core' },
+    'util/*.js': {},
+  }
+}
 /**
  * 1. Create bundles
  * 2. Minify
  * 3. Find gzip + brotli sizes
  */
 async function collectStats() {
+  packageJson = JSON.parse((await fs.readFile(packageJsonPath)).toString());
+
   let { path: tmp } = await tmpDir();
 
+  let bundlePatterns = Object.keys(config.bundles);
   let originalDistPaths = await globby(bundlePatterns.map((p) => path.join(dist, p)));
   let stats = {};
 
@@ -44,10 +59,28 @@ async function collectStats() {
   output += '|  | js | min | min + gzip | min + brotli |\n';
   output += '|--| -- | --- | ---------- | ------------ |\n';
 
-  for (let [file, fileStats] of Object.entries(stats)) {
+  let rowFor = (file, fileStats, indent = '') => {
     let { js, 'js.min': min, 'js.min.br': brotli, 'js.min.gz': gzip } = fileStats;
 
-    output += `| ${file} | ${js} | ${min} | ${gzip} | ${brotli} |\n`;
+    return `| ${indent}${file} | ${js} | ${min} | ${gzip} | ${brotli} |\n`;
+  }
+
+  for (let [file, fileStats] of Object.entries(stats)) {
+    output += rowFor(file, fileStats);
+
+    let relativeFile = file.replace(/^\//, '');
+    if (config.bundles[relativeFile]?.nest) {
+      let nest = config.bundles[relativeFile].nest;
+
+      for (let nested of nest) {
+        if (stats['/' + nested]) {
+          let isLast = nest.indexOf(nested) === nest.length - 1;
+          let glyph = isLast ? '└── ' : '├── ';
+
+          output += rowFor(nested, stats['/' + nested], glyph);
+        }
+      }
+    }
   }
 
   console.debug(output);
@@ -56,6 +89,11 @@ async function collectStats() {
 }
 
 async function bundle(entry, outFile) {
+  let externals = [
+    ...Object.keys(packageJson.dependencies || {}),
+    ...Object.keys(packageJson.peerDependencies || {})
+  ];
+
   /**
    * Utils are one file
    */
@@ -67,10 +105,17 @@ async function bundle(entry, outFile) {
       outfile: outFile,
       bundle: true,
       external: [
+        ...externals,
+        'ember',
         '@ember/application',
         '@ember/debug',
         '@ember/helper',
         '@ember/destroyable',
+        '@ember/object',
+        '@ember/runloop',
+        '@ember/test',
+        '@embroider/macros',
+        '@glimmer/component',
         '@glimmer/tracking',
       ],
     });
