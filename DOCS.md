@@ -5,9 +5,15 @@ and how to decide which primitives to use, how to create, support, compose, and 
 
 - [the primitives](#the-primitives)
   - [function-based Resources](#function-based-resources)
-    - [Example: Clock](#example-clock)
+    - [Lifecycle](#lifecycles-with-resource)
+    - [Reactivity](#reactivity)
+    - [Example: Clock](#example-clock): Managing own state
+    - [Example: `fetch`](#example-fetch): Async + lifecycle
   - [class-based Resources](#class-based-resources)
-    - [Example: Clock](#example-class-based-clock)
+    - [Lifecycle](#lifecycles-with-resource-1)
+    - [Reactivity](#reactivity-1)
+    - [Example: Clock](#example-class-based-clock): Managing own state
+    - [Example: `fetch`](#example-class-based-fetch): Async + lifecycle
 
 ## the primitives
 
@@ -49,6 +55,100 @@ each with their own set of tradeoffs and capabilities
 
 Function resources are good for both authoring encapsulated behaviors,
 as well as inline / "on-demand" usage.
+
+#### Lifecycles with `resource`
+
+The function provided to `resource` is synchronous, has no `this`, and no way to accept arguments.
+But there is a micro-api provided to the function passed to `resource` for cleanup.
+
+```js
+const myResource = resource(({ on }) => {
+  // initial setup, updates, etc
+
+  on.cleanup(() => {
+    /* cleanup handled here */
+  })
+
+  return /* some value or synchronous function which returns a value */
+});
+```
+
+When a resource is wrapped in a function for the purpose of receiving configurable arguments,
+the semantics may change slightly
+```js
+const ArgUsingResource = (someArg) => {
+  // setup, updates for any time args change
+
+  return resource(({ on }) => {
+    // setup and updates can still be handled here
+
+    // resource's cleanup is ran if args change
+    on.cleanup(() => {
+      /* cleanup handled here */
+    })
+
+    return /* some value or synchronous function which returns a value */
+  });
+}
+```
+
+#### Reactivity
+
+function-based resources are _implicitly_ reactive,
+in that there is no ceramony required by the consumer to make them reactive
+or update in response to changes in reactive source-data.
+
+For example, consider a resource that doubles a number (this is over engineered, and you wouldn't want a resource for doubling a number)
+
+```js
+import { tracked } from '@glimmer/tracking';
+// import { resource } from 'ember-resources'; // in V5
+import { resource } from 'ember-resources/util/function-resource';
+
+class {
+  @tracked num = 2;
+
+  @use doubled = resource(() => this.num * 2);
+}
+```
+
+When accessed, the value of `doubled` will be `4`.
+Any time `this.num` changes, the value of `doubled` will be `8`.
+
+This happens lazily, so if `doubled` is not accessed,
+the resource is not evaluated and no computation efforts are done.
+
+Accessing can be done anywhere at any time, in JS, or in a Template (it's the same).
+
+If you wanted your `resource` to maintain some state of its own, you'd want to make sure
+that you don't _invalidate_ any tracked state that is also consumed in the main function-body of the resource.
+
+```js
+import { tracked } from '@glimmer/tracking';
+// import { resource } from 'ember-resources'; // in V5
+import { resource } from 'ember-resources/util/function-resource';
+import { TrackedObject } from 'tracked-built-ins';
+
+class {
+  @tracked locale = 'en-US';
+
+  @use doubled = resource(() => {
+    let time = new TrackedObject({ current: new Date() });
+    // changes to locale would invalidate the whole resource, re-invoking the top-level function
+    let formatter = new Intl.DateTimeFormat(this.locale, { /* ... */ });
+
+    // time.current is not accessed in this outer function scope,
+    // so changing the value does not invalidate the resource body.
+    setInterval(() => time.current = new Date(), 1_000);
+
+    // changes to `time.current` only invalidate this function
+    return () => formatter.format(time.current);
+  });
+}
+```
+
+For a more in-depth explanation, see the `Clock` example below.
+
 
 
 #### Example: Clock
@@ -190,6 +290,12 @@ class {
 [mdn-clearInterval]: https://developer.mozilla.org/en-US/docs/Web/API/clearInterval
 [mdn-DateTimeFormat]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
 
+#### Example: Fetch
+
+[🔝 back to top](#authoring-resources)
+
+See: Cookbook entry, [`fetch` with `AbortController`](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/cookbook/fetch-with-AbortController.md#using-resource-1)
+
 ### class-based resources
 
 [🔝 back to top](#authoring-resources)
@@ -203,6 +309,78 @@ Though, maybe a more pragmatic approach to the difference:
 
 _Class-based resources can be invoked with args_.
 Function-based resources must be wrapped in another function to accept args.
+
+#### Lifecycles with `Resource`
+
+There is only one lifecycle hook, `modify`, to encourage data-derivation (via getters) and
+generally simpler state-management than you'd otherwise see with with additional lifecycle methods.
+
+For example, this is how you'd handle initial setup, updates, and teardown with a `Resource`
+
+```js
+import { Resource } from 'ember-resources/core';
+import { registerDestructor } from '@ember/destroyable';
+
+class MyResource extends Resource {
+  // constructor only needed if teardown is needed
+  constructor(owner) {
+    super(owner);
+
+    registerDestructor(this, () => {
+      // final teardown, if needed
+    });
+  }
+
+  modify(positional, named) {
+    // initial setup, updates, etc
+  }
+}
+```
+Many times, however, you may not even need to worry about destruction,
+which is partially what makes opting in to having a "destructor" so fun --
+you get to choose how much lifecycle your `Resource` has.
+
+More info: [`@ember/destroyable`](https://api.emberjs.com/ember/release/modules/@ember%2Fdestroyable)
+
+#### Reactivity
+
+class-based Resources have lazy, usage-based reactivity based on whatever is accessed in the `modify` hook.
+
+For example, consider a resource that doubles a number (this is over engineered, and you wouldn't want a Resource for doubling a number)
+
+```js
+import { tracked } from '@glimmer/tracking';
+// import { Resource } from 'ember-resources'; // in V5
+import { Resource } from 'ember-resources/core';
+
+class Doubler extends Resource {
+  @tracked result = NaN;
+
+  modify([num]) {
+    this.result = num * 2;
+  }
+}
+
+class {
+  @tracked num = 2;
+
+  doubler = Doubler.from(() => [this.num]);
+}
+```
+
+When accessed, the value of `doubler.result` will be `4`.
+Any time `this.num` changes, the value of `doubler.result` will be `8`.
+
+This happens lazily, so if `doubler.result` is not accessed,
+the Resource is not evaluated and no computation efforts are done.
+
+Accessing can be done anywhere at any time, in JS, or in a Template (it's the same).
+
+A class-based Resource can define its own state anywhere, but has the same stipulations
+as the function-based Resource: inside the `modify` hook, you may not access a tracked
+property that is later written to. This causes an infinte loop while the framework tries to resolve what the stable "value" should be.
+
+See the `Clock` example below for more details.
 
 #### Example: class-based Clock
 
@@ -258,3 +436,8 @@ class {
 }
 ```
 
+#### Example: class-based Fetch
+
+[🔝 back to top](#authoring-resources)
+
+See: Cookbook entry, [`fetch` with `AbortController`](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/cookbook/fetch-with-AbortController.md#using-resource)
