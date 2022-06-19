@@ -7,8 +7,9 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 - [Installation](#installation)
 - [What is a Resource?](#what-is-a-resource)
 - [API Documentation](https://ember-resources.pages.dev/modules)
-<!-- - [Examples](./examples) -->
-<!-- - [Testing]('./testing') -->
+- [Docs on the Primitives](https://github.com/NullVoxPopuli/ember-resources/blob/main/DOCS.md)
+- [Testing](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/testing.md)
+- [Cookbook](https://github.com/NullVoxPopuli/ember-resources/tree/main/docs/docs/cookbook)
 - [Contributing](#contributing)
 - [Thanks](#thanks)
 

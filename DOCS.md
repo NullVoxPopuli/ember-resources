@@ -82,6 +82,16 @@ Usage of this resource would look like
 ```hbs
 <time>{{clock}}</time>
 ```
+Or if you needed the value in JS
+```js
+class {
+  @use myClock = clock(() => ['en-GB']);
+
+  get now() {
+    return this.myClock; // the formatted time
+  }
+}
+```
 
 But this is not feature-complete! We still need to handle cleanup to prevent memory leaks by using [`clearInterval`][mdn-clearInterval].
 
@@ -164,6 +174,17 @@ But becasue we now need to pass data to a function, we need to invoke that funct
 {{ (Clock 'en-GB') }}
 ```
 
+Or if you needed the value in JS
+```js
+class {
+  @use clock = Clock(() => ['en-GB']);
+
+  get now() {
+    return this.clock; // the formatted time
+  }
+}
+```
+
 
 [mdn-setInterval]: https://developer.mozilla.org/en-US/docs/Web/API/setInterval
 [mdn-clearInterval]: https://developer.mozilla.org/en-US/docs/Web/API/clearInterval
@@ -220,6 +241,20 @@ class Clock extends Resource {
 }
 ```
 
+Resulting usage would look something like this:
 
+```hbs
+{{get (Clock 'en-GB') 'formatted'}}
+```
 
+Or if you needed the value in JS
+```js
+class {
+  clock = Clock.from(this, () => ['en-GB']);
+
+  get now() {
+    return this.clock.formatted;
+  }
+}
+```
 
