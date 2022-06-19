@@ -132,7 +132,7 @@ import { TrackedObject } from 'tracked-built-ins';
 class {
   @tracked locale = 'en-US';
 
-  @use doubled = resource(() => {
+  @use clock = resource(() => {
     let time = new TrackedObject({ current: new Date() });
     // changes to locale would invalidate the whole resource, re-invoking the top-level function
     let formatter = new Intl.DateTimeFormat(this.locale, { /* ... */ });
@@ -185,7 +185,7 @@ Usage of this resource would look like
 Or if you needed the value in JS
 ```js
 class {
-  @use myClock = clock(() => ['en-GB']);
+  @use myClock = clock;
 
   get now() {
     return this.myClock; // the formatted time
