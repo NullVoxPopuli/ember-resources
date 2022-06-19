@@ -62,7 +62,9 @@ In this example, `trackedFunction` will make a call to [StarWars API](https://sw
 and if `endpoint` changes from `starships` to `planets`, the `trackedFunction` will
 automatically re-call the StarWars API to fetch the planets.
 
-## Example (function-resource)
+## Example (function-based resource)
+
+Visit the docs on [function-based resources](https://github.com/NullVoxPopuli/ember-resources/blob/main/DOCS.md#function-based-resources).
 
 This alternate API is more general-purpose, but has the same behavior
 as the above example.
