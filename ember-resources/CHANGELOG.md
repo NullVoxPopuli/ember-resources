@@ -1,3 +1,10 @@
+# [4.10.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.9.1...v4.10.0) (2022-06-19)
+
+
+### Features
+
+* **function-resource:** support encapsulated tracked state ([9800c14](https://github.com/NullVoxPopuli/ember-resources/commit/9800c14e9f1b79d604dc0273569ca5b049181c75))
+
 ## [4.9.1](https://github.com/NullVoxPopuli/ember-resources/compare/v4.9.0...v4.9.1) (2022-06-18)
 
 
