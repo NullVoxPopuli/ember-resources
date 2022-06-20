@@ -2,7 +2,6 @@
   "tsconfig": "../ember-resources/tsconfig.json",
   "entryPoints": [
     "../ember-resources/src/index.ts",
-    "../ember-resources/src/core/index.ts",
     "../ember-resources/src/util/"
   ],
   "entryPointStrategy": "expand",
@@ -12,7 +11,7 @@
   "out": "dist",
   "pretty": true,
   "excludePrivate": true,
-  "excludeProtected": false,
+  "excludeProtected": true,
   "excludeExternals": true,
   "disableSources": true,
   "plugin": [
