@@ -113,7 +113,7 @@ class {
 ```
 
 When accessed, the value of `doubled` will be `4`.
-Any time `this.num` changes, the value of `doubled` will be `8`.
+Any time `this.num` changes, the value of `doubled` will be a number that is 2 times `this.num`.
 
 This happens lazily, so if `doubled` is not accessed,
 the resource is not evaluated and no computation efforts are done.
