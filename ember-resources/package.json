@@ -10,6 +10,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./core": "./dist/core/index.js",
+    "./core/class-based": "./dist/core/class-based/index.js",
+    "./core/function-based": "./dist/core/function-based/index.js",
     "./util": "./dist/util/index.js",
     "./util/map": "./dist/util/map.js",
     "./util/helper": "./dist/util/helper.js",
