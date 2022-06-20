@@ -92,7 +92,11 @@ export class State<T = unknown> {
  * ```
  *
  */
-export function remoteData<T = unknown>({ on }: Hooks, url: string, options: FetchOptions = {}): State<T> {
+export function remoteData<T = unknown>(
+  { on }: Hooks,
+  url: string,
+  options: FetchOptions = {}
+): State<T> {
   let state = new State<T>();
   let controller = new AbortController();
 

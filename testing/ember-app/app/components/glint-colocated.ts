@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 
 import { resource, use } from 'ember-resources';
 
-import { Calculator, Doubler, overInvalidatingClock, clock } from './-resources';
+import { Calculator, clock, Doubler, overInvalidatingClock } from './-resources';
 
 export default class GlintTest extends Component {
   @tracked input = 2;
@@ -14,7 +14,7 @@ export default class GlintTest extends Component {
   overInvalidatingClock = overInvalidatingClock;
 
   calculator = Calculator.from(this);
-  doubler = Doubler.from(this, () => [this.input])
+  doubler = Doubler.from(this, () => [this.input]);
 
   decoratorLess = resource(this, () => {
     return 2 * this.input;

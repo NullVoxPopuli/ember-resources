@@ -6,11 +6,12 @@ import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 
+import { Invoke } from '@glint/template/-private/integration';
+
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
 import type { ArgsWrapper, Cache, Thunk } from './types';
 import type { HelperLike } from '@glint/template';
-import { Invoke } from '@glint/template/-private/integration';
 
 /**
  * https://gist.github.com/dfreeman/e4728f2f48737b44efb99fa45e2d22ef#typing-the-return-value-implicitly

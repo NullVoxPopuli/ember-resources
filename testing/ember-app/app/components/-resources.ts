@@ -1,4 +1,5 @@
 import { tracked } from '@glimmer/tracking';
+
 import { Resource, resource } from 'ember-resources';
 
 class Cell<T> {
@@ -28,7 +29,6 @@ export class Doubler extends Resource<{ positional: [number] }> {
     this.value = input * 2;
   }
 }
-
 
 export const overInvalidatingClock = resource(({ on }) => {
   let time = cell(new Date());
@@ -65,5 +65,3 @@ export const clock = resource(({ on }) => {
 
   return () => formatter.format(time.current);
 });
-
-

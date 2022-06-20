@@ -25,7 +25,7 @@ module('useTask', function () {
         setupRenderingTest(hooks);
 
         test('it works', async function (assert) {
-          class Test extends Component<{ Args: {}; Blocks: { default: [Test] }}> {
+          class Test extends Component<{ Blocks: { default: [Test] } }> {
             @tracked input = 'Hello there';
 
             search = trackedTask(this, this._search as any, () => [this.input]);

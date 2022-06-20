@@ -15,7 +15,7 @@ importers:
       concurrently: ^7.2.1
       eslint: ^7.32.0
       loader.js: ^4.7.0
-      prettier: ^2.6.2
+      prettier: ^2.7.1
       typescript: ^4.7.3
     devDependencies:
       '@commitlint/cli': 13.2.1
@@ -228,7 +228,7 @@ importers:
       loader.js: ^4.7.0
       msw: ^0.40.2
       npm-run-all: ^4.1.5
-      prettier: ^2.3.2
+      prettier: ^2.7.1
       qunit: ^2.16.0
       qunit-dom: ^2.0.0
       tracked-built-ins: ^3.1.0
@@ -314,12 +314,12 @@ importers:
       eslint-config-prettier: 8.4.0_eslint@7.32.0
       eslint-plugin-ember: 10.5.9_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-prettier: 4.0.0_5u7oomrk4c6c4veizye6iqamma
+      eslint-plugin-prettier: 4.0.0_cc4nnkgnd3wyhx6p72zclekdpa
       eslint-plugin-qunit: 7.2.0_eslint@7.32.0
       loader.js: 4.7.0
       msw: 0.40.2_typescript@4.7.4
       npm-run-all: 4.1.5
-      prettier: 2.5.1
+      prettier: 2.7.1
       qunit: 2.19.1
       qunit-dom: 2.0.0
       typescript: 4.7.4
@@ -3501,7 +3501,7 @@ packages:
       '@embroider/macros': 1.8.0
       '@embroider/shared-internals': 1.8.0
       assert-never: 1.2.1
-      babel-import-util: 1.1.0
+      babel-import-util: 1.2.2
       babel-plugin-ember-template-compilation: 1.0.2
       broccoli-node-api: 1.7.0
       broccoli-persistent-filter: 3.1.2
@@ -3543,7 +3543,7 @@ packages:
       '@embroider/macros': 1.8.0_supports-color@8.1.1
       '@embroider/shared-internals': 1.8.0
       assert-never: 1.2.1
-      babel-import-util: 1.1.0
+      babel-import-util: 1.2.2
       babel-plugin-ember-template-compilation: 1.0.2
       broccoli-node-api: 1.7.0
       broccoli-persistent-filter: 3.1.2_supports-color@8.1.1
@@ -3605,7 +3605,7 @@ packages:
     dependencies:
       '@embroider/shared-internals': 1.8.0
       assert-never: 1.2.1
-      babel-import-util: 1.1.0
+      babel-import-util: 1.2.2
       ember-cli-babel: 7.26.11
       find-up: 5.0.0
       lodash: 4.17.21
@@ -3620,7 +3620,7 @@ packages:
     dependencies:
       '@embroider/shared-internals': 1.8.0
       assert-never: 1.2.1
-      babel-import-util: 1.1.0
+      babel-import-util: 1.2.2
       ember-cli-babel: 7.26.11_supports-color@8.1.1
       find-up: 5.0.0
       lodash: 4.17.21
@@ -4814,7 +4814,7 @@ packages:
     resolution: {integrity: sha512-LrnsgZIfJaysFkv9rRJp4/uAyqw87oVed3s1hhF83nwbo9c7MG9g5DqR0seHP+lkX4ldmMrVolPjQSe2ZfD0yA==}
     deprecated: This is a stub types definition for source-map (https://github.com/mozilla/source-map). source-map provides its own type definitions, so you don't need @types/source-map installed!
     dependencies:
-      source-map: 0.7.3
+      source-map: 0.6.1
     dev: true
 
   /@types/supports-color/8.1.1:
@@ -10727,6 +10727,23 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
+  /eslint-plugin-prettier/4.0.0_cc4nnkgnd3wyhx6p72zclekdpa:
+    resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      eslint: '>=7.28.0'
+      eslint-config-prettier: '*'
+      prettier: '>=2.0.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 7.32.0
+      eslint-config-prettier: 8.4.0_eslint@7.32.0
+      prettier: 2.7.1
+      prettier-linter-helpers: 1.0.0
+    dev: true
+
   /eslint-plugin-qunit/7.2.0_eslint@7.32.0:
     resolution: {integrity: sha512-ebT6aOpmMj4vchG0hVw9Ukbutk/lgywrc8gc9w9hH2/4WjKqwMlyM7iVwqB7OAXv6gtQMJZuziT0wNjjymAuWA==}
     engines: {node: 12.x || 14.x || >=16.0.0}
@@ -16272,11 +16289,6 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
-
-  /source-map/0.7.3:
-    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
-    engines: {node: '>= 8'}
-    dev: true
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}

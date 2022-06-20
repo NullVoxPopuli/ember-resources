@@ -44,7 +44,7 @@ module('Utils | map | rendering', function (hooks) {
       @tracked records: TestRecord[] = [];
     }
 
-    class Test extends Component<{ Args: { ctx: Context }}> {
+    class Test extends Component<{ Args: { ctx: Context } }> {
       step = step;
       stuff = map(this, {
         data: () => {
