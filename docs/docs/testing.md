@@ -11,7 +11,7 @@ There are two approaches:
 ### `new` the resource directly
 
 ```ts
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 test('my test', function(assert) {
   class MyResource extends Resource {
@@ -34,7 +34,7 @@ For the `Resource` base class, there is a static helper method which helps simul
 the `modify` behavior.
 
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 test ('my test', function (assert) {
   class MyResource extends Resource {
@@ -76,7 +76,7 @@ time for the framework to propagate changes to all the reactive bits.
 Example:
 
 ```ts
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 test('my test', async function (assert) {
   class Doubler extends Resource<{ positional: [number] }> {

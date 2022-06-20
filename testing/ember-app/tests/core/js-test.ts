@@ -5,7 +5,7 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 import type { Positional } from 'ember-resources';
 

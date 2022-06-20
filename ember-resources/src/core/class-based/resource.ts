@@ -35,7 +35,7 @@ type ResourceHelperLike<T extends ArgsWrapper, R> = InstanceType<
  *
  * An example
  * ```js
- * import { Resource } from 'ember-resources/core';
+ * import { Resource } from 'ember-resources';
  * import { createMachine, interpret } from 'xstate';
  *
  * const machine = createMachine(); // ... see XState docs for this function this ...

@@ -9,7 +9,7 @@
 
 requires: (nothing)
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
 
 class MyFetcher extends Resource {

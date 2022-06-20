@@ -192,7 +192,7 @@ class MyResource extends LifecycleResource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   modify(positional, { someNamedArg }) {
@@ -224,7 +224,7 @@ class MyResource extends LifecycleResource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   didSetup = false;
@@ -256,7 +256,7 @@ class MyResource extends LifecycleResource {
 After
 
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   modify(positional, named) {
@@ -290,7 +290,7 @@ class MyResource extends LifecycleResource {
 ```
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 import { registerDestructor } from '@ember/destroyable';
 
 class MyResource extends Resource {
@@ -339,7 +339,7 @@ class MyResource extends Resource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 import { registerDestructor } from '@ember/destroyable';
 
 class MyResource extends Resource {

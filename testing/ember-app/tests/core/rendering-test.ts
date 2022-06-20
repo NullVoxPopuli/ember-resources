@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
