@@ -24,6 +24,7 @@ build:
 
 support:
   ember-try: true
+  glint: true
   typescript:
    - typescript@4.7
 

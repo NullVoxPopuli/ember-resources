@@ -210,11 +210,6 @@ jobs:
       fail-fast: true
       matrix:
         typescript-scenario:
-          - typescript@4.2
-          - typescript@4.3
-          - typescript@4.4
-          - typescript@4.5
-          - typescript@4.6
           - typescript@4.7
     steps:
       - uses: actions/checkout@v3
@@ -240,8 +235,8 @@ jobs:
         working-directory: ./testing/ember-app
       - name: Type checking
         run: |-
-          pnpm --filter ember-app exec tsc -v;
-          pnpm --filter ember-app exec tsc --build
+          pnpm --filter ember-app exec glint --version;
+          pnpm --filter ember-app exec glint
   release:
     name: Release
     timeout-minutes: 5
