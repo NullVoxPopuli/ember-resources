@@ -66,7 +66,7 @@ class Demo {
 requires:
  - tracked-built-ins
 ```js
-import { use, resource } from 'ember-resources/util/function-resource';
+import { use, resource } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 import { tracked } from '@glimmer/tracking';
 

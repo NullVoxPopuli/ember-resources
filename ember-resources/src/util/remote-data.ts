@@ -63,7 +63,7 @@ export class State<T = unknown> {
  * that also wraps up authorization headers):
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { use, resource } from 'ember-resources/util/function-resource';
+ * import { use, resource } from 'ember-resources';
  * import { remoteData } from 'ember-resources/util/remote-data';
  *
  * class Demo {
@@ -79,7 +79,7 @@ export class State<T = unknown> {
  *
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { resource } from 'ember-resources/util/function-resource';
+ * import { resource } from 'ember-resources';
  * import { remoteData } from 'ember-resources/util/remote-data';
  *
  * class Demo {
@@ -129,7 +129,7 @@ export function remoteData<T = unknown>(
  *
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { use } from 'ember-resources/util/function-resource';
+ * import { use } from 'ember-resources';
  * import { RemoteData } from 'ember-resources/util/remote-data';
  *
  * class Demo {
@@ -174,7 +174,7 @@ export function RemoteData<T = unknown>(url: string, options?: FetchOptions): St
  *
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { use } from 'ember-resources/util/function-resource';
+ * import { use } from 'ember-resources';
  * import { RemoteData } from 'ember-resources/util/remote-data';
  *
  * class Demo {
@@ -195,7 +195,7 @@ export function RemoteData<T = unknown>(url: () => string): State<T>;
  *
  * ```js
  * import { tracked } from '@glimmer/tracking';
- * import { use } from 'ember-resources/util/function-resource';
+ * import { use } from 'ember-resources';
  * import { RemoteData } from 'ember-resources/util/remote-data';
  *
  * class Demo {

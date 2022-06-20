@@ -102,8 +102,7 @@ For example, consider a resource that doubles a number (this is over engineered,
 
 ```js
 import { tracked } from '@glimmer/tracking';
-// import { resource } from 'ember-resources'; // in V5
-import { resource } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 
 class {
   @tracked num = 2;
@@ -125,8 +124,7 @@ that you don't _invalidate_ any tracked state that is also consumed in the main 
 
 ```js
 import { tracked } from '@glimmer/tracking';
-// import { resource } from 'ember-resources'; // in V5
-import { resource } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
 class {
@@ -165,8 +163,7 @@ The goal if this implementation is to provide an easy abstraction that
 To start, we'll want to use [`setInterval`][mdn-setInterval] to update a value every second.
 ```js
 // NOTE: this snippet has bugs and is incomplete, don't copy this (explained later)
-// import { resource } from 'ember-resources'; // in V5
-import { resource } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
 const clock = resource(() => {
@@ -250,8 +247,7 @@ In this resource, consumed tracked data, when changed, only invalidates the encl
 
 Lastly, to support reactively changing the locale, we need to wrap the `resource` in a function.
 ```js
-// import { resource, resourceFactory } from 'ember-resources'; // in V5
-import { resource, resourceFactory } from 'ember-resources/util/function-resource';
+import { resource, resourceFactory, use } from 'ember-resources';
 
 const Clock = resourceFactory((locale = 'en-US') => {
   return resource(({ on }) => {

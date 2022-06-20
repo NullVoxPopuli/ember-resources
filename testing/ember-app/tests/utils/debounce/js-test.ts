@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 import { debounce } from 'ember-resources/util/debounce';
-import { use } from 'ember-resources/util/function-resource';
+import { use } from 'ember-resources';
 
 module('Utils | debounce | js', function (hooks) {
   setupTest(hooks);

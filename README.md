@@ -77,7 +77,7 @@ This alternate API is more general-purpose, but has the same behavior
 as the above example.
 
 ```js
-import { resource, use } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
 class MyClass {

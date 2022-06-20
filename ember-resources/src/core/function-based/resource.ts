@@ -22,7 +22,7 @@ import type { InternalIntermediate, ResourceFn, ResourceFunction } from './types
  *
  *  Example using `fetch` + `AbortController`
  *  ```js
- *  import { use, resource } from 'ember-resources/util/function-resource';
+ *  import { use, resource } from 'ember-resources';
  *  import { TrackedObject } from 'tracked-built-ins';
  *  import { tracked } from '@glimmer/tracking';
  *
@@ -73,7 +73,7 @@ export function resource<Value>(setup: ResourceFunction<Value>): Value;
  *
  *  Example using `fetch` + `AbortController`
  *  ```js
- *  import { resource } from 'ember-resources/util/function-resource';
+ *  import { resource } from 'ember-resources';
  *  import { TrackedObject } from 'tracked-built-ins';
  *  import { tracked } from '@glimmer/tracking';
  *
@@ -118,7 +118,7 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
  *
  *  Example using strict mode + <template> syntax and a template-only component:
  *  ```jsx gjs
- *  import { resource } from 'ember-resources/util/function-resource';
+ *  import { resource } from 'ember-resources';
  *  import { TrackedObject } from 'tracked-built-ins';
  *
  *  const load = resource(({ on }) => {

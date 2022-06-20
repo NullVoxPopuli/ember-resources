@@ -18,7 +18,7 @@ export type Hooks = {
      *
      *  Example:
      *  ```js
-     *  import { resource } from 'ember-resources/util/function-resource';
+     *  import { resource } from 'ember-resources';
      *  import { TrackedObject } from 'tracked-built-ins';
      *
      *  const load = resource(({ on }) => {

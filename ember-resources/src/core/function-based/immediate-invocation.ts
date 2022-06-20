@@ -60,7 +60,7 @@ const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(ow
  *
  *  Example using strict mode + <template> syntax and a template-only component:
  *  ```js
- *  import { resource, resourceFactory } from 'ember-resources/util/function-resource';
+ *  import { resource, resourceFactory } from 'ember-resources';
  *
  *  const RemoteData = resourceFactory((url) => {
  *    return resource(({ on }) => {

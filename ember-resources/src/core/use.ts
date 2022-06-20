@@ -31,7 +31,7 @@ type ResourceInitializer = {
  *
  * @example
  * ```js
- * import { resource, use } from 'ember-resources/util/function-resource';
+ * import { resource, use } from 'ember-resources';
  *
  * class MyClass {
  *   @use data = resource(() => {
