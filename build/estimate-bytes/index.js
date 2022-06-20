@@ -19,8 +19,7 @@ const config = {
   bundles: {
     'index.js': {
       alias: '.',
-      // Uncomment in v5
-      // nest: ['core/index.js', 'util/function-resource.js']
+      nest: ['core/index.js', 'util/function-resource.js']
     },
     'core/index.js': { alias: 'core' },
     'util/*.js': {},
