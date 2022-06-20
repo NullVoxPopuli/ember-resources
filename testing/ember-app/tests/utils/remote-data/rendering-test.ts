@@ -25,8 +25,6 @@ module('Utils | remote-data | rendering', function (hooks) {
 
   module('RemoteData', function () {
     test('works with static url', async function (assert) {
-      this.setProperties({ RemoteData });
-
       await render(hbs`
         {{#let (this.RemoteData "/blogs/1") as |blog|}}
           {{blog.value.attributes.name}}

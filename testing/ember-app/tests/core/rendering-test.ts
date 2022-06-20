@@ -27,7 +27,7 @@ module('Core | Resource | rendering', function (hooks) {
       increment = () => this.count++;
     }
 
-    const TestComponent = setComponentTemplate(
+    const TestComponent = setComponentTemplate<typeof Test>(
       hbs`
         <out>{{this.data.num}}</out>
         <button type='button' {{on 'click' this.increment}}>increment</button>`,
