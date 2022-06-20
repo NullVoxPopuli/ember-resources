@@ -1,9 +1,9 @@
 import { tracked } from '@glimmer/tracking';
 import { waitForPromise } from '@ember/test-waiters';
 
-import { resource, resourceFactory } from './function-resource';
+import { resource, resourceFactory } from '../core/function-based';
 
-import type { Hooks } from './function-resource';
+import type { Hooks } from '../core/function-based';
 
 type FetchOptions = Parameters<typeof fetch>[1];
 

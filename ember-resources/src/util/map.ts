@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
-import { Resource } from '../core';
+import { Resource } from '../core/class-based';
 
 /**
  * Public API of the return value of the [[map]] resource.

@@ -1,1 +1,2 @@
-export { Resource } from './resource';
+export * from './class-based';
+export * from './function-based';

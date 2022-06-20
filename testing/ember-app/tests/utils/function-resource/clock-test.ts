@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
 import { dependencySatisfies, macroCondition } from '@embroider/macros';
-import { resource, resourceFactory, use } from 'ember-resources/util/function-resource';
+import { resource, resourceFactory, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
 module('Examples | resource | Clock', function (hooks) {

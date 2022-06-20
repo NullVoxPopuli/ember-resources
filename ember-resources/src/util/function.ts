@@ -2,9 +2,9 @@ import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 import { waitForPromise } from '@ember/test-waiters';
 
-import { resource } from './function-resource';
+import { resource } from '../core/function-based';
 
-import type { Hooks } from './function-resource';
+import type { Hooks } from '../core/function-based';
 
 export type ResourceFn<Return = unknown> = (hooks: Hooks) => Return | Promise<Return>;
 

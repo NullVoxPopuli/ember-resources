@@ -13,7 +13,7 @@ import { assert } from '@ember/debug';
 import { invokeHelper } from '@ember/helper';
 import { get } from '@ember/object';
 
-import { Resource } from '../core';
+import { Resource } from '../core/class-based';
 // import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 

@@ -1,17 +1,13 @@
-// @ts-ignore
-import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { setOwner } from '@ember/application';
-import { assert } from '@ember/debug';
-import { associateDestroyableChild } from '@ember/destroyable';
-// @ts-ignore
-import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 
-import { Invoke } from '@glint/template/-private/integration';
+import { resourceOf } from './utils';
 
-import { DEFAULT_THUNK, normalizeThunk } from './utils';
-
-import type { ArgsWrapper, Cache, Thunk } from './types';
+import type { ArgsWrapper, Thunk } from '../types';
 import type { HelperLike } from '@glint/template';
+// this lint thinks this type import is used by decorator metadata...
+// babel doesn't use decorator metadata
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import type { Invoke } from '@glint/template/-private/integration';
 
 /**
  * https://gist.github.com/dfreeman/e4728f2f48737b44efb99fa45e2d22ef#typing-the-return-value-implicitly
@@ -182,122 +178,3 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
    */
   modify?(positional: T['positional'], named: T['named']): void;
 }
-
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-// export interface Resource<T extends ArgsWrapper = ArgsWrapper> extends InstanceType<
-//   HelperLike<{
-//     Args: {
-//       Named: NonNullable<T['named']>;
-//       Positional: NonNullable<T['positional']>
-//     };
-//     // Return: number
-//   }>
-// > {}
-
-class ResourceManager {
-  capabilities = helperCapabilities('3.23', {
-    hasValue: true,
-    hasDestroyable: true,
-  });
-
-  constructor(protected owner: unknown) {}
-
-  createHelper(Class: typeof Resource, args: ArgsWrapper) {
-    let owner = this.owner;
-
-    let instance: Resource<ArgsWrapper>;
-
-    let cache: Cache = createCache(() => {
-      if (instance === undefined) {
-        instance = new Class(owner);
-
-        associateDestroyableChild(cache, instance);
-      }
-
-      if (instance.modify) {
-        instance.modify(args.positional, args.named);
-      }
-
-      return instance;
-    });
-
-    return cache;
-  }
-
-  getValue(cache: Cache) {
-    let instance = getValue(cache);
-
-    return instance;
-  }
-
-  getDestroyable(cache: Cache) {
-    return cache;
-  }
-}
-
-setHelperManager((owner: unknown) => new ResourceManager(owner), Resource);
-
-function resourceOf<Instance extends new (...args: any) => any, Args extends unknown[] = unknown[]>(
-  context: object,
-  klass: new (...args: any) => InstanceType<Instance>,
-  thunk?: Thunk | (() => Args)
-): Instance {
-  assert(
-    `Expected second argument, klass, to be a Resource. ` +
-      `Instead, received some ${typeof klass}, ${klass.name}`,
-    klass.prototype instanceof Resource
-  );
-
-  let cache: Cache<Instance>;
-
-  /*
-   * Having an object that we use invokeHelper + getValue on
-   * is how we convert the "native class" in to a reactive utility
-   * (along with the following proxy for accessing anything on this 'value')
-   *
-   */
-  let target = {
-    get value(): Instance {
-      if (!cache) {
-        cache = invokeHelper(context, klass, () => normalizeThunk(thunk || DEFAULT_THUNK));
-      }
-
-      return getValue<Instance>(cache);
-    },
-  };
-
-  /**
-   * This proxy takes everything called on or accessed on "target"
-   * and forwards it along to target.value (where the actual resource instance is)
-   *
-   * It's important to only access .value within these proxy-handler methods so that
-   * consumers "reactively entangle with" the Resource.
-   */
-  return new Proxy(target, {
-    get(target, key): unknown {
-      const instance = target.value as unknown as object;
-      const value = Reflect.get(instance, key, instance);
-
-      return typeof value === 'function' ? value.bind(instance) : value;
-    },
-
-    ownKeys(target): (string | symbol)[] {
-      const instance = target.value as unknown as object;
-
-      return Reflect.ownKeys(instance);
-    },
-
-    getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
-      const instance = target.value as unknown as object;
-
-      return Reflect.getOwnPropertyDescriptor(instance, key);
-    },
-  }) as never as Instance;
-}
-
-// NOTE: check this with TS 4.7
-// https://github.com/microsoft/TypeScript/pull/47607
-// https://www.typescriptlang.org/play?ts=4.7.0-dev.20220330#code/FAMwrgdgxgLglgewgAgCYICoAs4QOYA8AogDTICyAfABSoCGMdAXMkQNoC6ZAtnQA4taDMNxZEAlMgC8lCpIDewZMgBOAUxhgVKdQGcEWqGoDyIahhV0oAazWoAgissBPcv2Jkq4gNzAAvkrAwAA2GsgwarowLBZWtg5OdK7uECIARmoqZFEquHiyUmiYOPjUbACMZABMXMhCmtySMsgABgAk8vQNfi0+QVBI+qEAdMEIeNQRUX3AAPTzC4tLyyuzQWoAHnwIKjDI4NDwSKqRBipGpgSOeLrImxEQqLeQ1hAIAO4QnGQAkhBRdGgahoSmQ1mCdF0uhYEDU7zqw0RdBUNxY110TVkfwBQOA4hY2MYQOQ8mQoPUmm0yFh8PBkN01ERwzKHGQkOQLzenzZt3R4j6fl86y2Oz2uAiKhAVjUyAAwoMYCowLA6GlQgQMNIORBXh8ILJFMoaQikSjodrdZ9OPjkBhfAFNttdshxZkpUZkAAZBAIXRqdEk0HbXRwI4QOjBAD8LE5es4viNdG4dmjyAASmoBipUAQcnkyIDnJR7UFgI7RWhMxD1C6IBL3TKM-pDGoNXcNg8nl6fX70QbQdwEKg4CBnNRg6HEOHgjE2AByCdhiNz2rh5OoWdztd2Fc2gBuCDgqBL5edUAhUPTpxbbcK3t9-rN-eUA3+iuVMB21D1mRjOq5EBkHwYBqnAUBsmaMQKKCAQBGWIpnhetyxDYdiOC4bh8MQoTJnWWqxp8nj8HwdgYAg+H-nqsj3Gojy3E2ZxGAQhrIIuU4RmIOG0TA8agtuG4ksgvACHUahcXWnFqLhMCYhQxGkeRgr+M+yAAMTCVqxqYdQArAEAA
