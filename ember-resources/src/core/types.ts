@@ -66,6 +66,13 @@ export interface ArgsWrapper {
   named?: Record<string, any>;
 }
 
+export interface SignatureFor<T extends ArgsWrapper> {
+  Args: {
+    Positional: T['positional'];
+    Named: T['named'];
+  };
+}
+
 // typed-ember should provide this from
 //   @glimmer/tracking/primitives/cache
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

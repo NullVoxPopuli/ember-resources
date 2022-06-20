@@ -59,7 +59,7 @@ class TrackedValue<T> {
 export function debounce<Value = unknown>(ms: number, thunk: () => Value) {
   let lastValue: Value;
   let timer: number;
-  let state = new TrackedValue();
+  let state = new TrackedValue<Value>();
 
   return resource(({ on }) => {
     lastValue = thunk();

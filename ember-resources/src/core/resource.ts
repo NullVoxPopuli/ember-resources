@@ -9,6 +9,23 @@ import { capabilities as helperCapabilities, invokeHelper, setHelperManager } fr
 import { DEFAULT_THUNK, normalizeThunk } from './utils';
 
 import type { ArgsWrapper, Cache, Thunk } from './types';
+import type { HelperLike } from '@glint/template';
+import { Invoke } from '@glint/template/-private/integration';
+
+/**
+ * https://gist.github.com/dfreeman/e4728f2f48737b44efb99fa45e2d22ef#typing-the-return-value-implicitly
+ *
+ * This is a Glint helper to help HelperLike determine what the ReturnType is.
+ */
+type ResourceHelperLike<T extends ArgsWrapper, R> = InstanceType<
+  HelperLike<{
+    Args: {
+      Named: T['named'];
+      Positional: T['positional'];
+    };
+    Return: R;
+  }>
+>;
 
 /**
  * The 'Resource' base class has only one lifecycle hook, `modify`, which is called during
@@ -88,64 +105,27 @@ import type { ArgsWrapper, Cache, Thunk } from './types';
  */
 export class Resource<T extends ArgsWrapper = ArgsWrapper> {
   /**
-   * For use in the body of a class.
+   * @private (secret)
    *
-   * @note prefer [[from]]
+   * This is a lie, but a useful one for Glint, because
+   * Glint's "HelperLike" matches on this "Invoke" property.
    *
-   * `of` is what allows resources to be used in JS, they hide the reactivity APIs
-   * from the consumer so that the surface API is smaller. Though, from an end-user-api
-   * ergonomics perspective, you wouldn't typically want to rely on this. As in
-   * [ember-data-resources](https://github.com/NullVoxPopuli/ember-data-resources/)
+   * Faking the interface of `HelperLike` is the only way we can get Glint to treat
+   *  class-based resources as helpers in templates.
    *
-   * Given this potential use:
-   * ```ts
-   * import { Resource } from 'ember-resources';
+   * If subclassing was not needed, we could just "merge the interface" with Resource
+   * and HelperLike, but merged interfaces are not retained in subclasses.
    *
-   * class SomeResource extends Resource {}
-   *
-   * class MyClass {
-   *   data = Resource.of(this, SomeResource, () => [arg list]);
-   * }
-   * ```
-   *
-   * a better user-facing api, may be provided by:
-   * ```js
-   * export function someResource(context, args) {
-   *   return Resource.of(context, SomeResource, () =>  ... );
-   * }
-   * ```
-   *  usage:
-   * ```js
-   * import { someResource } from 'your-library';
-   *
-   * class SomeResource extends Resource {}
-   *
-   * class MyClass {
-   *   data = someResource(this, () => [arg list]);
-   * }
-   * ```
-   *
-   * When any tracked data in the args thunk is updated, the Resource will be updated as well
-   *
-   *  - The `this` is to keep track of destruction -- so when `MyClass` is destroyed, all the resources attached to it can also be destroyed.
-   *  - The resource will **do nothing** until it is accessed. Meaning, if you have a template that guards
-   *    access to the data, like:
-   *    ```hbs
-   *    {{#if this.isModalShowing}}
-   *       <Modal>{{this.data.someProperty}}</Modal>
-   *    {{/if}}
-   *    ```
-   *    the Resource will not be instantiated until `isModalShowing` is true.
+   * Without this, the static method, from, would have a type error.
    */
-  static of = resourceOf;
+  declare [Invoke]: ResourceHelperLike<T, this>[typeof Invoke];
 
   /**
    * For use in the body of a class.
    *
    * `from` is what allows resources to be used in JS, they hide the reactivity APIs
    * from the consumer so that the surface API is smaller.
-   * Unlike `of`, due to the fewer arguments required in `from`, though it _may_ be more
-   * convenient to not wrap your resource abstraction in a helper function.
+   * Though it _may_ be more convenient to not wrap your resource abstraction in a helper function.
    *
    * ```js
    * import { Resource } from 'ember-resources';
@@ -183,22 +163,38 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
    * }
    * ```
    */
-  static from<Instance extends Resource<ArgsWrapper>>(
-    this: (new (...args: unknown[]) => Instance) & {
-      of: typeof resourceOf;
-    },
+  static from<T extends new (...args: any) => any>(
+    this: T,
     context: object,
     thunk?: Thunk | (() => unknown)
-  ) {
-    return this.of(context, this, thunk);
+  ): InstanceType<T> {
+    return resourceOf(context, this, thunk);
   }
 
   constructor(owner: unknown) {
     setOwner(this, owner);
   }
 
+  /**
+   * this lifecycle hook is called whenever arguments to the resource change.
+   * This can be useful for calling functions, comparing previous values, etc.
+   */
   modify?(positional: T['positional'], named: T['named']): void;
 }
+
+/**
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// export interface Resource<T extends ArgsWrapper = ArgsWrapper> extends InstanceType<
+//   HelperLike<{
+//     Args: {
+//       Named: NonNullable<T['named']>;
+//       Positional: NonNullable<T['positional']>
+//     };
+//     // Return: number
+//   }>
+// > {}
 
 class ResourceManager {
   capabilities = helperCapabilities('3.23', {
@@ -243,9 +239,9 @@ class ResourceManager {
 
 setHelperManager((owner: unknown) => new ResourceManager(owner), Resource);
 
-function resourceOf<Instance extends Resource<ArgsWrapper>, Args extends unknown[] = unknown[]>(
+function resourceOf<Instance extends new (...args: any) => any, Args extends unknown[] = unknown[]>(
   context: object,
-  klass: new (...args: unknown[]) => Instance,
+  klass: new (...args: any) => InstanceType<Instance>,
   thunk?: Thunk | (() => Args)
 ): Instance {
   assert(

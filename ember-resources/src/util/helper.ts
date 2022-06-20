@@ -3,9 +3,13 @@ import { getValue } from '@glimmer/tracking/primitives/cache';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
+
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
+import type ClassBasedHelper from '@ember/component/helper';
+import type { FunctionBasedHelper } from '@ember/component/helper';
 import type { Cache, Thunk } from '../core/types';
+import type { Get, HelperLike } from '@glint/template';
 
 /**
  * @utility implemented with raw `invokeHelper` API, no classes from `ember-resources` used.
@@ -48,22 +52,35 @@ import type { Cache, Thunk } from '../core/types';
  * {{this.toString this.intersection.value}}
  * ```
  */
-export function helper(
+export function helper<
+  T = unknown,
+  S = InferSignature<T>,
+  Return = Get<S, 'Return'>
+>(
   context: object,
-  helper: unknown,
+  helper: T,
   thunk: Thunk = DEFAULT_THUNK
-): { value: unknown } {
+): { value: Return } {
   let resource: Cache<unknown>;
 
   return {
-    get value(): unknown {
+    get value(): Return {
       if (!resource) {
         resource = invokeHelper(context, helper, () => {
           return normalizeThunk(thunk);
         }) as Cache<unknown>;
       }
 
-      return getValue<unknown>(resource)!; // eslint-disable-line
+      return getValue<Return>(resource)!; // eslint-disable-line
     },
   };
 }
+
+type InferSignature<T> =
+  T extends HelperLike<infer S>
+    ? S
+    : T extends FunctionBasedHelper<infer S>
+      ? S
+      : T extends ClassBasedHelper<infer S>
+        ? S
+        : 'Signature not found';

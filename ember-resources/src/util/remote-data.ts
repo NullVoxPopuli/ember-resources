@@ -10,16 +10,16 @@ type FetchOptions = Parameters<typeof fetch>[1];
 /**
  * @protected
  */
-export class State {
+export class State<T = unknown> {
   /**
    * If an exception was thrown while making the request, the error
    * thrown will be here.
    */
-  @tracked error = null;
+  @tracked error: Error | null = null;
   /**
    * The resolved value of the fetch request
    */
-  @tracked value = null;
+  @tracked value: T | null = null;
 
   /**
    * HTTP status code.
@@ -92,8 +92,8 @@ export class State {
  * ```
  *
  */
-export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {}): State {
-  let state = new State();
+export function remoteData<T = unknown>({ on }: Hooks, url: string, options: FetchOptions = {}): State<T> {
+  let state = new State<T>();
   let controller = new AbortController();
 
   on.cleanup(() => controller.abort());
@@ -158,7 +158,7 @@ export function remoteData({ on }: Hooks, url: string, options: FetchOptions = {
  * ```
  *
  */
-export function RemoteData(url: string, options?: FetchOptions): State;
+export function RemoteData<T = unknown>(url: string, options?: FetchOptions): State<T>;
 
 /**
  * json-based remote data utility
@@ -180,7 +180,7 @@ export function RemoteData(url: string, options?: FetchOptions): State;
  * }
  * ```
  */
-export function RemoteData(url: () => string): State;
+export function RemoteData<T = unknown>(url: () => string): State<T>;
 
 /**
  * json-based remote data utility
@@ -206,12 +206,12 @@ export function RemoteData(url: () => string): State;
  * }
  * ```
  */
-export function RemoteData(options: () => { url: string } & FetchOptions): State;
+export function RemoteData<T = unknown>(options: () => { url: string } & FetchOptions): State<T>;
 
 /**
  * json-based remote data utility
  */
-export function RemoteData(
+export function RemoteData<T = unknown>(
   url: string | (() => string) | (() => { url: string } & FetchOptions),
   opts?: FetchOptions
 ) {
@@ -233,7 +233,7 @@ export function RemoteData(
       options = { ...options, ...opts };
     }
 
-    return remoteData(hooks, targetUrl, options);
+    return remoteData<T>(hooks, targetUrl, options);
   });
 }
 
