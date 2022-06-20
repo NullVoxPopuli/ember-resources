@@ -95,7 +95,6 @@ jobs:
           expect: |
             core
             util
-            deprecated-in-v4
             index.js
             index.js.map
             index.d.ts
@@ -168,12 +167,9 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario:
-          - ember-3.25
-          - ember-3.26
           - ember-3.28
           - ember-4.0.0
           - ember-4.4
-          - ember-concurrency-v1
           - ember-release
           - ember-beta
           - ember-canary
