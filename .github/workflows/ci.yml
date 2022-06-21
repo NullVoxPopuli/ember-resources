@@ -216,7 +216,6 @@ jobs:
       matrix:
         typescript-scenario:
           - typescript@4.7
-          - typescript@next
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1

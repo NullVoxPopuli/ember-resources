@@ -32,7 +32,8 @@ support:
   glint: true
   typescript:
    - typescript@4.7
-   - typescript@next
+   # MSW is not compatible with typescript@next
+   # - typescript@next
 
 
 release:
