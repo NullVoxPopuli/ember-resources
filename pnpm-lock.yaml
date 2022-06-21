@@ -58,11 +58,11 @@ importers:
       typescript: ^4.7.3
     devDependencies:
       typedoc: 0.22.17_typescript@4.7.4
-      typedoc-github-wiki-theme: 1.0.1_277gzzrhjddqyygochfxdm2o6m
-      typedoc-gitlab-wiki-theme: 1.0.0_277gzzrhjddqyygochfxdm2o6m
-      typedoc-plugin-markdown: 3.12.1_typedoc@0.22.17
+      typedoc-github-wiki-theme: 1.0.0_eycvkigkyb75bs3ytf3fmz7jce
+      typedoc-gitlab-wiki-theme: 1.0.0_eycvkigkyb75bs3ytf3fmz7jce
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
       typedoc-plugin-markdown-pages: 0.3.0
-      typedoc-plugin-mdn-links: 1.0.6_typedoc@0.22.17
+      typedoc-plugin-mdn-links: 1.0.4_typedoc@0.22.17
       typescript: 4.7.4
 
   ember-resources:
@@ -15521,32 +15521,32 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typedoc-github-wiki-theme/1.0.1_277gzzrhjddqyygochfxdm2o6m:
-    resolution: {integrity: sha512-FaO7fENGK6IJLpkddbNXxJfNbooF9KBC7xfk7Lj4uqG5SCC7YQFPTLDyNmbpJKO93QEenRYgqBwI5E5d/bKrHw==}
+  /typedoc-github-wiki-theme/1.0.0_eycvkigkyb75bs3ytf3fmz7jce:
+    resolution: {integrity: sha512-8ZuRBSTq15j7oTCMRAiZV3t7KH+Y6tOXkEcyRj5HUEwCgd08DCfXpSrLHjXc83MlvvGi+16n7LuXK17NkEjf/g==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
       typedoc: 0.22.17_typescript@4.7.4
-      typedoc-plugin-markdown: 3.12.1_typedoc@0.22.17
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
     dev: true
 
-  /typedoc-gitlab-wiki-theme/1.0.0_277gzzrhjddqyygochfxdm2o6m:
+  /typedoc-gitlab-wiki-theme/1.0.0_eycvkigkyb75bs3ytf3fmz7jce:
     resolution: {integrity: sha512-R9qWKh2EUcMr5ySweSqEIYzBZE9Pw3t3sLN8NzyrSo5SNNmcbt/oKMOyTKdoOpn3DzMqMRRxzujtx+xJ+Mt4Qg==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
       typedoc: 0.22.17_typescript@4.7.4
-      typedoc-plugin-markdown: 3.12.1_typedoc@0.22.17
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
     dev: true
 
   /typedoc-plugin-markdown-pages/0.3.0:
     resolution: {integrity: sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==}
     dev: true
 
-  /typedoc-plugin-markdown/3.12.1_typedoc@0.22.17:
-    resolution: {integrity: sha512-gMntJq7+JlGJZ5sVjrkzO/rG2dsmNBbWk5ZkcKvYu6QOeBwGcK5tzEyS0aqnFTJj9GCHCB+brAnTuKtAyotNwA==}
+  /typedoc-plugin-markdown/3.11.11_typedoc@0.22.17:
+    resolution: {integrity: sha512-LyephgG2yHiSqJppuDVKy3dPLSbzP+ke/VBxGvH4I/+31NXzuEhLFhxx/X4UMqzh2XbUB44ttABtGd11biKr4Q==}
     peerDependencies:
       typedoc: '>=0.22.0'
     dependencies:
@@ -15554,8 +15554,8 @@ packages:
       typedoc: 0.22.17_typescript@4.7.4
     dev: true
 
-  /typedoc-plugin-mdn-links/1.0.6_typedoc@0.22.17:
-    resolution: {integrity: sha512-ee+uJXZH8vXzi5wpXBc+Wgjt30hQdRE3SyUvAHVoBbHsoqkGbs4hMTDo9mU8aQsZ2MZkve0nTmN3eVc79YN/Qg==}
+  /typedoc-plugin-mdn-links/1.0.4_typedoc@0.22.17:
+    resolution: {integrity: sha512-mw5IISaKRq8w1hJwp05vkFD9Ijtlv9j7uuM68zlp1zVdzQr4JRYQBTtde4cnSdYatFmLVjQpuFYwoGREJxlHlw==}
     peerDependencies:
       typedoc: 0.22.x
     dependencies:

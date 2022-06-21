@@ -15,7 +15,5 @@
   "excludeExternals": true,
   "disableSources": true,
   "plugin": [
-    "typedoc-plugin-mdn-links",
-    "typedoc-github-wiki-theme"
   ]
 }

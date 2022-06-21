@@ -216,6 +216,7 @@ jobs:
       matrix:
         typescript-scenario:
           - typescript@4.7
+          - typescript@next
     steps:
       - uses: actions/checkout@v3
       - uses: volta-cli/action@v1
@@ -308,5 +309,41 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: ./build/estimate-bytes/comment.txt
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+  BuildandDeployDocs:
+    name: Build and Deploy Docs
+    needs:
+      - build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.1.2
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: ${{ env.dist }}
+      - name: Build
+        run: pnpm docs:collect
+        working-directory: ./docs
+      - name: Publish
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ember-resources
+          directory: docs/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
     timeout-minutes: 5
     runs-on: ubuntu-latest

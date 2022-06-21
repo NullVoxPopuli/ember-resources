@@ -32,6 +32,7 @@ support:
   glint: true
   typescript:
    - typescript@4.7
+   - typescript@next
 
 
 release:
@@ -49,3 +50,17 @@ extra:
         with:
           path: ./build/estimate-bytes/comment.txt
 
+  - name: Build and Deploy Docs
+    needs: ['build']
+    steps:
+      - name: 'Build'
+        run: pnpm docs:collect
+        working-directory: './docs'
+      - name: Publish
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: 'ember-resources'
+          directory: 'docs/dist'
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
