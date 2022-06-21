@@ -5,7 +5,6 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
-import { dependencySatisfies, macroCondition } from '@embroider/macros';
 import { resource, resourceFactory, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
@@ -136,24 +135,9 @@ module('Examples | resource | Clock', function (hooks) {
 
     test('acceps arguments', async function (assert) {
       this.setProperties({ Clock, date: new Date(), locale: 'en-US' });
-
-      /**
-       * Older ember had a bug where nested helpers were not invoked
-       * when using a dynamic helper (this.Clock)
-       */
-      if (macroCondition(dependencySatisfies('ember-source', '~3.25.0 || ~3.26.0'))) {
-        await render(hbs`
-          <time>
-            {{#let (hash start=this.date locale=this.locale) as |options|}}
-              {{this.Clock options}}
-            {{/let}}
-          </time>
-        `);
-      } else {
-        await render(hbs`
-          <time>{{this.Clock (hash start=this.date locale=this.locale)}}</time>
-        `);
-      }
+      await render(hbs`
+        <time>{{this.Clock (hash start=this.date locale=this.locale)}}</time>
+      `);
 
       let textA = find('time')?.innerText;
 
@@ -176,7 +160,16 @@ module('Examples | resource | Clock', function (hooks) {
       this.setProperties({ locale: 'en-CA' });
       await settled();
 
-      assert.strictEqual(textA, find('time')?.innerText, 'Time is reset');
+      let textD = find('time')?.innerText;
+
+      assert.strictEqual(textA, textD, 'Time is reset');
+
+      this.setProperties({ date: new Date() });
+      await settled();
+
+      let textE = find('time')?.innerText;
+
+      assert.notStrictEqual(textD, textE, 'Time has changed');
     });
   });
 });

@@ -11,7 +11,7 @@
   "out": "dist",
   "pretty": true,
   "excludePrivate": true,
-  "excludeProtected": true,
+  "excludeProtected": false,
   "excludeExternals": true,
   "disableSources": true,
   "plugin": [

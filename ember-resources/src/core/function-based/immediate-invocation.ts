@@ -18,6 +18,7 @@ class ResourceInvokerManager {
 
   createHelper(fn: ResourceFactory, args: any) {
     let helper: object;
+
     /**
      * This cache is for args passed to the ResourceInvoker/Factory
      *
@@ -45,9 +46,6 @@ class ResourceInvokerManager {
     return fn;
   }
 }
-
-// Provide a singleton manager.
-const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(owner);
 
 /**
  * Allows wrapper functions to provide a [[resource]] for use in templates.
@@ -108,3 +106,6 @@ export function resourceFactory(wrapperFn: ResourceFactory) {
 
   return wrapperFn;
 }
+
+// Provide a singleton manager.
+const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(owner);
