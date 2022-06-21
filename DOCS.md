@@ -179,7 +179,31 @@ Usage of this resource would look like
 ```hbs
 <time>{{clock}}</time>
 ```
-Or if you needed the value in JS
+
+
+<details><summary>using &lt;template&gt;</summary>
+
+```js
+// NOTE: this snippet has bugs and is incomplete, don't copy this (explained later)
+import { resource, use } from 'ember-resources';
+import { TrackedObject } from 'tracked-built-ins';
+
+const clock = resource(() => {
+  let time = new TrackedObject({ current: new Date() });
+
+  setInterval(() => (time.current = new Date()), 1_000);
+
+  return time.current;
+});
+
+<template>
+  <time>{{clock}}</time>
+</template>
+```
+
+</details>
+<details><summary>using in a glimmer component or class</summary>
+
 ```js
 class {
   @use myClock = clock;
@@ -189,6 +213,10 @@ class {
   }
 }
 ```
+
+</details>
+
+
 
 But this is not feature-complete! We still need to handle cleanup to prevent memory leaks by using [`clearInterval`][mdn-clearInterval].
 
@@ -230,22 +258,23 @@ This causes a _new_ `setInterval` and _new_ `TrackedObject` to be used,
 rather than re-using the objects.
 
 To solve this, we need to enclose access to the tracked data via an arrow function.
-```js
-const clock = resource(({ on }) => {
-  let time = new TrackedObject({ current: new Date() });
-  let interval = setInterval(() => (time.current = new Date()), 1_000);
+```diff
+  const clock = resource(({ on }) => {
+    let time = new TrackedObject({ current: new Date() });
+    let interval = setInterval(() => (time.current = new Date()), 1_000);
 
-  on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInteral(interval))
 
-  let formatter = new Intl.DateTimeFormat('en-US', { /* ... ✂️ ...*/ });
-
-  return () => formatter.format(time.current);
-});
+-   return new Intl.DateTimeFormat('en-US', { /* ... ✂️ ...*/ });
++   let formatter = new Intl.DateTimeFormat('en-US', { /* ... ✂️ ...*/ });
++
++   return () => formatter.format(time.current);
+  });
 ```
 
 In this resource, consumed tracked data, when changed, only invalidates the enclosing function.
 
-Lastly, to support reactively changing the locale, we need to wrap the `resource` in a function.
+Lastly, to support reactively changing the locale, we need to wrap the `resource` in a function. Here is the final code:
 ```js
 import { resource, resourceFactory, use } from 'ember-resources';
 
@@ -263,6 +292,32 @@ const Clock = resourceFactory((locale = 'en-US') => {
 });
 ```
 
+<details><summary>using &lt;template&gt;</summary>
+
+```js
+// NOTE: this snippet has bugs and is incomplete, don't copy this (explained later)
+import { resource, resourceFactory, use } from 'ember-resources';
+
+const Clock = resourceFactory((locale = 'en-US') => {
+  return resource(({ on }) => {
+    let time = new TrackedObject({ current: new Date() });
+    let interval = setInterval(() => (time.current = new Date()), 1_000);
+
+    on.cleanup(() => clearInteral(interval))
+
+    let formatter = new Intl.DateTimeFormat(locale, { /* ... ✂️ ...*/ });
+
+    return () => formatter.format(time.current);
+  });
+});
+
+<template>
+  <time>{{Clock}}</time>
+</template>
+```
+
+</details>
+
 Up until now, all we've needed in the template for these clocks to work is to have `{{clock}}` in our template.
 But becasue we now need to pass data to a function, we need to invoke that function. The `resourceFactory` utility handles some framework-wiring so that the `Clock` function can immediately invoke the `resource` function.
 
@@ -270,10 +325,54 @@ But becasue we now need to pass data to a function, we need to invoke that funct
 {{ (Clock 'en-GB') }}
 ```
 
-Or if you needed the value in JS
+<details><summary>using in a glimmer component or class</summary>
+
 ```js
 class {
-  @use clock = Clock(() => ['en-GB']);
+  @use clock = Clock('en-GB');
+
+  get now() {
+    return this.clock; // the formatted time
+  }
+}
+```
+
+</details>
+
+-----------------------
+
+Supporting reactive argument changes from JS would require an arrow function to be passed to `Clock` so that the `resource` can consume the entangle with data.
+
+```js
+import { resource, resourceFactory, use } from 'ember-resources';
+
+const Clock = resourceFactory((locale = 'en-US') => {
+  return resource(({ on }) => {
+    let currentLocale = locale;
+
+if (typeof locale === 'function') {
+      currentLocale = locale();
+    }
+
+    let time = new TrackedObject({ current: new Date() });
+    let interval = setInterval(() => (time.current = new Date()), 1_000);
+
+    on.cleanup(() => clearInteral(interval))
+
+    let formatter = new Intl.DateTimeFormat(currentLocale, { /* ... ✂️ ...*/ });
+
+    return () => formatter.format(time.current);
+  });
+});
+```
+
+and then usage in a class would look like:
+
+```js
+class {
+  @tracked locale = 'en-GB';
+
+  @use clock = Clock(() => this.locale);
 
   get now() {
     return this.clock; // the formatted time
