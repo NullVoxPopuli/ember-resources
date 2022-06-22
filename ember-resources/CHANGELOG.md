@@ -1,3 +1,44 @@
+# [5.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.10.0...v5.0.0) (2022-06-22)
+
+
+### chore
+
+* **cleanup:** remove deprecated code ([d602bff](https://github.com/NullVoxPopuli/ember-resources/commit/d602bff47a12b397018ad70c2a852c11986341fc))
+* **cleanup:** remove support for ember-concurrency@v1 ([33521be](https://github.com/NullVoxPopuli/ember-resources/commit/33521bed0bfe5ab8e7ddc18510459b0a1486c92b))
+
+
+### Features
+
+* **package:** glint support, minimum version requirements ([f78c8b2](https://github.com/NullVoxPopuli/ember-resources/commit/f78c8b246b5a64150c90b8210ef0f16766c1a050))
+* **types, internal:** add type tests, try to re-widen typescript range to bring back support for TS 4.5+ ([bc33140](https://github.com/NullVoxPopuli/ember-resources/commit/bc331401e8391054ad809a3d7f9e850fa7b289b8))
+
+
+### BREAKING CHANGES
+
+* **package:** glint requires minimum versions to be bumped
+ - minimum ember is now `ember-source@3.28`.
+   This is LTS and the most feature complete version of the 3.x series.
+   3.24, the previous LTS, is no longer supported by the ember team and
+     will not be receiving security patches.  Since resources are a
+     fairly new concept, and since Glint support is a priority,
+     supporting earlier than 3.28 is not needed.
+ - @glimmer/tracking must now be at least 1.1.2
+ - Additional peer dependencies
+   - @glint/template
+     - @glimmer/component
+     - ember-modifier
+ - `Resource.of` has been removed. It was wholley redundant since `.from` exists.
+    `Resource.from` is more concise and provides better type inference.
+* **cleanup:** all code marked for removal in v4 (for v5) has been
+removed. See:
+https://github.com/NullVoxPopuli/ember-resources/blob/main/MIGRATIONS.md
+for more information
+* **cleanup:** drop support for ember-concurrency@v1
+  - ember-concurrency (if using the tracked task) must now be at least v2
+  - ember-concurrency@v1 _may_ still work, but any bug reports using
+    ember-concurrency@v1 will be closed. ember-concurrency@v2 was
+    released in February of 2021.
+
 # [4.10.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.9.1...v4.10.0) (2022-06-19)
 
 
