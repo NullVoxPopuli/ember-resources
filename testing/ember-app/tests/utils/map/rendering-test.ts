@@ -15,8 +15,8 @@ import { map } from 'ember-resources/util/map';
 module('Utils | map | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
-  class Wrapper {
-    constructor(public record: unknown) {}
+  class Wrapper<T = unknown> {
+    constructor(public record: T) {}
   }
 
   interface TestRecord {
@@ -44,7 +44,8 @@ module('Utils | map | rendering', function (hooks) {
       @tracked records: TestRecord[] = [];
     }
 
-    class Test extends Component<{ ctx: Context }> {
+    class Test extends Component<{ Args: { ctx: Context } }> {
+      step = step;
       stuff = map(this, {
         data: () => {
           assert.step('evaluate data thunk');
@@ -59,15 +60,10 @@ module('Utils | map | rendering', function (hooks) {
       });
     }
 
-    // For some reason, a local helper doesn't work
-    // here, so we have to register,
-    // which means we now need custom embroider config
-    this.owner.register('helper:step', step);
-
-    setComponentTemplate(
+    setComponentTemplate<typeof Test>(
       hbs`
         {{#each this.stuff as |wrapped|}}
-          {{step (concat "each loop - id:" wrapped.record.id)}}
+          {{this.step (concat "each loop - id:" wrapped.record.id)}}
           <output>{{wrapped.record.id}}</output>
         {{/each}}
       `,

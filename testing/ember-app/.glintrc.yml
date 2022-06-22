@@ -1,0 +1,7 @@
+environment:
+  - ember-loose
+  - ember-template-imports
+include:
+  - 'app/**'
+  - 'tests/**/*'
+

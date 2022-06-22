@@ -19,10 +19,15 @@ const config = {
   bundles: {
     'index.js': {
       alias: '.',
-      // Uncomment in v5
-      // nest: ['core/index.js', 'util/function-resource.js']
+      nest: [
+        'core/class-based/index.js',
+        'core/function-based/index.js',
+        'core/use.js',
+      ]
     },
-    'core/index.js': { alias: 'core' },
+    'core/use.js': {},
+    'core/class-based/index.js': {},
+    'core/function-based/index.js': {},
     'util/*.js': {},
   }
 }
@@ -37,6 +42,7 @@ async function collectStats() {
   let { path: tmp } = await tmpDir();
 
   let bundlePatterns = Object.keys(config.bundles);
+  let nests = Object.values(config.bundles).map(bundle => bundle.nest).flat().filter(Boolean).map(x => `/${x}`);
   let originalDistPaths = await globby(bundlePatterns.map((p) => path.join(dist, p)));
   let stats = {};
 
@@ -65,7 +71,10 @@ async function collectStats() {
     return `| ${indent}${file} | ${js} | ${min} | ${gzip} | ${brotli} |\n`;
   }
 
+
   for (let [file, fileStats] of Object.entries(stats)) {
+    if (nests.includes(file)) continue;
+
     output += rowFor(file, fileStats);
 
     let relativeFile = file.replace(/^\//, '');

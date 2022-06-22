@@ -93,13 +93,17 @@ jobs:
             run: pnpm run build:js
             cwd: ./ember-resources
           expect: |
-            core
-            util
-            deprecated-in-v4
+            core/index.js
+            core/class-based/index.js
+            core/function-based/index.js
+            util/map.js
+            util/helper.js
+            util/debounce.js
+            util/function.js
+            util/ember-concurrency.js
             index.js
             index.js.map
             index.d.ts
-            index.d.ts.map
           ' >> assert-contents.config.yml
                         npx assert-folder-contents
       - uses: actions/upload-artifact@v3
@@ -168,12 +172,9 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario:
-          - ember-3.25
-          - ember-3.26
           - ember-3.28
           - ember-4.0.0
           - ember-4.4
-          - ember-concurrency-v1
           - ember-release
           - ember-beta
           - ember-canary
@@ -214,9 +215,6 @@ jobs:
       fail-fast: true
       matrix:
         typescript-scenario:
-          - typescript@4.2
-          - typescript@4.3
-          - typescript@4.4
           - typescript@4.5
           - typescript@4.6
           - typescript@4.7
@@ -243,9 +241,9 @@ jobs:
         run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
         working-directory: ./testing/ember-app
       - name: Type checking
-        run: |-
-          pnpm --filter ember-app exec tsc -v;
-          pnpm --filter ember-app exec tsc --build
+        run: >-
+          pnpm --filter ember-app exec tsc -v; pnpm --filter ember-app exec
+          glint --version; pnpm --filter ember-app exec glint
   release:
     name: Release
     timeout-minutes: 5
@@ -312,5 +310,41 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: ./build/estimate-bytes/comment.txt
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+  BuildandDeployDocs:
+    name: Build and Deploy Docs
+    needs:
+      - build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.1.2
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Download built package from cache
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: ${{ env.dist }}
+      - name: Build
+        run: pnpm docs:collect
+        working-directory: ./docs
+      - name: Publish
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ember-resources
+          directory: docs/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
     timeout-minutes: 5
     runs-on: ubuntu-latest

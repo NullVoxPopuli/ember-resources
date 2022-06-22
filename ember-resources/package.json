@@ -10,6 +10,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./core": "./dist/core/index.js",
+    "./core/class-based": "./dist/core/class-based/index.js",
+    "./core/function-based": "./dist/core/function-based/index.js",
     "./util": "./dist/util/index.js",
     "./util/map": "./dist/util/map.js",
     "./util/helper": "./dist/util/helper.js",
@@ -87,11 +89,19 @@
   },
   "peerDependencies": {
     "@ember/test-waiters": "^3.0.0",
-    "@glimmer/tracking": "^1.0.0",
-    "ember-concurrency": "^1.0.0 || ^2.0.0",
-    "ember-source": ">= 3.25.0"
+    "@glimmer/component": "^1.1.2",
+    "@glint/template": "^0.8.3",
+    "@glimmer/tracking": "^1.1.2",
+    "ember-concurrency": "^2.0.0",
+    "ember-source": ">= 3.28.0"
   },
   "peerDependenciesMeta": {
+    "@glimmer/component": {
+      "optional": true
+    },
+    "@glint/template": {
+      "optional": true
+    },
     "ember-concurrency": {
       "optional": true
     },
@@ -104,22 +114,24 @@
     "@babel/plugin-proposal-class-properties": "7.17.12",
     "@babel/plugin-proposal-decorators": "7.18.2",
     "@babel/plugin-syntax-decorators": "7.17.12",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/plugin-transform-typescript": "^7.16.8",
-    "@babel/preset-typescript": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.18.5",
+    "@babel/plugin-transform-typescript": "^7.18.4",
+    "@babel/preset-typescript": "^7.17.12",
     "@ember/test-waiters": "^3.0.0",
     "@embroider/addon-dev": "^1.2.0",
-    "@glimmer/tracking": "^1.0.4",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "@glint/template": "^0.8.3",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@types/ember__application": "^4.0.0",
-    "@types/ember__component": "^4.0.0",
+    "@types/ember__component": "^4.0.8",
     "@types/ember__debug": "^4.0.0",
     "@types/ember__destroyable": "^4.0.0",
     "@types/ember__helper": "^4.0.0",
-    "@types/ember__object": "^4.0.0",
-    "@types/ember__runloop": "^4.0.0",
+    "@types/ember__object": "^4.0.2",
+    "@types/ember__runloop": "^4.0.1",
     "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
     "ember-async-data": "^0.6.0",
@@ -130,8 +142,8 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-ts": "^3.0.0",
     "semantic-release": "^19.0.2",
-    "tslib": "^2.3.1",
-    "typescript": "~4.2.0"
+    "tslib": "^2.4.0",
+    "typescript": "~4.7.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

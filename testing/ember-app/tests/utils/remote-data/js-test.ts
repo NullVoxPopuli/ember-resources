@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 import { setupMSW } from 'ember-app/tests/msw';
-import { resource, use } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 import { RemoteData, remoteData } from 'ember-resources/util/remote-data';
 
 let data = [

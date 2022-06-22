@@ -11,10 +11,9 @@ import { assert } from '@ember/debug';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
-import { get as consumeTag } from '@ember/object';
 import { get } from '@ember/object';
 
-import { Resource } from '../core';
+import { Resource } from '../core/class-based';
 // import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
@@ -233,11 +232,6 @@ export class TaskResource<
   declare lastTask: TaskInstance<Return> | undefined;
 
   get value() {
-    // in ember-concurrency@v1, value is not consumable tracked data
-    // until the task is resolved, so we need to consume the isRunning
-    // property so that value updates
-    consumeTag(this.currentTask, 'isRunning');
-
     return this.currentTask.value ?? this.lastTask?.value;
   }
 

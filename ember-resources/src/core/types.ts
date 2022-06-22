@@ -1,50 +1,8 @@
 export type Fn = (...args: any[]) => any;
 
 /**
- * This shorthand is 3 character shorter than using `positional:` in ArgsWrapper
- *
- * @example
- *
- * ```ts
- * import { Resource } from 'ember-resources';
- *
- * import type { Positional } from 'ember-resources';
- *
- * class MyResource extends Resource<Positional<[number]>> {
- *
- * }
- * ```
- *
- *
- */
-export interface Positional<T extends Array<unknown>> {
-  positional: T;
-}
-
-/**
- * This shorthand is 3 character shorter than using `named:` in ArgsWrapper
- *
- * @example
- *
- * ```ts
- * import { Resource } from 'ember-resources';
- *
- * import type { Named } from 'ember-resources';
- *
- * class MyResource extends Resource<Named<{ bananas: number }>> {
- *
- * }
- * ```
- *
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export interface Named<T extends {} = Record<string, unknown>> {
-  named: T;
-}
-
-/**
- * This is a utility interface that represents all of the args used throughout
- * Ember.
+ * This is a utility interface that represents the resulting args structure after
+ * the thunk is normalized.
  *
  * @example
  * ```ts

@@ -4,7 +4,7 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { resource, use } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 
 import type QUnit from 'qunit';
 

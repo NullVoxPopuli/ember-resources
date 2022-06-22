@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
-import { Resource } from '../core';
+import { Resource } from '../core/class-based';
 
 /**
  * Public API of the return value of the [[map]] resource.
@@ -178,16 +178,11 @@ export function map<Element = unknown, MapTo = unknown>(
 ) {
   let { data, map } = options;
 
-  // Fixing this requires TS 4.7, see notes in Resource.of
-  let resource = Resource.of<TrackedArrayMap<Element, MapTo>>(
-    destroyable,
-    TrackedArrayMap as any,
-    () => {
-      let reified = data();
+  let resource = TrackedArrayMap.from(destroyable, () => {
+    let reified = data();
 
-      return { positional: [reified], named: { map } };
-    }
-  );
+    return { positional: [reified], named: { map } };
+  }) as TrackedArrayMap<Element, MapTo>;
 
   /**
    * This is what allows square-bracket index-access to work.

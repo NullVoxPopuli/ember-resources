@@ -2,7 +2,6 @@
   "tsconfig": "../ember-resources/tsconfig.json",
   "entryPoints": [
     "../ember-resources/src/index.ts",
-    "../ember-resources/src/core/index.ts",
     "../ember-resources/src/util/"
   ],
   "entryPointStrategy": "expand",
@@ -16,7 +15,5 @@
   "excludeExternals": true,
   "disableSources": true,
   "plugin": [
-    "typedoc-plugin-mdn-links",
-    "typedoc-github-wiki-theme"
   ]
 }

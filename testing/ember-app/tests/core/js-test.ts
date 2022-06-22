@@ -5,16 +5,14 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { Resource } from 'ember-resources/core';
-
-import type { Positional } from 'ember-resources';
+import { Resource } from 'ember-resources';
 
 // not testing in template, because that's the easy part
 module('Core | Resource | js', function (hooks) {
   setupTest(hooks);
 
   test('it works', async function (assert) {
-    class Doubler extends Resource {
+    class Doubler extends Resource<{ positional: [number] }> {
       @tracked num = 0;
 
       modify([passedNumber]: [number]) {
@@ -74,7 +72,7 @@ module('Core | Resource | js', function (hooks) {
   });
 
   test('can take a typed array https://github.com/NullVoxPopuli/ember-resources/issues/48', async function (assert) {
-    class DoubleEverything extends Resource<Positional<number[]>> {
+    class DoubleEverything extends Resource<{ positional: number[] }> {
       @tracked result: number[] = [];
 
       modify(positional: number[]) {
@@ -107,7 +105,7 @@ module('Core | Resource | js', function (hooks) {
         registerDestructor(this, () => assert.step('teardown'));
       }
 
-      modify(positional: number[]) {
+      modify(positional: [number]) {
         assert.step('modify');
         this.num = positional[0] * 2;
       }

@@ -15,7 +15,15 @@ export default defineConfig({
       usePolling: true,
     },
   },
-  output: { ...addon.output(), sourcemap: true },
+  output: {
+    ...addon.output(),
+    sourcemap: true,
+
+    // Remove when we no longer import
+    //
+    // 8   │ import '@glint/template/-private/integration';
+    hoistTransitiveImports: false,
+  },
   plugins: [
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.

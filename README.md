@@ -15,9 +15,16 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 
 ## Compatibility
 
-* ember-source v3.25+
-* typescript v4.2+
-* ember-auto-import v2+
+* [ember-source][gh-ember-source] v3.28+
+* [typescript][gh-typescript] v4.7+
+* [ember-auto-import][gh-ember-auto-import] v2+
+* [Glint][gh-glint] 0.8.3+
+  * Note that updates to glint support will not be covered by this library's adherance to SemVer. All glint-related updates will be bugfixes until Glint is declared stable.
+
+[gh-glint]: https://github.com/typed-ember/glint/
+[gh-ember-auto-import]: https://github.com/ef4/ember-auto-import
+[gh-ember-source]: https://github.com/emberjs/ember.js/
+[gh-typescript]: https://github.com/Microsoft/TypeScript/releases
 
 ## Installation
 
@@ -70,7 +77,7 @@ This alternate API is more general-purpose, but has the same behavior
 as the above example.
 
 ```js
-import { resource, use } from 'ember-resources/util/function-resource';
+import { resource, use } from 'ember-resources';
 import { TrackedObject } from 'tracked-built-ins';
 
 class MyClass {

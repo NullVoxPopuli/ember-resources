@@ -46,10 +46,11 @@ _Migration during the v4 series is available via different imports_.
 - opt-in svelte-able imports, but lazy tree-shakable imports still available (import everything from `'ember-resources'`)
 - new `Resource` class with sole `modify` hook
 - new `resource` function for function-based resources for simpler inline resources
+  - For more information on this, see the [Docs on the Primitives](https://github.com/NullVoxPopuli/ember-resources/blob/main/DOCS.md)
 - `trackedFunction` now provides additional state properties for better intermediate rendering during loading and error states
 - new utilities / example resources
   - `Array.prototype.map` as a resource
-  - `RemoteData` & `remoteData`
+  - `RemoteData` & `remoteData` - demonstrating composition of the function resource primitive and arg-based updating.
   - `debounce`
 
 
@@ -72,21 +73,25 @@ changes in any of the APIs, they'll be called out below.
 
 Primary goals of this migration:
 - to align with the broader ecosystem -- specifically [ember-modifier](https://github.com/ember-modifier/ember-modifier), and simplifying class-based APIs
-- improving semantics and nomenclature for resources, i.e.: not relying on other ecosystem's nomenclature for describing the utility APIs (e.g.: `use*`)
+- provide a polyfill for resources for early [Polaris](sketch-polaris) designs,
+  and adapt ideas from [Starbeam](docs-starbeam).
+- improving semantics and nomenclature for resources, i.e.: not relying on other ecosystem's nomenclature for describing the utility APIs (e.g.: the `use*` prefix)
 - provide an easy module-svelting approach for folks not yet using tree-shaking, but don't want every utility in the `ember-resources` package (i.e.: if you don't use it, you don't pay for it)
+
+[sketch-polaris]: https://wycats.github.io/polaris-sketchwork/reactivity.html
+[docs-starbeam]: https://starbeamjs.github.io/docs/
 
 ### Nomenclature changes
 
 _`use*` (as a resource-name prefix) is dropped entirely_
-(with an exception on small inline resources)
 
 The reason for this is that the "useThing" isn't descriptive of what behavior is actually happening.
-In many cases, folks are using resources to mean "a class that participates in auto-tracking" and while
-there may be lifecycle-esque behaviors involved, depending on which implementation is in use, those are
-ultimately an implementation detail of the resource author.
+In many cases, folks are using resources to mean "an object/function that participates in auto-tracking" and while
+there _may_ be lifecycle-esque behaviors involved, depending on which implementation is in use, those are
+ultimately an implementation detail for the specific resource's author.
 
-_Using a class that participates in autotracking_ may be as simple as adding something like this
-in your component:
+Note that, or maybe as background,
+_using a class that participates in autotracking_ may be as simple as adding something like this in your component:
 
 ```js
 @tracked foo;
@@ -127,9 +132,14 @@ selection = useSelection(this, { /* ... */ });
 ```
 
 As a library author, you want APIs to be as straight-forward as possible, meeting people where their mental
-models are at, without any extra noise -- this may be a provided API that _avoids_ `use`
+models are at, without any extra noise -- this may be a provided API that _avoids_ `use` as a prefix.
 ```js
-selection = someClass(this, { /* ... */ });
+selectedBlogs = selection(this, { /* ... */ });
+```
+
+It's also reasonable to want use pascal case here as well -- even though we _may not_ explicitly be working with classes, we are constructing reactive data.
+```js
+selectedBlogs = Selection(this, { /* ... */ });
 ```
 
 **Why "from"?**
@@ -161,7 +171,8 @@ For example, you're maybe providing a `Selection` Resource, a user will grok
 `mySelection = selection(this, { /* ... */ })` much more easily than anything with additional words.
 The omission of extra words is important, because it's less things to explain.
 The lazy alternative may be `mySelection = Resource.of(this, Selection, () => { /* ... */ })`; multiple imports, a class, what's a Resource?, etc. Consumers of your library shouldn't need to know the specifics
-of the implementation (the fact that resources are even a thing).
+of the implementation (the fact that resources are even a thing). However, in v5, because of the over-use of words, `.of` has been removed, and it's reasonable to have conusmers write `mySelection = Selection.from(this, () => { /* ... */ })`
+
 
 ### LifecycleResource
 
@@ -170,7 +181,7 @@ The new `Resource` preserves that value, while simplifying the overall API of th
 
 #### `args`
 
-The new `modify()` lifecycle hook receives the positional and named arguments to the modifier as its first and second parameters.
+The new `modify()` lifecycle hook receives the positional and named arguments to the resource as its first and second parameters.
 Previously, these were available as `this.args.positional` and `this.args.named` respectively,
 and became available to use in that position after calling `super(owner, args)` in the constructor.
 Now, the args are always available in the `modify()` hook directly.
@@ -192,7 +203,7 @@ class MyResource extends LifecycleResource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   modify(positional, { someNamedArg }) {
@@ -200,6 +211,27 @@ class MyResource extends Resource {
     if (this.someNamedArg !== someNamedArg) {
       this.someNamedArg = someNamedArg;
     }
+  }
+}
+```
+
+The downside to this change is that resources cannot be _purely_ derived data drom arguments -- however,
+they may re-gain that ability via setting a `@tracked` args object from within `modify`.
+```js
+import { Resource } from 'ember-resources';
+import { tracked } from '@glimmer/component';
+
+class Args {
+  @tracked positional = [];
+  @tracked named = {};
+}
+
+class MyResource extends Resource {
+  args = new Args():
+
+  modify(positional, named) {
+    this.args.positional = positional;
+    this.args.named = named;
   }
 }
 ```
@@ -224,7 +256,7 @@ class MyResource extends LifecycleResource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   didSetup = false;
@@ -256,7 +288,7 @@ class MyResource extends LifecycleResource {
 After
 
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 class MyResource extends Resource {
   modify(positional, named) {
@@ -290,7 +322,7 @@ class MyResource extends LifecycleResource {
 ```
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 import { registerDestructor } from '@ember/destroyable';
 
 class MyResource extends Resource {
@@ -339,7 +371,7 @@ class MyResource extends Resource {
 
 After
 ```js
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 import { registerDestructor } from '@ember/destroyable';
 
 class MyResource extends Resource {
@@ -361,6 +393,21 @@ class MyResource extends Resource {
   }
 
   // ... ✂️  ...
+}
+```
+
+Since the old `Resource` functioned much like a function,
+the new `resource` primitive can provide what the original `Resource` was after: simplicity without ceramony.
+
+```js
+const myResource = ({ on }) => {
+  // initial setup *and* updates
+
+  on.cleanup(() => {
+    // teardon
+  });
+
+  return /* the value */;
 }
 ```
 
@@ -394,6 +441,7 @@ from the `ember-resources` import path.
 
 _however_ `@use` _is_ required for function-based resources (for various technical reasons described in the API docs).
 This is a different use from the original `@use` -- this is mostly because the original `@use` did not see much of any public usage.
+_this_ `@use` is re-exported from the `ember-resources` import path. If you haven't already migrated away from the _old_ `@use`, this `@use` will not be compatible.
 
 #### `useFunction`
 

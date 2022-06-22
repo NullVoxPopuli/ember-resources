@@ -8,22 +8,6 @@ module.exports = async function () {
     usePnpm: true,
     scenarios: [
       {
-        name: 'ember-3.25',
-        npm: {
-          devDependencies: {
-            'ember-source': '~3.25.0',
-          },
-        },
-      },
-      {
-        name: 'ember-3.26',
-        npm: {
-          devDependencies: {
-            'ember-source': '~3.26.0',
-          },
-        },
-      },
-      {
         name: 'ember-3.28',
         npm: {
           devDependencies: {
@@ -68,19 +52,6 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('canary'),
-          },
-        },
-      },
-
-      {
-        name: 'ember-concurrency-v1',
-        npm: {
-          dependencies: {
-            'ember-concurrency': '^1.0.0',
-            'ember-concurrency-decorators': '^2.0.0',
-          },
-          devDependencies: {
-            'ember-source': '~3.28.0',
           },
         },
       },

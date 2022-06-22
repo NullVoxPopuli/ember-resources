@@ -3,8 +3,8 @@ import { setOwner } from '@ember/application';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
+import { use } from 'ember-resources';
 import { debounce } from 'ember-resources/util/debounce';
-import { use } from 'ember-resources/util/function-resource';
 
 module('Utils | debounce | js', function (hooks) {
   setupTest(hooks);

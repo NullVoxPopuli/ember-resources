@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { Resource } from 'ember-resources/core';
+import { Resource } from 'ember-resources';
 
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -15,7 +15,7 @@ module('Core | Resource | rendering', function (hooks) {
     class Doubler extends Resource<{ positional: [number] }> {
       @tracked num = 0;
 
-      modify(positional: number[]) {
+      modify(positional: [number]) {
         this.num = positional[0] * 2;
       }
     }
@@ -27,7 +27,7 @@ module('Core | Resource | rendering', function (hooks) {
       increment = () => this.count++;
     }
 
-    const TestComponent = setComponentTemplate(
+    const TestComponent = setComponentTemplate<typeof Test>(
       hbs`
         <out>{{this.data.num}}</out>
         <button type='button' {{on 'click' this.increment}}>increment</button>`,
