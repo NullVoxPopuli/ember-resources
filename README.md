@@ -16,7 +16,7 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 ## Compatibility
 
 * [ember-source][gh-ember-source] v3.28+
-* [typescript][gh-typescript] v4.7+
+* [typescript][gh-typescript] v4.5+
 * [ember-auto-import][gh-ember-auto-import] v2+
 * [Glint][gh-glint] 0.8.3+
   * Note that updates to glint support will not be covered by this library's adherance to SemVer. All glint-related updates will be bugfixes until Glint is declared stable.
