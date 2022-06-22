@@ -4,4 +4,5 @@ export { resource, resourceFactory } from './core/function-based';
 export { use } from './core/use';
 
 // Public Type Utilities
-export type { ArgsWrapper, Named, Positional, Thunk } from './core/types';
+export type { ExpandArgs } from './core/class-based/types';
+export type { ArgsWrapper, Thunk } from './core/types';

@@ -7,7 +7,8 @@ import { invokeHelper } from '@ember/helper';
 
 import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
-import type { ArgsWrapper, Cache, Thunk } from '../types';
+import type { Cache, Thunk } from '../types';
+import type { Named, Positional } from './types';
 import type { HelperLike } from '@glint/template';
 // this lint thinks this type import is used by decorator metadata...
 // babel doesn't use decorator metadata
@@ -19,11 +20,11 @@ import type { Invoke } from '@glint/template/-private/integration';
  *
  * This is a Glint helper to help HelperLike determine what the ReturnType is.
  */
-type ResourceHelperLike<T extends ArgsWrapper, R> = InstanceType<
+type ResourceHelperLike<T, R> = InstanceType<
   HelperLike<{
     Args: {
-      Named: T['named'];
-      Positional: T['positional'];
+      Named: Named<T>;
+      Positional: Positional<T>;
     };
     Return: R;
   }>
@@ -105,7 +106,7 @@ type ResourceHelperLike<T extends ArgsWrapper, R> = InstanceType<
  * This way, consumers only need one import.
  *
  */
-export class Resource<T extends ArgsWrapper = ArgsWrapper> {
+export class Resource<T = unknown> {
   /**
    * @private (secret)
    *
@@ -181,7 +182,7 @@ export class Resource<T extends ArgsWrapper = ArgsWrapper> {
    * this lifecycle hook is called whenever arguments to the resource change.
    * This can be useful for calling functions, comparing previous values, etc.
    */
-  modify?(positional: T['positional'], named: T['named']): void;
+  modify?(positional?: Positional<T>, named?: Named<T>): void;
 }
 
 function resourceOf<Instance extends new (...args: any) => any, Args extends unknown[] = unknown[]>(

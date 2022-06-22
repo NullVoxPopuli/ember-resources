@@ -15,7 +15,7 @@ module('Core | Resource | rendering', function (hooks) {
     class Doubler extends Resource<{ positional: [number] }> {
       @tracked num = 0;
 
-      modify(positional: number[]) {
+      modify(positional: [number]) {
         this.num = positional[0] * 2;
       }
     }

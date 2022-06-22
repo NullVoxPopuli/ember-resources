@@ -178,11 +178,11 @@ export function map<Element = unknown, MapTo = unknown>(
 ) {
   let { data, map } = options;
 
-  let resource = TrackedArrayMap<Element, MapTo>.from(destroyable, () => {
+  let resource = TrackedArrayMap.from(destroyable, () => {
     let reified = data();
 
     return { positional: [reified], named: { map } };
-  });
+  }) as TrackedArrayMap<Element, MapTo>;
 
   /**
    * This is what allows square-bracket index-access to work.

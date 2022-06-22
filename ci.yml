@@ -31,6 +31,8 @@ support:
   ember-try: true
   glint: true
   typescript:
+   - typescript@4.5
+   - typescript@4.6
    - typescript@4.7
    # MSW is not compatible with typescript@next
    # - typescript@next
