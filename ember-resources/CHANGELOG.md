@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.0...v5.0.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* **package:** @glint/template can't be an 'optional' peerDependency - it is required ([65b4600](https://github.com/NullVoxPopuli/ember-resources/commit/65b46006ad40a218fce7638140fbd5bfd2cc44f4))
+
 # [5.0.0](https://github.com/NullVoxPopuli/ember-resources/compare/v4.10.0...v5.0.0) (2022-06-22)
 
 
