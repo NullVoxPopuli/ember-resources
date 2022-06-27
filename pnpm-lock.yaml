@@ -54,7 +54,7 @@ importers:
       typedoc-gitlab-wiki-theme: ^1.0.0
       typedoc-plugin-markdown: ^3.11.11
       typedoc-plugin-markdown-pages: ^0.3.0
-      typedoc-plugin-mdn-links: ^1.0.4
+      typedoc-plugin-mdn-links: ^2.0.0
       typescript: ^4.7.3
     devDependencies:
       typedoc: 0.22.17_typescript@4.7.4
@@ -62,7 +62,7 @@ importers:
       typedoc-gitlab-wiki-theme: 1.0.0_eycvkigkyb75bs3ytf3fmz7jce
       typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
       typedoc-plugin-markdown-pages: 0.3.0
-      typedoc-plugin-mdn-links: 1.0.4_typedoc@0.22.17
+      typedoc-plugin-mdn-links: 2.0.0_typedoc@0.22.17
       typescript: 4.7.4
 
   ember-resources:
@@ -15560,10 +15560,10 @@ packages:
       typedoc: 0.22.17_typescript@4.7.4
     dev: true
 
-  /typedoc-plugin-mdn-links/1.0.4_typedoc@0.22.17:
-    resolution: {integrity: sha512-mw5IISaKRq8w1hJwp05vkFD9Ijtlv9j7uuM68zlp1zVdzQr4JRYQBTtde4cnSdYatFmLVjQpuFYwoGREJxlHlw==}
+  /typedoc-plugin-mdn-links/2.0.0_typedoc@0.22.17:
+    resolution: {integrity: sha512-IGLuelXPOenGdmklr5DHgPPf/MfZj7aEYCxCMtPN8C1D0lA7w0YLahd0jhDDcOMU7zL1EPcM5pPnhZHltDhqGQ==}
     peerDependencies:
-      typedoc: 0.22.x
+      typedoc: 0.22.x || 0.23.x
     dependencies:
       typedoc: 0.22.17_typescript@4.7.4
     dev: true
