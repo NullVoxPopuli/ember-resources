@@ -49,7 +49,7 @@ importers:
 
   docs:
     specifiers:
-      typedoc: ^0.22.0
+      typedoc: ^0.23.0
       typedoc-github-wiki-theme: ^1.0.0
       typedoc-gitlab-wiki-theme: ^1.0.0
       typedoc-plugin-markdown: ^3.11.11
@@ -57,12 +57,12 @@ importers:
       typedoc-plugin-mdn-links: ^2.0.0
       typescript: ^4.7.3
     devDependencies:
-      typedoc: 0.22.17_typescript@4.7.4
-      typedoc-github-wiki-theme: 1.0.0_eycvkigkyb75bs3ytf3fmz7jce
-      typedoc-gitlab-wiki-theme: 1.0.0_eycvkigkyb75bs3ytf3fmz7jce
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
+      typedoc: 0.23.1_typescript@4.7.4
+      typedoc-github-wiki-theme: 1.0.0_dbvkmthtwuwnb7hvilvmbrci24
+      typedoc-gitlab-wiki-theme: 1.0.0_dbvkmthtwuwnb7hvilvmbrci24
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
       typedoc-plugin-markdown-pages: 0.3.0
-      typedoc-plugin-mdn-links: 2.0.0_typedoc@0.22.17
+      typedoc-plugin-mdn-links: 2.0.0_typedoc@0.23.1
       typescript: 4.7.4
 
   ember-resources:
@@ -10146,17 +10146,6 @@ packages:
       once: 1.4.0
       path-is-absolute: 1.0.1
 
-  /glob/8.0.3:
-    resolution: {integrity: sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 5.1.0
-      once: 1.4.0
-    dev: true
-
   /global-dirs/0.1.1:
     resolution: {integrity: sha512-NknMLn7F2J7aflwFOlGdNIuCDpN3VGoSoB+aap3KABFWbHVn1TCgFC+np23J8W2BiZbjfEw3BFBycSMv1AFblg==}
     engines: {node: '>=4'}
@@ -15527,55 +15516,54 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typedoc-github-wiki-theme/1.0.0_eycvkigkyb75bs3ytf3fmz7jce:
+  /typedoc-github-wiki-theme/1.0.0_dbvkmthtwuwnb7hvilvmbrci24:
     resolution: {integrity: sha512-8ZuRBSTq15j7oTCMRAiZV3t7KH+Y6tOXkEcyRj5HUEwCgd08DCfXpSrLHjXc83MlvvGi+16n7LuXK17NkEjf/g==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.22.17_typescript@4.7.4
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
+      typedoc: 0.23.1_typescript@4.7.4
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
     dev: true
 
-  /typedoc-gitlab-wiki-theme/1.0.0_eycvkigkyb75bs3ytf3fmz7jce:
+  /typedoc-gitlab-wiki-theme/1.0.0_dbvkmthtwuwnb7hvilvmbrci24:
     resolution: {integrity: sha512-R9qWKh2EUcMr5ySweSqEIYzBZE9Pw3t3sLN8NzyrSo5SNNmcbt/oKMOyTKdoOpn3DzMqMRRxzujtx+xJ+Mt4Qg==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.22.17_typescript@4.7.4
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.22.17
+      typedoc: 0.23.1_typescript@4.7.4
+      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
     dev: true
 
   /typedoc-plugin-markdown-pages/0.3.0:
     resolution: {integrity: sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==}
     dev: true
 
-  /typedoc-plugin-markdown/3.11.11_typedoc@0.22.17:
+  /typedoc-plugin-markdown/3.11.11_typedoc@0.23.1:
     resolution: {integrity: sha512-LyephgG2yHiSqJppuDVKy3dPLSbzP+ke/VBxGvH4I/+31NXzuEhLFhxx/X4UMqzh2XbUB44ttABtGd11biKr4Q==}
     peerDependencies:
       typedoc: '>=0.22.0'
     dependencies:
       handlebars: 4.7.7
-      typedoc: 0.22.17_typescript@4.7.4
+      typedoc: 0.23.1_typescript@4.7.4
     dev: true
 
-  /typedoc-plugin-mdn-links/2.0.0_typedoc@0.22.17:
+  /typedoc-plugin-mdn-links/2.0.0_typedoc@0.23.1:
     resolution: {integrity: sha512-IGLuelXPOenGdmklr5DHgPPf/MfZj7aEYCxCMtPN8C1D0lA7w0YLahd0jhDDcOMU7zL1EPcM5pPnhZHltDhqGQ==}
     peerDependencies:
       typedoc: 0.22.x || 0.23.x
     dependencies:
-      typedoc: 0.22.17_typescript@4.7.4
+      typedoc: 0.23.1_typescript@4.7.4
     dev: true
 
-  /typedoc/0.22.17_typescript@4.7.4:
-    resolution: {integrity: sha512-h6+uXHVVCPDaANzjwzdsj9aePBjZiBTpiMpBBeyh1zcN2odVsDCNajz8zyKnixF93HJeGpl34j/70yoEE5BfNg==}
-    engines: {node: '>= 12.10.0'}
+  /typedoc/0.23.1_typescript@4.7.4:
+    resolution: {integrity: sha512-6Lb8E+RTEUPzdPUNugQQTOQYccq0iSfZgZ875fzSynByJWC7RbKNwLIx0Osv8pcJyiByy3jH/wdZR0tajuijLQ==}
+    engines: {node: '>= 14.14'}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
-      glob: 8.0.3
       lunr: 2.3.9
       marked: 4.0.17
       minimatch: 5.1.0
