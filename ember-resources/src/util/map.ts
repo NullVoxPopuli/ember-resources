@@ -143,7 +143,7 @@ export interface MappedArray<MappedTo> {
  * @example
  *
  * ```js
- *  import { map } from 'ember-resources/utils/map';
+ *  import { map } from 'ember-resources/util/map';
  *
  *  class MyClass {
  *    wrappedRecords = map(this, {
