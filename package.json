@@ -28,7 +28,7 @@
     "yarn": "1.22.19",
     "npm": "8.13.2"
   },
-  "packageManager": "pnpm@7.4.0",
+  "packageManager": "pnpm@7.4.1",
   "pnpm": {
     "overrides": {
       "@embroider/addon-shim": "1.6.0",
