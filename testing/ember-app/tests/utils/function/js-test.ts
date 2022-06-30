@@ -149,4 +149,47 @@ module('Utils | trackedFunction | js', function (hooks) {
 
     assert.strictEqual(foo.data.value, 2);
   });
+
+  test('it can be reexecuted', async function (assert) {
+    const Store = {
+      data: [[{ id: 1 }], [{ id: 1 }, { id: 2 }], [{ id: 1 }], [{ id: 1 }]],
+      fetch(page: number) {
+        const value = this.data.shift();
+
+        return value?.map((v) => ({ ...v, page }));
+      },
+    };
+
+    class Test {
+      store = Store;
+      @tracked page = 1;
+
+      @tracked data = trackedFunction(this, () => {
+        return this.store.fetch(this.page);
+      });
+    }
+
+    let foo = new Test();
+
+    foo.data.value;
+    await settled();
+    assert.deepEqual(foo.data.value, [{ id: 1, page: 1 }]);
+
+    foo.page = 2;
+    foo.data.value;
+    await settled();
+    assert.deepEqual(foo.data.value, [
+      { id: 1, page: 2 },
+      { id: 2, page: 2 },
+    ]);
+
+    const value = await foo.data.execute();
+
+    await settled();
+    assert.deepEqual(value.resolvedValue, [{ id: 1, page: 2 }]);
+
+    await foo.data.execute();
+    await settled();
+    assert.deepEqual(foo.data.value, [{ id: 1, page: 2 }]);
+  });
 });

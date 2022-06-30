@@ -1,5 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { resource } from '../core/function-based';
@@ -92,43 +93,53 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
     fn = passedArgs[2];
   }
 
-  return resource<State<Return>>(context, (hooks) => {
-    let state = new State(initialValue);
-
-    (async () => {
-      try {
-        let notQuiteValue = fn(hooks);
-        let promise = Promise.resolve(notQuiteValue);
-
-        waitForPromise(promise);
-
-        let result = await promise;
-
-        state.error = undefined;
-        state.resolvedValue = result;
-      } catch (e) {
-        state.error = e;
-      } finally {
-        state.isResolved = true;
-      }
-    })();
-
-    return state;
+  return resource<TrackedFunctionProperty<Return>>(context, (hooks) => {
+    return new TrackedFunctionProperty(fn, hooks, initialValue);
   });
 }
 
-/**
- * State container that represents the asynchrony of a `trackedFunction`
- */
-export class State<Value> {
-  @tracked isResolved = false;
-  @tracked resolvedValue?: Value;
-  @tracked error?: unknown;
+export class TrackedFunctionProperty<Value> {
+  @tracked state: State<Value>;
 
-  constructor(public initialValue?: Value) {}
+  constructor(private fn: ResourceFn<Value>, private hooks: Hooks, initialValue?: Value) {
+    this.state = new State(initialValue);
+    this.getValue();
+  }
+
+  async getValue() {
+    try {
+      let notQuiteValue = this.fn(this.hooks);
+      let promise = Promise.resolve(notQuiteValue);
+
+      waitForPromise(promise);
+
+      let result = await promise;
+
+      this.state.error = undefined;
+      this.state.resolvedValue = result;
+    } catch (e) {
+      this.state.error = e;
+    } finally {
+      this.state.isResolved = true;
+    }
+  }
+
+  @action
+  execute() {
+    this.state = new State(this.state.initialValue);
+    this.getValue();
+
+    return this.state;
+  }
+  get isResolved() {
+    return this.state.isResolved;
+  }
+  get error() {
+    return this.state.error;
+  }
 
   get value() {
-    return this.resolvedValue || this.initialValue || null;
+    return this.state.resolvedValue || this.state.initialValue || null;
   }
 
   get isPending() {
@@ -142,6 +153,17 @@ export class State<Value> {
   get isError() {
     return Boolean(this.error);
   }
+}
+
+/**
+ * State container that represents the asynchrony of a `trackedFunction`
+ */
+export class State<Value> {
+  @tracked isResolved = false;
+  @tracked resolvedValue?: Value;
+  @tracked error?: unknown;
+
+  constructor(public initialValue?: Value) {}
 }
 
 /**
