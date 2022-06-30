@@ -92,11 +92,22 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
     fn = passedArgs[2];
   }
 
+  return buildResource(context, fn, initialValue);
+}
+
+function buildResource<Return>(
+  context: any,
+  fn: ResourceFn<Return>,
+  initialValue: Return | undefined
+) {
   return resource<State<Return>>(context, (hooks) => {
     let state = new State(initialValue);
-
+    state.fn = fn;
+    state.context = context;
     (async () => {
       try {
+        console.log("Reexecuted");
+
         let notQuiteValue = fn(hooks);
         let promise = Promise.resolve(notQuiteValue);
 
@@ -117,11 +128,21 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
   });
 }
 
+export function executeTrackedFunction<Value>(oldState: State<Value>) {
+  assert(`Expected State to have property "fn"`, oldState.fn !== undefined);
+  const context = oldState.context;
+  const fn: ResourceFn<Value> = oldState.fn;
+  const initialValue = oldState.initialValue;
+  return buildResource(context, fn, initialValue);
+}
+
 /**
  * State container that represents the asynchrony of a `trackedFunction`
  */
 export class State<Value> {
   @tracked isResolved = false;
+  @tracked fn?: ResourceFn<Value>;
+  @tracked context?: any;
   @tracked resolvedValue?: Value;
   @tracked error?: unknown;
 

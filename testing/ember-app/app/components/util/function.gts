@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-// import { use } from 'ember-resources';
-import { trackedFunction } from 'ember-resources/util/function';
+import { trackedFunction, executeTrackedFunction } from 'ember-resources/util/function';
+
+const log = (d) => console.log(d)
 
 const formatError = (error: unknown) => {
   return `Hey!, ${error}`;
@@ -11,9 +12,21 @@ const formatError = (error: unknown) => {
 export default class GlintTest extends Component {
   @tracked input = 2;
 
-  aMap = trackedFunction(this, async () => {
-    return Promise.resolve('hi');
+  @tracked aMap = trackedFunction(this, async () => {
+               const input = this.input
+    return Promise.resolve(new Promise((res)=>setTimeout(()=>res(Math.random() * input) ,1000))
+    );
   });
+
+  increase(){
+    this.input++
+  }
+
+  executeTracked(){
+    this.aMap = executeTrackedFunction(this.aMap)
+  }
+
+
 
   // Not yet supported
   // @use bMap = trackedFunction(async () => {
