@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@embroider/addon-shim': 1.6.0
   '@types/eslint': 7.29.0
   mustache: ^4.2.0
 
@@ -77,7 +76,7 @@ importers:
       '@babel/runtime': ^7.17.8
       '@ember/test-waiters': ^3.0.0
       '@embroider/addon-dev': ^1.2.0
-      '@embroider/addon-shim': 1.6.0
+      '@embroider/addon-shim': ^1.2.0
       '@embroider/macros': ^1.2.0
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
