@@ -192,7 +192,7 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.1.2
-      - name: Install Dependencies
+      - name: Install Dependencies (without frozen lockfile)
         run: pnpm install --no-frozen-lockfile
       - name: Download built package from cache
         uses: actions/download-artifact@v3
@@ -230,8 +230,8 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.1.2
-      - name: Install Dependencies (without lockfile)
-        run: rm pnpm-lock.yaml && pnpm install
+      - name: Install Dependencies (without frozen lockfile)
+        run: pnpm install --no-frozen-lockfile
       - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
