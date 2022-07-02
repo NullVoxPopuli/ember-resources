@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.1...v5.0.2) (2022-07-02)
+
+
+### Bug Fixes
+
+* **package:** widen peer range for @glint/template ([e98c906](https://github.com/NullVoxPopuli/ember-resources/commit/e98c9062ab05353f4aafd0e7c0f6de83f846ce49))
+
 ## [5.0.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.0...v5.0.1) (2022-06-23)
 
 
