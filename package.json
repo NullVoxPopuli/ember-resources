@@ -31,7 +31,6 @@
   "packageManager": "pnpm@7.4.1",
   "pnpm": {
     "overrides": {
-      "@embroider/addon-shim": "1.6.0",
       "@types/eslint": "7.29.0",
       "mustache": "^4.2.0"
     },
