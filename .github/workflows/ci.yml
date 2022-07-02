@@ -193,7 +193,7 @@ jobs:
         with:
           version: 7.1.2
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
       - name: Download built package from cache
         uses: actions/download-artifact@v3
         with:
