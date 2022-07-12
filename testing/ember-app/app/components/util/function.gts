@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { on } from '@ember/modifier';
+import {action} from "@ember/object"
 
 import { trackedFunction, executeTrackedFunction } from 'ember-resources/util/function';
 
@@ -13,18 +15,28 @@ export default class GlintTest extends Component {
   @tracked input = 2;
 
   @tracked aMap = trackedFunction(this, async () => {
-               const input = this.input
-    return Promise.resolve(new Promise((res)=>setTimeout(()=>res(Math.random() * input) ,1000))
-    );
+    console.log("FN Started")
+    const input = this.input
+    return Promise.resolve(new Promise(
+      (res) => setTimeout(
+        () => {
+          console.log("FN Finished")
+          res(input * Math.random())
+        },
+        1000
+      )
+    ));
   });
 
+  @action
   increase(){
     this.input++
   }
 
+  @action
   executeTracked(){
-    const value = this.aMap();
-    console.log(this.aMap.value);
+    const state = this.aMap.execute();
+    console.log(state.value, this.aMap.value);
   }
 
 
@@ -41,9 +53,16 @@ export default class GlintTest extends Component {
     isPending: {{if this.aMap.isPending 'true' 'false'}}
     isResolved: {{if this.aMap.isResolved 'true' 'false'}}
 
-    {{#if this.aMap.value}}
+    <p>
+    {{#if this.aMap.isResolved}}
       {{this.aMap.value}}
+    {{else}}
+      Loading...
     {{/if}}
+    </p>
+
+    <button {{on "click" this.increase}}>+</button>
+    <button {{on "click" this.executeTracked}}>Run</button>
 
     {{#if this.aMap.error}}
       {{formatError this.aMap.error}}

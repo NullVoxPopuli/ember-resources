@@ -21,7 +21,9 @@ type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
+export function trackedFunction<Return>(
+  ...passed: Vanilla<Return>
+): TrackedFunctionProperty<Return>;
 
 /**
  * For use in the body of a class.
@@ -31,7 +33,9 @@ export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Retur
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
+export function trackedFunction<Return>(
+  ...passed: WithInitialValue<Return>
+): TrackedFunctionProperty<Return>;
 
 /**
  * _A wrapper around [[resource]]_
@@ -92,79 +96,73 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
     fn = passedArgs[2];
   }
 
-  return buildResource(context, fn, initialValue);
-}
+  return resource<TrackedFunctionProperty<Return>>(context, (hooks) => {
+    const getValue = async (state: State<Return>) => {
+      try {
+        console.log("GV Started");
+        let notQuiteValue = fn(hooks);
+        let promise = Promise.resolve(notQuiteValue);
 
-function createPropertyValue(getValue) {
-  const propertyValue = function () {
-    propertyValue.state = getValue();
-    return propertyValue.state;
-  };
+        waitForPromise(promise);
 
-  Object.defineProperty(propertyValue, "value", {
-    get: function () {
-      return (
-        propertyValue.state.resolvedValue ||
-        propertyValue.state.initialValue ||
-        null
-      );
-    },
-  });
-  Object.defineProperty(propertyValue, "isPending", {
-    get: function () {
-      return !propertyValue.state.isResolved;
-    },
-  });
-  Object.defineProperty(propertyValue, "isLoading", {
-    get: function () {
-      return propertyValue.state.isPending;
-    },
-  });
-  Object.defineProperty(propertyValue, "isError", {
-    get: function () {
-      return Boolean(propertyValue.state.error);
-    },
-  });
+        let result = await promise;
 
-  return propertyValue;
-}
+        state.error = undefined;
+        state.resolvedValue = result;
+      } catch (e) {
+        state.error = e;
+      } finally {
+        state.isResolved = true;
+        console.log("GV Finished");
+      }
+    };
 
-function buildResource<Return>(
-  context: any,
-  fn: ResourceFn<Return>,
-  initialValue: Return | undefined
-) {
-  const getValue = async (state) => {
-    try {
-      console.log("Reexecuted");
-
-      let notQuiteValue = fn(hooks);
-      let promise = Promise.resolve(notQuiteValue);
-
-      waitForPromise(promise);
-
-      let result = await promise;
-
-      state.error = undefined;
-      state.resolvedValue = result;
-    } catch (e) {
-      state.error = e;
-    } finally {
-      state.isResolved = true;
-    }
-  };
-
-  return resource<State<Return>>(context, (hooks) => {
-    const state = new State(initialValue);
-    getValue(state);
-
-    const propertyValue = createPropertyValue(() =>
-      getValue(new State(initialValue))
+    const trackedFunctionProperty = new TrackedFunctionProperty(
+      getValue,
+      initialValue
     );
-    propertyValue.state = tracked(state);
-
-    return propertyValue;
+    getValue(trackedFunctionProperty.state);
+    return trackedFunctionProperty;
   });
+}
+
+export class TrackedFunctionProperty<Value> {
+  @tracked state: State<Value>;
+
+  constructor(
+    private getValue: (state: State<Value>) => {},
+    initialValue?: Value
+  ) {
+    this.state = new State(initialValue);
+  }
+
+  execute() {
+    this.state = new State(this.state.initialValue);
+    this.getValue(this.state);
+    return this.state;
+  }
+  get isResolved() {
+    return this.state.isResolved;
+  }
+  get error() {
+    return this.state.error;
+  }
+
+  get value() {
+    return this.state.resolvedValue || this.state.initialValue || null;
+  }
+
+  get isPending() {
+    return !this.isResolved;
+  }
+
+  get isLoading() {
+    return this.isPending;
+  }
+
+  get isError() {
+    return Boolean(this.error);
+  }
 }
 
 /**
