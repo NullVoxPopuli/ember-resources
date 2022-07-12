@@ -173,7 +173,7 @@ export function map<Element = unknown, MapTo = unknown>(
      * - if iterating over part of the data, map will only be called for the elements observed
      * - if not iterating, map will only be called for the elements observed.
      */
-    map: (element: Element) => MapTo;
+    map: (element: Element, index: number) => MapTo;
   }
 ) {
   let { data, map } = options;
@@ -231,7 +231,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
   #map = new WeakMap<Element & object, MappedTo>();
 
   @tracked private declare _records: (Element & object)[];
-  @tracked private declare _map: (element: Element) => MappedTo;
+  @tracked private declare _map: (element: Element, index: number) => MappedTo;
 
   modify([data]: PositionalArgs<Element>, { map }: NamedArgs<Element, MappedTo>) {
     assert(
@@ -280,7 +280,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
     let value = this.#map.get(record);
 
     if (!value) {
-      value = this._map(record);
+      value = this._map(record, i);
       this.#map.set(record, value);
     }
 
