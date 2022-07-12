@@ -95,45 +95,76 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
   return buildResource(context, fn, initialValue);
 }
 
+function createPropertyValue(getValue) {
+  const propertyValue = function () {
+    propertyValue.state = getValue();
+    return propertyValue.state;
+  };
+
+  Object.defineProperty(propertyValue, "value", {
+    get: function () {
+      return (
+        propertyValue.state.resolvedValue ||
+        propertyValue.state.initialValue ||
+        null
+      );
+    },
+  });
+  Object.defineProperty(propertyValue, "isPending", {
+    get: function () {
+      return !propertyValue.state.isResolved;
+    },
+  });
+  Object.defineProperty(propertyValue, "isLoading", {
+    get: function () {
+      return propertyValue.state.isPending;
+    },
+  });
+  Object.defineProperty(propertyValue, "isError", {
+    get: function () {
+      return Boolean(propertyValue.state.error);
+    },
+  });
+
+  return propertyValue;
+}
+
 function buildResource<Return>(
   context: any,
   fn: ResourceFn<Return>,
   initialValue: Return | undefined
 ) {
+  const getValue = async (state) => {
+    try {
+      console.log("Reexecuted");
+
+      let notQuiteValue = fn(hooks);
+      let promise = Promise.resolve(notQuiteValue);
+
+      waitForPromise(promise);
+
+      let result = await promise;
+
+      state.error = undefined;
+      state.resolvedValue = result;
+    } catch (e) {
+      state.error = e;
+    } finally {
+      state.isResolved = true;
+    }
+  };
+
   return resource<State<Return>>(context, (hooks) => {
-    let state = new State(initialValue);
-    state.fn = fn;
-    state.context = context;
-    (async () => {
-      try {
-        console.log("Reexecuted");
+    const state = new State(initialValue);
+    getValue(state);
 
-        let notQuiteValue = fn(hooks);
-        let promise = Promise.resolve(notQuiteValue);
+    const propertyValue = createPropertyValue(() =>
+      getValue(new State(initialValue))
+    );
+    propertyValue.state = tracked(state);
 
-        waitForPromise(promise);
-
-        let result = await promise;
-
-        state.error = undefined;
-        state.resolvedValue = result;
-      } catch (e) {
-        state.error = e;
-      } finally {
-        state.isResolved = true;
-      }
-    })();
-
-    return state;
+    return propertyValue;
   });
-}
-
-export function executeTrackedFunction<Value>(oldState: State<Value>) {
-  assert(`Expected State to have property "fn"`, oldState.fn !== undefined);
-  const context = oldState.context;
-  const fn: ResourceFn<Value> = oldState.fn;
-  const initialValue = oldState.initialValue;
-  return buildResource(context, fn, initialValue);
 }
 
 /**
@@ -141,28 +172,10 @@ export function executeTrackedFunction<Value>(oldState: State<Value>) {
  */
 export class State<Value> {
   @tracked isResolved = false;
-  @tracked fn?: ResourceFn<Value>;
-  @tracked context?: any;
   @tracked resolvedValue?: Value;
   @tracked error?: unknown;
 
   constructor(public initialValue?: Value) {}
-
-  get value() {
-    return this.resolvedValue || this.initialValue || null;
-  }
-
-  get isPending() {
-    return !this.isResolved;
-  }
-
-  get isLoading() {
-    return this.isPending;
-  }
-
-  get isError() {
-    return Boolean(this.error);
-  }
 }
 
 /**

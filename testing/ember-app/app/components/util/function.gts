@@ -23,7 +23,8 @@ export default class GlintTest extends Component {
   }
 
   executeTracked(){
-    this.aMap = executeTrackedFunction(this.aMap)
+    const value = this.aMap();
+    console.log(this.aMap.value);
   }
 
 
