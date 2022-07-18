@@ -28,7 +28,7 @@
     "yarn": "1.22.19",
     "npm": "8.14.0"
   },
-  "packageManager": "pnpm@7.5.1",
+  "packageManager": "pnpm@7.5.2",
   "pnpm": {
     "overrides": {
       "@types/eslint": "7.29.0",
