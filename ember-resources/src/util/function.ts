@@ -21,7 +21,9 @@ type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
  * @param {Object} destroyable context, e.g.: component instance aka "this"
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
+export function trackedFunction<Return>(
+  ...passed: Vanilla<Return>
+): TrackedFunctionProperty<Return>;
 
 /**
  * For use in the body of a class.
@@ -31,7 +33,9 @@ export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Retur
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
+export function trackedFunction<Return>(
+  ...passed: WithInitialValue<Return>
+): TrackedFunctionProperty<Return>;
 
 /**
  * _A wrapper around [[resource]]_
@@ -92,11 +96,10 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
     fn = passedArgs[2];
   }
 
-  return resource<State<Return>>(context, (hooks) => {
-    let state = new State(initialValue);
-
-    (async () => {
+  return resource<TrackedFunctionProperty<Return>>(context, (hooks) => {
+    const getValue = async (state: State<Return>) => {
       try {
+        console.log("GV Started");
         let notQuiteValue = fn(hooks);
         let promise = Promise.resolve(notQuiteValue);
 
@@ -110,25 +113,43 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
         state.error = e;
       } finally {
         state.isResolved = true;
+        console.log("GV Finished");
       }
-    })();
+    };
 
-    return state;
+    const trackedFunctionProperty = new TrackedFunctionProperty(
+      getValue,
+      initialValue
+    );
+    getValue(trackedFunctionProperty.state);
+    return trackedFunctionProperty;
   });
 }
 
-/**
- * State container that represents the asynchrony of a `trackedFunction`
- */
-export class State<Value> {
-  @tracked isResolved = false;
-  @tracked resolvedValue?: Value;
-  @tracked error?: unknown;
+export class TrackedFunctionProperty<Value> {
+  @tracked state: State<Value>;
 
-  constructor(public initialValue?: Value) {}
+  constructor(
+    private getValue: (state: State<Value>) => {},
+    initialValue?: Value
+  ) {
+    this.state = new State(initialValue);
+  }
+
+  execute() {
+    this.state = new State(this.state.initialValue);
+    this.getValue(this.state);
+    return this.state;
+  }
+  get isResolved() {
+    return this.state.isResolved;
+  }
+  get error() {
+    return this.state.error;
+  }
 
   get value() {
-    return this.resolvedValue || this.initialValue || null;
+    return this.state.resolvedValue || this.state.initialValue || null;
   }
 
   get isPending() {
@@ -142,6 +163,17 @@ export class State<Value> {
   get isError() {
     return Boolean(this.error);
   }
+}
+
+/**
+ * State container that represents the asynchrony of a `trackedFunction`
+ */
+export class State<Value> {
+  @tracked isResolved = false;
+  @tracked resolvedValue?: Value;
+  @tracked error?: unknown;
+
+  constructor(public initialValue?: Value) {}
 }
 
 /**
