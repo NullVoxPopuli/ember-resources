@@ -12,9 +12,6 @@ module('Examples | resource | Clock', function (hooks) {
   let wait = (ms = 1_100) => new Promise((resolve) => setTimeout(resolve, ms));
 
   hooks.beforeEach(function (assert) {
-    // timeout is too new for the types to know about
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     assert.timeout(3000);
   });
 
@@ -162,14 +159,14 @@ module('Examples | resource | Clock', function (hooks) {
 
       let textD = find('time')?.innerText;
 
-      assert.strictEqual(textA, textD, 'Time is reset');
+      assert.strictEqual(textD, textA, 'Time is reset');
 
       this.setProperties({ date: new Date() });
       await settled();
 
       let textE = find('time')?.innerText;
 
-      assert.notStrictEqual(textD, textE, 'Time has changed');
+      assert.notStrictEqual(textE, textD, 'Time has changed');
     });
   });
 });

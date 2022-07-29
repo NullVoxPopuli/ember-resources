@@ -3215,7 +3215,7 @@ packages:
     peerDependencies:
       '@glimmer/component': ^1.1.2
     dependencies:
-      '@glimmer/component': 1.1.2_@babel+core@7.18.9
+      '@glimmer/component': 1.1.2_@babel+core@7.18.5
     dev: true
 
   /@glint/transform/0.8.3:
@@ -8086,7 +8086,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
-    dev: false
 
   /ember-async-data/0.6.0_@babel+core@7.18.9:
     resolution: {integrity: sha512-zgE5N4DVHr9b6Hlnev6Z8zMyD7mII/ewE/6t+7eHTrshe9vwSTA6eiT5fCKmHeSob5ThU51J+Alwl2QACtsL/A==}
