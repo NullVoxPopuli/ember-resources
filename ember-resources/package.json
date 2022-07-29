@@ -13,6 +13,7 @@
     "./core/class-based": "./dist/core/class-based/index.js",
     "./core/function-based": "./dist/core/function-based/index.js",
     "./util": "./dist/util/index.js",
+    "./util/cell": "./dist/util/cell.js",
     "./util/map": "./dist/util/map.js",
     "./util/helper": "./dist/util/helper.js",
     "./util/remote-data": "./dist/util/remote-data.js",
@@ -32,6 +33,9 @@
       ],
       "util": [
         "dist/util/index.d.ts"
+      ],
+      "util/cell": [
+        "dist/util/cell.d.ts"
       ],
       "util/function": [
         "dist/util/function.d.ts"
