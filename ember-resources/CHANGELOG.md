@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.2...v5.1.0) (2022-07-29)
+
+
+### Features
+
+* **util:** add cell util ([bad3c1e](https://github.com/NullVoxPopuli/ember-resources/commit/bad3c1efe5e6e624ac5932be3bf7fdffd47d6f22))
+
 ## [5.0.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.1...v5.0.2) (2022-07-02)
 
 
