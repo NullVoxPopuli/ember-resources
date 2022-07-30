@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.1.0...v5.1.1) (2022-07-30)
+
+
+### Bug Fixes
+
+* **resourceFactory:** reactivity now works when args to a resource change ([7c647ff](https://github.com/NullVoxPopuli/ember-resources/commit/7c647ffc784c5612e6d6b526359c2e77f5ecd945))
+
 # [5.1.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.0.2...v5.1.0) (2022-07-29)
 
 
