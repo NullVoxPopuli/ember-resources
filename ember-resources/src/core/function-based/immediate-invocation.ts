@@ -8,6 +8,13 @@ import type { Cache } from './types';
 
 type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
 
+interface State {
+  cache?: Cache;
+  fn: any;
+  args: any;
+  _?: any;
+}
+
 class ResourceInvokerManager {
   capabilities = helperCapabilities('3.23', {
     hasValue: true,
@@ -16,9 +23,7 @@ class ResourceInvokerManager {
 
   constructor(protected owner: unknown) {}
 
-  createHelper(fn: ResourceFactory, args: any) {
-    let helper: object;
-
+  createHelper(fn: ResourceFactory, args: any): State {
     /**
      * This cache is for args passed to the ResourceInvoker/Factory
      *
@@ -26,25 +31,48 @@ class ResourceInvokerManager {
      * change.
      */
     let cache = createCache(() => {
-      if (helper === undefined) {
-        let resource = fn(...args.positional) as object;
+      let resource = fn(...args.positional) as object;
 
-        helper = invokeHelper(cache, resource);
-      }
-
-      return helper;
+      return invokeHelper(cache, resource);
     });
 
-    return { fn, args, cache: getValue(cache) };
+    return { fn, args, cache, _: getValue(cache) };
   }
 
-  getValue({ cache }: { cache: Cache }) {
-    return getValue(cache);
+  /**
+   * getValue is re-called when args change
+   */
+  getValue({ cache }: State) {
+    let resource = getValue(cache);
+
+    return getValue(resource);
   }
 
   getDestroyable({ fn }: { fn: ResourceFactory }) {
     return fn;
   }
+
+  // createHelper(fn: AnyFunction, args: Arguments): State {
+  //   return { fn, args };
+  // }
+
+  // getValue({ fn, args }: State): unknown {
+  //   if (Object.keys(args.named).length > 0) {
+  //     let argsForFn: FnArgs<Arguments> = [...args.positional, args.named];
+
+  //     return fn(...argsForFn);
+  //   }
+
+  //   return fn(...args.positional);
+  // }
+
+  // getDebugName(fn: AnyFunction): string {
+  //   if (fn.name) {
+  //     return `(helper function ${fn.name})`;
+  //   }
+
+  //   return '(anonymous helper function)';
+  // }
 }
 
 /**
