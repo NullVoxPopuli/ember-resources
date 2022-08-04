@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.0...v5.2.1) (2022-08-04)
+
+
+### Bug Fixes
+
+* **keepLatest:** use consistent condition name ([1f177cc](https://github.com/NullVoxPopuli/ember-resources/commit/1f177ccf58ee2d9765045b3e04c5449d242f2067))
+
 # [5.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.1.1...v5.2.0) (2022-08-04)
 
 
