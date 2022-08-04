@@ -14,6 +14,7 @@
     "./core/function-based": "./dist/core/function-based/index.js",
     "./util": "./dist/util/index.js",
     "./util/cell": "./dist/util/cell.js",
+    "./util/keep-latest": "./dist/util/keep-latest.js",
     "./util/map": "./dist/util/map.js",
     "./util/helper": "./dist/util/helper.js",
     "./util/remote-data": "./dist/util/remote-data.js",
@@ -36,6 +37,9 @@
       ],
       "util/cell": [
         "dist/util/cell.d.ts"
+      ],
+      "util/keep-latest": [
+        "dist/util/keep-latest.d.ts"
       ],
       "util/function": [
         "dist/util/function.d.ts"
