@@ -33,7 +33,7 @@ module('Utils | keepLatest | rendering', function (hooks) {
     render(<template>
       {{#let instance.request as |request|}}
         {{keepLatest (hash
-          until=(fn passthrough request.isLoading)
+          when=(fn passthrough request.isLoading)
           value=(fn passthrough request.value)
         )}}
       {{/let}}

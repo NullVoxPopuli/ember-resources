@@ -20,7 +20,7 @@ interface Options<T = unknown> {
    * keep the latest truthy value as the "return value"
    * (as determined by the `value` option's return value)
    */
-  until: () => boolean;
+  when: () => boolean;
 
   /**
    * A function who's return value will be used as the value
@@ -59,14 +59,14 @@ interface Options<T = unknown> {
  *  }
  * ```
  */
-export function keepLatest<Return = unknown>({ until, value: valueFn }: Options<Return>) {
+export function keepLatest<Return = unknown>({ when, value: valueFn }: Options<Return>) {
   return resource(() => {
     let previous: Return | undefined;
 
     return () => {
       let value = valueFn();
 
-      if (until()) {
+      if (when()) {
         return (previous = isEmpty(value) ? previous : value);
       }
 
