@@ -24,7 +24,7 @@ module('Utils | keepLatest | js', function (hooks) {
       });
 
       @use data = keepLatest({
-        until: () => this.request.isLoading,
+        when: () => this.request.isLoading,
         value: () => this.request.value,
       });
     }
