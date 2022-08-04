@@ -1,3 +1,10 @@
+# [5.2.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.1.1...v5.2.0) (2022-08-04)
+
+
+### Features
+
+* new util -- keepLatest ([3e3d02c](https://github.com/NullVoxPopuli/ember-resources/commit/3e3d02c566ebe6d6e404317d3825e202128e6d22))
+
 ## [5.1.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.1.0...v5.1.1) (2022-07-30)
 
 
