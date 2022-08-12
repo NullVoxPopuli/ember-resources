@@ -46,6 +46,9 @@
       "allowedVersions": {
         "typescript": "*"
       }
+    },
+    "patchedDependencies": {
+      "qunit-dom@2.0.0": "patches/qunit-dom@2.0.0.patch"
     }
   }
 }
