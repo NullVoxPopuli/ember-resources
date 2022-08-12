@@ -141,21 +141,16 @@
     "@types/ember__test-helpers": "^2.0.0",
     "@types/qunit": "^2.19.0",
     "babel-eslint": "10.1.0",
+    "ember-addon-test": "workspace:../ember-addon-test",
     "ember-async-data": "^0.6.0",
     "ember-template-lint": "3.16.0",
     "eslint": "^7.32.0",
     "npm-run-all": "4.1.5",
-    "qunit": "^2.16.0",
-    "qunit-dom": "^2.0.0",
     "rollup": "2.77.3",
-    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-ts": "^3.0.0",
     "semantic-release": "^19.0.2",
     "tslib": "^2.4.0",
-    "typescript": "~4.7.3",
-    "vite": "^3.0.7",
-    "vite-plugin-babel": "^1.1.0",
-    "vite-plugin-checker": "^0.4.9"
+    "typescript": "~4.7.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

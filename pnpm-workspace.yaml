@@ -1,5 +1,6 @@
 packages:
   - "ember-resources"
+  - "ember-addon-test"
   - "docs"
   - "testing/*"
   - "build/*"
