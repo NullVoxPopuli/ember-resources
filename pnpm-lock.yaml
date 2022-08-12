@@ -113,6 +113,7 @@ importers:
       tslib: ^2.4.0
       typescript: ~4.7.3
       vite: ^3.0.7
+      vite-plugin-babel: ^1.1.0
       vite-plugin-checker: ^0.4.9
     dependencies:
       '@babel/runtime': 7.18.3
@@ -158,6 +159,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.7.4
       vite: 3.0.7
+      vite-plugin-babel: 1.1.0_x55546exoqxxdg5s7b2xgdhl4y
       vite-plugin-checker: 0.4.9_vite@3.0.7
 
   testing/ember-app:
@@ -17531,6 +17533,16 @@ packages:
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /vite-plugin-babel/1.1.0_x55546exoqxxdg5s7b2xgdhl4y:
+    resolution: {integrity: sha512-FncPoFkLHKg1gh64X+Ub1Y/bi7M3M9rS3cINVSvzcaBstMy7yKsxVDD6KurV18hQtV0pYurX9FPRDRHIhNMtlg==}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+      vite: ^2.7.0
+    dependencies:
+      '@babel/core': 7.18.10
+      vite: 3.0.7
     dev: true
 
   /vite-plugin-checker/0.4.9_vite@3.0.7:
