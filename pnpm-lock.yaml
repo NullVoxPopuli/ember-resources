@@ -4,11 +4,6 @@ overrides:
   '@types/eslint': 7.29.0
   mustache: ^4.2.0
 
-patchedDependencies:
-  qunit-dom@2.0.0:
-    hash: 6qqgaxwevajrpassvkyo5e5s7a
-    path: patches/qunit-dom@2.0.0.patch
-
 importers:
 
   .:
@@ -80,12 +75,14 @@ importers:
       ember-qunit: ^5.1.4
       ember-source: ~4.0.1
       execa: ^6.1.0
+      on-finished: ^2.4.1
       qunit: ^2.16.0
       qunit-dom: ^2.0.0
       typescript: ^4.7.4
       vite: ^3.0.7
       vite-plugin-babel: ^1.1.0
       vite-plugin-checker: ^0.4.9
+      vite-plugin-redirect: ^0.1.0
     dependencies:
       '@babel/core': 7.18.10
       '@ember/test-helpers': 2.8.1_hkyrwantvp4rmijywu2mejmese
@@ -96,12 +93,14 @@ importers:
       ember-qunit: 5.1.5_m2vpijm5kklvqmlfibufmotnbi
       ember-source: 4.0.1_@babel+core@7.18.10
       execa: 6.1.0
+      on-finished: 2.4.1
       qunit: 2.19.1
-      qunit-dom: 2.0.0_6qqgaxwevajrpassvkyo5e5s7a
+      qunit-dom: 2.0.0
       typescript: 4.7.4
       vite: 3.0.7
       vite-plugin-babel: 1.1.0_x55546exoqxxdg5s7b2xgdhl4y
       vite-plugin-checker: 0.4.9_vite@3.0.7
+      vite-plugin-redirect: 0.1.0
 
   ember-resources:
     specifiers:
@@ -9142,7 +9141,6 @@ packages:
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
-    dev: true
 
   /electron-to-chromium/1.4.164:
     resolution: {integrity: sha512-K7iy5y6XyP9Pzh3uaDti0KC4JUNT6T1tLG5RTOmesqq2YgAJpYYYJ32m+anvZYjCV35llPTEh87kvEV/uSsiyQ==}
@@ -14574,7 +14572,6 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       ee-first: 1.1.1
-    dev: true
 
   /on-headers/1.0.2:
     resolution: {integrity: sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==}
@@ -15275,6 +15272,18 @@ packages:
       rimraf: 2.7.1
       underscore.string: 3.3.6
 
+  /qunit-dom/2.0.0:
+    resolution: {integrity: sha512-mElzLN99wYPOGekahqRA+mq7NcThXY9c+/tDkgJmT7W5LeZAFNyITr2rFKNnCbWLIhuLdFw88kCBMrJSfyBYpA==}
+    engines: {node: 12.* || 14.* || >= 16.*}
+    dependencies:
+      broccoli-funnel: 3.0.8
+      broccoli-merge-trees: 4.2.0
+      ember-cli-babel: 7.26.11
+      ember-cli-version-checker: 5.1.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /qunit-dom/2.0.0_6qqgaxwevajrpassvkyo5e5s7a:
     resolution: {integrity: sha512-mElzLN99wYPOGekahqRA+mq7NcThXY9c+/tDkgJmT7W5LeZAFNyITr2rFKNnCbWLIhuLdFw88kCBMrJSfyBYpA==}
     engines: {node: 12.* || 14.* || >= 16.*}
@@ -15285,6 +15294,7 @@ packages:
       ember-cli-version-checker: 5.1.2
     transitivePeerDependencies:
       - supports-color
+    dev: true
     patched: true
 
   /qunit/2.19.1:
@@ -17635,6 +17645,10 @@ packages:
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.5
       vscode-uri: 3.0.3
+    dev: false
+
+  /vite-plugin-redirect/0.1.0:
+    resolution: {integrity: sha512-3ib/ecjCQsduO/AEC6PSl8B/PQrAgDKxXg4M3nv2hXM9R4dInH3ea82S43oHr4UGfmm7TDQJuRM7amXGQGasEw==}
     dev: false
 
   /vite/3.0.7:

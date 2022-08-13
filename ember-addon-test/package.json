@@ -22,7 +22,8 @@
     "typescript": "^4.7.4",
     "vite": "^3.0.7",
     "vite-plugin-babel": "^1.1.0",
-    "vite-plugin-checker": "^0.4.9"
+    "vite-plugin-checker": "^0.4.9",
+    "vite-plugin-redirect": "^0.1.0"
   },
   "peerDependencies": {
     "typescript": ">= 4.7.0"
