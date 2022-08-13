@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/ember",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "paths": {
+      "qunit": ["../../ember-addon-test/node_modules/@types/qunit/index.d.ts"],
+      "ember-qunit": ["../../ember-addon-test/node_modules/@types/ember-qunit/index.d.ts"],
+      "@ember/test-helpers": ["../../ember-addon-test/node_modules/@types/ember__test-helpers/index.d.ts"],
+      "ember-cli-htmlbars": ["../../ember-addon-test/node_modules/ember-cli-htmlbars/lib/index.d.ts"],
+      "qunit-dom": ["../../ember-addon-test/node_modules/qunit-dom/dist/qunit-dom.d.ts"],
+      "*": [
+        "../../ember-addon-test/node_modules/*",
+        "../../ember-addon-test/node_modules/vite/client"
+      ]
+    }
+  },
+  "include": [
+    "**/*"
+  ]
+}

@@ -54,16 +54,12 @@ function emberAddon(options: Options = {}): Plugin {
     name: 'ember-addon-test-support',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        console.log(req.url, req.method, req.headers);
-
         if (req.url === '/' && req.method === 'GET') {
 
-          console.log('sending foo')
           let stream = fs.createReadStream(selfHtml);
           stream.pipe(res);
           stream.on('end', () => {
             stream.destroy();
-            // next();
           });
 
           return;
@@ -73,8 +69,24 @@ function emberAddon(options: Options = {}): Plugin {
       });
     },
     config: () => ({
+      optimizeDeps: {
+        include: [
+          emberSource,
+          // path.join(__dirname, '**/*'),
+          // process.cwd(),
+        ]
+      },
       resolve: {
+        /**
+          * NOTE: all of these things need to be converted to v2 addons.
+          */
         alias: {
+          // Test Dependencies
+          'ember-qunit': nm('ember-qunit/addon-test-support'),
+          '@ember/test-helpers': nm('@ember/test-helpers/addon-test-support/@ember/test-helpers'),
+
+
+
           // Glimmer
           '@glimmer/env': join(__dirname, 'replacements', 'glimmer-env.js'),
           // '@glimmer/tracking/primitives/cache': ember('@glimmer/tracking/primitives/cache.js'),

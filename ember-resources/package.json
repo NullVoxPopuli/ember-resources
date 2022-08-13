@@ -139,7 +139,6 @@
     "@types/ember__object": "^4.0.2",
     "@types/ember__runloop": "^4.0.1",
     "@types/ember__test-helpers": "^2.0.0",
-    "@types/qunit": "^2.19.0",
     "babel-eslint": "10.1.0",
     "ember-addon-test": "workspace:../ember-addon-test",
     "ember-async-data": "^0.6.0",

@@ -1,11 +1,10 @@
 {
   "package": "ember-addon-test",
-  "private": true,
   "author": "NullVoxPopuli",
   "type": "module",
   "bin": {
-    "addon-test": "index.js",
-    "ember-addon-test": "index.js"
+    "addon-test": "cli.js",
+    "ember-addon-test": "cli.js"
   },
   "dependencies": {
     "@babel/core": "^7.18.10",
@@ -14,6 +13,9 @@
     "@tsconfig/esm": "^1.0.2",
     "@tsconfig/node16-strictest-esm": "^1.0.3",
     "@tsconfig/node18-strictest-esm": "^1.0.0",
+    "@types/ember-qunit": "^5.0.0",
+    "@types/qunit": "^2.19.0",
+    "ember-cli-htmlbars": "^6.0.1",
     "ember-qunit": "^5.1.4",
     "ember-source": "~4.0.1",
     "execa": "^6.1.0",

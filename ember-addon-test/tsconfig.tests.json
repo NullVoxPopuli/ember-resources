@@ -1,0 +1,24 @@
+// Is there a way to make this work regardless of how
+// someone is consuming the library?
+//
+//
+// Trying to provide types on behalf of the consumer,
+// because no one likes configuration / boilerplate
+{
+  "extends": "@tsconfig/ember",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "paths": {
+      "qunit": ["./node_modules/@types/qunit/index.d.ts"],
+      "qunit-dom": ["../../ember-addon-test/node_modules/qunit-dom/dist/qunit-dom.d.ts"],
+      "*": [
+        "../../ember-addon-test/node_modules/*",
+        "../../ember-addon-test/node_modules/vite/client"
+      ]
+    }
+  },
+  "include": [
+    "**/*"
+  ]
+}
