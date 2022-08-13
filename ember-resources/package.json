@@ -98,8 +98,8 @@
   "peerDependencies": {
     "@ember/test-waiters": "^3.0.0",
     "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2",
     "@glint/template": ">= 0.8.3",
+    "@glimmer/tracking": "^1.1.2",
     "ember-concurrency": "^2.0.0",
     "ember-source": ">= 3.28.0"
   },
@@ -122,7 +122,6 @@
     "@babel/plugin-transform-runtime": "^7.18.5",
     "@babel/plugin-transform-typescript": "^7.18.4",
     "@babel/preset-typescript": "^7.17.12",
-    "@ember/test-helpers": "^2.8.0",
     "@ember/test-waiters": "^3.0.0",
     "@embroider/addon-dev": "^1.2.0",
     "@glimmer/component": "^1.1.2",
