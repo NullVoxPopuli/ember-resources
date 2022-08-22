@@ -51,6 +51,7 @@ class FunctionResourceManager {
             registerDestructor(currentFn, destroyer);
           },
         },
+        owner: this.owner,
       });
 
       return maybeValue;
