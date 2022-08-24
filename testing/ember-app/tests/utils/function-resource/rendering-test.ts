@@ -1,5 +1,7 @@
 import { tracked } from '@glimmer/tracking';
+import { getOwner, setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
+import Service from '@ember/service';
 import { clearRender, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
@@ -486,6 +488,46 @@ module('Utils | resource | rendering', function (hooks) {
         'destroy 2',
         'destroy 7',
       ]);
+    });
+  });
+
+  module('with owner', function (hooks) {
+    class Test {
+      // @use is required if a primitive is returned
+      @use data = resource(() => {
+        const test = (getOwner(this) as Owner).lookup('service:test');
+
+        return test.count;
+      });
+    }
+
+    class TestService extends Service {
+      @tracked count = 1;
+    }
+
+    hooks.beforeEach(function () {
+      this.owner.register('service:test', TestService);
+    });
+
+    test('basics', async function (assert) {
+      const testService = this.owner.lookup('service:test') as TestService;
+
+      let test = new Test();
+
+      setOwner(test, this.owner);
+
+      this.set('test', test);
+
+      await render(hbs`
+        <out>{{this.test.data}}</out>
+      `);
+
+      assert.dom('out').containsText('1');
+
+      testService.count = 2;
+      await settled();
+
+      assert.dom('out').containsText('2');
     });
   });
 });
