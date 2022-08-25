@@ -9,6 +9,8 @@ import { setupRenderingTest } from 'ember-qunit';
 
 import { resource, use } from 'ember-resources';
 
+import type Owner from '@ember/owner';
+
 module('Utils | resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
