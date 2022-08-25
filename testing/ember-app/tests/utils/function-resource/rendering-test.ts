@@ -494,17 +494,17 @@ module('Utils | resource | rendering', function (hooks) {
   });
 
   module('with owner', function (hooks) {
+    class TestService extends Service {
+      @tracked count = 1;
+    }
+
     class Test {
       // @use is required if a primitive is returned
       @use data = resource(() => {
-        const test = (getOwner(this) as Owner).lookup('service:test');
+        const test = (getOwner(this) as Owner).lookup('service:test') as TestService;
 
         return test.count;
       });
-    }
-
-    class TestService extends Service {
-      @tracked count = 1;
     }
 
     hooks.beforeEach(function () {
