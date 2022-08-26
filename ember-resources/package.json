@@ -16,6 +16,7 @@
     "./util/cell": "./dist/util/cell.js",
     "./util/keep-latest": "./dist/util/keep-latest.js",
     "./util/map": "./dist/util/map.js",
+    "./util/ref": "./dist/util/ref.js",
     "./util/helper": "./dist/util/helper.js",
     "./util/remote-data": "./dist/util/remote-data.js",
     "./util/debounce": "./dist/util/debounce.js",
@@ -49,6 +50,9 @@
       ],
       "util/map": [
         "dist/util/map.d.ts"
+      ],
+      "util/ref": [
+        "dist/util/ref.d.ts"
       ],
       "util/helper": [
         "dist/util/helper.d.ts"
