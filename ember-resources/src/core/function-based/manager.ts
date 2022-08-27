@@ -5,6 +5,7 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { capabilities as helperCapabilities } from '@ember/helper';
 
 import type { Cache, Destructor, ResourceFunction } from './types';
+import type Owner from '@ember/owner';
 
 /**
  * Note, a function-resource receives on object, hooks.
@@ -16,7 +17,7 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: unknown) {}
+  constructor(protected owner: Owner) {}
 
   /**
    * Resources do not take args.
@@ -72,4 +73,4 @@ class FunctionResourceManager {
   }
 }
 
-export const ResourceManagerFactory = (owner: unknown) => new FunctionResourceManager(owner);
+export const ResourceManagerFactory = (owner: Owner) => new FunctionResourceManager(owner);

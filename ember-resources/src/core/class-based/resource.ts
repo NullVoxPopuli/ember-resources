@@ -9,6 +9,7 @@ import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
 import type { Cache, Thunk } from '../types';
 import type { Named, Positional } from './types';
+import type Owner from '@ember/owner';
 import type { HelperLike } from '@glint/template';
 // this lint thinks this type import is used by decorator metadata...
 // babel doesn't use decorator metadata
@@ -174,8 +175,11 @@ export class Resource<T = unknown> {
     return resourceOf(context, this, thunk);
   }
 
-  constructor(owner: unknown) {
-    setOwner(this, owner);
+  // owner must be | unknown as to not
+  // break existing code
+
+  constructor(owner: Owner | unknown) {
+    setOwner(this, owner as Owner);
   }
 
   /**

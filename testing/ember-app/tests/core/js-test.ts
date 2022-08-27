@@ -7,6 +7,8 @@ import { setupTest } from 'ember-qunit';
 
 import { Resource } from 'ember-resources';
 
+import type Owner from '@ember/owner';
+
 // not testing in template, because that's the easy part
 module('Core | Resource | js', function (hooks) {
   setupTest(hooks);
@@ -43,7 +45,7 @@ module('Core | Resource | js', function (hooks) {
 
   test('destroyables are correct', async function (assert) {
     class Doubler extends Resource {
-      constructor(owner: unknown) {
+      constructor(owner: Owner) {
         super(owner);
 
         registerDestructor(this, () => assert.step('destroyed'));
@@ -99,7 +101,7 @@ module('Core | Resource | js', function (hooks) {
     class Doubler extends Resource<{ positional: [number] }> {
       @tracked num = 0;
 
-      constructor(owner: unknown) {
+      constructor(owner: Owner) {
         super(owner);
 
         registerDestructor(this, () => assert.step('teardown'));
