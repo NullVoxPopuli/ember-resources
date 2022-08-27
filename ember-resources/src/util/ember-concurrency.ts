@@ -14,7 +14,6 @@ import { invokeHelper } from '@ember/helper';
 import { get } from '@ember/object';
 
 import { Resource } from '../core/class-based';
-// import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
 import type { Cache } from '../core/types';
@@ -139,20 +138,6 @@ export function proxyClass<
       const instance = taskRunner.currentTask;
 
       if (typeof key === 'string') {
-        /**
-         * In ember-concurrency@v1, the reactivity is whacky, and
-         * we have to do extra work to make the overall API for ember-resources
-         * the same
-         */
-        // See: https://github.com/embroider-build/embroider/issues/1111
-        // if (macroCondition(dependencySatisfies('ember-concurrency', '^1.0.0'))) {
-        // let { get } = importSync('@ember/object') as any;
-
-        // in ember-concurrency@v1, value is not consumable tracked data
-        // until the task is resolved, so we need to consume the isRunning
-        // property so that value updates
-        // eslint-disable-next-line ember/no-get
-        get(taskRunner.currentTask, 'isRunning');
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         get(taskRunner.currentTask, key);
@@ -180,9 +165,6 @@ export function proxyClass<
     },
   }) as never as Instance;
 }
-
-// type AsyncReturnType<T extends (...args: any) => Promise<any>> =
-//     T extends (...args: any) => Promise<infer R> ? R : any
 
 export type TaskReturnType<T> = T extends TaskIsh<any, infer Return> ? Return : unknown;
 export type TaskArgsType<T> = T extends TaskIsh<infer Args, any> ? Args : unknown[];
