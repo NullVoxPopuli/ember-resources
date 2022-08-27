@@ -30,6 +30,7 @@ type ResourceHelperLike<T, R> = InstanceType<
       Positional: Positional<T>;
     };
     Return: R;
+    Blocks: [];
   }>
 >;
 
