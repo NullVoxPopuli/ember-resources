@@ -7,161 +7,56 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { dependencySatisfies, importSync } from '@embroider/macros';
+import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
+let version = '^2.0.0';
+
 module('useTask', function () {
-  if (dependencySatisfies('ember-concurrency', '^2.0.0')) {
-    module('ember-concurrency@v2', function () {
-      interface EConcurrencyV2 {
-        timeout: (wait: number) => Promise<void>;
-        restartableTask: PropertyDecorator;
-      }
+  module('ember-concurrency@v2', function () {
+    module('in templates', function (hooks) {
+      setupRenderingTest(hooks);
 
-      const { restartableTask, timeout } = importSync('ember-concurrency') as EConcurrencyV2;
+      test('it works', async function (assert) {
+        class Test extends Component<{ Blocks: { default: [Test] } }> {
+          @tracked input = 'Hello there';
 
-      module('in templates', function (hooks) {
-        setupRenderingTest(hooks);
+          search = trackedTask(this, this._search as any, () => [this.input]);
 
-        test('it works', async function (assert) {
-          class Test extends Component<{ Blocks: { default: [Test] } }> {
-            @tracked input = 'Hello there';
+          @restartableTask
+          *_search(input: string) {
+            yield timeout(500);
 
-            search = trackedTask(this, this._search as any, () => [this.input]);
-
-            @restartableTask
-            *_search(input: string) {
-              yield timeout(500);
-
-              return input;
-            }
+            return input;
           }
+        }
 
-          const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
+        const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
 
-          this.setProperties({ TestComponent });
+        this.setProperties({ TestComponent });
 
-          render(hbs`
-            <this.TestComponent as |ctx|>
-              {{#if ctx.search.isRunning}}
-                Loading
-              {{else}}
-                {{ctx.search.value}}
-              {{/if}}
-            </this.TestComponent>
-          `);
+        render(hbs`
+          <this.TestComponent as |ctx|>
+            {{#if ctx.search.isRunning}}
+              Loading
+            {{else}}
+              {{ctx.search.value}}
+            {{/if}}
+          </this.TestComponent>
+        `);
 
-          // This could introduce flakiness / timing issues
-          await timeout(10);
+        // This could introduce flakiness / timing issues
+        await timeout(10);
 
-          assert.dom().hasText('Loading');
+        assert.dom().hasText('Loading');
 
-          await settled();
+        await settled();
 
-          assert.dom().hasText('Hello there');
-        });
+        assert.dom().hasText('Hello there');
       });
     });
-  } else {
-    module('ember-concurrency@v1', function () {
-      interface EConcurrencyV2 {
-        timeout: (wait: number) => Promise<void>;
-        restartableTask: PropertyDecorator;
-      }
-
-      interface EConcurrencyDecorators {
-        restartableTask: PropertyDecorator;
-      }
-
-      const { timeout } = importSync('ember-concurrency') as EConcurrencyV2;
-      const { restartableTask } = importSync(
-        'ember-concurrency-decorators'
-      ) as EConcurrencyDecorators;
-
-      module('in templates', function (hooks) {
-        setupRenderingTest(hooks);
-
-        test('it works', async function (assert) {
-          class Test extends Component {
-            @tracked input = 'Hello there';
-
-            search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-            @restartableTask
-            *_search(input: string) {
-              yield timeout(500);
-
-              return input;
-            }
-          }
-
-          const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
-
-          this.setProperties({ TestComponent });
-
-          render(hbs`
-            <this.TestComponent as |ctx|>
-              {{#if ctx.search.isRunning}}
-                Loading
-              {{else}}
-                {{ctx.search.value}}
-              {{/if}}
-            </this.TestComponent>
-          `);
-
-          // This could introduce flakiness / timing issues
-          await timeout(10);
-
-          assert.dom().hasText('Loading');
-
-          await settled();
-
-          assert.dom().hasText('Hello there');
-        });
-
-        test('works when accessed via getter', async function (assert) {
-          class Test extends Component {
-            get colors() {
-              return this.foundColors?.value ?? ['nothing to see here'];
-            }
-
-            foundColors = trackedTask(this, this.findColors as any);
-
-            @restartableTask
-            // eslint-disable-next-line require-yield
-            *findColors() {
-              return ['red', 'green', 'blue'];
-            }
-          }
-
-          const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
-
-          this.setProperties({ TestComponent });
-
-          render(hbs`
-            <this.TestComponent as |ctx|>
-              {{ctx.colors}}
-            </this.TestComponent>
-          `);
-
-          await settled();
-
-          assert.dom().hasText('red,green,blue');
-        });
-      });
-    });
-  }
-
-  let version;
-
-  if (dependencySatisfies('ember-concurrency', '^2.0.0')) {
-    version = '^2.0.0';
-  } else if (dependencySatisfies('ember-concurrency', '^1.0.0')) {
-    version = '^1.0.0';
-  } else {
-    version = 'unknown version';
-  }
+  });
 
   module(`ember-concurrency's TaskInstance API :: ${version}`, function (hooks) {
     setupRenderingTest(hooks);
@@ -175,25 +70,6 @@ module('useTask', function () {
     hooks.afterEach(function () {
       window.onerror = onError;
     });
-
-    interface EConcurrencyV2 {
-      timeout: (wait: number) => Promise<void>;
-    }
-
-    interface ECDecorators {
-      restartableTask: PropertyDecorator;
-    }
-
-    let restartableTask: PropertyDecorator;
-
-    if (dependencySatisfies('ember-concurrency', '^2.0.0')) {
-      restartableTask = (importSync('ember-concurrency') as ECDecorators).restartableTask;
-    } else {
-      restartableTask = (importSync('ember-concurrency-decorators') as ECDecorators)
-        .restartableTask;
-    }
-
-    const { timeout } = importSync('ember-concurrency') as EConcurrencyV2;
 
     test('error', async function (assert) {
       assert.expect(3);
