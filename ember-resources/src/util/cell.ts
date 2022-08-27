@@ -1,13 +1,15 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
-class Cell<T> {
-  @tracked current: T | undefined;
+class Cell<Value = unknown> {
+  @tracked declare current: Value;
 
   constructor();
-  constructor(initialValue: T);
-  constructor(initialValue?: T) {
-    this.current = initialValue;
+  constructor(initialValue: Value);
+  constructor(initialValue?: Value) {
+    if (initialValue !== undefined) {
+      this.current = initialValue;
+    }
   }
 
   toggle = () => {
@@ -54,8 +56,8 @@ class Cell<T> {
  * </template>
  * ```
  */
-export function cell<T>(initialValue?: T): Cell<T> {
-  if (initialValue) {
+export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
+  if (initialValue !== undefined) {
     return new Cell(initialValue);
   }
 
