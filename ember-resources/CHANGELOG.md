@@ -1,3 +1,10 @@
+## [5.2.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.1...v5.2.2) (2022-08-27)
+
+
+### Bug Fixes
+
+* **cell:** improve typings of the cell utility ([5e3229d](https://github.com/NullVoxPopuli/ember-resources/commit/5e3229d6f809a8a9dd5ccb8561013cc8d6666340))
+
 ## [5.2.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.0...v5.2.1) (2022-08-04)
 
 
