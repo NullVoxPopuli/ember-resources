@@ -17,6 +17,7 @@ export {};
 import '@ember/component';
 import '@ember/test-helpers';
 import 'ember-cli-htmlbars';
+import type Owner from "@ember/owner";
 
 type TestTemplate<T, A, B, E> = abstract new () => HasContext<
   TemplateContext<T, A, B, E>
@@ -49,7 +50,7 @@ declare module '@ember/component' {
   >;
 
   export function setComponentTemplate<
-    Klass extends abstract new (owner: unknown, args: any) => Instance,
+    Klass extends abstract new (owner: Owner, args: any) => Instance,
     Instance = InstanceType<Klass>,
     S = InferSignature<Instance>,
   >(

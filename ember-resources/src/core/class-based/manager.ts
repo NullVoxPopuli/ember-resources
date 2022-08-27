@@ -7,6 +7,7 @@ import { capabilities as helperCapabilities, setHelperManager } from '@ember/hel
 import { Resource } from './resource';
 
 import type { ArgsWrapper } from '[core-types]';
+import type Owner from '@ember/owner';
 
 /**
  *
@@ -28,7 +29,7 @@ class ResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: unknown) {}
+  constructor(protected owner: Owner) {}
 
   createHelper(Class: typeof Resource, args: ArgsWrapper) {
     let owner = this.owner;
@@ -63,4 +64,4 @@ class ResourceManager {
   }
 }
 
-setHelperManager((owner: unknown) => new ResourceManager(owner), Resource);
+setHelperManager((owner: Owner) => new ResourceManager(owner), Resource);

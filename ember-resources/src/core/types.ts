@@ -4,20 +4,6 @@ export type Fn = (...args: any[]) => any;
  * This is a utility interface that represents the resulting args structure after
  * the thunk is normalized.
  *
- * @example
- * ```ts
- * import { Resource } from 'ember-resources';
- *
- * import type { ArgsWrapper } from 'ember-resources';
- *
- * class MyResource extends Resource { // default args type
- *   constructor(owner: unknown, args: ArgsWrapper) {
- *     super(owner, args);
- *   }
- * }
- * ```
- *
- *
  */
 export interface ArgsWrapper {
   positional?: unknown[];

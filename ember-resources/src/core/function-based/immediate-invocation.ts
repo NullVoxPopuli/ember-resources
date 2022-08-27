@@ -5,6 +5,7 @@ import { capabilities as helperCapabilities, invokeHelper, setHelperManager } fr
 
 import type { resource } from './resource';
 import type { Cache } from './types';
+import type Owner from '@ember/owner';
 
 type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
 
@@ -21,7 +22,7 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: unknown) {}
+  constructor(protected owner: Owner) {}
 
   createHelper(fn: ResourceFactory, args: any): State {
     /**
@@ -136,4 +137,4 @@ export function resourceFactory(wrapperFn: ResourceFactory) {
 }
 
 // Provide a singleton manager.
-const ResourceInvokerFactory = (owner: unknown) => new ResourceInvokerManager(owner);
+const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);
