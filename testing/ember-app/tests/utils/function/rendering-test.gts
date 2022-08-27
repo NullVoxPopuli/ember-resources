@@ -8,6 +8,8 @@ import { setupRenderingTest } from 'ember-qunit';
 
 import { timeout } from 'ember-concurrency';
 import { trackedFunction } from 'ember-resources/util/function';
+import { cell } from 'ember-resources';
+import { on } from '@ember/modifier';
 
 module('Utils | trackedFunction | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -32,6 +34,26 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     this.setProperties({ TestComponent });
 
     await render(hbs`<this.TestComponent />`);
+
+    assert.dom('out').hasText('1');
+
+    await click('button');
+
+    assert.dom('out').hasText('2');
+  });
+
+  test('it works in strict mode', async function (assert) {
+    let count = cell(1);
+    let increment = () => count.current++;
+
+    await render(
+      <template>
+        {{#let (trackedFunction count.current) as |data|}}
+          <out>{{data.value}}</out>
+        {{/let}}
+        <button type='button' {{on 'click' increment}}></button>
+      </template>
+    );
 
     assert.dom('out').hasText('1');
 

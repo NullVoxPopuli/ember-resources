@@ -2,7 +2,7 @@ import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 import { waitForPromise } from '@ember/test-waiters';
 
-import { resource } from '../core/function-based';
+import { resource, resourceFactory } from '../core/function-based';
 
 import type { Hooks } from '../core/function-based';
 
@@ -116,6 +116,8 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
     return state;
   });
 }
+
+resourceFactory(trackedFunction);
 
 /**
  * State container that represents the asynchrony of a `trackedFunction`
