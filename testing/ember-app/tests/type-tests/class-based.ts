@@ -1,5 +1,7 @@
-import { use, Resource, Thunk } from 'ember-resources';
+import { Resource, use } from 'ember-resources';
 import { expectType } from 'ts-expect';
+
+import type { Thunk } from 'ember-resources';
 // import { expectTypeOf } from 'expect-type'
 
 // Used for making expectType's value be whatever we want
@@ -56,8 +58,8 @@ expectType<Thunk>(x as Parameters<typeof C.from>[0]);
 expectType<UnknownFn>(x as Parameters<typeof C.from>[0]);
 
 export class UsageC {
-  @use cUse = C.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' }}));
-  cThis = C.from(this, () => ({ positional: [1, 'two'], named: { num: 3, str: 'four' }}));
+  @use cUse = C.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
+  cThis = C.from(this, () => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
 }
 
 expectType<C>(new UsageC().cUse);

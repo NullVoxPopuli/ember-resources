@@ -4,7 +4,7 @@ import "@glint/environment-ember-loose";
 import "@glint/environment-ember-loose/native-integration";
 import '@glint/environment-ember-template-imports';
 
-import type { GuardEmpty, HasContext, EmptyObject, TemplateContext, FlattenBlockParams } from '@glint/template/-private/integration';
+import type { HasContext, TemplateContext, FlattenBlockParams } from '@glint/template/-private/integration';
 import type { ExpandSignature } from '@glimmer/component/-private/component';
 
 declare global {
@@ -39,6 +39,7 @@ declare module '@ember/component' {
   export function setComponentManager<T>(managerId: string, baseClass: T): T;
   export function setComponentManager<T>(managerFactory: (owner: any) => {}, baseClass: T): T;
 
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   type Component = import('@glimmer/component').default;
 
   type InferSignature<T> = T extends Component<infer Signature> ? Signature : 'nevwhyer';
