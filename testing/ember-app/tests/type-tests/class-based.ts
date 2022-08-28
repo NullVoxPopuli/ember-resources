@@ -1,5 +1,14 @@
-import { Resource } from 'ember-resources';
+import { Resource, use } from 'ember-resources';
 import { expectType } from 'ts-expect';
+
+import type { Thunk } from 'ember-resources';
+// import { expectTypeOf } from 'expect-type'
+
+// Used for making expectType's value be whatever we want
+const x: unknown = undefined;
+
+type Instance = InstanceType<new (...args: any) => any>;
+type UnknownFn = () => unknown;
 
 class A extends Resource {
   a = 1;
@@ -39,3 +48,19 @@ export class C extends Resource<CArgs> {
     expectType<string>(named.str);
   }
 }
+
+// C.from(this, () => ...)
+expectType<Instance>(x as Parameters<typeof C.from>[0]);
+// expectType<Thunk | undefined>(x as Parameters<typeof C.from>[1]);
+
+// @use c = C.from(() => ...)
+expectType<Thunk>(x as Parameters<typeof C.from>[0]);
+expectType<UnknownFn>(x as Parameters<typeof C.from>[0]);
+
+export class UsageC {
+  @use cUse = C.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
+  cThis = C.from(this, () => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
+}
+
+expectType<C>(new UsageC().cUse);
+expectType<C>(new UsageC().cThis);

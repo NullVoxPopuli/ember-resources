@@ -198,6 +198,7 @@ importers:
       ember-cli-app-version: ^5.0.0
       ember-cli-babel: ^7.0.0
       ember-cli-dependency-checker: ^3.2.0
+      ember-cli-deprecation-workflow: ^2.1.0
       ember-cli-htmlbars: ^6.0.0
       ember-cli-inject-live-reload: ^2.1.0
       ember-cli-sri: ^2.1.1
@@ -214,7 +215,7 @@ importers:
       ember-page-title: ^7.0.0
       ember-qunit: ^5.1.4
       ember-resolver: ^8.0.2
-      ember-resources: '*'
+      ember-resources: workspace:ember-resources@*
       ember-source: ~4.0.1
       ember-source-channel-url: ^3.0.0
       ember-template-imports: ^3.0.0
@@ -227,6 +228,7 @@ importers:
       eslint-plugin-node: ^11.1.0
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-qunit: ^7.2.0
+      expect-type: ^0.13.0
       loader.js: ^4.7.0
       msw: ^0.40.2
       npm-run-all: ^4.1.5
@@ -295,6 +297,7 @@ importers:
       ember-cli-app-version: 5.0.0
       ember-cli-babel: 7.26.11
       ember-cli-dependency-checker: 3.3.1_ember-cli@4.1.1
+      ember-cli-deprecation-workflow: 2.1.0
       ember-cli-htmlbars: 6.0.1
       ember-cli-inject-live-reload: 2.1.0
       ember-cli-sri: 2.1.1
@@ -320,6 +323,7 @@ importers:
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-prettier: 4.0.0_7gsvg5lgwpfdww3i7smtqxamuy
       eslint-plugin-qunit: 7.3.0_eslint@7.32.0
+      expect-type: 0.13.0
       loader.js: 4.7.0
       msw: 0.40.2_typescript@4.7.4
       npm-run-all: 4.1.5
@@ -8430,6 +8434,18 @@ packages:
       - supports-color
     dev: true
 
+  /ember-cli-deprecation-workflow/2.1.0:
+    resolution: {integrity: sha512-Ay9P9iKMJdY4Gq5XPowh3HqqeAzLfwBRj1oB1ZKkDW1fryZQWBN4pZuRnjnB+3VWZjBnZif5e7Pacc7YNW9hWg==}
+    engines: {node: 12.* || >= 14}
+    dependencies:
+      broccoli-funnel: 3.0.8
+      broccoli-merge-trees: 4.2.0
+      broccoli-plugin: 4.0.7
+      ember-cli-htmlbars: 5.7.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /ember-cli-get-component-path-option/1.0.0:
     resolution: {integrity: sha512-k47TDwcJ2zPideBCZE8sCiShSxQSpebY2BHcX2DdipMmBox5gsfyVrbKJWIHeSTTKyEUgmBIvQkqTOozEziCZA==}
 
@@ -10062,6 +10078,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       homedir-polyfill: 1.0.3
+    dev: true
+
+  /expect-type/0.13.0:
+    resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
     dev: true
 
   /express/4.18.1:

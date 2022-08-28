@@ -35,7 +35,7 @@
     "ember-concurrency": "^2.0.0",
     "ember-concurrency-ts": "^0.3.1",
     "ember-functions-as-helper-polyfill": "^2.0.1",
-    "ember-resources": "*",
+    "ember-resources": "workspace:ember-resources@*",
     "tracked-built-ins": "^3.1.0"
   },
   "devDependencies": {
@@ -85,6 +85,7 @@
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.0.0",
     "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-deprecation-workflow": "^2.1.0",
     "ember-cli-htmlbars": "^6.0.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
@@ -110,6 +111,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-qunit": "^7.2.0",
+    "expect-type": "^0.13.0",
     "loader.js": "^4.7.0",
     "msw": "^0.40.2",
     "npm-run-all": "^4.1.5",

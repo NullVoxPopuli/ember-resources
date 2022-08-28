@@ -8,7 +8,9 @@ import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 import type { Cache, Thunk } from '../core/types';
 import type ClassBasedHelper from '@ember/component/helper';
 import type { FunctionBasedHelper } from '@ember/component/helper';
-import type { Get, HelperLike } from '@glint/template';
+import type { HelperLike } from '@glint/template';
+
+type Get<T, K, Otherwise = unknown> = K extends keyof T ? T[K] : Otherwise;
 
 /**
  * @utility implemented with raw `invokeHelper` API, no classes from `ember-resources` used.

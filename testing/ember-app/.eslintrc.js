@@ -6,5 +6,16 @@ const config = configs.ember();
 
 module.exports = {
   ...config,
-  overrides: [...config.overrides],
+  overrides: [
+    ...config.overrides,
+    {
+      files: ['**/*.ts'],
+      rules: {
+        /**
+         * any can be useful
+         */
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+  ],
 };

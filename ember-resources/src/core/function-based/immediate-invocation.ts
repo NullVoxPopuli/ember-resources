@@ -3,11 +3,11 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 
-import type { resource } from './resource';
 import type { Cache } from './types';
 import type Owner from '@ember/owner';
 
-type ResourceFactory = (...args: any[]) => ReturnType<typeof resource>;
+type SpreadFor<T> = T extends Array<any> ? T : [T];
+type ResourceFactory<Value = any, Args = any[]> = (...args: SpreadFor<Args>) => Value;
 
 interface State {
   cache?: Cache;
@@ -130,10 +130,12 @@ class ResourceInvokerManager {
  *  })
  *  ```
  */
-export function resourceFactory(wrapperFn: ResourceFactory) {
+export function resourceFactory<Value = any, Args = any>(
+  wrapperFn: ResourceFactory<Value, Args>
+): (args: () => Args) => Value {
   setHelperManager(ResourceInvokerFactory, wrapperFn);
 
-  return wrapperFn;
+  return wrapperFn as unknown as (args: () => Args) => Value;
 }
 
 // Provide a singleton manager.

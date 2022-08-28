@@ -1,12 +1,12 @@
 import { tracked } from '@glimmer/tracking';
 import { destroy } from '@ember/destroyable';
+// @ts-ignore
+import { hash } from '@ember/helper';
 import { clearRender, find, render, settled } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
-import { resource, resourceFactory, use } from 'ember-resources';
-import { TrackedObject } from 'tracked-built-ins';
+import { cell, resource, resourceFactory, use } from 'ember-resources';
 
 module('Examples | resource | Clock', function (hooks) {
   let wait = (ms = 1_100) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -18,7 +18,7 @@ module('Examples | resource | Clock', function (hooks) {
   // Wrapper functions are the only way to pass Args to a resource.
   const Clock = resourceFactory(({ start, locale = 'en-US' }) => {
     // For a persistent state across arg changes, `Resource` may be better`
-    let time = new TrackedObject({ current: start });
+    let time = cell(start);
     let formatter = new Intl.DateTimeFormat(locale, {
       hour: 'numeric',
       minute: 'numeric',
@@ -78,7 +78,7 @@ module('Examples | resource | Clock', function (hooks) {
       };
 
       const clock = resource(({ on }) => {
-        let time = new TrackedObject({ current: new Date() });
+        let time = cell(new Date());
         let interval = setInterval(() => {
           time.current = new Date();
         }, 1000);
@@ -100,11 +100,11 @@ module('Examples | resource | Clock', function (hooks) {
         return () => formatter.format(time.current);
       });
 
-      this.setProperties({ clock });
-
-      await render(hbs`
-        <time>{{this.clock}}</time>
-      `);
+      await render(
+        <template>
+          <time>{{clock}}</time>
+        </template>
+      );
 
       let textA = find('time')?.innerText;
 
@@ -131,10 +131,16 @@ module('Examples | resource | Clock', function (hooks) {
     });
 
     test('acceps arguments', async function (assert) {
-      this.setProperties({ Clock, date: new Date(), locale: 'en-US' });
-      await render(hbs`
-        <time>{{this.Clock (hash start=this.date locale=this.locale)}}</time>
-      `);
+      class Test {
+        @tracked date = new Date();
+        @tracked locale = 'en-US';
+      }
+
+      let instance = new Test();
+
+      await render(<template>
+        <time>{{Clock (hash start=instance.date locale=instance.locale)}}</time>
+      </template>);
 
       let textA = find('time')?.innerText;
 
@@ -154,14 +160,14 @@ module('Examples | resource | Clock', function (hooks) {
       assert.ok(textC, textC);
       assert.notStrictEqual(textB, textC, `${textC} is 1s after ${textB}`);
 
-      this.setProperties({ locale: 'en-CA' });
+      instance.locale = 'en-CA';
       await settled();
 
       let textD = find('time')?.innerText;
 
       assert.strictEqual(textD, textA, 'Time is reset');
 
-      this.setProperties({ date: new Date() });
+      instance.date = new Date();
       await settled();
 
       let textE = find('time')?.innerText;
