@@ -5,7 +5,7 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { Resource } from 'ember-resources';
+import { Resource, use } from 'ember-resources';
 
 import type Owner from '@ember/owner';
 
@@ -144,6 +144,7 @@ module('Core | Resource | js', function (hooks) {
       dataArray = TestResource.from(this, () => []);
       dataVoid = TestResource.from(this, () => {});
       dataOmitted = TestResource.from(this);
+      @use dataWithUse = TestResource.from(() => []);
     }
 
     let foo = new Test();
@@ -151,5 +152,6 @@ module('Core | Resource | js', function (hooks) {
     assert.strictEqual(foo.dataArray.foo, 3);
     assert.strictEqual(foo.dataVoid.foo, 3);
     assert.strictEqual(foo.dataOmitted.foo, 3);
+    assert.strictEqual(foo.dataWithUse.foo, 3);
   });
 });

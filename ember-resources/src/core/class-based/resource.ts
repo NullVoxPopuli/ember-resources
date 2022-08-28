@@ -171,7 +171,7 @@ export class Resource<T = unknown> {
    */
   static from<T extends new (...args: any) => any>(
     this: T,
-    context: object,
+    context: InstanceType<new (...args: any) => any>,
     thunk?: Thunk | (() => unknown)
   ): InstanceType<T>;
 
@@ -198,7 +198,7 @@ export class Resource<T = unknown> {
 
   static from<T extends new (...args: any) => any>(
     this: T,
-    contextOrThunk: object | Thunk | (() => unknown),
+    contextOrThunk: InstanceType<new (...args: any) => any> | Thunk | (() => unknown),
     thunkOrUndefined?: undefined | Thunk | (() => unknown)
   ): InstanceType<T> {
     /**
