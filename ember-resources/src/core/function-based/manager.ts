@@ -4,7 +4,7 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
 
-import type { Cache, Destructor, ResourceFunction } from './types';
+import type { Cache, Destructor, InternalFunctionResourceConfig, ResourceFunction } from './types';
 import type Owner from '@ember/owner';
 
 /**
@@ -23,7 +23,8 @@ class FunctionResourceManager {
    * Resources do not take args.
    * However, they can access tracked data
    */
-  createHelper(fn: ResourceFunction) {
+  createHelper(config: InternalFunctionResourceConfig) {
+    let { definition: fn } = config;
     /**
      * We have to copy the `fn` in case there are multiple
      * usages or invocations of the function.
@@ -58,7 +59,7 @@ class FunctionResourceManager {
     return { fn: thisFn, cache };
   }
 
-  getValue({ cache }: { cache: Cache }) {
+  getValue({ cache }: { fn: ResourceFunction; cache: Cache }) {
     let maybeValue = getValue(cache);
 
     if (typeof maybeValue === 'function') {

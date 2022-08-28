@@ -35,7 +35,7 @@
     "ember-concurrency": "^2.0.0",
     "ember-concurrency-ts": "^0.3.1",
     "ember-functions-as-helper-polyfill": "^2.0.1",
-    "ember-resources": "*",
+    "ember-resources": "workspace:ember-resources@*",
     "tracked-built-ins": "^3.1.0"
   },
   "devDependencies": {
@@ -85,6 +85,7 @@
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.0.0",
     "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-deprecation-workflow": "^2.1.0",
     "ember-cli-htmlbars": "^6.0.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",

@@ -6,7 +6,7 @@ import { ResourceManagerFactory } from './manager';
 import { INTERNAL } from './types';
 import { wrapForPlainUsage } from './utils';
 
-import type { InternalIntermediate, ResourceFn, ResourceFunction } from './types';
+import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
 
 /**
  * `resource` is an alternative API to the class-based `Resource`.
@@ -153,7 +153,7 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
   setup?: ResourceFunction<Value>
-): Value | InternalIntermediate<Value> | ResourceFn<Value> {
+): Value | InternalFunctionResourceConfig<Value> | ResourceFn<Value> {
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
@@ -162,12 +162,18 @@ export function resource<Value>(
       typeof context === 'function'
     );
 
+    let internalConfig: InternalFunctionResourceConfig<Value> = {
+      definition: context as ResourceFunction<Value>,
+      type: 'function-based',
+      [INTERNAL]: true,
+    };
+
     /**
      * Functions have a different identity every time they are defined.
      * The primary purpose of the `resource` wrapper is to individually
      * register each function with our helper manager.
      */
-    setHelperManager(ResourceManagerFactory, context);
+    setHelperManager(ResourceManagerFactory, internalConfig);
 
     /**
      * With only one argument, we have to do a bunch of lying to
@@ -175,10 +181,9 @@ export function resource<Value>(
      *
      * Add secret key to help @use assert against
      * using vanilla functions as resources without the resource wrapper
+     *
      */
-    (context as any)[INTERNAL] = true;
-
-    return context as ResourceFn<Value>;
+    return internalConfig as unknown as ResourceFn<Value>;
   }
 
   assert(
@@ -193,7 +198,13 @@ export function resource<Value>(
     typeof setup === 'function'
   );
 
-  setHelperManager(ResourceManagerFactory, setup);
+  let internalConfig: InternalFunctionResourceConfig<Value> = {
+    definition: setup as ResourceFunction<Value>,
+    type: 'function-based',
+    [INTERNAL]: true,
+  };
 
-  return wrapForPlainUsage(context, setup);
+  setHelperManager(ResourceManagerFactory, internalConfig);
+
+  return wrapForPlainUsage(context, internalConfig);
 }

@@ -5,7 +5,7 @@ import { invokeHelper } from '@ember/helper';
 
 import { INTERMEDIATE_VALUE } from './types';
 
-import type { ResourceFunction } from './types';
+import type { InternalFunctionResourceConfig } from './types';
 
 /**
  * This is what allows resource to be used withotu @use.
@@ -14,7 +14,10 @@ import type { ResourceFunction } from './types';
  *
  * A resource not using use *must* be an object.
  */
-export function wrapForPlainUsage<Value>(context: object, setup: ResourceFunction<Value>) {
+export function wrapForPlainUsage<Value>(
+  context: object,
+  setup: InternalFunctionResourceConfig<Value>
+) {
   let cache: Cache;
 
   /*

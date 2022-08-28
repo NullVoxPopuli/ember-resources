@@ -1,13 +1,10 @@
 export const INTERMEDIATE_VALUE = '__Intermediate_Value__';
 export const INTERNAL = '__INTERNAL__';
 
-/**
- * Secret args to allow `resource` to be used without
- * a decorator
- */
-export interface InternalIntermediate<Value> {
+export interface InternalFunctionResourceConfig<Value = unknown> {
+  definition: ResourceFunction<Value>;
+  type: 'function-based';
   [INTERNAL]: true;
-  [INTERMEDIATE_VALUE]: ResourceFunction<Value>;
 }
 
 export type Hooks = {

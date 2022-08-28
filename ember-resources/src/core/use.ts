@@ -6,16 +6,23 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { invokeHelper } from '@ember/helper';
 
 import { INTERNAL } from './function-based/types';
+import { normalizeThunk } from './utils';
 
-import type { ResourceFunction } from './function-based/types';
+import type { InternalFunctionResourceConfig } from './function-based/types';
+import type { Thunk } from '[core-types]';
 
 interface Descriptor {
   initializer: () => unknown;
 }
 
-type ResourceInitializer = {
+interface ClassResourceConfig {
+  thunk: Thunk;
+  definition: unknown;
+  type: 'class-based';
   [INTERNAL]: true;
-} & ResourceFunction<unknown>;
+}
+
+type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 
 /**
  * The `@use` decorator has two responsibilities
@@ -51,29 +58,42 @@ export function use(_prototype: object, key: string, descriptor?: Descriptor): v
 
   let { initializer } = descriptor;
 
+  assert(
+    `@use may only be used on initialized properties. For example, ` +
+      `\`@use foo = resource(() => { ... })\` or ` +
+      `\`@use foo = SomeResource.from(() => { ... });\``,
+    initializer
+  );
+
   // https://github.com/pzuraq/ember-could-get-used-to-this/blob/master/addon/index.js
   return {
     get(this: object) {
       let cache = caches.get(this);
 
       if (!cache) {
-        let fn = initializer.call(this);
+        let config = initializer.call(this) as Config;
 
         assert(
-          `Expected initialized value under @use to have used the \`resource\` wrapper function`,
-          isResourceInitializer(fn)
+          `Expected initialized value under @use to have used either the \`resource\` wrapper function, or a \`Resource.from\` call`,
+          INTERNAL in config
         );
 
-        cache = invokeHelper(this, fn);
-        caches.set(this as object, cache);
-        associateDestroyableChild(this, cache);
+        if (config.type === 'function-based') {
+          cache = invokeHelper(this, config);
+          caches.set(this as object, cache);
+          associateDestroyableChild(this, cache);
+        } else if (config.type === 'class-based') {
+          let { definition, thunk } = config;
+
+          cache = invokeHelper(this, definition, () => normalizeThunk(thunk));
+          caches.set(this as object, cache);
+          associateDestroyableChild(this, cache);
+        }
+
+        assert(`Failed to create cache for internal resource configuration object`, cache);
       }
 
       return getValue(cache);
     },
   } as unknown as void /* Thanks TS. */;
-}
-
-function isResourceInitializer(obj: unknown): obj is ResourceInitializer {
-  return typeof obj === 'function' && obj !== null && INTERNAL in obj;
 }

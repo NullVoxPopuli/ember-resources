@@ -5,6 +5,8 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
+import { INTERNAL } from 'core/function-based/types';
+
 import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
 import type { Cache, Thunk } from '../types';
@@ -171,8 +173,87 @@ export class Resource<T = unknown> {
     this: T,
     context: object,
     thunk?: Thunk | (() => unknown)
+  ): InstanceType<T>;
+
+  /**
+   * For use in the body of a class.
+   *
+   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller.
+   *
+   * ```js
+   * import { Resource, use } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   @use data = SomeResource.from(() => [ ... ]);
+   * }
+   * ```
+   */
+  static from<T extends new (...args: any) => any>(
+    this: T,
+    thunk: Thunk | (() => unknown)
+  ): InstanceType<T>;
+
+  static from<T extends new (...args: any) => any>(
+    this: T,
+    contextOrThunk: object | Thunk | (() => unknown),
+    thunkOrUndefined?: undefined | Thunk | (() => unknown)
   ): InstanceType<T> {
-    return resourceOf(context, this, thunk);
+    /**
+     * This first branch is for
+     *
+     * ```js
+     * class Foo {
+     *   @use foo = SomeResource.from(() => [ ... ])
+     * }
+     * ```
+     *
+     * and in order to support this, we need to defer the passed
+     * thunk until when the decorator is accessed.
+     *
+     * The decorator mostly does what `resourceOf` is doing below, but
+     * a little more simply, because we don't have to deal with a Proxy.
+     *
+     */
+    if (typeof contextOrThunk === 'function') {
+      /**
+       * This cast is a little weird, because the narrowing from the
+       * typeof check, while removing `object` from `contextOrThunk` does
+       * add in `Function` to the type union and I don't know of a better way
+       * to manage the type narrowing here.
+       */
+      let thunk = contextOrThunk as Thunk | (() => unknown);
+
+      /**
+       * We have to lie here because TypeScript doesn't allow decorators
+       * to alter the type of a property.
+       *
+       * This is private API that the `@use` decorator understands,
+       * but is not supported for use by any other conusmer.
+       */
+      return {
+        thunk,
+        definition: this,
+        type: 'class-based',
+        [INTERNAL]: true,
+      } as unknown as InstanceType<T>;
+    }
+
+    /**
+     * This usage is for decorator-less usage
+     *
+     * ```js
+     * class Foo {
+     *   foo = SomeResource.from(this, () => [ ... ])
+     * }
+     * ```
+     *
+     * The only tradeoff is that a `this` needs to be passed.
+     *
+     */
+    return resourceOf(contextOrThunk, this, thunkOrUndefined);
   }
 
   // owner must be | unknown as to not

@@ -1,8 +1,5 @@
-import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { setComponentTemplate } from '@ember/component';
 import { click, render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -28,9 +25,9 @@ module('Core | Resource | rendering', function (hooks) {
       let increment = () => count.current++;
 
       await render(<template>
-        {{! TODO: 0.8.3 doesn't support this }}
-        {{! @glint-ignore}}
-        <out>{{ Doubler count.current }}</out>
+        {{#let (Doubler count.current) as |doubler|}}
+          <out>{{doubler.num}}</out>
+        {{/let}}
         <button type='button' {{on 'click' increment}}>increment</button>
       </template>);
 
