@@ -1,3 +1,15 @@
+# [5.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.2...v5.3.0) (2022-08-28)
+
+
+### Bug Fixes
+
+* **strict-mode, gts:** improve type support for glint + gts and strict mode ([793a0f6](https://github.com/NullVoxPopuli/ember-resources/commit/793a0f64de5160b0c02a67db1c84d3d8b849aeaf))
+
+
+### Features
+
+* **@use:** now works with class-based resources ([0803f1f](https://github.com/NullVoxPopuli/ember-resources/commit/0803f1fc88d66036eeff9a70579600d1ecb072b4))
+
 ## [5.2.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.1...v5.2.2) (2022-08-27)
 
 
