@@ -7,5 +7,4 @@ export { use } from './core/use';
 export { cell } from 'util/cell';
 
 // Public Type Utilities
-export type { ExpandArgs } from './core/class-based/types';
-export type { ArgsWrapper, Thunk } from './core/types';
+export type { ArgsWrapper, ExpandArgs, Thunk } from './core/types';

@@ -15,7 +15,7 @@ const SomeClocks = <template>
 export default class GlintTest extends Component {
   @tracked input = 2;
 
-  calculator = Calculator.from(this);
+  calculator = Calculator.from(this, () => ({}));
   doubler = Doubler.from(this, () => [this.input])
 
   decoratorLess = resource(this, () => {

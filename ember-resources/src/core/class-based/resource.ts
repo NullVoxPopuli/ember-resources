@@ -9,14 +9,22 @@ import { INTERNAL } from 'core/function-based/types';
 
 import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
-import type { Cache, Thunk } from '../types';
-import type { Named, Positional } from './types';
+import type { AsThunk, Cache, Constructor, Named, Positional, Thunk } from '[core-types]';
 import type Owner from '@ember/owner';
 import type { HelperLike } from '@glint/template';
 // this lint thinks this type import is used by decorator metadata...
 // babel doesn't use decorator metadata
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import type { Invoke } from '@glint/template/-private/integration';
+
+/**
+ * @private utility type
+ *
+ * Returns the Thunk-cased args for a given Class/InstanceType of Resource
+ */
+export type ArgsFrom<Klass extends Resource<any>> = Klass extends Resource<infer Args>
+  ? Args
+  : never;
 
 /**
  * https://gist.github.com/dfreeman/e4728f2f48737b44efb99fa45e2d22ef#typing-the-return-value-implicitly
@@ -32,6 +40,8 @@ type ResourceHelperLike<T, R> = InstanceType<
     Return: R;
   }>
 >;
+
+declare const __ResourceArgs__: unique symbol;
 
 /**
  * The 'Resource' base class has only one lifecycle hook, `modify`, which is called during
@@ -109,7 +119,18 @@ type ResourceHelperLike<T, R> = InstanceType<
  * This way, consumers only need one import.
  *
  */
-export class Resource<T = unknown> {
+export class Resource<Args = unknown> {
+  /**
+   * @private (secret)
+   *
+   * Because classes are kind of like interfaces,
+   * we need "something" to help TS know what a Resource is.
+   *
+   * This isn't a real API, but does help with type inference
+   * with the ArgsFrom utility above
+   */
+  declare [__ResourceArgs__]: Args;
+
   /**
    * @private (secret)
    *
@@ -124,7 +145,28 @@ export class Resource<T = unknown> {
    *
    * Without this, the static method, from, would have a type error.
    */
-  declare [Invoke]: ResourceHelperLike<T, this>[typeof Invoke];
+  declare [Invoke]: ResourceHelperLike<Args, this>[typeof Invoke];
+
+  /**
+   * For use in the body of a class.
+   *
+   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller.
+   *
+   * ```js
+   * import { Resource, use } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   @use data = SomeResource.from(() => [ ... ]);
+   * }
+   * ```
+   */
+  static from<SomeResource extends Resource<any>>(
+    this: Constructor<SomeResource>,
+    thunk: AsThunk<ArgsFrom<SomeResource>>
+  ): SomeResource;
 
   /**
    * For use in the body of a class.
@@ -169,38 +211,17 @@ export class Resource<T = unknown> {
    * }
    * ```
    */
-  static from<T extends new (...args: any) => any>(
-    this: T,
-    context: InstanceType<new (...args: any) => any>,
-    thunk?: Thunk | (() => unknown)
-  ): InstanceType<T>;
+  static from<SomeResource extends Resource<any>>(
+    this: Constructor<SomeResource>,
+    context: unknown,
+    thunk: AsThunk<ArgsFrom<SomeResource>>
+  ): SomeResource;
 
-  /**
-   * For use in the body of a class.
-   *
-   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
-   * from the consumer so that the surface API is smaller.
-   *
-   * ```js
-   * import { Resource, use } from 'ember-resources';
-   *
-   * class SomeResource extends Resource {}
-   *
-   * class MyClass {
-   *   @use data = SomeResource.from(() => [ ... ]);
-   * }
-   * ```
-   */
-  static from<T extends new (...args: any) => any>(
-    this: T,
-    thunk: Thunk | (() => unknown)
-  ): InstanceType<T>;
-
-  static from<T extends new (...args: any) => any>(
-    this: T,
-    contextOrThunk: InstanceType<new (...args: any) => any> | Thunk | (() => unknown),
-    thunkOrUndefined?: undefined | Thunk | (() => unknown)
-  ): InstanceType<T> {
+  static from<SomeResource extends Resource<any>>(
+    this: Constructor<SomeResource>,
+    contextOrThunk: unknown | AsThunk<ArgsFrom<SomeResource>>,
+    thunkOrUndefined?: undefined | AsThunk<ArgsFrom<SomeResource>>
+  ): SomeResource {
     /**
      * This first branch is for
      *
@@ -219,14 +240,6 @@ export class Resource<T = unknown> {
      */
     if (typeof contextOrThunk === 'function') {
       /**
-       * This cast is a little weird, because the narrowing from the
-       * typeof check, while removing `object` from `contextOrThunk` does
-       * add in `Function` to the type union and I don't know of a better way
-       * to manage the type narrowing here.
-       */
-      let thunk = contextOrThunk as Thunk | (() => unknown);
-
-      /**
        * We have to lie here because TypeScript doesn't allow decorators
        * to alter the type of a property.
        *
@@ -234,11 +247,11 @@ export class Resource<T = unknown> {
        * but is not supported for use by any other conusmer.
        */
       return {
-        thunk,
+        thunk: contextOrThunk,
         definition: this,
         type: 'class-based',
         [INTERNAL]: true,
-      } as unknown as InstanceType<T>;
+      } as unknown as SomeResource;
     }
 
     /**
@@ -258,7 +271,6 @@ export class Resource<T = unknown> {
 
   // owner must be | unknown as to not
   // break existing code
-
   constructor(owner: Owner | unknown) {
     setOwner(this, owner as Owner);
   }
@@ -267,21 +279,21 @@ export class Resource<T = unknown> {
    * this lifecycle hook is called whenever arguments to the resource change.
    * This can be useful for calling functions, comparing previous values, etc.
    */
-  modify?(positional?: Positional<T>, named?: Named<T>): void;
+  modify?(positional: Positional<Args>, named: Named<Args>): void;
 }
 
-function resourceOf<Instance extends new (...args: any) => any, Args extends unknown[] = unknown[]>(
-  context: object,
-  klass: new (...args: any) => InstanceType<Instance>,
-  thunk?: Thunk | (() => Args)
-): Instance {
+function resourceOf<SomeResource extends Resource<unknown>>(
+  context: unknown,
+  klass: Constructor<SomeResource>,
+  thunk?: Thunk
+): SomeResource {
   assert(
     `Expected second argument, klass, to be a Resource. ` +
       `Instead, received some ${typeof klass}, ${klass.name}`,
     klass.prototype instanceof Resource
   );
 
-  let cache: Cache<Instance>;
+  let cache: Cache<SomeResource>;
 
   /*
    * Having an object that we use invokeHelper + getValue on
@@ -290,12 +302,12 @@ function resourceOf<Instance extends new (...args: any) => any, Args extends unk
    *
    */
   let target = {
-    get value(): Instance {
+    get value(): SomeResource {
       if (!cache) {
         cache = invokeHelper(context, klass, () => normalizeThunk(thunk || DEFAULT_THUNK));
       }
 
-      return getValue<Instance>(cache);
+      return getValue<SomeResource>(cache);
     },
   };
 
@@ -325,5 +337,5 @@ function resourceOf<Instance extends new (...args: any) => any, Args extends unk
 
       return Reflect.getOwnPropertyDescriptor(instance, key);
     },
-  }) as never as Instance;
+  }) as never as SomeResource;
 }

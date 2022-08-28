@@ -1,21 +1,18 @@
 import { Resource, use } from 'ember-resources';
+import { expectTypeOf } from 'expect-type';
 import { expectType } from 'ts-expect';
 
 import type { Thunk } from 'ember-resources';
-// import { expectTypeOf } from 'expect-type'
-
-// Used for making expectType's value be whatever we want
-const x: unknown = undefined;
-
-type Instance = InstanceType<new (...args: any) => any>;
-type UnknownFn = () => unknown;
+// This is private, but we test it for sanity
+// because when this was added, I had none.
+import type { ArgsFrom } from 'ember-resources/core/class-based/resource';
 
 class A extends Resource {
   a = 1;
 }
 
-expectType<number>(A.from({}).a);
-expectType<A>(A.from({}));
+expectTypeOf(A.from(() => ({}))).toEqualTypeOf<A>();
+expectTypeOf(A.from(() => ({})).a).toEqualTypeOf<number>();
 
 type BArgs = {
   positional: [number, string];
@@ -26,12 +23,17 @@ type BArgs = {
 };
 
 export class B extends Resource<BArgs> {
-  modify(positional: BArgs['positional'], named: BArgs['named']) {
-    expectType<[number, string]>(positional);
-    expectType<number>(named.num);
-    expectType<string>(named.str);
-  }
+  b = 'b';
 }
+
+expectTypeOf<ArgsFrom<B>>().toEqualTypeOf<BArgs>();
+
+expectTypeOf<Parameters<NonNullable<B['modify']>>>().toEqualTypeOf<
+  [[number, string], { num: number; str: string }]
+>();
+
+B.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
+B.from({}, () => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
 
 type CArgs = {
   Positional: [number, string];
@@ -42,20 +44,15 @@ type CArgs = {
 };
 
 export class C extends Resource<CArgs> {
-  modify(positional: CArgs['Positional'], named: CArgs['Named']) {
-    expectType<[number, string]>(positional);
-    expectType<number>(named.num);
-    expectType<string>(named.str);
-  }
+  c = 'c';
 }
 
-// C.from(this, () => ...)
-expectType<Instance>(x as Parameters<typeof C.from>[0]);
-// expectType<Thunk | undefined>(x as Parameters<typeof C.from>[1]);
+expectTypeOf<Parameters<NonNullable<C['modify']>>>().toEqualTypeOf<
+  [[number, string], { num: number; str: string }]
+>();
 
-// @use c = C.from(() => ...)
-expectType<Thunk>(x as Parameters<typeof C.from>[0]);
-expectType<UnknownFn>(x as Parameters<typeof C.from>[0]);
+C.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
+C.from({}, () => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
 
 export class UsageC {
   @use cUse = C.from(() => ({ positional: [1, 'two'], named: { num: 3, str: 'four' } }));
@@ -64,3 +61,25 @@ export class UsageC {
 
 expectType<C>(new UsageC().cUse);
 expectType<C>(new UsageC().cThis);
+
+// @use c = C.from(() => ...)
+expectTypeOf<Thunk>().toMatchTypeOf<Parameters<typeof C.from>[0]>();
+
+/**
+ * Userland Generics
+ */
+export class D<Element = unknown> extends Resource<{ Positional: Element[] }> {
+  d = 'd';
+}
+
+expectTypeOf<ArgsFrom<D<number>>>().toEqualTypeOf<{ Positional: number[] }>();
+
+// @ts-expect-error no string is allowed
+D.from<D<number>>(() => [1, 'two']);
+// Unfortunately, we can't infer much here, so we kinda have anything allowed
+D.from(() => ({ positional: [1, 'two'] }));
+// @ts-expect-error but we can at least know that we want positional, and not named
+D.from(() => ({ named: { foo: 2 } }));
+
+D.from<D<number>>(() => ({ positional: [1, 2] }));
+D.from<D<number>>({}, () => ({ positional: [1, 2] }));

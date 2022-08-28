@@ -44,7 +44,7 @@ module('Core | Resource | js', function (hooks) {
   });
 
   test('destroyables are correct', async function (assert) {
-    class Doubler extends Resource {
+    class Doubler extends Resource<{ positional: [number] }> {
       constructor(owner: Owner) {
         super(owner);
 
@@ -143,7 +143,7 @@ module('Core | Resource | js', function (hooks) {
     class Test {
       dataArray = TestResource.from(this, () => []);
       dataVoid = TestResource.from(this, () => {});
-      dataOmitted = TestResource.from(this);
+      dataOmitted = TestResource.from(this, () => ({}));
       @use dataWithUse = TestResource.from(() => []);
     }
 
