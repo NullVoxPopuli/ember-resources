@@ -8,10 +8,10 @@ const isEmpty = (x: undefined | unknown | unknown[]) => {
   if (typeof x === 'object') {
     if (x === null) return true;
 
-    return x || Object.keys(x).length > 0;
+    return Object.keys(x).length === 0;
   }
 
-  return Boolean(x);
+  return x !== 0 && !x;
 };
 
 interface Options<T = unknown> {
