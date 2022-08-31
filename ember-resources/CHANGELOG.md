@@ -1,3 +1,10 @@
+## [5.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.0...v5.3.1) (2022-08-31)
+
+
+### Bug Fixes
+
+* **util, keepLatest:** improve isEmpty internal util logic ([3b9d753](https://github.com/NullVoxPopuli/ember-resources/commit/3b9d7539a2a0b9a8011e9a01f96ec1879cc65e25))
+
 # [5.3.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.2.2...v5.3.0) (2022-08-28)
 
 
