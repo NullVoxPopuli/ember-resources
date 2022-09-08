@@ -1,3 +1,10 @@
+## [5.3.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.1...v5.3.2) (2022-09-08)
+
+
+### Bug Fixes
+
+* **Resource:** class-based resource had no inference on the thunk ([e3900f7](https://github.com/NullVoxPopuli/ember-resources/commit/e3900f7a2663212913f81de912138eb37b50c168))
+
 ## [5.3.1](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.0...v5.3.1) (2022-08-31)
 
 
