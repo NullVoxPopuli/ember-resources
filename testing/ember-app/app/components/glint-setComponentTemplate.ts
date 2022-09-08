@@ -15,7 +15,7 @@ export default class GlintTest extends Component {
   clock = clock;
   overInvalidatingClock = overInvalidatingClock;
 
-  calculator = Calculator.from(this);
+  calculator = Calculator.from(this, () => ({}));
   doubler = Doubler.from(this, () => [this.input]);
 
   decoratorLess = resource(this, () => {

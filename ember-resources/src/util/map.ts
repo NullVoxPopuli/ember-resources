@@ -3,6 +3,8 @@ import { assert } from '@ember/debug';
 
 import { Resource } from '../core/class-based';
 
+import type { Named, Positional } from '../core/types';
+
 /**
  * Public API of the return value of the [[map]] resource.
  */
@@ -178,11 +180,15 @@ export function map<Element = unknown, MapTo = unknown>(
 ) {
   let { data, map } = options;
 
-  let resource = TrackedArrayMap.from(destroyable, () => {
+  /**
+   * The passing here is hacky, but required until the min-supported
+   * typescript version is 4.7
+   */
+  let resource = TrackedArrayMap.from<TrackedArrayMap<Element, MapTo>>(destroyable, () => {
     let reified = data();
 
     return { positional: [reified], named: { map } };
-  }) as TrackedArrayMap<Element, MapTo>;
+  });
 
   /**
    * This is what allows square-bracket index-access to work.
@@ -208,10 +214,12 @@ export function map<Element = unknown, MapTo = unknown>(
   }) as unknown as MappedArray<MapTo>;
 }
 
-type PositionalArgs<E = unknown> = [E[]];
-interface NamedArgs<E = unknown, Result = unknown> {
-  map: (element: E) => Result;
-}
+type Args<E = unknown, Result = unknown> = {
+  Positional: [E[]];
+  Named: {
+    map: (element: E) => Result;
+  };
+};
 
 const AT = Symbol('__AT__');
 
@@ -219,10 +227,7 @@ const AT = Symbol('__AT__');
  * @private
  */
 export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
-  extends Resource<{
-    positional: PositionalArgs<Element>;
-    named: NamedArgs<Element, MappedTo>;
-  }>
+  extends Resource<Args<Element, MappedTo>>
   implements MappedArray<MappedTo>
 {
   // Tells TS that we can array-index-access
@@ -233,7 +238,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
   @tracked private declare _records: (Element & object)[];
   @tracked private declare _map: (element: Element) => MappedTo;
 
-  modify([data]: PositionalArgs<Element>, { map }: NamedArgs<Element, MappedTo>) {
+  modify([data]: Positional<Args<Element, MappedTo>>, { map }: Named<Args<Element, MappedTo>>) {
     assert(
       `Every entry in the data passed ta \`map\` must be an object.`,
       data.every((datum) => typeof datum === 'object')
