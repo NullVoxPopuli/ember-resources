@@ -102,3 +102,33 @@ export class Doubler extends Resource<{ positional: [number] }> {
 
 Doubler.from(() => [1]);
 Doubler.from({}, () => [2]);
+
+
+/**
+  * With named arguments only
+  */
+
+
+type DArgs = {
+  Named: {
+    /**
+     * How do I test / assert JSDoc is carried?
+     * (it is, but I can't prove it)
+     * docs?
+     */
+    num: number;
+    str: string;
+  };
+};
+
+export class D extends Resource<DArgs> {
+  d = 'd';
+}
+
+expectTypeOf<D['modify']>().parameters.toEqualTypeOf<[Positional<DArgs>, Named<DArgs>]>();
+expectTypeOf<ArgsFrom<D>>().toEqualTypeOf<DArgs>();
+
+D.from(() => ({ named: { num: 2, str: 'hi' } }));
+D.from(() => ({ num: 2, str: 'hi' }));
+D.from({}, () => ({ named: { num: 2, str: 'hi' } }));
+
