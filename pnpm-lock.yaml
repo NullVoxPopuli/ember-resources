@@ -48,21 +48,21 @@ importers:
 
   docs:
     specifiers:
-      typedoc: ^0.23.0
-      typedoc-github-wiki-theme: ^1.0.0
+      typedoc: ^0.23.14
+      typedoc-github-wiki-theme: ^1.0.1
       typedoc-gitlab-wiki-theme: ^1.0.0
-      typedoc-plugin-markdown: ^3.11.11
+      typedoc-plugin-markdown: ^3.13.6
       typedoc-plugin-markdown-pages: ^0.3.0
       typedoc-plugin-mdn-links: ^2.0.0
-      typescript: ^4.7.3
+      typescript: ^4.8.3
     devDependencies:
-      typedoc: 0.23.1_typescript@4.7.4
-      typedoc-github-wiki-theme: 1.0.0_dbvkmthtwuwnb7hvilvmbrci24
-      typedoc-gitlab-wiki-theme: 1.0.0_dbvkmthtwuwnb7hvilvmbrci24
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
+      typedoc: 0.23.14_typescript@4.8.3
+      typedoc-github-wiki-theme: 1.0.1_i2vfts5viz3vfeyauickv6xvlm
+      typedoc-gitlab-wiki-theme: 1.0.0_i2vfts5viz3vfeyauickv6xvlm
+      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
       typedoc-plugin-markdown-pages: 0.3.0
-      typedoc-plugin-mdn-links: 2.0.0_typedoc@0.23.1
-      typescript: 4.7.4
+      typedoc-plugin-mdn-links: 2.0.0_typedoc@0.23.14
+      typescript: 4.8.3
 
   ember-resources:
     specifiers:
@@ -11032,7 +11032,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.16.1
+      uglify-js: 3.17.0
 
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
@@ -12124,6 +12124,10 @@ packages:
     resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
     dev: true
 
+  /jsonc-parser/3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
+    dev: true
+
   /jsonfile/2.4.0:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
     optionalDependencies:
@@ -12641,6 +12645,12 @@ packages:
 
   /marked/4.0.17:
     resolution: {integrity: sha512-Wfk0ATOK5iPxM4ptrORkFemqroz0ZDxp5MWfYA7H/F+wO17NRWV5Ypxi6p3g2Xmw2bKeiYOl6oVnLHKxBA0VhA==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: true
+
+  /marked/4.1.0:
+    resolution: {integrity: sha512-+Z6KDjSPa6/723PQYyc1axYZpYYpDnECDaU6hkaf5gqBieBkMKYReL5hteF2QizhlMbgbo8umXl/clZ67+GlsA==}
     engines: {node: '>= 12'}
     hasBin: true
     dev: true
@@ -15022,12 +15032,12 @@ packages:
     resolution: {integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==}
     dev: true
 
-  /shiki/0.10.1:
-    resolution: {integrity: sha512-VsY7QJVzU51j5o1+DguUd+6vmCmZ5v/6gYu4vyYAhzjuNQU6P/vmSy4uQaOhvje031qQMiW0d2BwgMH52vqMng==}
+  /shiki/0.11.1:
+    resolution: {integrity: sha512-EugY9VASFuDqOexOgXR18ZV+TbFrQHeCpEYaXamO+SZlsnT/2LxuLBX25GGtIrwaEVFXUAbUQ601SWE2rMwWHA==}
     dependencies:
-      jsonc-parser: 3.0.0
+      jsonc-parser: 3.2.0
       vscode-oniguruma: 1.6.2
-      vscode-textmate: 5.2.0
+      vscode-textmate: 6.0.0
     dev: true
 
   /side-channel/1.0.4:
@@ -16255,59 +16265,59 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typedoc-github-wiki-theme/1.0.0_dbvkmthtwuwnb7hvilvmbrci24:
-    resolution: {integrity: sha512-8ZuRBSTq15j7oTCMRAiZV3t7KH+Y6tOXkEcyRj5HUEwCgd08DCfXpSrLHjXc83MlvvGi+16n7LuXK17NkEjf/g==}
+  /typedoc-github-wiki-theme/1.0.1_i2vfts5viz3vfeyauickv6xvlm:
+    resolution: {integrity: sha512-FaO7fENGK6IJLpkddbNXxJfNbooF9KBC7xfk7Lj4uqG5SCC7YQFPTLDyNmbpJKO93QEenRYgqBwI5E5d/bKrHw==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.23.1_typescript@4.7.4
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
+      typedoc: 0.23.14_typescript@4.8.3
+      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
     dev: true
 
-  /typedoc-gitlab-wiki-theme/1.0.0_dbvkmthtwuwnb7hvilvmbrci24:
+  /typedoc-gitlab-wiki-theme/1.0.0_i2vfts5viz3vfeyauickv6xvlm:
     resolution: {integrity: sha512-R9qWKh2EUcMr5ySweSqEIYzBZE9Pw3t3sLN8NzyrSo5SNNmcbt/oKMOyTKdoOpn3DzMqMRRxzujtx+xJ+Mt4Qg==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
-      typedoc: 0.23.1_typescript@4.7.4
-      typedoc-plugin-markdown: 3.11.11_typedoc@0.23.1
+      typedoc: 0.23.14_typescript@4.8.3
+      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
     dev: true
 
   /typedoc-plugin-markdown-pages/0.3.0:
     resolution: {integrity: sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==}
     dev: true
 
-  /typedoc-plugin-markdown/3.11.11_typedoc@0.23.1:
-    resolution: {integrity: sha512-LyephgG2yHiSqJppuDVKy3dPLSbzP+ke/VBxGvH4I/+31NXzuEhLFhxx/X4UMqzh2XbUB44ttABtGd11biKr4Q==}
+  /typedoc-plugin-markdown/3.13.6_typedoc@0.23.14:
+    resolution: {integrity: sha512-ISSc9v3BK7HkokxSBuJPttXox4tJ6hP0N9wfSIk0fmLN67+eqtAxbk97gs2nDiuha+RTO5eW9gdeAb+RPP0mgg==}
     peerDependencies:
-      typedoc: '>=0.22.0'
+      typedoc: '>=0.23.0'
     dependencies:
       handlebars: 4.7.7
-      typedoc: 0.23.1_typescript@4.7.4
+      typedoc: 0.23.14_typescript@4.8.3
     dev: true
 
-  /typedoc-plugin-mdn-links/2.0.0_typedoc@0.23.1:
+  /typedoc-plugin-mdn-links/2.0.0_typedoc@0.23.14:
     resolution: {integrity: sha512-IGLuelXPOenGdmklr5DHgPPf/MfZj7aEYCxCMtPN8C1D0lA7w0YLahd0jhDDcOMU7zL1EPcM5pPnhZHltDhqGQ==}
     peerDependencies:
       typedoc: 0.22.x || 0.23.x
     dependencies:
-      typedoc: 0.23.1_typescript@4.7.4
+      typedoc: 0.23.14_typescript@4.8.3
     dev: true
 
-  /typedoc/0.23.1_typescript@4.7.4:
-    resolution: {integrity: sha512-6Lb8E+RTEUPzdPUNugQQTOQYccq0iSfZgZ875fzSynByJWC7RbKNwLIx0Osv8pcJyiByy3jH/wdZR0tajuijLQ==}
+  /typedoc/0.23.14_typescript@4.8.3:
+    resolution: {integrity: sha512-s2I+ZKBET38EctZvbXp2GooHrNaKjWZkrwGEK/sttnOGiKJqU0vHrsdcwLgKZGuo2aedNL3RRPj1LnAAeYscig==}
     engines: {node: '>= 14.14'}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
       lunr: 2.3.9
-      marked: 4.0.17
+      marked: 4.1.0
       minimatch: 5.1.0
-      shiki: 0.10.1
-      typescript: 4.7.4
+      shiki: 0.11.1
+      typescript: 4.8.3
     dev: true
 
   /typescript-memoize/1.1.0:
@@ -16325,6 +16335,12 @@ packages:
     hasBin: true
     dev: true
 
+  /typescript/4.8.3:
+    resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
   /ua-parser-js/1.0.2:
     resolution: {integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==}
     dev: true
@@ -16333,8 +16349,8 @@ packages:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
     dev: true
 
-  /uglify-js/3.16.1:
-    resolution: {integrity: sha512-X5BGTIDH8U6IQ1TIRP62YC36k+ULAa1d59BxlWvPUJ1NkW5L3FwcGfEzuVvGmhJFBu0YJ5Ge25tmRISqCmLiRQ==}
+  /uglify-js/3.17.0:
+    resolution: {integrity: sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
@@ -16587,8 +16603,8 @@ packages:
     resolution: {integrity: sha512-KH8+KKov5eS/9WhofZR8M8dMHWN2gTxjMsG4jd04YhpbPR91fUj7rYQ2/XjeHCJWbg7X++ApRIU9NUwM2vTvLA==}
     dev: true
 
-  /vscode-textmate/5.2.0:
-    resolution: {integrity: sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==}
+  /vscode-textmate/6.0.0:
+    resolution: {integrity: sha512-gu73tuZfJgu+mvCSy4UZwd2JXykjK9zAZsfmDeut5dx/1a7FeTk0XwJsSuqQn+cuMCGVbIBfl+s53X4T19DnzQ==}
     dev: true
 
   /vscode-uri/3.0.3:
