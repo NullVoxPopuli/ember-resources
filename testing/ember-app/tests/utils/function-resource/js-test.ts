@@ -1,5 +1,7 @@
 import { tracked } from '@glimmer/tracking';
+import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
+import Service from '@ember/service';
 import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -254,6 +256,39 @@ module('Utils | resource | js', function (hooks) {
       await settled();
 
       assert.verifySteps(['resolved 1', 'resolved 2', 'resolved 3']);
+    });
+  });
+
+  module('with owner', function (hooks) {
+    class TestService extends Service {
+      @tracked count = 1;
+    }
+
+    class Test {
+      // @use is required if a primitive is returned
+      @use data = resource(({ owner }) => {
+        const test = owner.lookup('service:test') as TestService;
+
+        return test.count;
+      });
+    }
+
+    hooks.beforeEach(function () {
+      this.owner.register('service:test', TestService);
+    });
+
+    test('basics', function (assert) {
+      const testService = this.owner.lookup('service:test') as TestService;
+
+      let test = new Test();
+
+      setOwner(test, this.owner);
+
+      assert.strictEqual(test.data, 1);
+
+      testService.count = 2;
+
+      assert.strictEqual(test.data, 2);
     });
   });
 });

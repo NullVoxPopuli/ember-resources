@@ -1,3 +1,5 @@
+import type Owner from '@ember/owner';
+
 export const INTERMEDIATE_VALUE = '__Intermediate_Value__';
 export const INTERNAL = '__INTERNAL__';
 
@@ -32,6 +34,7 @@ export type Hooks = {
      */
     cleanup: (destroyer: Destructor) => void;
   };
+  owner: Owner;
 };
 
 /**
