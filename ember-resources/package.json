@@ -16,6 +16,7 @@
     "./util/cell": "./dist/util/cell.js",
     "./util/keep-latest": "./dist/util/keep-latest.js",
     "./util/map": "./dist/util/map.js",
+    "./util/ref": "./dist/util/ref.js",
     "./util/helper": "./dist/util/helper.js",
     "./util/remote-data": "./dist/util/remote-data.js",
     "./util/debounce": "./dist/util/debounce.js",
@@ -49,6 +50,9 @@
       ],
       "util/map": [
         "dist/util/map.d.ts"
+      ],
+      "util/ref": [
+        "dist/util/ref.d.ts"
       ],
       "util/helper": [
         "dist/util/helper.d.ts"
@@ -140,6 +144,8 @@
     "@types/ember__runloop": "^4.0.1",
     "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
+    "browserslist": "^4.21.3",
+    "caniuse-lite": "^1.0.30001393",
     "ember-async-data": "^0.6.0",
     "ember-template-lint": "3.16.0",
     "eslint": "^7.32.0",
