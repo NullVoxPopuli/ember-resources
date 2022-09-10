@@ -4,16 +4,13 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { resource } from '../core/function-based';
 
 type Fn<Return = unknown> = () => Return;
-interface Linkable {
-  link: (parent: )
-}
 
 class State {
-  static create(factory: Fn) {
+  static create(factory: Fn<object>) {
     const refcount = new State(factory);
 
     return {
-      link(parent) {
+      link(parent: object) {
         associateDestroyableChild(parent, refcount);
 
         return refcount;
@@ -22,16 +19,17 @@ class State {
   }
 
   #refcount = 0;
-  #factory: Fn;
-  #instance: null | State = null;
+  #factory: Fn<object>;
+  #instance: null | object = null;
 
-  constructor(factory: Fn) {
+  constructor(factory: Fn<object>) {
     this.#factory = factory;
   }
 
   clone() {
     if (this.#refcount++ === 0) {
-      this.#instance = this.#factory().link(this);
+      this.#instance = this.#factory();
+      associateDestroyableChild(this, this.#instance);
     }
 
     assert(
@@ -57,7 +55,7 @@ class State {
 export class RefcountInstance {
   #value;
 
-  constructor(instance: State, callback: Fn) {
+  constructor(instance: object, callback: Fn) {
     this.#value = instance;
 
     registerDestructor(this, callback);
@@ -79,12 +77,14 @@ export class RefcountInstance {
  * is setup, but it is not torn down until the last accessor is
  * turn down.
  */
-export function RefCount(callback: Fn) {
-  let state = State.create(callback);
+export function RefCount(this: object, callback: Fn<object>) {
+  let state = State.create(callback).link(this);
 
   return resource(({ on }) => {
+    let value = state.clone();
+
     on.cleanup(() => destroy(state));
 
-    return () => state;
+    return value;
   });
 }
