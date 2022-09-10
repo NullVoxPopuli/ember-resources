@@ -1,6 +1,5 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
-import { setOwner } from '@ember/application';
 import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
@@ -43,8 +42,6 @@ class FunctionResourceManager {
 
       let currentFn = thisFn.bind(null);
 
-      setOwner(currentFn, this.owner);
-
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
@@ -54,6 +51,7 @@ class FunctionResourceManager {
             registerDestructor(currentFn, destroyer);
           },
         },
+        owner: this.owner,
       });
 
       return maybeValue;

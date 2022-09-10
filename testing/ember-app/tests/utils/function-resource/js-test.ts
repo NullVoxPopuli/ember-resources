@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-import { getOwner, setOwner } from '@ember/application';
+import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
 import Service from '@ember/service';
 import { settled } from '@ember/test-helpers';
@@ -8,7 +8,6 @@ import { setupTest } from 'ember-qunit';
 
 import { resource, use } from 'ember-resources';
 
-import type Owner from '@ember/owner';
 import type QUnit from 'qunit';
 
 module('Utils | resource | js', function (hooks) {
@@ -267,8 +266,8 @@ module('Utils | resource | js', function (hooks) {
 
     class Test {
       // @use is required if a primitive is returned
-      @use data = resource(() => {
-        const test = (getOwner(this) as Owner).lookup('service:test') as TestService;
+      @use data = resource(({ owner }) => {
+        const test = owner.lookup('service:test') as TestService;
 
         return test.count;
       });
