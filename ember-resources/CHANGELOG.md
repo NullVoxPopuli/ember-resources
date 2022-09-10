@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.2...v5.4.0) (2022-09-10)
+
+
+### Features
+
+* owner is now available to function-based resources ([410bbf4](https://github.com/NullVoxPopuli/ember-resources/commit/410bbf4fe73dfb04fb0b9192141a547795884c51))
+
 ## [5.3.2](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.1...v5.3.2) (2022-09-08)
 
 
