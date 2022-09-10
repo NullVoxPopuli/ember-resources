@@ -118,6 +118,23 @@ declare const __ResourceArgs__: unique symbol;
  *
  * This way, consumers only need one import.
  *
+ * If your resource may be used with other resources in the same file,
+ * class-based resources also work with [[use]], which gives the benefit of
+ * omitting the `this` parameter to `from`.
+ *
+ * ```js
+ * import { use } from 'ember-resources';
+ * import { MyResource } from './somewhere';
+ * import { SomeRequest } from './somewhere-else';
+ * import { WebSocket } from './connection';
+ *
+ * class ContainingClass {
+ *   @use state = MyResource.from(() => [...])
+ *   @use request = SomeRequest.from(() => [...])
+ *   @use socket = WebSocket.from(() => [...])
+ * }
+ * ```
+ *
  */
 export class Resource<Args = unknown> {
   /**
@@ -278,6 +295,32 @@ export class Resource<Args = unknown> {
   /**
    * this lifecycle hook is called whenever arguments to the resource change.
    * This can be useful for calling functions, comparing previous values, etc.
+   *
+   * the two arguments, `positional`, and `named` will always be present, and
+   * can be assigned to properties on the class to use derived-from-args patterns.
+   * For example,
+   * ```js
+   * export class MyResource extends Resource {
+   *   modify(positional, named) {
+   *     this.positional = positional;
+   *     this.named = named;
+   *   }
+   *
+   *   get foo() {
+   *     return this.named.foo;
+   *   }
+   * }
+   * ```
+   * both the `positional` and `named` properties don't need to be tracked, because the
+   * objects they are set to are tracked internally -- and between `modify` calls,
+   * they are actually the same object. So in this example, after the first time `modify`
+   * is called, any subsequent calls to `modify` will be no-ops.
+   *
+   * This strategy is good for fine-grained reactivity in your resource because it allows
+   * your args to be individually consumed as needed. In the above example, accessing `foo`
+   * will entangle with the named arg, foo, so when that named arg changes, updates to your UI
+   * accessing MyResource's foo getter will also update, accordingly.
+   *
    */
   modify?(positional: Positional<Args>, named: Named<Args>): void;
 }
