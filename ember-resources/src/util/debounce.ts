@@ -15,8 +15,8 @@ class TrackedValue<T> {
  * property and you want to derive data less frequently than on
  * each keystroke.
  *
- * Note that this utility requires the @use decorator
- * (debounce could be implemented without the need for the @use decorator
+ * Note that this utility requires the `@use` decorator
+ * (debounce could be implemented without the need for the `@use` decorator
  * but the current implementation is 8 lines)
  *
  * @example
