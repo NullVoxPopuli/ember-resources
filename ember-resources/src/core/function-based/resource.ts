@@ -12,7 +12,21 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  * `resource` is an alternative API to the class-based `Resource`.
  * It may provide a single read-only value and provides a way to optionally cleanup.
  *
- * See: [[Hooks]] for the API provided to the function passed to `resource`
+ * Arguments passed to the `resource` function:
+ * ```js
+ *  resource(
+ *    ({
+ *      // provided callback functions:
+ *      //  - `cleanup`
+ *      on,
+ *
+ *      // used for accessing services, etc on the app/engine owner instance
+ *      owner
+ *    }) => {
+ *      // ✂️  resource body ✂️
+ *    }
+ *  );
+ *  ```
  *
  * When would you reach for the class-based `Resource`?
  *  - the capabilities of the function-based resource and class-based resource are identical,
@@ -59,8 +73,6 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  *    })
  *  }
  *  ```
- *
- *  @param {(hooks: Hooks) => Value | (() => Value)} setup
  */
 export function resource<Value>(setup: ResourceFunction<Value>): Value;
 
