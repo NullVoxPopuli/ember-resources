@@ -10,11 +10,14 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
 
 /**
  * `resource` is an alternative API to the class-based `Resource`.
- * It provides a single read-only value and provides a way to optionally cleanup.
+ * It may provide a single read-only value and provides a way to optionally cleanup.
+ *
+ * See: [[Hooks]] for the API provided to the function passed to `resource`
  *
  * When would you reach for the class-based `Resource`?
- *  - If you want to provide some api that has methods (so that you can manage binding, etc).
- *  - If you want service injections
+ *  - the capabilities of the function-based resource and class-based resource are identical,
+ *    with the exception that function-based resources may represent a single value, rather than
+ *    an object with properties/methods (the only option with class-based resources)
  *
  * A function-resource
  *  - _must_ return a value.
@@ -56,6 +59,8 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  *    })
  *  }
  *  ```
+ *
+ *  @param {(hooks: Hooks) => Value | (() => Value)} setup
  */
 export function resource<Value>(setup: ResourceFunction<Value>): Value;
 
