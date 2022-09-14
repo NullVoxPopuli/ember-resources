@@ -85,7 +85,7 @@ class ResourceInvokerManager {
  *
  * _App-devs / consumers may not ever need to know this utility function exists_
  *
- *  Example using strict mode + <template> syntax and a template-only component:
+ *  Example using strict mode + `<template>` syntax and a template-only component:
  *  ```js
  *  import { resource, resourceFactory } from 'ember-resources';
  *
