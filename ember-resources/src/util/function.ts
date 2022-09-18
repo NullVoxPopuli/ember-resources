@@ -15,33 +15,14 @@ type NotFunction<T> = T extends Function ? never : T;
 type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
 
 /**
- * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
- *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Function} theFunction the function to run with the return value available on .value
- */
-export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
-
-/**
- * For use in the body of a class.
- * Constructs a cached Resource that will reactively respond to tracked data changes
- *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
- * @param {Function} theFunction the function to run with the return value available on .value
- */
-export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
-
-/**
- * _A wrapper around [[resource]]_
+ * _An example utilty that uses [[resource]]_
  *
  * Any tracked data accessed in a tracked function _before_ an `await`
  * will "entangle" with the function -- we can call these accessed tracked
  * properties, the "tracked prelude". If any properties within the tracked
  * payload  change, the function will re-run.
  *
- * ```jsx gjs
+ * ```js
  * import Component from '@glimmer/component';
  * import { tracked } from '@glimmer/tracking';
  * import { trackedFunction }  from 'ember-resources/util/function';
@@ -74,7 +55,59 @@ export function trackedFunction<Return>(...passed: WithInitialValue<Return>): St
  * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
  *
  *
+ * @param {Object} destroyable context, e.g.: component instance aka "this"
+ * @param {Function} theFunction the function to run with the return value available on .value
  */
+export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
+
+/**
+ * _An example utilty that uses [[resource]]_
+ *
+ * Any tracked data accessed in a tracked function _before_ an `await`
+ * will "entangle" with the function -- we can call these accessed tracked
+ * properties, the "tracked prelude". If any properties within the tracked
+ * payload  change, the function will re-run.
+ *
+ * The optional initial values can be used to provide a nicer fallback than "null"
+ *
+ * ```js
+ * import Component from '@glimmer/component';
+ * import { tracked } from '@glimmer/tracking';
+ * import { trackedFunction }  from 'ember-resources/util/function';
+ *
+ * class Demo extends Component {
+ *   @tracked id = 1;
+ *
+ *   request = trackedFunction(this, { initial value here }, async () => {
+ *     let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
+ *     let data = await response.json();
+ *
+ *     return data; // { name: 'Luke Skywalker', ... }
+ *   });
+ *
+ *   updateId = (event) => this.id = event.target.value;
+ *
+ *   // Renders "Luke Skywalker"
+ *   <template>
+ *     {{this.request.value.name}}
+ *
+ *     <input value={{this.id}} {{on 'input' this.updateId}}>
+ *   </template>
+ * }
+ * ```
+ * _Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]
+ *
+ * Also note that after an `await`, the `this` context should not be accessed as it could lead to
+ * destruction/timing issues.
+ *
+ * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
+ *
+ * @param {Object} destroyable context, e.g.: component instance aka "this"
+ * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
+ * @param {Function} theFunction the function to run with the return value available on .value
+ */
+export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
+
 export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) {
   let [context] = passedArgs;
   let initialValue: Return | undefined;
