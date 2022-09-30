@@ -27,7 +27,7 @@ type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 /**
  * The `@use` decorator has two responsibilities
  *    - abstract away the underlying reactivity configuration (invokeHelper)
- *       - by doing this, we get destruction-association properly cofigured so that
+ *       - by doing this, we get destruction-association properly configured so that
  *         when the host class is destroyed, if the resource has a destructor, it
  *         will be called during destruction
  *    - allows the return value of the resource to be "the" value of the property.
