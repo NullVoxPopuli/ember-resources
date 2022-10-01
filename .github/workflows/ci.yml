@@ -1,177 +1,135 @@
 name: CI
-"on":
-  pull_request: null
+
+on:
   push:
     branches:
       - main
-  schedule:
-    - cron: "0 3 * * 0 "
+      - master
+  pull_request: {}
+
+concurrency:
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
+
 env:
   CI: true
   dist: ember-resources/dist
+
 jobs:
   install_dependencies:
-    name: Install Dependencies
-    timeout-minutes: 5
+    name: Install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-  eslint:
-    name: ESLint
-    needs:
-      - install_dependencies
-    timeout-minutes: 5
+      - uses: ./.github/actions/pnpm
+
+
+
+
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        path:
-          - ./ember-resources
-          - ./testing/ember-app
+    needs: [install_dependencies]
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-      - name: ESLint
-        run: cd ${{ matrix.path }} && pnpm run lint:js
+      - uses: ./.github/actions/pnpm
+      - name: Lint
+        run: pnpm lint
+
+
+
   commits:
     name: Commit Messages
-    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: volta-cli/action@v3
-      - uses: wagoid/commitlint-github-action@v5.0.2
+      - uses: volta-cli/action@v1
+      - uses: wagoid/commitlint-github-action@v4.1.9
+        with:
+          configFile: 'commitlint.config.cjs'
+
+
   build:
     name: Build Tests
-    needs:
-      - install_dependencies
+    needs: [install_dependencies]
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-      - name: Build and Assert Output
-        run: |-
-          echo 'target: ember-resources/dist
-          setup:
-            run: pnpm run build:js
-            cwd: ./ember-resources
-          expect: |
-            core/index.js
-            core/class-based/index.js
-            core/function-based/index.js
-            util/map.js
-            util/helper.js
-            util/debounce.js
-            util/function.js
-            util/ember-concurrency.js
-            index.js
-            index.js.map
-            index.d.ts
-          ' >> assert-contents.config.yml
-                        npx assert-folder-contents
-      - uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-  tests:
-    name: Default Tests
-    timeout-minutes: 5
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/assert-build
+
+
+  typecheck:
+    name: '${{ matrix.typescript-scenario }}'
     runs-on: ubuntu-latest
-    needs:
-      - build
-    steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-      - run: pnpm --filter ember-app run test:ember
-  floating-deps-tests:
-    name: Floating Deps Test
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    needs:
-      - build
-    steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies (without lockfile)
-        run: rm pnpm-lock.yaml && pnpm install
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-      - run: pnpm --filter ember-app run test:ember
-  try-scenarios:
-    name: ${{ matrix.ember-try-scenario }}
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    needs:
-      - tests
+    timeout-minutes: 2
+    needs: [build]
+    continue-on-error: true
     strategy:
       fail-fast: true
       matrix:
-        ember-try-scenario:
+        typescript-scenario:
+          - typescript@4.5
+          - typescript@4.6
+          - typescript@4.7
+          - typescript@4.8
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
+        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+        working-directory: ./testing/ember-app
+      - name: 'Type checking'
+      
+        run: |
+          pnpm --filter ember-app exec tsc -v;
+          pnpm --filter ember-app exec glint --version;
+          pnpm --filter ember-app exec glint;
+      
+
+  
+
+
+  default_tests:
+    name: Default Tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - run: pnpm --filter ember-app test:ember
+
+  floating_tests:
+    name: Floating Deps Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - name: Install Dependencies (without lockfile)
+        run: rm pnpm-lock.yaml && pnpm install
+      - uses: ./.github/actions/download-built-package
+      - run: pnpm --filter ember-app test:ember
+
+
+  try_scenarios:
+    name: ${{ matrix.try-scenario }}
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [default_tests]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        try-scenario:
           - ember-3.28
           - ember-4.0.0
           - ember-4.4
@@ -180,135 +138,59 @@ jobs:
           - ember-canary
           - embroider-safe
           - embroider-optimized
+
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies (without lockfile)
-        run: rm pnpm-lock.yaml && pnpm install
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-      - name: test
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - name: Run Tests
         working-directory: ./testing/ember-app
         run: >-
-          node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }}
+          node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
           --skip-cleanup
-  typescript-compatibility:
-    name: ${{ matrix.typescript-scenario }}
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    needs:
-      - build
-    strategy:
-      fail-fast: true
-      matrix:
-        typescript-scenario:
-          - typescript@4.5
-          - typescript@4.6
-          - typescript@4.7
-    steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies (without frozen lockfile)
-        run: pnpm install --no-frozen-lockfile
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-      - name: Update TS Version
-        run: pnpm add --save-dev ${{ matrix.typescript-scenario }}
-        working-directory: ./testing/ember-app
-      - name: Type checking
-        run: >-
-          pnpm --filter ember-app exec tsc -v; pnpm --filter ember-app exec
-          glint --version; pnpm --filter ember-app exec glint
+
+
+
+
   release:
     name: Release
     timeout-minutes: 5
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs:
-      - tests
-      - typescript-compatibility
-      - try-scenarios
-      - floating-deps-tests
+      - default_tests
+      - floating_tests
+      - typecheck
+      - try_scenarios
+
     steps:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
       - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
       - name: Release
         run: ./node_modules/.bin/semantic-release
         working-directory: ./ember-resources
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
   MeasureAssetSizes:
     name: Measure Asset Sizes
-    needs:
-      - build
+    runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
       - uses: volta-cli/action@v3
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.1.2
-      - name: Install Dependencies
-        run: pnpm install
-      - name: Download built package from cache
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ${{ env.dist }}
-      - name: measure asset sizes
-        run: node ./build/estimate-bytes/index.js
-      - name: comment on PR
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          path: ./build/estimate-bytes/comment.txt
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+        
+        
+
+

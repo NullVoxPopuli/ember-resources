@@ -1,0 +1,34 @@
+name: Build and Assert Assets Exists
+description: Build the package and assert that file contents exist as we expect
+runs:
+  using: "composite"
+  steps:
+  - name: Build and Assert Output
+    shell: bash
+    run: |-
+      echo '
+        target: ${{ env.dist }}
+        setup:
+          run: pnpm build:js
+          cwd: ./ember-resources
+        expect: |
+          core/index.js
+          core/class-based/index.js
+          core/function-based/index.js
+          util/map.js
+          util/helper.js
+          util/debounce.js
+          util/function.js
+          util/ember-concurrency.js
+          index.js
+          index.js.map
+          index.d.ts
+          
+      ' >> assert-contents.config.yml
+      npx assert-folder-contents
+
+  - name: Upload dist assets to cache
+    uses: actions/upload-artifact@v3
+    with:
+      name: dist
+      path: ${{ env.dist }}
