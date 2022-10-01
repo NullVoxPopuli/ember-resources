@@ -8,12 +8,10 @@ testApp: './testing/ember-app'
 
 lint:
   commits: true
-  eslint:
-    - "./ember-resources"
-    - "./testing/ember-app"
+  cmd: 'pnpm lint'
 
 build:
-  run: 'pnpm run build:js'
+  run: 'pnpm build:js'
   expect: |
     core/index.js
     core/class-based/index.js
@@ -34,9 +32,7 @@ support:
    - typescript@4.5
    - typescript@4.6
    - typescript@4.7
-   # MSW is not compatible with typescript@next
-   # - typescript@next
-
+   # - typescript@4.8
 
 release:
   semantic: true
