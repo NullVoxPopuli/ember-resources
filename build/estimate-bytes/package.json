@@ -4,7 +4,7 @@
   "type": "module",
   "devDependencies": {
     "esbuild": "^0.15.0",
-    "filesize": "^9.0.0",
+    "filesize": "^10.0.0",
     "globby": "^13.1.1",
     "gzip-cli": "^1.2.0",
     "js-yaml": "4.1.0",
