@@ -10,7 +10,7 @@
     "js-yaml": "4.1.0",
     "terser": "^5.12.1",
     "tmp-promise": "^3.0.3",
-    "yaml": "2.1.1"
+    "yaml": "2.1.2"
   },
   "volta": {
     "extends": "../../package.json"
