@@ -1,5 +1,7 @@
 import { assert } from '@ember/debug';
 
+import { resourceFactory } from './function-based';
+
 import type { Resource } from './class-based';
 import type { resource } from './function-based';
 
@@ -43,6 +45,13 @@ export function resourceBlueprint<Args extends unknown[] = unknown[], ResourceTy
 
   if (isFunctionResource(resourceDefinition)) {
     // TODO
+    //
+    // I think `resource` may need to return secret data on it to make this work.
+    if (false /* how to check arity? */) {
+      // Allows invocation with Args.
+      resourceFactory(resourceDefinition);
+      // TODO
+    }
   }
 
   assert(`Passed resourceDefinition is not a recognized resource type`);
