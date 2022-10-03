@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: volta-cli/action@v1
+      - uses: volta-cli/action@v4
       - uses: wagoid/commitlint-github-action@v4.1.9
         with:
           configFile: 'commitlint.config.cjs'
@@ -166,7 +166,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: volta-cli/action@v3
+      - uses: volta-cli/action@v4
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
       - name: Release
@@ -186,7 +186,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: volta-cli/action@v3
+      - uses: volta-cli/action@v4
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
         
