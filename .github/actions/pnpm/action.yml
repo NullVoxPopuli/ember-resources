@@ -3,7 +3,7 @@ description: Setup node and install dependencies using pnpm
 runs:
   using: "composite"
   steps:
-    - uses: volta-cli/action@v1
+    - uses: volta-cli/action@v4
     - name: Cache pnpm modules
       uses: actions/cache@v3
       with:
