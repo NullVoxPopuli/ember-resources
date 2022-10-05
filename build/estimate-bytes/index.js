@@ -6,7 +6,7 @@ import { globby } from 'globby';
 import esbuild from 'esbuild';
 import { dir as tmpDir } from 'tmp-promise';
 import { gzip } from 'gzip-cli';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
