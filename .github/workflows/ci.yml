@@ -84,14 +84,14 @@ jobs:
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
         working-directory: ./testing/ember-app
       - name: 'Type checking'
-
+      
         run: |
           pnpm --filter ember-app exec tsc -v;
           pnpm --filter ember-app exec glint --version;
           pnpm --filter ember-app exec glint;
+      
 
-
-
+  
 
 
   default_tests:
@@ -187,7 +187,12 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
-
-
+      - name: measure asset sizes
+        run: node ./build/estimate-bytes/index.js
+      - name: comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: ./build/estimate-bytes/comment.txt
+      
 
 
