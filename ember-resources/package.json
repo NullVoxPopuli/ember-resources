@@ -77,9 +77,9 @@
   ],
   "scripts": {
     "release": "semantic-release",
-    "start": "rollup -c ./config/rollup.config.js --watch",
+    "start": "rollup -c ./config/rollup.config.mjs --watch",
     "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
-    "build:js": "rollup -c ./config/rollup.config.js",
+    "build:js": "rollup -c ./config/rollup.config.mjs",
     "build:docs": "cp ../README.md ./README.md",
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
