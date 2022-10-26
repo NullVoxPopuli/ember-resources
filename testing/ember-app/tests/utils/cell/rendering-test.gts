@@ -31,4 +31,24 @@ module('Utils | cell | rendering', function (hooks) {
 
     assert.dom().hasText('1');
   });
+
+  test('it can be updated via update / set', async function (assert) {
+    let state = cell(0);
+
+    await render(<template>{{state.current}}</template>);
+
+    assert.dom().hasText('0');
+
+    state.set(10);
+    await settled();
+
+    assert.dom().hasText('10');
+
+    state.update(prev => {
+      return prev / 5
+    });
+    await settled();
+    assert.dom().hasText('2');
+
+  })
 });

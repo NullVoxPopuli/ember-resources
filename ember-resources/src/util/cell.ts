@@ -12,6 +12,10 @@ class Cell<Value = unknown> {
     }
   }
 
+  /**
+   * Toggles the value of `current` only if
+   * `current` is a boolean -- errors otherwise
+   */
   toggle = () => {
     assert(
       `toggle can only be used when 'current' is a boolean type`,
@@ -19,6 +23,21 @@ class Cell<Value = unknown> {
     );
 
     (this.current as boolean) = !this.current;
+  };
+
+  /**
+   * Updates the value of `current`
+   * by calling a function that recieves the previous value.
+   */
+  update = (updater: (prevValue: Value) => Value) => {
+    this.current = updater(this.current);
+  };
+
+  /**
+   * Updates the value of `current`
+   */
+  set = (nextValue: Value) => {
+    this.current = nextValue;
   };
 }
 
@@ -58,7 +77,7 @@ class Cell<Value = unknown> {
  */
 export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
   if (initialValue !== undefined) {
-    return new Cell(initialValue);
+    return new Cell(initialValue as Value);
   }
 
   return new Cell();
