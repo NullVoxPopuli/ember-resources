@@ -435,8 +435,6 @@ module('Utils | resource | rendering', function (hooks) {
     });
   });
 
-  module('persistent state', function () {});
-
   module('with a wrapper', function () {
     test('lifecycle', async function (assert) {
       const Wrapper = (initial: number) => {

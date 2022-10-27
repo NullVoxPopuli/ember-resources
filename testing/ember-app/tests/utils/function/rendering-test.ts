@@ -40,6 +40,37 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     assert.dom('out').hasText('2');
   });
 
+  test('it is retryable', async function (assert) {
+    let count = 0;
+
+    class Test extends Component {
+      data = trackedFunction(this, () => {
+        assert.step(`ran trackedFunction ${count++}`);
+
+        return count;
+      });
+    }
+
+    const TestComponent = setComponentTemplate(
+      hbs`
+        <out>{{this.data.value}}</out>
+        <button type='button' {{on 'click' this.data.retry}}></button>`,
+      Test
+    );
+
+    this.setProperties({ TestComponent });
+
+    await render(hbs`<this.TestComponent />`);
+
+    assert.dom('out').hasText('1');
+
+    await click('button');
+
+    assert.dom('out').hasText('2');
+
+    assert.verifySteps(['ran trackedFunction 0', 'ran trackedFunction 1']);
+  });
+
   test('async functions update when the promise resolves', async function (assert) {
     class Test extends Component {
       @tracked multiplier = 1;
