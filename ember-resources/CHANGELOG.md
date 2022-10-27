@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.4.0...v5.5.0) (2022-10-27)
+
+
+### Features
+
+* **cell:** add update method to Cell class ([b0ce96c](https://github.com/NullVoxPopuli/ember-resources/commit/b0ce96c8bf3e3ddb1fb159cf79940f65051c54c5))
+
 # [5.4.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.3.2...v5.4.0) (2022-09-10)
 
 
