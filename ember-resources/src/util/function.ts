@@ -126,25 +126,9 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
   }
 
   return resource<State<Return>>(context, (hooks) => {
-    let state = new State(initialValue);
+    let state = new State(fn, hooks, initialValue);
 
-    (async () => {
-      try {
-        let notQuiteValue = fn(hooks);
-        let promise = Promise.resolve(notQuiteValue);
-
-        waitForPromise(promise);
-
-        let result = await promise;
-
-        state.error = undefined;
-        state.resolvedValue = result;
-      } catch (e) {
-        state.error = e;
-      } finally {
-        state.isResolved = true;
-      }
-    })();
+    state.retry();
 
     return state;
   });
@@ -158,10 +142,18 @@ export class State<Value> {
   @tracked resolvedValue?: Value;
   @tracked error?: unknown;
 
-  constructor(public initialValue?: Value) {}
+  #fn: ResourceFn<Value>;
+  #hooks: Hooks;
+  #initialValue: Value | undefined;
+
+  constructor(fn: ResourceFn<Value>, hooks: Hooks, initialValue?: Value) {
+    this.#fn = fn;
+    this.#hooks = hooks;
+    this.#initialValue = initialValue;
+  }
 
   get value() {
-    return this.resolvedValue || this.initialValue || null;
+    return this.resolvedValue || this.#initialValue || null;
   }
 
   get isPending() {
@@ -175,6 +167,33 @@ export class State<Value> {
   get isError() {
     return Boolean(this.error);
   }
+
+  /**
+   * Will re-invoke the function passed to `trackedFunction`
+   * this will also re-set some properties on the `State` instance.
+   * This is the same `State` instance as before, as the `State` instance
+   * is tied to the `fn` passed to `trackedFunction`
+   *
+   * `error` or `resolvedValue` will remain as they were previously
+   * until this promise resolves, and then they'll be updated to the new values.
+   */
+  retry = async () => {
+    try {
+      let notQuiteValue = this.#fn(this.#hooks);
+      let promise = Promise.resolve(notQuiteValue);
+
+      waitForPromise(promise);
+
+      let result = await promise;
+
+      this.error = undefined;
+      this.resolvedValue = result;
+    } catch (e) {
+      this.error = e;
+    } finally {
+      this.isResolved = true;
+    }
+  };
 }
 
 /**
