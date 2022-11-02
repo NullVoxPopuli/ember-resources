@@ -1,3 +1,10 @@
+# [5.6.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.5.0...v5.6.0) (2022-11-02)
+
+
+### Features
+
+* **trackedFunction:** add a retry method ([8244049](https://github.com/NullVoxPopuli/ember-resources/commit/824404911d82185229c7b33e322789ac9a171154))
+
 # [5.5.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.4.0...v5.5.0) (2022-10-27)
 
 
