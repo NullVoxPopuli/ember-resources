@@ -94,7 +94,7 @@ importers:
       '@types/ember__runloop': ^4.0.1
       '@types/ember__test-helpers': ^2.0.0
       babel-eslint: 10.1.0
-      ember-async-data: ^0.6.0
+      ember-async-data: ^0.7.0
       ember-template-lint: 3.16.0
       eslint: ^7.32.0
       expect-type: ^0.15.0
@@ -134,7 +134,7 @@ importers:
       '@types/ember__runloop': 4.0.1
       '@types/ember__test-helpers': 2.6.1
       babel-eslint: 10.1.0_eslint@7.32.0
-      ember-async-data: 0.6.0_@babel+core@7.20.2
+      ember-async-data: 0.7.0
       ember-template-lint: 3.16.0
       eslint: 7.32.0
       expect-type: 0.15.0
@@ -2664,6 +2664,14 @@ packages:
     dependencies:
       '@embroider/shared-internals': 1.8.0
       semver: 7.3.7
+
+  /@embroider/addon-shim/1.8.3:
+    resolution: {integrity: sha512-7pyHwzT6ESXc3nZsB8rfnirLkUhQWdvj6CkYH+0MUPN74mX4rslf7pnBqZE/KZkW3uBIaBYvU8fxi0hcKC/Paw==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      '@embroider/shared-internals': 1.8.3
+      semver: 7.3.7
+    dev: true
 
   /@embroider/babel-loader-8/1.8.0_sljsvzqjupuhw3r5gcxnuxyequ:
     resolution: {integrity: sha512-ta4+Ll7XpIgJQxTGUxnU0/c+W8EYN3OuGAOpB8TICt3WmUroscNqkWkar433GLzDfh17137mw1ocMcTkJhdCDA==}
@@ -8293,17 +8301,13 @@ packages:
       - supports-color
     dev: false
 
-  /ember-async-data/0.6.0_@babel+core@7.20.2:
-    resolution: {integrity: sha512-zgE5N4DVHr9b6Hlnev6Z8zMyD7mII/ewE/6t+7eHTrshe9vwSTA6eiT5fCKmHeSob5ThU51J+Alwl2QACtsL/A==}
-    engines: {node: 12.* || >= 14}
+  /ember-async-data/0.7.0:
+    resolution: {integrity: sha512-hiHSSMXYGd4eBM+w1EYCHiIkfnTpup/mxEUeEGVMmaAAzVMjb+ACieEPx2xoZ5Wi5baswYMKIIyoKDWT69645Q==}
+    engines: {node: 14.* || 16.* || >= 18}
     dependencies:
       '@ember/test-waiters': 3.0.2
-      ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 5.7.2
-      ember-cli-typescript: 4.2.1
-      ember-destroyable-polyfill: 2.0.3_@babel+core@7.20.2
+      '@embroider/addon-shim': 1.8.3
     transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
     dev: true
 
@@ -8982,18 +8986,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
-
-  /ember-destroyable-polyfill/2.0.3_@babel+core@7.20.2:
-    resolution: {integrity: sha512-TovtNqCumzyAiW0/OisSkkVK93xnVF4NRU6+FN0ubpfwEOpRrmM2RqDwXI6YAChCgSHON1cz0DfQStpA1Gjuuw==}
-    engines: {node: 10.* || >= 12}
-    dependencies:
-      ember-cli-babel: 7.26.11
-      ember-cli-version-checker: 5.1.2
-      ember-compatibility-helpers: 1.2.6_@babel+core@7.20.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-    dev: true
 
   /ember-export-application-global/2.0.1:
     resolution: {integrity: sha512-B7wiurPgsxsSGzJuPFkpBWnaeuCu2PGpG2BjyrfA1VcL7//o+5RSnZqiCEY326y7qmxb2GoCgo0ft03KBU0rRw==}
@@ -9724,7 +9716,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.29.0_hxadhbs2xogijvk7vq4t2azzbu
+      '@typescript-eslint/parser': 5.29.0_td6yqss6ra3qoebludh4ctrhym
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
       find-up: 2.1.0
@@ -9782,7 +9774,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.29.0_hxadhbs2xogijvk7vq4t2azzbu
+      '@typescript-eslint/parser': 5.29.0_td6yqss6ra3qoebludh4ctrhym
       array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
