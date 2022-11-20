@@ -37,20 +37,6 @@ jobs:
         run: pnpm lint
 
 
-
-  commits:
-    name: Commit Messages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/pnpm
-      - uses: wagoid/commitlint-github-action@v4.1.9
-        with:
-          configFile: 'commitlint.config.cjs'
-
-
   build:
     name: Build Tests
     needs: [install_dependencies]
@@ -84,14 +70,14 @@ jobs:
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
         working-directory: ./testing/ember-app
       - name: 'Type checking'
-      
+
         run: |
           pnpm --filter ember-app exec tsc -v;
           pnpm --filter ember-app exec glint --version;
           pnpm --filter ember-app exec glint;
-      
 
-  
+
+
 
 
   default_tests:
@@ -150,7 +136,7 @@ jobs:
 
 
 
-
+  # https://github.com/changesets/action
   release:
     name: Release
     timeout-minutes: 5
@@ -168,12 +154,15 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
-      - name: Release
-        run: ./node_modules/.bin/semantic-release
-        working-directory: ./ember-resources
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
 
@@ -193,6 +182,6 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: ./build/estimate-bytes/comment.txt
-      
+
 
 

@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
+    "release": "changeset publish",
     "dev": "concurrently 'npm:dev:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "dev:ember": "pnpm run --filter ember-app start",
     "dev:addon": "pnpm run --filter ember-resources start --no-watch.clearScreen",
@@ -14,8 +15,8 @@
     "lint": "pnpm run --filter '*' lint:js --fix"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.2",
     "@nullvoxpopuli/eslint-configs": "^2.2.19",
     "concurrently": "^7.2.1",
     "eslint": "^7.32.0",
