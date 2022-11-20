@@ -7,7 +7,6 @@ addon: './ember-resources'
 testApp: './testing/ember-app'
 
 lint:
-  commits: true
   cmd: 'pnpm lint'
 
 build:
@@ -35,7 +34,7 @@ support:
    # - typescript@4.8
 
 release:
-  semantic: true
+  changeset: true
 
 extra:
   - name: Measure Asset Sizes
