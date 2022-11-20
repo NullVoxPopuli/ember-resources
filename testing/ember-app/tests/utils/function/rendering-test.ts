@@ -54,6 +54,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     const TestComponent = setComponentTemplate(
       hbs`
         <out>{{this.data.value}}</out>
+        <previous>{{this.data.previousValue}}</previous>
         <button type='button' {{on 'click' this.data.retry}}></button>`,
       Test
     );
@@ -63,10 +64,12 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     await render(hbs`<this.TestComponent />`);
 
     assert.dom('out').hasText('1');
+    assert.dom('previous').hasText('');
 
     await click('button');
 
     assert.dom('out').hasText('2');
+    assert.dom('previous').hasText('1');
 
     assert.verifySteps(['ran trackedFunction 0', 'ran trackedFunction 1']);
   });
@@ -90,6 +93,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     const TestComponent = setComponentTemplate(
       hbs`
         <out>{{this.data.value}}</out>
+        <previous>{{this.data.previousValue}}</previous>
         <button type='button' {{on 'click' this.increment}}></button>
       `,
       Test
@@ -101,15 +105,19 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
     await timeout(25);
     assert.dom('out').hasText('');
+    assert.dom('previous').hasText('');
 
     await settled();
     assert.dom('out').hasText('2');
+    assert.dom('previous').hasText('');
 
     click('button');
     await timeout(25);
     assert.dom('out').hasText('');
+    assert.dom('previous').hasText('2');
 
     await settled();
     assert.dom('out').hasText('4');
+    assert.dom('previous').hasText('2');
   });
 });

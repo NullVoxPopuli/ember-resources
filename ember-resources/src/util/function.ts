@@ -109,8 +109,9 @@ export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Retur
 export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
 
 export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) {
-  let [context] = passedArgs;
+  const [context] = passedArgs;
   let initialValue: Return | undefined;
+  let state: State<Return>;
   let fn: ResourceFn<Return>;
 
   assert(
@@ -126,9 +127,9 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
   }
 
   return resource<State<Return>>(context, (hooks) => {
-    let state = new State(fn, hooks, initialValue);
+    const previousValue = state?.resolvedValue || state?.previousResolvedValue;
 
-    state.retry();
+    state = new State(fn, hooks, initialValue, previousValue);
 
     return state;
   });
@@ -138,18 +139,27 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
  * State container that represents the asynchrony of a `trackedFunction`
  */
 export class State<Value> {
-  @tracked isResolved = false;
+  @tracked isSuccessful = false;
+  @tracked isError = false;
   @tracked resolvedValue?: Value;
   @tracked error?: unknown;
+  @tracked previousResolvedValue?: Value;
 
   #fn: ResourceFn<Value>;
   #hooks: Hooks;
   #initialValue: Value | undefined;
 
-  constructor(fn: ResourceFn<Value>, hooks: Hooks, initialValue?: Value) {
+  constructor(
+    fn: ResourceFn<Value>,
+    hooks: Hooks,
+    initialValue?: Value,
+    previousResolvedValue?: Value
+  ) {
     this.#fn = fn;
     this.#hooks = hooks;
     this.#initialValue = initialValue;
+    this.previousResolvedValue = previousResolvedValue;
+    this.retry();
   }
 
   get value() {
@@ -157,16 +167,47 @@ export class State<Value> {
   }
 
   get isPending() {
-    return !this.isResolved;
+    return !this.isError && !this.isSuccessful;
   }
 
   get isLoading() {
     return this.isPending;
   }
 
-  get isError() {
-    return Boolean(this.error);
+  get isFinished() {
+    return !this.isPending;
   }
+
+  get previousValue() {
+    return this.previousResolvedValue || this.#initialValue || null;
+  }
+
+  protected _retry = async () => {
+    try {
+      // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
+      const notQuiteValue = this.#fn(this.#hooks);
+
+      // Start a new JS thread to avoid the "modified twice in a single render" error
+      await new Promise((r) => setTimeout(r, 0));
+
+      if (this.resolvedValue !== undefined) {
+        this.previousResolvedValue = this.resolvedValue;
+      }
+
+      this.isSuccessful = false;
+      this.isError = false;
+      this.resolvedValue = undefined;
+      this.error = undefined;
+
+      const resolvedValue = await Promise.resolve(notQuiteValue);
+
+      this.resolvedValue = resolvedValue;
+      this.isSuccessful = true;
+    } catch (e) {
+      this.error = e;
+      this.isError = true;
+    }
+  };
 
   /**
    * Will re-invoke the function passed to `trackedFunction`
@@ -178,21 +219,11 @@ export class State<Value> {
    * until this promise resolves, and then they'll be updated to the new values.
    */
   retry = async () => {
-    try {
-      let notQuiteValue = this.#fn(this.#hooks);
-      let promise = Promise.resolve(notQuiteValue);
+    const promise = this._retry();
 
-      waitForPromise(promise);
+    await waitForPromise(promise);
 
-      let result = await promise;
-
-      this.error = undefined;
-      this.resolvedValue = result;
-    } catch (e) {
-      this.error = e;
-    } finally {
-      this.isResolved = true;
-    }
+    return promise;
   };
 }
 
