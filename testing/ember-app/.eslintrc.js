@@ -15,6 +15,11 @@ module.exports = {
          * any can be useful
          */
         '@typescript-eslint/no-explicit-any': 'off',
+
+        /**
+         * Some compiler errors are not helpful
+         */
+        'ts-expect-error': 'allow-with-description',
       },
     },
   ],
