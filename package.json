@@ -42,7 +42,8 @@
     },
     "peerDependencyRules": {
       "ignoreMissing": [
-        "msw"
+        "msw",
+        "ember-cli-htmlbars"
       ],
       "allowedVersions": {
         "typescript": "*"

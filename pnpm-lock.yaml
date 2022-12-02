@@ -9137,6 +9137,9 @@ packages:
     engines: {node: 12.* || >= 14}
     peerDependencies:
       ember-cli-htmlbars: ^6.0.0
+    peerDependenciesMeta:
+      ember-cli-htmlbars:
+        optional: true
     dependencies:
       babel-import-util: 0.2.0
       broccoli-stew: 3.0.0
@@ -9157,6 +9160,9 @@ packages:
     engines: {node: 12.* || >= 14}
     peerDependencies:
       ember-cli-htmlbars: ^6.0.0
+    peerDependenciesMeta:
+      ember-cli-htmlbars:
+        optional: true
     dependencies:
       babel-import-util: 0.2.0
       broccoli-stew: 3.0.0
