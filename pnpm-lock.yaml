@@ -51,15 +51,15 @@ importers:
       typedoc: ^0.23.14
       typedoc-github-wiki-theme: ^1.0.1
       typedoc-gitlab-wiki-theme: ^1.0.0
-      typedoc-plugin-markdown: ^3.13.6
+      typedoc-plugin-markdown: ^3.14.0
       typedoc-plugin-markdown-pages: ^0.3.0
       typedoc-plugin-mdn-links: ^2.0.0
       typescript: ^4.8.3
     devDependencies:
       typedoc: 0.23.14_typescript@4.8.3
-      typedoc-github-wiki-theme: 1.0.1_i2vfts5viz3vfeyauickv6xvlm
-      typedoc-gitlab-wiki-theme: 1.0.0_i2vfts5viz3vfeyauickv6xvlm
-      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
+      typedoc-github-wiki-theme: 1.0.1_57et2hidwphfm53cnhpo42c6qu
+      typedoc-gitlab-wiki-theme: 1.0.0_57et2hidwphfm53cnhpo42c6qu
+      typedoc-plugin-markdown: 3.14.0_typedoc@0.23.14
       typedoc-plugin-markdown-pages: 0.3.0
       typedoc-plugin-mdn-links: 2.0.0_typedoc@0.23.14
       typescript: 4.8.3
@@ -10814,12 +10814,12 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.7
       neo-async: 2.6.2
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.17.0
+      uglify-js: 3.17.4
 
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
@@ -12587,6 +12587,9 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+
+  /minimist/1.2.7:
+    resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==}
 
   /minipass/2.9.0:
     resolution: {integrity: sha512-wxfUjg9WebH+CUDX/CdbRlh5SmfZiy/hpkxaRI16Y9W56Pa75sWgd/rvFilSgrauD9NyFymP/+JFV3KwzIsJeg==}
@@ -15707,32 +15710,32 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typedoc-github-wiki-theme/1.0.1_i2vfts5viz3vfeyauickv6xvlm:
+  /typedoc-github-wiki-theme/1.0.1_57et2hidwphfm53cnhpo42c6qu:
     resolution: {integrity: sha512-FaO7fENGK6IJLpkddbNXxJfNbooF9KBC7xfk7Lj4uqG5SCC7YQFPTLDyNmbpJKO93QEenRYgqBwI5E5d/bKrHw==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
       typedoc: 0.23.14_typescript@4.8.3
-      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
+      typedoc-plugin-markdown: 3.14.0_typedoc@0.23.14
     dev: true
 
-  /typedoc-gitlab-wiki-theme/1.0.0_i2vfts5viz3vfeyauickv6xvlm:
+  /typedoc-gitlab-wiki-theme/1.0.0_57et2hidwphfm53cnhpo42c6qu:
     resolution: {integrity: sha512-R9qWKh2EUcMr5ySweSqEIYzBZE9Pw3t3sLN8NzyrSo5SNNmcbt/oKMOyTKdoOpn3DzMqMRRxzujtx+xJ+Mt4Qg==}
     peerDependencies:
       typedoc: '>=0.22.9'
       typedoc-plugin-markdown: '>=3.11.10'
     dependencies:
       typedoc: 0.23.14_typescript@4.8.3
-      typedoc-plugin-markdown: 3.13.6_typedoc@0.23.14
+      typedoc-plugin-markdown: 3.14.0_typedoc@0.23.14
     dev: true
 
   /typedoc-plugin-markdown-pages/0.3.0:
     resolution: {integrity: sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==}
     dev: true
 
-  /typedoc-plugin-markdown/3.13.6_typedoc@0.23.14:
-    resolution: {integrity: sha512-ISSc9v3BK7HkokxSBuJPttXox4tJ6hP0N9wfSIk0fmLN67+eqtAxbk97gs2nDiuha+RTO5eW9gdeAb+RPP0mgg==}
+  /typedoc-plugin-markdown/3.14.0_typedoc@0.23.14:
+    resolution: {integrity: sha512-UyQLkLRkfTFhLdhSf3RRpA3nNInGn+k6sll2vRXjflaMNwQAAiB61SYbisNZTg16t4K1dt1bPQMMGLrxS0GZ0Q==}
     peerDependencies:
       typedoc: '>=0.23.0'
     dependencies:
@@ -15791,8 +15794,8 @@ packages:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
     dev: true
 
-  /uglify-js/3.17.0:
-    resolution: {integrity: sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==}
+  /uglify-js/3.17.4:
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
