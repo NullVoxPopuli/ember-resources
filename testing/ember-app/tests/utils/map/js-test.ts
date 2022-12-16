@@ -9,7 +9,7 @@ module('Utils | map | js', function (hooks) {
   setupTest(hooks);
 
   class Wrapper {
-    constructor(public record: unknown) {}
+    constructor(public record: unknown, public index: number) {}
   }
 
   interface TestRecord {
@@ -40,10 +40,10 @@ module('Utils | map | js', function (hooks) {
 
           return this.records;
         },
-        map: (record) => {
+        map: (record, index) => {
           assert.step(`perform map on ${record.id}`);
 
-          return new Wrapper(record);
+          return new Wrapper(record, index);
         },
       });
     }
@@ -81,6 +81,8 @@ module('Utils | map | js', function (hooks) {
 
     assert.strictEqual(currentStuff[0].record, first, 'object equality retained');
     assert.strictEqual(currentStuff[1].record, second, 'object equality retained');
+    assert.strictEqual(currentStuff[0].index, 0, 'index is correct');
+    assert.strictEqual(currentStuff[1].index, 1, 'index is correct');
 
     instance.records = [...instance.records, testData(3)];
     assert.strictEqual(instance.stuff.length, 3, 'length adjusted');

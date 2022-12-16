@@ -3,8 +3,9 @@ import { expectType } from 'ts-expect';
 
 export const a = map(globalThis, {
   data: () => [1, 2, 3],
-  map: (element) => {
+  map: (element, index) => {
     expectType<number>(element);
+    expectType<number>(index);
 
     return element;
   },
