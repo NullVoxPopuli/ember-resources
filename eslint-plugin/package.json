@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-ember-resources",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "plugin and additional rules for ESLint to help guide usage with ember-resources",
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
