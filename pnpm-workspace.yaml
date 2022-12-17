@@ -1,5 +1,6 @@
 packages:
   - "ember-resources"
   - "docs"
+  - "eslint-plugin"
   - "testing/*"
   - "build/*"

@@ -1,0 +1,24 @@
+{
+  "name": "eslint-plugin-ember-resources",
+  "version": "1.0.0",
+  "description": "plugin and additional rules for ESLint to help guide usage with ember-resources",
+  "repository": "https://github.com/NullVoxPopuli/ember-resources",
+  "license": "MIT",
+  "author": "NullVoxPopuli",
+  "files": [],
+  "scripts": {
+
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "volta": {
+    "extends": "../package.json"
+  }
+}
