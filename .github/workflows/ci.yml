@@ -182,6 +182,7 @@ jobs:
       - name: comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: asset-sizes
           path: ./build/estimate-bytes/comment.txt
 
 
@@ -210,7 +211,9 @@ jobs:
           #  - https://github.com/NullVoxPopuli/ember-resources/issues/679
           #    - https://github.com/TypeStrong/typedoc/issues/2111
           #    - https://github.com/cloudflare/wrangler2/issues/2240
-          mv dist/functions dist/funcs && sed -i'.bak' 's/href=\"functions/href=\"funcs/g' dist/*.html
+          mv dist/functions dist/funcs  
+          # $ echo Hello sed! | sed 's/\(Hello\) sed!/\1 Linuxhint/'
+          find ./dist -type f -name '*.html' | xargs sed -i.bak --regexp-extended 's:(href="[^"]+)functions/:\1funcs/:g' 
 
       - name: Publish to Cloudflare Pages
         id: publishStep
@@ -236,9 +239,10 @@ jobs:
       - uses: ./.github/actions/download-built-package
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: preview-urls 
+          # GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
           message: |+
             ## Preview URLs
-            # GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
             docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
             api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/api/modules.html
 
