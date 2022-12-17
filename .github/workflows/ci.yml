@@ -182,7 +182,69 @@ jobs:
       - name: comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: asset-sizes
           path: ./build/estimate-bytes/comment.txt
+
+
+  PublishDocstoCloudflarePages:
+    name: Publish Docs to Cloudflare Pages
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      deployments: write
+    outputs:
+      url: ${{ steps.publishStep.outputs.url }}
+      env: ${{ steps.publishStep.outputs.environment }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - run: |
+          pnpm build:docs
+          cd docs/
+          # cloudflare broke all user's Sites that have a "functions" path.
+          # ... thanks cloudflare. you're usually such a good company :p 
+          #
+          #  - https://github.com/NullVoxPopuli/ember-resources/issues/679
+          #    - https://github.com/TypeStrong/typedoc/issues/2111
+          #    - https://github.com/cloudflare/wrangler2/issues/2240
+          mv dist/functions dist/funcs  
+          find ./dist -type f -name '*.html' | xargs sed -i.bak --regexp-extended 's:(href="[^"]+)functions/:\1funcs/:g' 
+
+      - name: Publish to Cloudflare Pages
+        id: publishStep
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ember-resources
+          directory: ./docs/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+  PostPreviewURLascommenttoPR:
+    name: Post Preview URL as comment to PR
+    runs-on: ubuntu-latest
+    needs: PublishDocstoCloudflarePages
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/download-built-package
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview-urls 
+          # GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
+          message: |+
+            ## Preview URLs
+            readme: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
+            api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/modules.html
+
 
 
 
