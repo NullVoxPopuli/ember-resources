@@ -5,6 +5,7 @@ module.exports = {
   meta: {
     docs: {
       recommended: true,
+      category: 'side-effects',
     },
   },
 };

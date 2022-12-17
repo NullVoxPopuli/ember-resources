@@ -58,7 +58,7 @@ Rules are grouped by category to help you understand their purpose. Each rule ha
 
 <!--RULES_TABLE_START-->
 
-### undefined
+### side-effects
 
 |    | Rule ID | Description |
 |:---|:--------|:------------|
