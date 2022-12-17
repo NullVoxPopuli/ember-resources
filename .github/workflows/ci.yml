@@ -212,7 +212,6 @@ jobs:
           #    - https://github.com/TypeStrong/typedoc/issues/2111
           #    - https://github.com/cloudflare/wrangler2/issues/2240
           mv dist/functions dist/funcs  
-          # $ echo Hello sed! | sed 's/\(Hello\) sed!/\1 Linuxhint/'
           find ./dist -type f -name '*.html' | xargs sed -i.bak --regexp-extended 's:(href="[^"]+)functions/:\1funcs/:g' 
 
       - name: Publish to Cloudflare Pages
@@ -243,8 +242,8 @@ jobs:
           # GH Env: ${{ needs.PublishDocstoCloudflarePages.outputs.env }}
           message: |+
             ## Preview URLs
-            docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
-            api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/api/modules.html
+            readme: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}
+            api docs: ${{ needs.PublishDocstoCloudflarePages.outputs.url }}/modules.html
 
 
 
