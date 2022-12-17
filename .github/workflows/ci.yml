@@ -218,8 +218,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ember-headless-table
-          directory: ./docs-app/dist
+          projectName: ember-resources
+          directory: ./docs/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
 
