@@ -13,5 +13,9 @@
     "target": "ESNext",
 
     "noEmit": true
-  }
+  },
+  "include": [
+    "src",
+    "tests"
+  ]
 }

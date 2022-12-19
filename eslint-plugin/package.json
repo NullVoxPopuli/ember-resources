@@ -23,6 +23,8 @@
     "update": "node ./scripts/update-rules.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/eslint-parser": "^7.19.1",
     "@nullvoxpopuli/eslint-configs": "^2.1.1",
     "@vitest/coverage-c8": "^0.25.8",
     "eslint": "^7.32.0",
