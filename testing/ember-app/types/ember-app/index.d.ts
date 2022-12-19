@@ -1,4 +1,6 @@
-// import type Ember from 'ember';
+// Types only available in 4.9+
+import 'ember-source/types';
+import 'ember-source/types/preview';
 
 import "@glint/environment-ember-loose";
 import "@glint/environment-ember-loose/native-integration";

@@ -45,7 +45,8 @@
         "msw"
       ],
       "allowedVersions": {
-        "typescript": "*"
+        "typescript": "*",
+        "ember-modifier": "4.0.0"
       }
     }
   }

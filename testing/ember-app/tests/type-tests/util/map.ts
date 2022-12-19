@@ -10,5 +10,5 @@ export const a = map(globalThis, {
   },
 });
 
-expectType<number>(a[0]);
-expectType<number>(a.values()[0]);
+expectType<number | undefined>(a[0]);
+expectType<number | undefined>(a.values()[0]);

@@ -15,7 +15,9 @@ module('Utils | helper | js', function (hooks) {
     class Test {
       @tracked count = 1;
 
-      _doubler = emberHelper(([num]: number[]) => num * 2);
+      // legacy helpers appropriately add | undefined to their positional args
+      // when *inferring* a signature
+      _doubler = emberHelper(([num]: number[]) => (num || -100) * 2);
 
       doubler = helper(this, this._doubler, () => [this.count]);
     }

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { setComponentTemplate } from '@ember/component';
 import { click, render, settled } from '@ember/test-helpers';
+import { on } from '@ember/modifier';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -20,18 +20,17 @@ module('Utils | trackedFunction | rendering', function (hooks) {
         return this.count;
       });
       increment = () => this.count++;
+
+      <template>
+        <out>{{this.data.value}}</out>
+        <button type='button' {{on 'click' this.increment}}></button>
+      </template>
     }
 
-    const TestComponent = setComponentTemplate(
-      hbs`
-        <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>`,
-      Test
-    );
 
-    this.setProperties({ TestComponent });
-
-    await render(hbs`<this.TestComponent />`);
+    await render(<template>
+                  <Test />
+                </template>);
 
     assert.dom('out').hasText('1');
 

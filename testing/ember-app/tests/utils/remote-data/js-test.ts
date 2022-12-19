@@ -18,7 +18,7 @@ module('Utils | remote-data | js', function (hooks) {
   setupTest(hooks);
   setupMSW(hooks, ({ rest }) => [
     rest.get('/blogs/:id', (req, res, ctx) => {
-      let record = data.find((datum) => datum.id === req.params.id);
+      let record = data.find((datum) => datum.id === req.params['id']);
 
       if (record) {
         let extra: Record<string, unknown> = {};
