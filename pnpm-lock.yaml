@@ -152,11 +152,10 @@ importers:
       '@embroider/webpack': ^1.6.0
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
-      '@glint/config': ^0.8.3
-      '@glint/core': ^0.8.3
-      '@glint/environment-ember-loose': ^0.8.3
-      '@glint/environment-ember-template-imports': ^0.8.2
-      '@glint/template': ^0.8.3
+      '@glint/core': ^1.0.0-beta.2
+      '@glint/environment-ember-loose': ^1.0.0-beta.2
+      '@glint/environment-ember-template-imports': ^1.0.0-beta.2
+      '@glint/template': ^1.0.0-beta.2
       '@nullvoxpopuli/eslint-configs': ^2.1.1
       '@types/ember': ^4.0.0
       '@types/ember-qunit': ^5.0.0
@@ -252,11 +251,10 @@ importers:
       '@embroider/core': 1.8.0
       '@embroider/test-setup': 1.8.0
       '@embroider/webpack': 1.8.0_emdh6iatfl7io5bi2gdfendt5q
-      '@glint/config': 0.8.3
-      '@glint/core': 0.8.3
-      '@glint/environment-ember-loose': 0.8.3_4t3bnpvykxydnsynwqohbv55ee
-      '@glint/environment-ember-template-imports': 0.8.3_gi4sussrlmqfocheorij5f5y7q
-      '@glint/template': 0.8.3_@glimmer+component@1.1.2
+      '@glint/core': 1.0.0-beta.2_typescript@4.7.4
+      '@glint/environment-ember-loose': 1.0.0-beta.2_dfquqzblwn7ruz2sr3wxx6ph3e
+      '@glint/environment-ember-template-imports': 1.0.0-beta.2_ekxzyue3zc6u3jct4p4zco5i6e
+      '@glint/template': 1.0.0-beta.2
       '@nullvoxpopuli/eslint-configs': 2.2.27_typescript@4.7.4
       '@types/ember': 4.0.0
       '@types/ember-qunit': 5.0.0
@@ -3359,8 +3357,8 @@ packages:
       '@simple-dom/interface': 1.4.0
     dev: true
 
-  /@glimmer/interfaces/0.68.1:
-    resolution: {integrity: sha512-QNsWfMe5Aob++aM+OBJOUAn6DXwNK84p7ISkzxKZYdNNgLavjI5Coo2N577I95x42h1k9fdUoIxBKKC7aCSx4g==}
+  /@glimmer/interfaces/0.84.2:
+    resolution: {integrity: sha512-tMZxQpOddUVmHEOuripkNqVR7ba0K4doiYnFd4WyswqoHPlxqpBujbIamQ+bWCWEF0U4yxsXKa31ekS/JHkiBQ==}
     dependencies:
       '@simple-dom/interface': 1.4.0
     dev: true
@@ -3423,12 +3421,12 @@ packages:
       simple-html-tokenizer: 0.5.11
     dev: true
 
-  /@glimmer/syntax/0.68.1:
-    resolution: {integrity: sha512-c1XXV6Oy2ogYQSef3CYvlv/YRz1O5nZ71UadpUYtkchfQdgbwEQgCtIXKIvet5eMuvoYudnXHidSi91QEWaLOA==}
+  /@glimmer/syntax/0.84.2:
+    resolution: {integrity: sha512-SPBd1tpIR9XeaXsXsMRCnKz63eLnIZ0d5G9QC4zIBFBC3pQdtG0F5kWeuRVCdfTIFuR+5WBMfk5jvg+3gbQhjg==}
     dependencies:
-      '@glimmer/interfaces': 0.68.1
-      '@glimmer/util': 0.68.1
-      '@handlebars/parser': 1.1.0
+      '@glimmer/interfaces': 0.84.2
+      '@glimmer/util': 0.84.2
+      '@handlebars/parser': 2.0.0
       simple-html-tokenizer: 0.5.11
     dev: true
 
@@ -3453,11 +3451,11 @@ packages:
       '@simple-dom/interface': 1.4.0
     dev: true
 
-  /@glimmer/util/0.68.1:
-    resolution: {integrity: sha512-eg1etiyeaxXL63ZONvl4+AVPN64dl84hFYXJCngb4qRXCXuAzSH+lepkJtKwhzJUEMlASwqk75Au9CyoGM4SOg==}
+  /@glimmer/util/0.84.2:
+    resolution: {integrity: sha512-VbhzE2s4rmU+qJF3gGBTL1IDjq+/G2Th51XErS8MQVMCmE4CU2pdwSzec8PyOowqCGUOrVIWuMzEI6VoPM4L4w==}
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.68.1
+      '@glimmer/interfaces': 0.84.2
       '@simple-dom/interface': 1.4.0
     dev: true
 
@@ -3492,66 +3490,90 @@ packages:
       '@glimmer/util': 0.42.2
     dev: true
 
-  /@glint/config/0.8.3:
-    resolution: {integrity: sha512-xiM/xzYp/uwj/YUhCkx8EJhcACiCfBH50Ra9x9Xcrrzy7R8Ma+I++rHg7aWCBj33H4nbQmdM5qAH7J2Um0p00g==}
-    dependencies:
-      cosmiconfig: 6.0.0
-      escape-string-regexp: 4.0.0
-      minimatch: 3.1.2
-      resolve: 1.22.1
-      silent-error: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /@glint/core/0.8.3:
-    resolution: {integrity: sha512-UOHi9bx1p9ZxBOFBLfw2nnZwRfUKfyndpsVQI2hTl/WPmeF6a6WaQt6c0MWPfjySnoU/1MbYcTfsQfeFxhK23Q==}
+  /@glint/core/1.0.0-beta.2_typescript@4.7.4:
+    resolution: {integrity: sha512-LmQ7I0BXGzL5FhtaXXUCNUfGnqK6s+WKbcT0VcL3vxfMYW4btCzcWMOrBOhczI1+yYbPdVe++Rb+l0ovWURPzQ==}
     hasBin: true
+    peerDependencies:
+      typescript: '*'
     dependencies:
-      '@glint/config': 0.8.3
-      '@glint/transform': 0.8.3
-      resolve: 1.22.1
+      '@glimmer/syntax': 0.84.2
+      escape-string-regexp: 4.0.0
+      silent-error: 1.1.1
+      typescript: 4.7.4
       uuid: 8.3.2
-      vscode-languageserver: 7.0.0
+      vscode-languageserver: 8.0.2
       vscode-languageserver-textdocument: 1.0.5
       vscode-uri: 3.0.3
-      yargs: 15.4.1
+      yargs: 17.5.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@glint/environment-ember-loose/0.8.3_4t3bnpvykxydnsynwqohbv55ee:
-    resolution: {integrity: sha512-I6ft4N0hSsUi26rG81gNGQ23wRLMWgUPthq1XYtHJJG64Bw92NP80UVoL2CoA2/QHPxqu4dV5ZiXhtbdaUlqbA==}
+  /@glint/environment-ember-loose/1.0.0-beta.2_dfquqzblwn7ruz2sr3wxx6ph3e:
+    resolution: {integrity: sha512-WIsccams5kKvv8ECXQgrT1iySYYXWa+k5B4+1HFowr51ojkizFYrG5skAjIKX/7+ChuqpSLCAPquEOAp24Zhhw==}
     peerDependencies:
       '@glimmer/component': ^1.1.2
+      '@glint/template': ^1.0.0-beta.2
+      '@types/ember__array': ^4.0.2
+      '@types/ember__component': ^4.0.10
+      '@types/ember__controller': ^4.0.2
+      '@types/ember__object': ^4.0.4
+      '@types/ember__routing': ^4.0.11
       ember-cli-htmlbars: ^6.0.1
       ember-modifier: ^3.2.7
     peerDependenciesMeta:
+      '@types/ember__array':
+        optional: true
+      '@types/ember__component':
+        optional: true
+      '@types/ember__controller':
+        optional: true
+      '@types/ember__object':
+        optional: true
+      '@types/ember__routing':
+        optional: true
       ember-cli-htmlbars:
         optional: true
       ember-modifier:
         optional: true
     dependencies:
       '@glimmer/component': 1.1.2_@babel+core@7.18.5
-      '@glint/config': 0.8.3
-      '@glint/template': 0.8.3_@glimmer+component@1.1.2
+      '@glint/template': 1.0.0-beta.2
+      '@types/ember__array': 4.0.1
+      '@types/ember__component': 4.0.8
+      '@types/ember__controller': 4.0.0
+      '@types/ember__object': 4.0.2
+      '@types/ember__routing': 4.0.7
       ember-cli-htmlbars: 6.0.1
       ember-modifier: 3.2.7_@babel+core@7.18.5
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
-  /@glint/environment-ember-template-imports/0.8.3_gi4sussrlmqfocheorij5f5y7q:
-    resolution: {integrity: sha512-GZdFJXegV1y4gq0myG0MpKma6x5P0xyQnjKPpkkV8Bib9UsS7/vuALKmqLScxO6+fw9HMWaFn4pqY9aSeCtpNA==}
+  /@glint/environment-ember-template-imports/1.0.0-beta.2_ekxzyue3zc6u3jct4p4zco5i6e:
+    resolution: {integrity: sha512-RCZfqazXEcm8MwTcpV9IqvzyzTkMW46ShtRH+JGIYMhqdfb3GblLm13l0cSJ8Uk/jZpAegwNNvJDi7jUb7WJeg==}
     peerDependencies:
-      '@glint/environment-ember-loose': ^0.8.3
+      '@glint/environment-ember-loose': ^1.0.0-beta.2
+      '@glint/template': ^1.0.0-beta.2
+      '@types/ember__component': ^4.0.10
+      '@types/ember__helper': ^4.0.1
+      '@types/ember__modifier': ^4.0.3
+      '@types/ember__routing': ^4.0.12
       ember-template-imports: ^3.0.0
+    peerDependenciesMeta:
+      '@types/ember__component':
+        optional: true
+      '@types/ember__helper':
+        optional: true
+      '@types/ember__modifier':
+        optional: true
+      '@types/ember__routing':
+        optional: true
     dependencies:
-      '@glint/environment-ember-loose': 0.8.3_4t3bnpvykxydnsynwqohbv55ee
-      '@glint/template': 0.8.3_@glimmer+component@1.1.2
+      '@glint/environment-ember-loose': 1.0.0-beta.2_dfquqzblwn7ruz2sr3wxx6ph3e
+      '@glint/template': 1.0.0-beta.2
+      '@types/ember__component': 4.0.8
+      '@types/ember__helper': 4.0.0
+      '@types/ember__routing': 4.0.7
       ember-template-imports: 3.0.1_ember-cli-htmlbars@6.0.1
-    transitivePeerDependencies:
-      - '@glimmer/component'
     dev: true
 
   /@glint/template/0.8.3_@glimmer+component@1.1.2:
@@ -3562,17 +3584,16 @@ packages:
       '@glimmer/component': 1.1.2_@babel+core@7.20.12
     dev: true
 
-  /@glint/transform/0.8.3:
-    resolution: {integrity: sha512-bhu6aLblmMybe+HOo+iZBKkZZBCQXDIfNJ1lLUfSbKL5EwdG5d9q3wVK5ewllL7rqCOjzyNivY9dOiImT61BRA==}
-    dependencies:
-      '@glimmer/syntax': 0.68.1
-      '@glint/config': 0.8.3
-    transitivePeerDependencies:
-      - supports-color
+  /@glint/template/1.0.0-beta.2:
+    resolution: {integrity: sha512-gaWiWAjvmgOTmHUqXt+fACINMSnOxKcPYEwb6A6DNYpCaKWxhxqIjIrQLdrumULLK9+MbxMrIa3Od05FcIDQFQ==}
     dev: true
 
   /@handlebars/parser/1.1.0:
     resolution: {integrity: sha512-rR7tJoSwJ2eooOpYGxGGW95sLq6GXUaS1UtWvN7pei6n2/okYvCGld9vsUTvkl2migxbkszsycwtMf/GEc1k1A==}
+    dev: true
+
+  /@handlebars/parser/2.0.0:
+    resolution: {integrity: sha512-EP9uEDZv/L5Qh9IWuMUGJRfwhXJ4h1dqKTT4/3+tY0eu7sPis7xh23j61SYUnNF4vqCQvvUXpDo9Bh/+q1zASA==}
     dev: true
 
   /@humanwhocodes/config-array/0.5.0:
@@ -4118,10 +4139,6 @@ packages:
 
   /@types/object-path/0.11.1:
     resolution: {integrity: sha512-219LSCO9HPcoXcRTC6DbCs0FRhZgBnEMzf16RRqkT40WbkKx3mOeQuz3e2XqbfhOz/AHfbru0kzB1n1RCAsIIg==}
-    dev: true
-
-  /@types/parse-json/4.0.0:
-    resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
   /@types/qs/6.9.7:
@@ -7702,17 +7719,6 @@ packages:
       vary: 1.1.2
     dev: true
 
-  /cosmiconfig/6.0.0:
-    resolution: {integrity: sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==}
-    engines: {node: '>=8'}
-    dependencies:
-      '@types/parse-json': 4.0.0
-      import-fresh: 3.3.0
-      parse-json: 5.2.0
-      path-type: 4.0.0
-      yaml: 1.10.2
-    dev: true
-
   /create-ecdh/4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
     dependencies:
@@ -9461,7 +9467,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.29.0_hxadhbs2xogijvk7vq4t2azzbu
+      '@typescript-eslint/parser': 5.29.0_77fvizpdb3y4icyeo2mf4eo7em
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
       find-up: 2.1.0
@@ -9519,7 +9525,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.29.0_hxadhbs2xogijvk7vq4t2azzbu
+      '@typescript-eslint/parser': 5.29.0_77fvizpdb3y4icyeo2mf4eo7em
       array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
@@ -16076,40 +16082,36 @@ packages:
     dependencies:
       jsonc-parser: 3.0.0
       vscode-languageserver-textdocument: 1.0.5
-      vscode-languageserver-types: 3.17.1
+      vscode-languageserver-types: 3.17.2
       vscode-nls: 5.0.1
       vscode-uri: 3.0.3
     dev: true
 
-  /vscode-jsonrpc/6.0.0:
-    resolution: {integrity: sha512-wnJA4BnEjOSyFMvjZdpiOwhSq9uDoK8e/kpRJDTaMYzwlkrhG1fwDIZI94CLsLzlCK5cIbMMtFlJlfR57Lavmg==}
-    engines: {node: '>=8.0.0 || >=10.0.0'}
+  /vscode-jsonrpc/8.0.2:
+    resolution: {integrity: sha512-RY7HwI/ydoC1Wwg4gJ3y6LpU9FJRZAUnTYMXthqhFXXu77ErDd/xkREpGuk4MyYkk4a+XDWAMqe0S3KkelYQEQ==}
+    engines: {node: '>=14.0.0'}
     dev: true
 
-  /vscode-languageserver-protocol/3.16.0:
-    resolution: {integrity: sha512-sdeUoAawceQdgIfTI+sdcwkiK2KU+2cbEYA0agzM2uqaUy2UpnnGHtWTHVEtS0ES4zHU0eMFRGN+oQgDxlD66A==}
+  /vscode-languageserver-protocol/3.17.2:
+    resolution: {integrity: sha512-8kYisQ3z/SQ2kyjlNeQxbkkTNmVFoQCqkmGrzLH6A9ecPlgTbp3wDTnUNqaUxYr4vlAcloxx8zwy7G5WdguYNg==}
     dependencies:
-      vscode-jsonrpc: 6.0.0
-      vscode-languageserver-types: 3.16.0
+      vscode-jsonrpc: 8.0.2
+      vscode-languageserver-types: 3.17.2
     dev: true
 
   /vscode-languageserver-textdocument/1.0.5:
     resolution: {integrity: sha512-1ah7zyQjKBudnMiHbZmxz5bYNM9KKZYz+5VQLj+yr8l+9w3g+WAhCkUkWbhMEdC5u0ub4Ndiye/fDyS8ghIKQg==}
     dev: true
 
-  /vscode-languageserver-types/3.16.0:
-    resolution: {integrity: sha512-k8luDIWJWyenLc5ToFQQMaSrqCHiLwyKPHKPQZ5zz21vM+vIVUSvsRpcbiECH4WR88K2XZqc4ScRcZ7nk/jbeA==}
+  /vscode-languageserver-types/3.17.2:
+    resolution: {integrity: sha512-zHhCWatviizPIq9B7Vh9uvrH6x3sK8itC84HkamnBWoDFJtzBf7SWlpLCZUit72b3os45h6RWQNC9xHRDF8dRA==}
     dev: true
 
-  /vscode-languageserver-types/3.17.1:
-    resolution: {integrity: sha512-K3HqVRPElLZVVPtMeKlsyL9aK0GxGQpvtAUTfX4k7+iJ4mc1M+JM+zQwkgGy2LzY0f0IAafe8MKqIkJrxfGGjQ==}
-    dev: true
-
-  /vscode-languageserver/7.0.0:
-    resolution: {integrity: sha512-60HTx5ID+fLRcgdHfmz0LDZAXYEV68fzwG0JWwEPBode9NuMYTIxuYXPg4ngO8i8+Ou0lM7y6GzaYWbiDL0drw==}
+  /vscode-languageserver/8.0.2:
+    resolution: {integrity: sha512-bpEt2ggPxKzsAOZlXmCJ50bV7VrxwCS5BI4+egUmure/oI/t4OlFzi/YNtVvY24A2UDOZAgwFGgnZPwqSJubkA==}
     hasBin: true
     dependencies:
-      vscode-languageserver-protocol: 3.16.0
+      vscode-languageserver-protocol: 3.17.2
     dev: true
 
   /vscode-nls/5.0.1:
@@ -16591,11 +16593,6 @@ packages:
     dependencies:
       fs-extra: 4.0.3
       lodash.merge: 4.6.2
-    dev: true
-
-  /yaml/1.10.2:
-    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
-    engines: {node: '>= 6'}
     dev: true
 
   /yaml/2.2.1:

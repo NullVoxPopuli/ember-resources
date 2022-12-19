@@ -1,4 +1,12 @@
 {
+  // Soon
+  // "extends": "@tsconfig/ember/tsconfig.json",
+  "glint": {
+    "environment": [
+       "ember-loose",
+       "ember-template-imports"
+    ]
+  },
   "compilerOptions": {
     "target": "es2020",
     "allowJs": true,
