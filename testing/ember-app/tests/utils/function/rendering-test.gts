@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { setComponentTemplate } from '@ember/component';
 import { click, render, settled } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+// @ts-ignore
+import { on } from '@ember/modifier';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -13,25 +13,21 @@ module('Utils | trackedFunction | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it works', async function (assert) {
-    class Test extends Component {
+    class TestComponent extends Component {
       @tracked count = 1;
 
       data = trackedFunction(this, () => {
         return this.count;
       });
       increment = () => this.count++;
+
+      <template>
+        <out>{{this.data.value}}</out>
+        <button type='button' {{on 'click' this.increment}}></button>
+      </template>
     }
 
-    const TestComponent = setComponentTemplate(
-      hbs`
-        <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>`,
-      Test
-    );
-
-    this.setProperties({ TestComponent });
-
-    await render(hbs`<this.TestComponent />`);
+    await render(<template><TestComponent /></template>);
 
     assert.dom('out').hasText('1');
 
@@ -43,24 +39,20 @@ module('Utils | trackedFunction | rendering', function (hooks) {
   test('it is retryable', async function (assert) {
     let count = 0;
 
-    class Test extends Component {
+    class TestComponent extends Component {
       data = trackedFunction(this, () => {
         assert.step(`ran trackedFunction ${count++}`);
 
         return count;
       });
+
+      <template>
+        <out>{{this.data.value}}</out>
+        <button type='button' {{on 'click' this.data.retry}}></button>
+      </template>
     }
 
-    const TestComponent = setComponentTemplate(
-      hbs`
-        <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.data.retry}}></button>`,
-      Test
-    );
-
-    this.setProperties({ TestComponent });
-
-    await render(hbs`<this.TestComponent />`);
+    await render(<template><TestComponent /></template>);
 
     assert.dom('out').hasText('1');
 
@@ -72,7 +64,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
   });
 
   test('async functions update when the promise resolves', async function (assert) {
-    class Test extends Component {
+    class TestComponent extends Component {
       @tracked multiplier = 1;
 
       increment = () => this.multiplier++;
@@ -85,19 +77,15 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
         return 2 * multiplier;
       });
-    }
 
-    const TestComponent = setComponentTemplate(
-      hbs`
+      <template>
         <out>{{this.data.value}}</out>
         <button type='button' {{on 'click' this.increment}}></button>
-      `,
-      Test
-    );
+      </template>
+    }
 
-    this.setProperties({ TestComponent });
 
-    render(hbs`<this.TestComponent />`);
+    render(<template><TestComponent /></template>);
 
     await timeout(25);
     assert.dom('out').hasText('');
