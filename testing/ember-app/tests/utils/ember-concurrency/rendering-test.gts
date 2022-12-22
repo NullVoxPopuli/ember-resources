@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { setComponentTemplate } from '@ember/component';
 import { render, settled, setupOnerror } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -19,10 +17,10 @@ module('useTask', function () {
       setupRenderingTest(hooks);
 
       test('it works', async function (assert) {
-        class Test extends Component<{ Blocks: { default: [Test] } }> {
+        class TestComponent extends Component<{ Blocks: { default: [TestComponent] } }> {
           @tracked input = 'Hello there';
 
-          search = trackedTask(this, this._search as any, () => [this.input]);
+          search = trackedTask(this, taskFor(this._search), () => [this.input]);
 
           @restartableTask
           *_search(input: string) {
@@ -30,21 +28,25 @@ module('useTask', function () {
 
             return input;
           }
+
+          get result() {
+            return `${this.search.value}`;
+          }
+
+          <template>
+            {{yield this}}
+          </template>
         }
 
-        const TestComponent = setComponentTemplate(hbs`{{yield this}}`, Test);
-
-        this.setProperties({ TestComponent });
-
-        render(hbs`
-          <this.TestComponent as |ctx|>
+        render(<template>
+          <TestComponent as |ctx|>
             {{#if ctx.search.isRunning}}
               Loading
             {{else}}
-              {{ctx.search.value}}
+              {{ctx.result}}
             {{/if}}
-          </this.TestComponent>
-        `);
+          </TestComponent>
+        </template>);
 
         // This could introduce flakiness / timing issues
         await timeout(10);
@@ -90,18 +92,20 @@ module('useTask', function () {
 
           throw new Error('boop');
         }
+
+        get error() {
+          return `${this.search.error}`;
+        }
       }
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.error}}`);
+      render(<template>{{ctx.error}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
 
-      assert.dom().hasNoText();
+      assert.dom().hasText('null');
 
       await settled();
 
@@ -124,9 +128,7 @@ module('useTask', function () {
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.hasStarted}}`);
+      render(<template>{{ctx.search.hasStarted}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
@@ -152,9 +154,7 @@ module('useTask', function () {
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.isCanceled}}`);
+      render(<template>{{ctx.search.isCanceled}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
@@ -182,9 +182,7 @@ module('useTask', function () {
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.isError}}`);
+      render(<template>{{ctx.search.isError}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
@@ -212,9 +210,7 @@ module('useTask', function () {
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.isFinished}}`);
+      render(<template>{{ctx.search.isFinished}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
@@ -242,9 +238,7 @@ module('useTask', function () {
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.isSuccessful}}`);
+      render(<template>{{ctx.search.isSuccessful}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);
@@ -268,13 +262,15 @@ module('useTask', function () {
 
           return input;
         }
+
+        get result() {
+          return `${this.search.value || ''}`;
+        }
       }
 
       let ctx = new Test();
 
-      this.setProperties({ ctx });
-
-      render(hbs`{{this.ctx.search.value}}`);
+      render(<template>{{ctx.result}}</template>);
 
       // This could introduce flakiness / timing issues
       await timeout(10);

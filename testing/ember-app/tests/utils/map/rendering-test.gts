@@ -1,12 +1,11 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { setComponentTemplate } from '@ember/component';
 // idk what's going on here.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { helper } from '@ember/component/helper';
+import { concat } from '@ember/helper';
 import { render, settled } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -58,23 +57,18 @@ module('Utils | map | rendering', function (hooks) {
           return new Wrapper(record);
         },
       });
-    }
 
-    setComponentTemplate<typeof Test>(
-      hbs`
+      <template>
         {{#each this.stuff as |wrapped|}}
           {{this.step (concat "each loop - id:" wrapped.record.id)}}
           <output>{{wrapped.record.id}}</output>
         {{/each}}
-      `,
-      Test
-    );
+      </template>
+    }
 
     let ctx = new Context();
 
-    this.setProperties({ Test, ctx });
-
-    await render(hbs`<this.Test @ctx={{this.ctx}} />`);
+    await render(<template><Test @ctx={{ctx}} /></template>);
 
     assert.dom('output').doesNotExist();
     assert.verifySteps(['evaluate data thunk']);

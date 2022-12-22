@@ -1,6 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import { click, render, settled } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+// @ts-ignore
+import { on } from '@ember/modifier';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -12,6 +13,8 @@ let data = [
   { id: '2', type: 'blogs', attributes: { name: `name:2` } },
   { id: '3', type: 'blogs', attributes: { name: `name:3` } },
 ];
+
+let safeName = (blog: any): string => blog?.value?.attributes?.name;
 
 module('Utils | remote-data | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -25,13 +28,11 @@ module('Utils | remote-data | rendering', function (hooks) {
 
   module('RemoteData', function () {
     test('works with static url', async function (assert) {
-      this.setProperties({ RemoteData });
-
-      await render(hbs`
-        {{#let (this.RemoteData "/blogs/1") as |blog|}}
-          {{blog.value.attributes.name}}
+      await render(<template>
+        {{#let (RemoteData "/blogs/1") as |blog|}}
+          {{safeName blog}}
         {{/let}}
-      `);
+      </template>);
 
       assert.dom().hasText('name:1');
     });
@@ -47,13 +48,11 @@ module('Utils | remote-data | rendering', function (hooks) {
 
       let foo = new Test();
 
-      this.setProperties({ RemoteData, foo });
-
-      await render(hbs`
-        {{#let (this.RemoteData this.foo.url) as |blog|}}
-          {{blog.value.attributes.name}}
+      await render(<template>
+        {{#let (RemoteData foo.url) as |blog|}}
+          {{safeName blog}}
         {{/let}}
-      `);
+      </template>);
 
       assert.dom().hasText('name:1');
 
@@ -76,15 +75,13 @@ module('Utils | remote-data | rendering', function (hooks) {
 
       let foo = new Test();
 
-      this.setProperties({ RemoteData, foo });
-
-      await render(hbs`
-        {{#let (this.RemoteData this.foo.url) as |blog|}}
-          <out>{{blog.value.attributes.name}}</out>
+      await render(<template>
+        {{#let (RemoteData foo.url) as |blog|}}
+          <out>{{safeName blog}}</out>
         {{/let}}
 
-        <button {{on 'click' this.foo.update}} type='button'>++</button>
-      `);
+        <button {{on 'click' foo.update}} type='button'>++</button>
+      </template>);
 
       assert.dom('out').hasText('name:1');
 
