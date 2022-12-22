@@ -6,8 +6,7 @@ import { capabilities as helperCapabilities, invokeHelper, setHelperManager } fr
 import type { Cache } from './types';
 import type Owner from '@ember/owner';
 
-type SpreadFor<T> = T extends Array<any> ? T : [T];
-type ResourceFactory<Value = any, Args = any[]> = (...args: SpreadFor<Args>) => Value;
+type ResourceFactory<Value, Args extends unknown[]> = (...args: Args) => Value;
 
 interface State {
   cache?: Cache;
@@ -24,7 +23,7 @@ class ResourceInvokerManager {
 
   constructor(protected owner: Owner) {}
 
-  createHelper(fn: ResourceFactory, args: any): State {
+  createHelper(fn: ResourceFactory<any, any>, args: any): State {
     /**
      * This cache is for args passed to the ResourceInvoker/Factory
      *
@@ -49,7 +48,7 @@ class ResourceInvokerManager {
     return getValue(resource);
   }
 
-  getDestroyable({ fn }: { fn: ResourceFactory }) {
+  getDestroyable({ fn }: { fn: ResourceFactory<any, any> }) {
     return fn;
   }
 
@@ -130,12 +129,12 @@ class ResourceInvokerManager {
  *  })
  *  ```
  */
-export function resourceFactory<Value = any, Args = any>(
-  wrapperFn: ResourceFactory<Value, Args>
-): (args: () => Args) => Value {
+export function resourceFactory<Value = unknown, Args extends unknown[] = unknown[]>(
+  wrapperFn: (...args: Args) => Value
+): (args: (() => Args) | Args[0] | (() => Args[0]) | Args) => Value {
   setHelperManager(ResourceInvokerFactory, wrapperFn);
 
-  return wrapperFn as unknown as (args: () => Args) => Value;
+  return wrapperFn as unknown as (args: (() => Args) | Args[0] | (() => Args[0]) | Args) => Value;
 }
 
 // Provide a singleton manager.
