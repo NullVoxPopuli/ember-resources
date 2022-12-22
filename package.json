@@ -42,7 +42,7 @@
     },
     "peerDependencyRules": {
       "ignoreMissing": [
-        "msw"
+        "msw", "ember-source"
       ],
       "allowedVersions": {
         "typescript": "*"
