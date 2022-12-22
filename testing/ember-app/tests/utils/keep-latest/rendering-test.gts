@@ -28,7 +28,7 @@ module('Utils | keepLatest | rendering', function (hooks) {
 
     let instance = new Test();
 
-    let passthrough = (x: unknown) => x;
+    let passthrough = <T>(x: T) => x;
 
     render(<template>
       {{#let instance.request as |request|}}
