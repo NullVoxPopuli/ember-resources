@@ -115,7 +115,7 @@
     },
     {
       // ensure maximum compatibility, when possible
-      "matchPaths": ["ember-resources/package.json"],
+      "matchPaths": ["ember-resources/package.json", "eslint-plugin/package.json"],
       "matchDepTypes": ["dependencies"],
       "enabled": false
     },

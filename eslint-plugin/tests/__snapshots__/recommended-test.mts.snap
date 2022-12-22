@@ -1,0 +1,9 @@
+// Vitest Snapshot v1
+
+exports[`recommended rules > has the right list 1`] = `
+[
+  "no-this-property-assignment-in-resource-thunk",
+  "no-this-property-assignment-in-tracked-function",
+  "no-this-property-assignment-in-function-resource",
+]
+`;
