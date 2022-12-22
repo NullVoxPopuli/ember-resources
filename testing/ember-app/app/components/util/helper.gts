@@ -36,6 +36,7 @@ export default class GlintTest extends Component {
   // {{this.bHelper.value}}
 
   <template>
+    {{! @glint-ignore }}
     {{this.aHelper.value}}
   </template>
 }
