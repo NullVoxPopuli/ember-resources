@@ -105,7 +105,7 @@ module('useTask', function () {
       // This could introduce flakiness / timing issues
       await timeout(10);
 
-      assert.dom().hasNoText();
+      assert.dom().hasText('null');
 
       await settled();
 
