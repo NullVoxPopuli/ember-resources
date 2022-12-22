@@ -30,6 +30,10 @@ export type ArgsFrom<Klass extends Resource<any>> = Klass extends Resource<infer
  * https://gist.github.com/dfreeman/e4728f2f48737b44efb99fa45e2d22ef#typing-the-return-value-implicitly
  *
  * This is a Glint helper to help HelperLike determine what the ReturnType is.
+ *
+ * Notes:
+ *  - https://github.com/typed-ember/glint/pull/447
+ *    - [Invoke]: (...positionalArgs: Positional, named: Named) => Result
  */
 type ResourceHelperLike<T, R> = InstanceType<
   HelperLike<{
