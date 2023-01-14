@@ -1,3 +1,5 @@
+# ember-resources
+
 # [5.6.0](https://github.com/NullVoxPopuli/ember-resources/compare/v5.5.0...v5.6.0) (2022-11-02)
 
 
