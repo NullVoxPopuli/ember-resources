@@ -17,7 +17,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.2",
-    "@nullvoxpopuli/eslint-configs": "^2.2.19",
+    "@nullvoxpopuli/eslint-configs": "^3.0.0",
     "concurrently": "^7.2.1",
     "eslint": "^7.32.0",
     "loader.js": "^4.7.0",
