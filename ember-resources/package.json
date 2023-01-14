@@ -126,7 +126,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/template": "^0.8.3",
-    "@nullvoxpopuli/eslint-configs": "^2.1.1",
+    "@nullvoxpopuli/eslint-configs": "^3.0.0",
     "@types/ember__application": "^4.0.0",
     "@types/ember__component": "^4.0.8",
     "@types/ember__debug": "^4.0.0",
