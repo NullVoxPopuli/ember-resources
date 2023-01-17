@@ -78,7 +78,6 @@
   "scripts": {
     "start": "rollup -c ./config/rollup.config.mjs --watch",
     "build": "rollup -c ./config/rollup.config.mjs",
-    "build:types": "tsc --build",
     "lint": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "FORCE_COLOR=1 npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint . --config ./config/.template-lintrc.js",

@@ -10,7 +10,7 @@ lint:
   cmd: 'pnpm lint'
 
 build:
-  run: 'pnpm build:js'
+  run: 'pnpm build'
   expect: |
     core/index.js
     core/class-based/index.js
