@@ -282,6 +282,9 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
    */
   [AT](i: number) {
     let record = this._records[i];
+
+    assert(`Unexpected undefined when accessing internal in-range index`, record);
+
     let value = this.#map.get(record);
 
     if (!value) {
