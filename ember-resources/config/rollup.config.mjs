@@ -43,7 +43,8 @@ export default defineConfig({
         fileName: 'tsconfig.json',
         hook: (config) => ({
           ...config,
-          declaration: false,
+          declaration: true,
+          declarationMap: true,
           noEmitOnError: false,
         }),
       },
