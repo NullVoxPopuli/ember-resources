@@ -114,6 +114,7 @@ module('Core | Resource | rendering', function (hooks) {
 
       assert.verifySteps(['cleanup: 0']);
 
+      id.current++;
       await click('button');
 
       assert.verifySteps(['setup: 1']);
