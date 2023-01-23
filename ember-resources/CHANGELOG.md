@@ -45,8 +45,9 @@
     @service declare router: RouterService;
 
     poll = helper(function ([fn, interval]: [(...args: unknown[]) => unknown, number]) {
-      if (!intervals.has(this))
+      if (!intervals.has(this)) {
         registerDestructor(this, () => clearInterval(intervals.get(this)));
+      }
       clearInterval(intervals.get(this);
       intervals.set(this, setInterval(fn, interval));
     });
