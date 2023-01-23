@@ -35,21 +35,22 @@
 
   ```ts
   import Component from "@glimmer/component";
-  import Helper from "@ember/component/helper";
   import type RouterService from "@ember/routing/router-service";
+  import { helper } from "@ember/component/helper";
   import { service } from "@ember/service";
 
-  class Poll extends Helper {
-    compute([fn, interval]: [(...args: unknown[]) => unknown, number]) {
-      let x = setInterval(fn, interval);
-      registerDestructor(this, () => clearInterval(x));
-    }
-  }
-
+  const intervals = new WeakMap();
+  
   export default class Demo extends Component {
     @service declare router: RouterService;
 
-    poll = Poll;
+    poll = helper(function ([fn, interval]: [(...args: unknown[]) => unknown, number]) {
+      if (!intervals.has(this))
+        registerDestructor(this, () => clearInterval(intervals.get(this)));
+      clearInterval(intervals.get(this);
+      intervals.set(this, setInterval(fn, interval));
+    });
+  
     refreshData = () => this.router.refresh();
   }
   ```
