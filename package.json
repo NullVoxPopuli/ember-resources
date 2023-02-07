@@ -27,7 +27,7 @@
   "volta": {
     "node": "18.14.0",
     "yarn": "1.22.19",
-    "npm": "9.4.1"
+    "npm": "9.4.2"
   },
   "packageManager": "pnpm@7.26.3",
   "pnpm": {
