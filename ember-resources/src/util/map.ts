@@ -240,7 +240,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
 
   modify([data]: Positional<Args<Element, MappedTo>>, { map }: Named<Args<Element, MappedTo>>) {
     assert(
-      `Every entry in the data passed ta \`map\` must be an object.`,
+      `Every entry in the data passed to \`map\` must be an object.`,
       data.every((datum) => typeof datum === 'object')
     );
     this._records = data as Array<Element & object>;
