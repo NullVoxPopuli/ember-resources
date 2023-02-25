@@ -87,7 +87,8 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.8",
