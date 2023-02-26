@@ -30,5 +30,6 @@ module.exports = {
         version: 'legacy',
       },
     ],
+    [resolve('@babel/plugin-syntax-dynamic-import')],
   ],
 };

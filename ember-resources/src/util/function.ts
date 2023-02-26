@@ -1,6 +1,6 @@
 import { tracked } from '@glimmer/tracking';
-import { assert } from '@ember/debug';
-import { waitForPromise } from '@ember/test-waiters';
+
+import { TrackedAsyncData } from 'ember-async-data';
 
 import { resource } from '../core/function-based';
 
@@ -8,57 +8,18 @@ import type { Hooks } from '../core/function-based';
 
 export type ResourceFn<Return = unknown> = (hooks: Hooks) => Return | Promise<Return>;
 
-type Vanilla<Return> = [object, ResourceFn<Return>];
-type WithInitialValue<Return> = [object, NotFunction<Return>, ResourceFn<Return>];
+export interface TrackedAsyncDataWrapper<T> {
+  data: TrackedAsyncData<T>;
+  retry: boolean;
+}
 
-type NotFunction<T> = T extends Function ? never : T;
-type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
+// function nextLoop(): Promise<void> {
+//   return new Promise((resolve) => setTimeout(resolve, 0));
+// }
 
-/**
- * _An example utilty that uses [[resource]]_
- *
- * Any tracked data accessed in a tracked function _before_ an `await`
- * will "entangle" with the function -- we can call these accessed tracked
- * properties, the "tracked prelude". If any properties within the tracked
- * payload  change, the function will re-run.
- *
- * ```js
- * import Component from '@glimmer/component';
- * import { tracked } from '@glimmer/tracking';
- * import { trackedFunction }  from 'ember-resources/util/function';
- *
- * class Demo extends Component {
- *   @tracked id = 1;
- *
- *   request = trackedFunction(this, async () => {
- *     let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
- *     let data = await response.json();
- *
- *     return data; // { name: 'Luke Skywalker', ... }
- *   });
- *
- *   updateId = (event) => this.id = event.target.value;
- *
- *   // Renders "Luke Skywalker"
- *   <template>
- *     {{this.request.value.name}}
- *
- *     <input value={{this.id}} {{on 'input' this.updateId}}>
- *   </template>
- * }
- * ```
- * _Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]
- *
- * Also note that after an `await`, the `this` context should not be accessed as it could lead to
- * destruction/timing issues.
- *
- * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
- *
- *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Function} theFunction the function to run with the return value available on .value
- */
-export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
+export function isPromise(val: any | Promise<unknown>): val is Promise<unknown> {
+  return val && (<Promise<unknown>>val).then !== undefined;
+}
 
 /**
  * _An example utilty that uses [[resource]]_
@@ -106,30 +67,11 @@ export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Retur
  * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
  * @param {Function} theFunction the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
-
-export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) {
-  const [context] = passedArgs;
-  let initialValue: Return | undefined;
-  let state: State<Return>;
-  let fn: ResourceFn<Return>;
-
-  assert(
-    `Expected second argument to useFunction to either be an initialValue or the function to run`,
-    passedArgs[1] !== undefined
-  );
-
-  if (hasNoInitialValue(passedArgs)) {
-    fn = passedArgs[1];
-  } else {
-    initialValue = passedArgs[1];
-    fn = passedArgs[2];
-  }
-
+export function trackedFunction<Return>(context: object, fn: ResourceFn<Return>) {
   return resource<State<Return>>(context, (hooks) => {
-    const previousValue = state?.resolvedValue || state?.previousResolvedValue;
+    const state = new State(fn, hooks);
 
-    state = new State(fn, hooks, initialValue, previousValue);
+    state.retry();
 
     return state;
   });
@@ -139,75 +81,40 @@ export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) 
  * State container that represents the asynchrony of a `trackedFunction`
  */
 export class State<Value> {
-  @tracked isSuccessful = false;
-  @tracked isError = false;
-  @tracked resolvedValue?: Value;
-  @tracked error?: unknown;
-  @tracked previousResolvedValue?: Value;
+  @tracked data: TrackedAsyncData<Value> | null = null;
+  @tracked promise!: Value | Promise<Value>;
 
   #fn: ResourceFn<Value>;
   #hooks: Hooks;
-  #initialValue: Value | undefined;
 
-  constructor(
-    fn: ResourceFn<Value>,
-    hooks: Hooks,
-    initialValue?: Value,
-    previousResolvedValue?: Value
-  ) {
+  constructor(fn: ResourceFn<Value>, hooks: Hooks) {
     this.#fn = fn;
     this.#hooks = hooks;
-    this.#initialValue = initialValue;
-    this.previousResolvedValue = previousResolvedValue;
-    this.retry();
   }
 
-  get value() {
-    return this.resolvedValue || this.#initialValue || null;
+  get state(): 'UNSTARTED' | 'PENDING' | 'RESOLVED' | 'REJECTED' {
+    return this.data?.state ?? 'UNSTARTED';
   }
 
   get isPending() {
-    return !this.isError && !this.isSuccessful;
+    return this.data?.isPending ?? false;
   }
 
-  get isLoading() {
-    return this.isPending;
+  get isResolved() {
+    return this.data?.isResolved ?? false;
   }
 
-  get isFinished() {
-    return !this.isPending;
+  get isRejected() {
+    return this.data?.isRejected ?? false;
   }
 
-  get previousValue() {
-    return this.previousResolvedValue || this.#initialValue || null;
+  get value() {
+    return this.data ? this.data.value : null;
   }
 
-  protected _retry = async () => {
-    try {
-      // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
-      const notQuiteValue = this.#fn(this.#hooks);
-
-      // Start a new JS thread to avoid the "modified twice in a single render" error
-      await new Promise((r) => setTimeout(r, 0));
-
-      if (this.resolvedValue !== undefined) {
-        this.previousResolvedValue = this.resolvedValue;
-      }
-
-      this.isSuccessful = false;
-      this.isError = false;
-      this.resolvedValue = undefined;
-      this.error = undefined;
-
-      const resolvedValue = await Promise.resolve(notQuiteValue);
-
-      this.resolvedValue = resolvedValue;
-      this.isSuccessful = true;
-    } catch (e) {
-      this.error = e;
-      this.isError = true;
-    }
-  };
+  get error() {
+    return this.data?.error ?? null;
+  }
 
   /**
    * Will re-invoke the function passed to `trackedFunction`
@@ -219,19 +126,11 @@ export class State<Value> {
    * until this promise resolves, and then they'll be updated to the new values.
    */
   retry = async () => {
-    const promise = this._retry();
+    // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
+    this.promise = this.#fn(this.#hooks);
 
-    await waitForPromise(promise);
+    this.data = new TrackedAsyncData(this.promise, this);
 
-    return promise;
+    return this.promise;
   };
-}
-
-/**
- * @private
- *
- * type-guard
- */
-function hasNoInitialValue<R>(args: UseFunctionArgs<R>): args is Vanilla<R> {
-  return args.length === 2;
 }

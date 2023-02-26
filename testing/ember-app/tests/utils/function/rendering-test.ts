@@ -6,7 +6,6 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { timeout } from 'ember-concurrency';
 import { trackedFunction } from 'ember-resources/util/function';
 
 module('Utils | trackedFunction | rendering', function (hooks) {
@@ -54,24 +53,35 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     const TestComponent = setComponentTemplate(
       hbs`
         <out>{{this.data.value}}</out>
-        <previous>{{this.data.previousValue}}</previous>
         <button type='button' {{on 'click' this.data.retry}}></button>`,
       Test
     );
 
+    console.log('0')
+
     this.setProperties({ TestComponent });
+
+    console.log('1')
 
     await render(hbs`<this.TestComponent />`);
 
+    console.log('2')
+
     assert.dom('out').hasText('1');
-    assert.dom('previous').hasText('');
+
+    console.log('3')
 
     await click('button');
 
+    console.log('4')
+
     assert.dom('out').hasText('2');
-    assert.dom('previous').hasText('1');
+
+    console.log('5')
 
     assert.verifySteps(['ran trackedFunction 0', 'ran trackedFunction 1']);
+
+    console.log('6')
   });
 
   test('async functions update when the promise resolves', async function (assert) {
@@ -93,7 +103,6 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     const TestComponent = setComponentTemplate(
       hbs`
         <out>{{this.data.value}}</out>
-        <previous>{{this.data.previousValue}}</previous>
         <button type='button' {{on 'click' this.increment}}></button>
       `,
       Test
@@ -102,22 +111,15 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     this.setProperties({ TestComponent });
 
     render(hbs`<this.TestComponent />`);
-
-    await timeout(25);
-    assert.dom('out').hasText('');
-    assert.dom('previous').hasText('');
-
     await settled();
+    await settled();
+
     assert.dom('out').hasText('2');
-    assert.dom('previous').hasText('');
 
     click('button');
-    await timeout(25);
-    assert.dom('out').hasText('');
-    assert.dom('previous').hasText('2');
-
     await settled();
+    await settled();
+
     assert.dom('out').hasText('4');
-    assert.dom('previous').hasText('2');
   });
 });

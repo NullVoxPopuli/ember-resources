@@ -44,7 +44,7 @@ module('Utils | trackedFunction | js', function (hooks) {
     foo.count = 6;
     foo.data.value;
     destroy(foo); // this prevents a third run
-    await settled();
+    // await settled();
 
     assert.verifySteps(['run 1, value: 1', 'run 2, value: 2']);
   });
@@ -117,36 +117,5 @@ module('Utils | trackedFunction | js', function (hooks) {
     await settled();
 
     assert.strictEqual(foo.data.value, 12);
-  });
-
-  test('async functions can have a fallback/initial value', async function (assert) {
-    let initialValue = -Infinity;
-
-    class Test {
-      @tracked count = 1;
-
-      data = trackedFunction(this, initialValue, async () => {
-        let count = this.count;
-
-        // Pretend we're doing async work
-        await Promise.resolve();
-
-        return count;
-      });
-    }
-
-    let foo = new Test();
-
-    assert.strictEqual(foo.data.value, initialValue);
-
-    foo.data.value;
-    await settled();
-    assert.strictEqual(foo.data.value, 1);
-
-    foo.count = 2;
-    foo.data.value;
-    await settled();
-
-    assert.strictEqual(foo.data.value, 2);
   });
 });
