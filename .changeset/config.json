@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.2.0/schema.json",
+  "notes": {
+    "overall config docs": "https://github.com/changesets/changesets/blob/main/docs/config-file-options.md",
+    "changelog customization": "https://github.com/changesets/changesets/blob/main/docs/modifying-changelog-format.md"
+  },
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "NullVoxPopuli/ember-resources" }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": ["docs", "ember-app", "@nullvoxpopuli/estimate-bytes"]
+}

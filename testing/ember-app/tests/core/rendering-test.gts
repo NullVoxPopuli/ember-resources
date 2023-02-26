@@ -6,7 +6,7 @@ import { setupRenderingTest } from 'ember-qunit';
 // @ts-ignore
 import { on } from '@ember/modifier';
 
-import { Resource, cell, use } from 'ember-resources';
+import { Resource, resourceFactory, resource, cell, use } from 'ember-resources';
 
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -83,6 +83,45 @@ module('Core | Resource | rendering', function (hooks) {
       await click('button');
 
       assert.dom('out').hasText('2');
+    });
+  });
+
+  module('cleanup with wrapping factory/blueprint', function() {
+    test('a generated interval can be cleared', async function (assert) {
+      const id = cell(0);
+      const condition = cell(true);
+
+      const poll = resourceFactory((id) => {
+        return resource(({ on }) => {
+          assert.step(`setup: ${id}`);
+          on.cleanup(() => assert.step(`cleanup: ${id}`));
+        });
+      });
+
+      await render(
+        <template>
+          <button {{on 'click' condition.toggle}}>Toggle</button><br />
+
+          {{#if condition.current}}
+            {{poll id.current}}
+          {{/if}}
+        </template>
+      );
+
+      assert.verifySteps(['setup: 0']);
+
+      await click('button');
+
+      assert.verifySteps(['cleanup: 0']);
+
+      id.current++;
+      await click('button');
+
+      assert.verifySteps(['setup: 1']);
+
+      await click('button');
+
+      assert.verifySteps(['cleanup: 1']);
     });
   });
 });

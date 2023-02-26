@@ -3,7 +3,6 @@ import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
 import Service from '@ember/service';
 import { clearRender, render, settled } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -27,23 +26,19 @@ module('Utils | resource | rendering', function (hooks) {
           assert.step(msg);
         };
 
-        this.setProperties({
-          theResource: resource(({ on }) => {
-            let num = foo.num;
+        let theResource = resource(({ on }) => {
+          let num = foo.num;
 
-            on.cleanup(() => step(`destroy ${num}`));
+          on.cleanup(() => step(`destroy ${num}`));
 
-            step(`resolve ${num}`);
+          step(`resolve ${num}`);
 
-            return num;
-          }),
+          return num;
         });
 
-        await render(hbs`
-          {{#let (this.theResource) as |value|}}
-            <out>{{value}}</out>
-          {{/let}}
-        `);
+        await render(<template>
+          <out>{{theResource}}</out>
+        </template>);
 
         assert.dom('out').containsText('0');
 
@@ -77,21 +72,19 @@ module('Utils | resource | rendering', function (hooks) {
           assert.step(msg);
         };
 
-        this.setProperties({
-          theResource: resource(({ on }) => {
-            on.cleanup(() => step(`destroy`));
+        let theResource = resource(({ on }) => {
+          on.cleanup(() => step(`destroy`));
 
-            step(`setup`);
+          step(`setup`);
 
-            return () => {
-              step(`computing ${foo.num}`);
+          return () => {
+            step(`computing ${foo.num}`);
 
-              return foo.num;
-            };
-          }),
+            return foo.num;
+          };
         });
 
-        await render(hbs`<out>{{this.theResource}}</out>`);
+        await render(<template><out>{{theResource}}</out></template>);
 
         assert.dom('out').containsText('0');
 
@@ -121,26 +114,21 @@ module('Utils | resource | rendering', function (hooks) {
         let inc = 0;
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-          theResource: resource(({ on }) => {
-            let i = inc;
+        let theResource = resource(({ on }) => {
+          let i = inc;
 
-            on.cleanup(() => assert.step(`destroy ${i}`));
+          on.cleanup(() => assert.step(`destroy ${i}`));
 
-            assert.step(`resolve ${i}`);
+          assert.step(`resolve ${i}`);
 
-            return 'a value!';
-          }),
+          return 'a value!';
         });
 
-        await render(hbs`
-          {{#if this.foo.show}}
-            {{#let (this.theResource) as |value|}}
-              <out>{{value}}</out>
-            {{/let}}
+        await render(<template>
+          {{#if foo.show}}
+            <out>{{theResource}}</out>
           {{/if}}
-        `);
+        </template>);
 
         assert.dom('out').exists();
 
@@ -172,26 +160,21 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-          theResource: resource(({ on }) => {
-            let i = foo.num;
+        let theResource = resource(({ on }) => {
+          let i = foo.num;
 
-            on.cleanup(() => assert.step(`destroy ${i}`));
+          on.cleanup(() => assert.step(`destroy ${i}`));
 
-            assert.step(`resolve ${i}`);
+          assert.step(`resolve ${i}`);
 
-            return 'a value!';
-          }),
+          return 'a value!';
         });
 
-        await render(hbs`
-          {{#if this.foo.show}}
-            {{#let (this.theResource) as |value|}}
-              <out>{{value}}</out>
-            {{/let}}
+        await render(<template>
+          {{#if foo.show}}
+            <out>{{theResource}}</out>
           {{/if}}
-        `);
+        </template>);
 
         assert.dom('out').exists();
 
@@ -223,26 +206,23 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-          theResource: resource(({ on }) => {
-            let i = foo.num;
+        let theResource = (_num: number) => resource(({ on }) => {
+          let i = foo.num;
 
-            on.cleanup(() => assert.step(`destroy ${i}`));
+          on.cleanup(() => assert.step(`destroy ${i}`));
 
-            assert.step(`resolve ${i}`);
+          assert.step(`resolve ${i}`);
 
-            return 'a value!';
-          }),
+          return 'a value!';
         });
 
-        await render(hbs`
-          {{#if this.foo.show}}
-            {{#let (this.theResource this.foo.num) as |value|}}
+        await render(<template>
+          {{#if foo.show}}
+            {{#let (theResource foo.num) as |value|}}
               <out>{{value}}</out>
             {{/let}}
           {{/if}}
-        `);
+        </template>);
 
         assert.dom('out').exists();
 
@@ -291,13 +271,9 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-        });
-
-        await render(hbs`
-          <out>{{this.foo.theResource}}</out>
-        `);
+        await render(<template>
+          <out>{{foo.theResource}}</out>
+        </template>);
 
         assert.dom('out').containsText('0');
 
@@ -340,15 +316,11 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-        });
-
-        await render(hbs`
-          {{#if this.foo.show}}
-            <out>{{this.foo.theResource}}</out>
+        await render(<template>
+          {{#if foo.show}}
+            <out>{{foo.theResource}}</out>
           {{/if}}
-        `);
+        </template>);
 
         assert.dom('out').exists();
 
@@ -400,15 +372,11 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        this.setProperties({
-          foo,
-        });
-
-        await render(hbs`
-          {{#if this.foo.show}}
-            <out>{{this.foo.theResource}}</out>
+        await render(<template>
+          {{#if foo.show}}
+            <out>{{foo.theResource}}</out>
           {{/if}}
-        `);
+        </template>);
 
         assert.dom('out').exists();
 
@@ -453,13 +421,11 @@ module('Utils | resource | rendering', function (hooks) {
 
       let foo = new Test();
 
-      this.setProperties({ Wrapper, foo });
-
-      await render(hbs`
-        {{#let (this.Wrapper this.foo.num) as |state|}}
+      await render(<template>
+        {{#let (Wrapper foo.num) as |state|}}
           <out>{{state}}</out>
         {{/let}}
-      `);
+      </template>);
 
       assert.dom('out').containsText('1');
 
@@ -510,15 +476,13 @@ module('Utils | resource | rendering', function (hooks) {
     test('basics', async function (assert) {
       const testService = this.owner.lookup('service:test') as TestService;
 
-      let test = new Test();
+      let testData = new Test();
 
-      setOwner(test, this.owner);
+      setOwner(testData, this.owner);
 
-      this.set('test', test);
-
-      await render(hbs`
-        <out>{{this.test.data}}</out>
-      `);
+      await render(<template>
+        <out>{{testData.data}}</out>
+      </template>);
 
       assert.dom('out').containsText('1');
 

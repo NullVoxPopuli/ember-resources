@@ -1,5 +1,6 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
+import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 
@@ -10,7 +11,7 @@ type SpreadFor<T> = T extends Array<any> ? T : [T];
 type ResourceFactory<Value = any, Args = any[]> = (...args: SpreadFor<Args>) => Value;
 
 interface State {
-  cache?: Cache;
+  cache: Cache;
   fn: any;
   args: any;
   _?: any;
@@ -37,6 +38,7 @@ class ResourceInvokerManager {
       return invokeHelper(cache, resource);
     });
 
+
     return { fn, args, cache, _: getValue(cache) };
   }
 
@@ -46,11 +48,13 @@ class ResourceInvokerManager {
   getValue({ cache }: State) {
     let resource = getValue(cache);
 
+    associateDestroyableChild(cache, resource);
+
     return getValue(resource);
   }
 
-  getDestroyable({ fn }: { fn: ResourceFactory }) {
-    return fn;
+  getDestroyable({ cache }: State) {
+    return cache;
   }
 
   // createHelper(fn: AnyFunction, args: Arguments): State {
