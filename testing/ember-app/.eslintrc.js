@@ -19,7 +19,15 @@ module.exports = {
         /**
          * Some compiler errors are not helpful
          */
-        'ts-expect-error': 'allow-with-description',
+        '@typescript-eslint/ban-ts-comment': [
+          'error',
+          {
+            'ts-ignore': 'allow-with-description',
+            'ts-nocheck': 'allow-with-description',
+            'ts-check': 'allow-with-description',
+            'ts-expect-error': 'allow-with-description',
+          },
+        ],
       },
     },
   ],

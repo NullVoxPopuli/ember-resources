@@ -1,25 +1,15 @@
-import { tracked } from '@glimmer/tracking';
+import { tracked } from "@glimmer/tracking";
+import { destroy } from "@ember/destroyable";
 
-import { TrackedAsyncData } from 'ember-async-data';
+import { TrackedAsyncData } from "ember-async-data";
 
-import { resource } from '../core/function-based';
+import { resource } from "../core/function-based";
 
-import type { Hooks } from '../core/function-based';
+import type { Hooks } from "../core/function-based";
 
-export type ResourceFn<Return = unknown> = (hooks: Hooks) => Return | Promise<Return>;
-
-export interface TrackedAsyncDataWrapper<T> {
-  data: TrackedAsyncData<T>;
-  retry: boolean;
-}
-
-// function nextLoop(): Promise<void> {
-//   return new Promise((resolve) => setTimeout(resolve, 0));
-// }
-
-export function isPromise(val: any | Promise<unknown>): val is Promise<unknown> {
-  return val && (<Promise<unknown>>val).then !== undefined;
-}
+export type ResourceFn<Return = unknown> = (
+  hooks: Hooks
+) => Return | Promise<Return>;
 
 /**
  * _An example utilty that uses [[resource]]_
@@ -29,8 +19,6 @@ export function isPromise(val: any | Promise<unknown>): val is Promise<unknown> 
  * properties, the "tracked prelude". If any properties within the tracked
  * payload  change, the function will re-run.
  *
- * The optional initial values can be used to provide a nicer fallback than "null"
- *
  * ```js
  * import Component from '@glimmer/component';
  * import { tracked } from '@glimmer/tracking';
@@ -39,7 +27,7 @@ export function isPromise(val: any | Promise<unknown>): val is Promise<unknown> 
  * class Demo extends Component {
  *   @tracked id = 1;
  *
- *   request = trackedFunction(this, { initial value here }, async () => {
+ *   request = trackedFunction(this, async () => {
  *     let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
  *     let data = await response.json();
  *
@@ -63,14 +51,17 @@ export function isPromise(val: any | Promise<unknown>): val is Promise<unknown> 
  *
  * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
  *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
- * @param {Function} theFunction the function to run with the return value available on .value
+ * @param {Object} context destroyable parent, e.g.: component instance aka "this"
+ * @param {Function} fn the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(context: object, fn: ResourceFn<Return>) {
+export function trackedFunction<Return>(
+  context: object,
+  fn: ResourceFn<Return>
+) {
   return resource<State<Return>>(context, (hooks) => {
     const state = new State(fn, hooks);
 
+    hooks.on.cleanup(() => destroy(state));
     state.retry();
 
     return state;
@@ -92,8 +83,8 @@ export class State<Value> {
     this.#hooks = hooks;
   }
 
-  get state(): 'UNSTARTED' | 'PENDING' | 'RESOLVED' | 'REJECTED' {
-    return this.data?.state ?? 'UNSTARTED';
+  get state(): "UNSTARTED" | "PENDING" | "RESOLVED" | "REJECTED" {
+    return this.data?.state ?? "UNSTARTED";
   }
 
   get isPending() {
@@ -108,8 +99,25 @@ export class State<Value> {
     return this.data?.isRejected ?? false;
   }
 
+  /**
+   * TrackedAsyncData does not allow the accessing of data before
+   * .state === 'RESOLVED'  (isResolved).
+   *
+   * From a correctness standpoint, this is perfectly reasonable,
+   * as it forces folks to handle thet states involved with async functions.
+   *
+   * The original version of `trackedFunction` did not use TrackedAsyncData,
+   * and did not have these strictnesses upon property access, leaving folks
+   * to be as correct or as fast/prototype-y as they wished.
+   *
+   * For now, `trackedFunction` will retain that flexibility.
+   */
   get value() {
-    return this.data ? this.data.value : null;
+    if (this.data?.isResolved) {
+      return this.data.value;
+    }
+
+    return null;
   }
 
   get error() {

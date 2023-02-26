@@ -44,7 +44,6 @@ module('Utils | trackedFunction | js', function (hooks) {
     foo.count = 6;
     foo.data.value;
     destroy(foo); // this prevents a third run
-    // await settled();
 
     assert.verifySteps(['run 1, value: 1', 'run 2, value: 2']);
   });

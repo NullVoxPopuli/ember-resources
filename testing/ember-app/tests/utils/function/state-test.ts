@@ -11,7 +11,7 @@ module('Utils | State | js', function (hooks) {
   setupTest(hooks);
 
   test('initial state', async function (assert) {
-    let m;
+    let m = '<invalid state>';
     let resolve: (value?: unknown) => void;
 
     const promise = new Promise((r) => {
@@ -42,7 +42,7 @@ module('Utils | State | js', function (hooks) {
   });
 
   test('successful state', async function (assert) {
-    let m;
+    let m = '<invalid state>';
     let resolve: (value?: unknown) => void;
 
     const promise = new Promise((r) => {
@@ -74,8 +74,8 @@ module('Utils | State | js', function (hooks) {
     assert.false(state.isPending, m);
   });
 
-  test('error state eventual', async function (assert) {
-    let m;
+  test('error state', async function (assert) {
+    let m = '<invalid state>';
     let reject: (value?: unknown) => void;
     const error = new Error('Denied!');
 
@@ -92,7 +92,7 @@ module('Utils | State | js', function (hooks) {
     // Avoid a test failure on uncaught promise
     try {
       await promise2;
-    } catch(e) {
+    } catch (e) {
       if (e !== error) throw e;
     }
 

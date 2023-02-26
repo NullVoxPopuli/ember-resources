@@ -93,14 +93,14 @@
   "dependencies": {
     "@babel/runtime": "^7.17.8",
     "@embroider/addon-shim": "^1.2.0",
-    "@embroider/macros": "^1.2.0",
-    "ember-async-data": "^0.6.0"
+    "@embroider/macros": "^1.2.0"
   },
   "peerDependencies": {
     "@ember/test-waiters": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/template": ">= 0.8.3",
+    "ember-async-data": "^0.6.0",
     "ember-concurrency": "^2.0.0",
     "ember-source": ">= 3.28.0"
   },
@@ -109,6 +109,9 @@
       "optional": true
     },
     "ember-concurrency": {
+      "optional": true
+    },
+    "ember-async-data": {
       "optional": true
     },
     "@ember/test-waiters": {
@@ -140,6 +143,7 @@
     "@types/ember__runloop": "^4.0.1",
     "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
+    "ember-async-data": "^0.6.0",
     "ember-template-lint": "3.16.0",
     "eslint": "^7.32.0",
     "expect-type": "^0.15.0",
