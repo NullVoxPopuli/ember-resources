@@ -41,11 +41,12 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
     class TestComponent extends Component {
       data = trackedFunction(this, () => {
-        count++;
         // Copy the count so asynchrony of trackedFunction evaluation
         // doesn't return a newer value than existed at the time
         // of the function invocation.
         let localCount = count;
+
+        count++;
         assert.step(`ran trackedFunction ${localCount}`);
 
         return localCount;
@@ -57,29 +58,17 @@ module('Utils | trackedFunction | rendering', function (hooks) {
       </template>
     }
 
-    console.log('1', count)
-
     await render(<template><TestComponent /></template>);
-    assert.verifySteps(['ran trackedFunction 1']);
+    assert.verifySteps(['ran trackedFunction 0']);
 
-    console.log('2', count)
+    assert.dom('out').hasText('0');
+
+    await click('button');
+    assert.verifySteps(['ran trackedFunction 1']);
 
     assert.dom('out').hasText('1');
 
-    console.log('3', count)
-
-    await click('button');
-    assert.verifySteps(['ran trackedFunction 2']);
-
-    console.log('4', count)
-
-    assert.dom('out').hasText('2');
-
-    console.log('5', count)
-
     assert.verifySteps([]);
-
-    console.log('6', count)
   });
 
   test('async functions update when the promise resolves', async function (assert) {

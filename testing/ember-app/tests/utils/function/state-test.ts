@@ -7,7 +7,7 @@ import type { Hooks } from 'ember-resources/core/function-based';
 
 const fakeHooks = {} as Hooks;
 
-module('Utils | State | js', function (hooks) {
+module('Utils | trackedFunction | State | js', function (hooks) {
   setupTest(hooks);
 
   test('initial state', async function (assert) {

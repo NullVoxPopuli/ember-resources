@@ -1,5 +1,5 @@
 import { tracked } from "@glimmer/tracking";
-import { destroy } from "@ember/destroyable";
+import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from "@ember/destroyable";
 
 import { TrackedAsyncData } from "ember-async-data";
 
@@ -56,16 +56,19 @@ export type ResourceFn<Return = unknown> = (
  */
 export function trackedFunction<Return>(
   context: object,
-  fn: ResourceFn<Return>
+  fn: () => Return
 ) {
-  return resource<State<Return>>(context, (hooks) => {
-    const state = new State(fn, hooks);
+  const state = new State(fn);
 
-    hooks.on.cleanup(() => destroy(state));
+  let destroyable = resource<State<Return>>(context, () => {
     state.retry();
 
     return state;
   });
+
+  associateDestroyableChild(destroyable, state);
+
+  return destroyable;
 }
 
 /**
@@ -75,12 +78,10 @@ export class State<Value> {
   @tracked data: TrackedAsyncData<Value> | null = null;
   @tracked promise!: Value | Promise<Value>;
 
-  #fn: ResourceFn<Value>;
-  #hooks: Hooks;
+  #fn: () => Value;
 
-  constructor(fn: ResourceFn<Value>, hooks: Hooks) {
+  constructor(fn: () => Value) {
     this.#fn = fn;
-    this.#hooks = hooks;
   }
 
   get state(): "UNSTARTED" | "PENDING" | "RESOLVED" | "REJECTED" {
@@ -88,7 +89,9 @@ export class State<Value> {
   }
 
   get isPending() {
-    return this.data?.isPending ?? false;
+    if (!this.data) return true;
+
+    return this.data.isPending ?? false;
   }
 
   get isResolved() {
@@ -134,9 +137,29 @@ export class State<Value> {
    * until this promise resolves, and then they'll be updated to the new values.
    */
   retry = async () => {
-    // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
-    this.promise = this.#fn(this.#hooks);
+    if (isDestroyed(this) || isDestroying(this)) return;
 
+    // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
+    this.promise = this.#fn();
+
+    // TrackedAsyncData interacts with tracked data during instantiation.
+    // We don't want this internal state to entangle with `trackedFunction`
+    // so that *only* the tracked data in `fn` can be entangled.
+    await Promise.resolve();
+
+    if (this.data) {
+      let isUnsafe = isDestroyed(this.data) || isDestroying(this.data);
+
+      if (!isUnsafe) {
+        destroy(this.data);
+        this.data = null;
+      }
+    }
+
+
+    if (isDestroyed(this) || isDestroying(this)) return;
+
+    // TrackedAsyncData manages the destroyable child association for us
     this.data = new TrackedAsyncData(this.promise, this);
 
     return this.promise;
