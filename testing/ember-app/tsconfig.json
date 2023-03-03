@@ -1,28 +1,11 @@
 {
+  "extends": "@tsconfig/ember/tsconfig.json",
   "glint": {
     "environment": ["ember-loose", "ember-template-imports"]
   },
+  "include": ["app/**/*", "tests/**/*", "type-tests/**/*", "types/**/*"],
   "compilerOptions": {
-    "target": "es2020",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noEmitOnError": false,
-    "noEmit": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "baseUrl": ".",
-    "module": "es6",
-    "experimentalDecorators": true,
     "paths": {
       "ember-app/tests/*": ["tests/*"],
       "ember-app/*": ["app/*"],
@@ -30,6 +13,4 @@
       "*": ["types/*"]
     }
   },
-  "include": ["app/**/*", "tests/**/*", "type-tests/**/*", "types/**/*"],
-  "references": [{ "path": "../../ember-resources" }]
 }

@@ -1,11 +1,7 @@
 {
+  "extends": "@tsconfig/ember/tsconfig.json",
+  "include": ["src/**/*"]
   "compilerOptions": {
-    // So that the test app's type checking doesn't break when we change types
-    "composite": true,
-
-    // Path resolution
-    "baseUrl": "./src",
-    "moduleResolution": "node",
     // We only use tsc for type checking and declaration output
     "emitDeclarationOnly": false,
     "declarationDir": "./dist",
@@ -13,27 +9,9 @@
     "declarationMap": true,
     // Build settings
     "noEmitOnError": false,
-    "module": "ESNext",
-    "target": "ESNext",
-    // Features
-    "experimentalDecorators": true,
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    // Strictness / Correctness
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
     "paths": {
       "[core-types]": ["./core/types"],
       "[deprecated-types]": ["./deprecated-in-v4/types"]
     }
   },
-  "include": ["src/**/*"]
 }
