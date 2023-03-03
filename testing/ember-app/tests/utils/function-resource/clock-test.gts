@@ -16,7 +16,7 @@ module('Examples | resource | Clock', function (hooks) {
   });
 
   // Wrapper functions are the only way to pass Args to a resource.
-  const Clock = resourceFactory(({ start, locale = 'en-US' }) => {
+  const Clock = resourceFactory(({ start, locale = 'en-US' }: { start?: Date, locale?: string }) => {
     // For a persistent state across arg changes, `Resource` may be better`
     let time = cell(start);
     let formatter = new Intl.DateTimeFormat(locale, {

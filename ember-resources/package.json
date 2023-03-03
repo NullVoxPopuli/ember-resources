@@ -99,9 +99,9 @@
     "@ember/test-waiters": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "@glint/template": ">= 0.8.3",
+    "@glint/template": "^1.0.0-beta.3 || ^1.0.0",
     "ember-concurrency": "^2.0.0",
-    "ember-source": ">= 3.28.0"
+    "ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0"
   },
   "peerDependenciesMeta": {
     "@glimmer/component": {
@@ -126,7 +126,7 @@
     "@embroider/addon-dev": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "@glint/template": "^0.8.3",
+    "@glint/template": "^1.0.0-beta.3",
     "@nullvoxpopuli/eslint-configs": "^3.0.0",
     "@types/ember__application": "^4.0.0",
     "@types/ember__component": "^4.0.8",
@@ -136,13 +136,14 @@
     "@types/ember__object": "^4.0.2",
     "@types/ember__owner": "^4.0.0",
     "@types/ember__runloop": "^4.0.1",
-    "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
     "ember-async-data": "^0.7.0",
     "ember-template-lint": "3.16.0",
+    "ember-source": "4.11.0",
     "eslint": "^7.32.0",
     "expect-type": "^0.15.0",
     "npm-run-all": "4.1.5",
+    "prettier": "^2.8.4",
     "rollup": "3.18.0",
     "rollup-plugin-ts": "^3.0.0",
     "tslib": "^2.4.0",
