@@ -154,6 +154,7 @@ importers:
       '@babel/core': ^7.0.0
       '@babel/eslint-parser': ^7.19.1
       '@ember/optional-features': ^2.0.0
+      '@ember/string': ^3.0.1
       '@ember/test-helpers': ^2.8.0
       '@ember/test-waiters': ^3.0.1
       '@embroider/compat': ^1.6.0
@@ -260,6 +261,7 @@ importers:
       '@babel/core': 7.21.0
       '@babel/eslint-parser': 7.19.1_zt6cfucldurvbyn2isj445jria
       '@ember/optional-features': 2.0.0
+      '@ember/string': 3.0.1
       '@ember/test-helpers': 2.9.3_rypbm5i3j32yrgnhdkkesnugse
       '@embroider/compat': 1.9.0_@embroider+core@1.9.0
       '@embroider/core': 1.9.0
@@ -795,7 +797,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0
+      '@babel/core': 7.21.0_supports-color@8.1.1
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3_@babel+core@7.21.0
 
@@ -838,7 +840,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0
+      '@babel/core': 7.21.0_supports-color@8.1.1
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/helper-skip-transparent-expression-wrappers': 7.20.0
       '@babel/plugin-syntax-optional-chaining': 7.8.3_@babel+core@7.21.0
@@ -959,7 +961,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0
+      '@babel/core': 7.21.0_supports-color@8.1.1
       '@babel/helper-plugin-utils': 7.20.2
 
   /@babel/plugin-syntax-numeric-separator/7.10.4_@babel+core@7.21.0:
@@ -991,7 +993,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0
+      '@babel/core': 7.21.0_supports-color@8.1.1
       '@babel/helper-plugin-utils': 7.20.2
 
   /@babel/plugin-syntax-private-property-in-object/7.14.5_@babel+core@7.21.0:
@@ -1818,6 +1820,15 @@ packages:
       inquirer: 7.3.3
       mkdirp: 1.0.4
       silent-error: 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@ember/string/3.0.1:
+    resolution: {integrity: sha512-ntnmXS+upOWVXE+rVw2l03DjdMnaGdWbYVUxUBuPJqnIGZu2XFRsoXc7E6mOw62s8i1Xh1RgTuFHN41QGIolEQ==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      ember-cli-babel: 7.26.11
     transitivePeerDependencies:
       - supports-color
     dev: true
