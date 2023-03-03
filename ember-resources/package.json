@@ -136,7 +136,6 @@
     "@types/ember__object": "^4.0.2",
     "@types/ember__owner": "^4.0.0",
     "@types/ember__runloop": "^4.0.1",
-    "@types/ember__test-helpers": "^2.0.0",
     "babel-eslint": "10.1.0",
     "ember-async-data": "^0.7.0",
     "ember-template-lint": "3.16.0",
