@@ -20,7 +20,7 @@ module('Utils | remote-data | rendering', function (hooks) {
   setupRenderingTest(hooks);
   setupMSW(hooks, ({ rest }) => [
     rest.get('/blogs/:id', (req, res, ctx) => {
-      let record = data.find((datum) => datum.id === req.params.id);
+      let record = data.find((datum) => datum.id === req.params['id']);
 
       return res(ctx.json({ ...record }));
     }),

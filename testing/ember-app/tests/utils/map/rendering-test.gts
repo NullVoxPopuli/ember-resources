@@ -40,7 +40,7 @@ module('Utils | map | rendering', function (hooks) {
     let step = helper(([text]: [string]) => assert.step(text));
 
     class Context {
-      @tracked records: TestRecord[] = [];
+      @tracked records: Array<TestRecord | undefined> = [];
     }
 
     class Test extends Component<{ Args: { ctx: Context } }> {
@@ -52,7 +52,7 @@ module('Utils | map | rendering', function (hooks) {
           return this.args.ctx.records;
         },
         map: (record) => {
-          assert.step(`perform map on ${record.id}`);
+          assert.step(`perform map on ${record?.id}`);
 
           return new Wrapper(record);
         },

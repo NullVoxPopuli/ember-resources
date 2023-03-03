@@ -49,7 +49,7 @@ export interface MappedArray<MappedTo> {
    *  }
    * ```
    */
-  values: () => MappedTo[];
+  values: () => readonly MappedTo[];
 
   /**
    * Without evaluating the map function on each element,
@@ -155,7 +155,7 @@ export interface MappedArray<MappedTo> {
  *  }
  * ```
  */
-export function map<Element = unknown, MapTo = unknown>(
+export function map<Element = any, MapTo = unknown>(
   /**
    * parent destroyable context, unually `this`
    */
@@ -166,7 +166,7 @@ export function map<Element = unknown, MapTo = unknown>(
      *
      * This can be class instances, plain objects, or anything supported by WeakMap's key
      */
-    data: () => Element[];
+    data: () => Element[] | readonly Element[];
     /**
      * How to transform each element from `data`,
      * similar to if you were to use Array map yourself.
@@ -180,11 +180,7 @@ export function map<Element = unknown, MapTo = unknown>(
 ) {
   let { data, map } = options;
 
-  /**
-   * The passing here is hacky, but required until the min-supported
-   * typescript version is 4.7
-   */
-  let resource = TrackedArrayMap.from<TrackedArrayMap<Element, MapTo>>(destroyable, () => {
+  let resource = (TrackedArrayMap<Element, MapTo>).from(destroyable, () => {
     let reified = data();
 
     return { positional: [reified], named: { map } };
@@ -215,7 +211,7 @@ export function map<Element = unknown, MapTo = unknown>(
 }
 
 type Args<E = unknown, Result = unknown> = {
-  Positional: [E[]];
+  Positional: [E[] | readonly E[]];
   Named: {
     map: (element: E) => Result;
   };

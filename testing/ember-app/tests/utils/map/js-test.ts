@@ -79,8 +79,8 @@ module('Utils | map | js', function (hooks) {
     assert.ok(instance.stuff.values()[0] instanceof Wrapper, 'mappedRecords id:1');
     assert.ok(instance.stuff.values()[1] instanceof Wrapper, 'mappedRecords id:2');
 
-    assert.strictEqual(currentStuff[0].record, first, 'object equality retained');
-    assert.strictEqual(currentStuff[1].record, second, 'object equality retained');
+    assert.strictEqual(currentStuff[0]?.record, first, 'object equality retained');
+    assert.strictEqual(currentStuff[1]?.record, second, 'object equality retained');
 
     instance.records = [...instance.records, testData(3)];
     assert.strictEqual(instance.stuff.length, 3, 'length adjusted');
