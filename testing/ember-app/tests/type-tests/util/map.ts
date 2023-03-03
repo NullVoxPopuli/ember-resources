@@ -38,5 +38,5 @@ export const c = map(globalThis, {
   },
 });
 
-expectType<number | undefined>(c[0]);
-expectType<number | undefined>(c.values()[0]);
+expectType<number>(c[0]);
+expectType<number>(c.values()[0]);
