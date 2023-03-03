@@ -1,7 +1,8 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
   "compilerOptions": {
+    "baseUrl": "./src",
     // We only use tsc for type checking and declaration output
     "emitDeclarationOnly": false,
     "declarationDir": "./dist",
@@ -13,5 +14,5 @@
       "[core-types]": ["./core/types"],
       "[deprecated-types]": ["./deprecated-in-v4/types"]
     }
-  },
+  }
 }

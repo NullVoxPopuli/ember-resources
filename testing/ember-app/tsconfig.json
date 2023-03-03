@@ -12,5 +12,5 @@
       "ember-resources/*": ["../../ember-resources/dist/*"],
       "*": ["types/*"]
     }
-  },
+  }
 }

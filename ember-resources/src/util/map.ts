@@ -282,6 +282,15 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
    */
   [AT](i: number) {
     let record = this._records[i];
+
+    assert(
+      `Expected record to exist at index ${i}, but it did not. ` +
+        `The array item is expected to exist, because the map utility resource lazily iterates along the indicies of the original array passed as data. ` +
+        `This error could happen if the data array passed to map has been mutated while iterating. ` +
+        `To resolve this error, do not mutate arrays while iteration occurs.`,
+      record
+    );
+
     let value = this.#map.get(record);
 
     if (!value) {
