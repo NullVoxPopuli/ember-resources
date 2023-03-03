@@ -101,7 +101,7 @@ module('Core | Resource | rendering', function (hooks) {
 
       await render(
         <template>
-          <button {{on 'click' condition.toggle}}>Toggle</button><br />
+          <button type="button" {{on 'click' condition.toggle}}>Toggle</button><br />
 
           {{#if condition.current}}
             {{poll id.current}}

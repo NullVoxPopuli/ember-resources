@@ -1,9 +1,6 @@
 {
   "glint": {
-    "environment": [
-      "ember-loose",
-      "ember-template-imports"
-    ]
+    "environment": ["ember-loose", "ember-template-imports"]
   },
   "compilerOptions": {
     "target": "es2020",
@@ -27,25 +24,12 @@
     "module": "es6",
     "experimentalDecorators": true,
     "paths": {
-      "ember-app/tests/*": [
-        "tests/*"
-      ],
-      "ember-app/*": [
-        "app/*"
-      ],
+      "ember-app/tests/*": ["tests/*"],
+      "ember-app/*": ["app/*"],
       "ember-resources/*": ["../../ember-resources/dist/*"],
-      "*": [
-        "types/*"
-      ]
+      "*": ["types/*"]
     }
   },
-  "include": [
-    "app/**/*",
-    "tests/**/*",
-    "type-tests/**/*",
-    "types/**/*"
-  ],
-  "references": [
-    { "path": "../../ember-resources" }
-  ]
+  "include": ["app/**/*", "tests/**/*", "type-tests/**/*", "types/**/*"],
+  "references": [{ "path": "../../ember-resources" }]
 }

@@ -4,4 +4,3 @@ declare module 'ember-app/templates/*' {
   const tmpl: TemplateFactory;
   export default tmpl;
 }
-

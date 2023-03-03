@@ -1,10 +1,12 @@
 # unconventional js
 /blueprints/*/files/
 /vendor/
+/public/
 
 # compiled output
 /dist/
 /tmp/
+CHANGELOG.md
 
 # dependencies
 /bower_components/

@@ -1,11 +1,10 @@
 NOTE: Glint does not support plain-functions yet (in loose mode)
 
-
-{{!-- direct invocation --}}
+{{! direct invocation }}
 {{this.clock}}
 {{this.overInvalidatingClock}}
 
-{{get (this.Calculator) 'prop'}}
+{{get (this.Calculator) "prop"}}
 {{#let (this.Calculator) as |calc|}}
   {{calc.prop}}
   {{!--
@@ -13,13 +12,11 @@ NOTE: Glint does not support plain-functions yet (in loose mode)
   --}}
 {{/let}}
 
-
 {{#let (this.Doubler this.input) as |doubler|}}
   {{doubler.value}}
 {{/let}}
 
-
-{{!-- class-based resource --}}
+{{! class-based resource }}
 
 {{this.calculator.prop}}
 {{!--
@@ -33,7 +30,7 @@ NOTE: Glint does not support plain-functions yet (in loose mode)
 {{/let}}
 --}}
 
-{{!-- function-based resource --}}
+{{! function-based resource }}
 
 {{this.decoratorLess}}
 {{this.badClock}}
