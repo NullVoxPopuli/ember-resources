@@ -43,6 +43,7 @@
     "@babel/core": "^7.0.0",
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
+    "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.8.0",
     "@embroider/compat": "^1.6.0",
     "@embroider/core": "^1.6.0",
