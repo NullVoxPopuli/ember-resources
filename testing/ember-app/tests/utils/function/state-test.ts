@@ -3,10 +3,6 @@ import { setupTest } from 'ember-qunit';
 
 import { State } from 'ember-resources/util/function';
 
-import type { Hooks } from 'ember-resources/core/function-based';
-
-const fakeHooks = {} as Hooks;
-
 module('Utils | trackedFunction | State | js', function (hooks) {
   setupTest(hooks);
 
@@ -18,7 +14,7 @@ module('Utils | trackedFunction | State | js', function (hooks) {
       resolve = r;
     });
 
-    const state = new State(() => promise, fakeHooks);
+    const state = new State(() => promise);
     const promise2 = state.retry();
 
     m = 'isResolved';
@@ -51,7 +47,7 @@ module('Utils | trackedFunction | State | js', function (hooks) {
 
     const value = Symbol('resolved value');
 
-    const state = new State(() => promise, fakeHooks);
+    const state = new State(() => promise);
     const promise2 = state.retry();
 
     // @ts-ignore This is normal promise usage
@@ -83,7 +79,7 @@ module('Utils | trackedFunction | State | js', function (hooks) {
       reject = r;
     });
 
-    const state = new State(() => promise, fakeHooks);
+    const state = new State(() => promise);
     const promise2 = state.retry();
 
     // @ts-ignore This is normal promise usage

@@ -5,12 +5,6 @@ import { TrackedAsyncData } from "ember-async-data";
 
 import { resource } from "../core/function-based";
 
-import type { Hooks } from "../core/function-based";
-
-export type ResourceFn<Return = unknown> = (
-  hooks: Hooks
-) => Return | Promise<Return>;
-
 /**
  * _An example utilty that uses [[resource]]_
  *
@@ -76,7 +70,7 @@ export function trackedFunction<Return>(
  */
 export class State<Value> {
   @tracked data: TrackedAsyncData<Value> | null = null;
-  @tracked promise!: Value | Promise<Value>;
+  @tracked declare promise: Value;
 
   #fn: () => Value;
 
