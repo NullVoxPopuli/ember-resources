@@ -30,7 +30,7 @@ QUnit.done(async () => {
 
 export async function setupMSW(
   hooks: NestedHooks,
-  handlers: (args: { rest: typeof rest }) => Parameters<typeof worker['use']>
+  handlers: (args: { rest: typeof rest }) => Parameters<(typeof worker)['use']>
 ) {
   hooks.beforeEach(async function () {
     /**
