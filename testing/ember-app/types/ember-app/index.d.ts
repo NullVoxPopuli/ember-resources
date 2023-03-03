@@ -1,11 +1,15 @@
 // import type Ember from 'ember';
 
-import "@glint/environment-ember-loose";
-import "@glint/environment-ember-loose/native-integration";
+import '@glint/environment-ember-loose';
+import '@glint/environment-ember-loose/native-integration';
 import '@glint/environment-ember-template-imports';
 
-import type { HasContext, TemplateContext, FlattenBlockParams } from '@glint/template/-private/integration';
 import type { ExpandSignature } from '@glimmer/component/-private/component';
+import type {
+  FlattenBlockParams,
+  HasContext,
+  TemplateContext,
+} from '@glint/template/-private/integration';
 
 declare global {
   // interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
@@ -17,11 +21,10 @@ export {};
 import '@ember/component';
 import '@ember/test-helpers';
 import 'ember-cli-htmlbars';
-import type Owner from "@ember/owner";
 
-type TestTemplate<T, A, B, E> = abstract new () => HasContext<
-  TemplateContext<T, A, B, E>
->;
+import type Owner from '@ember/owner';
+
+type TestTemplate<T, A, B, E> = abstract new () => HasContext<TemplateContext<T, A, B, E>>;
 
 declare module '@ember/test-helpers' {
   export function render<T>(template: TestTemplate<T, any, any, any>): Promise<void>;
@@ -34,9 +37,9 @@ declare module 'ember-cli-htmlbars' {
   interface TemplateFactory extends TestTemplate<any, any, any, any> {}
 }
 
-
 declare module '@ember/component' {
   export function setComponentManager<T>(managerId: string, baseClass: T): T;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   export function setComponentManager<T>(managerFactory: (owner: any) => {}, baseClass: T): T;
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -53,11 +56,8 @@ declare module '@ember/component' {
   export function setComponentTemplate<
     Klass extends abstract new (owner: Owner, args: any) => Instance,
     Instance = InstanceType<Klass>,
-    S = InferSignature<Instance>,
-  >(
-    template: abstract new () => HasContext<ComponentContext<Instance, S>>,
-    klass: Klass
-  ): Klass;
+    S = InferSignature<Instance>
+  >(template: abstract new () => HasContext<ComponentContext<Instance, S>>, klass: Klass): Klass;
 
   export function capabilities(
     version: string,

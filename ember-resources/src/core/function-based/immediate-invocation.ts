@@ -39,7 +39,6 @@ class ResourceInvokerManager {
       return invokeHelper(cache, resource);
     });
 
-
     return { fn, args, cache, _: getValue(cache) };
   }
 
@@ -138,23 +137,23 @@ class ResourceInvokerManager {
 export function resourceFactory<Value = unknown, Args extends unknown[] = unknown[]>(
   wrapperFn: (...args: Args) => ReturnType<typeof resource<Value>>
   /**
-    * This is a bonkers return type.
-    * Here are the scenarios:
-    *   const A = resourceFactory((...args) => {
-    *     return resource(({ on }) => {
-    *       ...
-    *     })
-    *   })
-    *
-    * Invocation styles need to be type-correct:
-    *   @use a = A(() => [b, c, d])
-    *   => single argument which is a function where the return type is the args
-    *
-    *   {{#let (A b c d) as |a|}}
-    *      {{a}}
-    *   {{/let}}
-    *   => args are passed directly as positional arguments
-    */
+   * This is a bonkers return type.
+   * Here are the scenarios:
+   *   const A = resourceFactory((...args) => {
+   *     return resource(({ on }) => {
+   *       ...
+   *     })
+   *   })
+   *
+   * Invocation styles need to be type-correct:
+   *   @use a = A(() => [b, c, d])
+   *   => single argument which is a function where the return type is the args
+   *
+   *   {{#let (A b c d) as |a|}}
+   *      {{a}}
+   *   {{/let}}
+   *   => args are passed directly as positional arguments
+   */
 ) {
   setHelperManager(ResourceInvokerFactory, wrapperFn);
 
@@ -163,27 +162,25 @@ export function resourceFactory<Value = unknown, Args extends unknown[] = unknow
 
 type ResourceBlueprint<Value, Args> =
   /**
-    * type for JS invocation with @use
-    *   @use a = A.from(() => [b, c, d])
-    */
+   * type for JS invocation with @use
+   *   @use a = A.from(() => [b, c, d])
+   */
   | ((thunk: () => SpreadFor<Args>) => ReturnType<typeof resource<Value>>)
   /**
    * Type for template invocation
-    *  {{#let (A b c d) as |a|}}
-    *     {{a}}
-    *  {{/let}}
+   *  {{#let (A b c d) as |a|}}
+   *     {{a}}
+   *  {{/let}}
    */
   | ((...args: SpreadFor<Args>) => ReturnType<typeof resource<Value>>)
   /**
-    * Not passing args is allowed, too
-    *   @use a = A.from()
-    *
-    *   {{A}}
-    */
-  | (() => ReturnType<typeof resource<Value>>)
-  // semicolon
-  ;
-
+   * Not passing args is allowed, too
+   *   @use a = A.from()
+   *
+   *   {{A}}
+   */
+  | (() => ReturnType<typeof resource<Value>>);
+// semicolon
 
 // Provide a singleton manager.
 const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);

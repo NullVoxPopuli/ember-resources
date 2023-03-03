@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/ban-types */
-import { type TypeEqual, expectType } from 'ts-expect';
+import { expectType, type TypeEqual } from 'ts-expect';
 
 import type { ExpandArgs } from 'ember-resources';
 

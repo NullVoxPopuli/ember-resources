@@ -142,6 +142,7 @@ module('Core | Resource | js', function (hooks) {
 
     class Test {
       dataArray = TestResource.from(this, () => []);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       dataVoid = TestResource.from(this, () => {});
       dataOmitted = TestResource.from(this, () => ({}));
       @use dataWithUse = TestResource.from(() => []);

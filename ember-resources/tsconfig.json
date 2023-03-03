@@ -35,7 +35,5 @@
       "[deprecated-types]": ["./deprecated-in-v4/types"]
     }
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
