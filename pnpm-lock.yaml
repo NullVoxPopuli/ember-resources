@@ -97,6 +97,7 @@ importers:
       eslint: ^7.32.0
       expect-type: ^0.15.0
       npm-run-all: 4.1.5
+      prettier: ^2.8.4
       rollup: 3.18.0
       rollup-plugin-ts: ^3.0.0
       tslib: ^2.4.0
@@ -118,7 +119,7 @@ importers:
       '@glimmer/component': 1.1.2_@babel+core@7.21.0
       '@glimmer/tracking': 1.1.2
       '@glint/template': 0.8.3_@glimmer+component@1.1.2
-      '@nullvoxpopuli/eslint-configs': 3.0.1_ccoxihxmx25rm5cufeee3dmlne
+      '@nullvoxpopuli/eslint-configs': 3.0.1_jpcj7sot5ihtl6zql22wszkurq
       '@types/ember__application': 4.0.0
       '@types/ember__component': 4.0.8
       '@types/ember__debug': 4.0.1
@@ -134,6 +135,7 @@ importers:
       eslint: 7.32.0
       expect-type: 0.15.0
       npm-run-all: 4.1.5
+      prettier: 2.8.4
       rollup: 3.18.0
       rollup-plugin-ts: 3.0.2_6zuekk2csavxpejf4gvzyk6mqu
       tslib: 2.4.0
@@ -1215,7 +1217,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0_supports-color@8.1.1
+      '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3_@babel+core@7.21.0
 
@@ -1258,7 +1260,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0_supports-color@8.1.1
+      '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/helper-skip-transparent-expression-wrappers': 7.20.0
       '@babel/plugin-syntax-optional-chaining': 7.8.3_@babel+core@7.21.0
@@ -1407,7 +1409,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0_supports-color@8.1.1
+      '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
 
   /@babel/plugin-syntax-numeric-separator/7.10.4_@babel+core@7.21.0:
@@ -1439,7 +1441,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.0_supports-color@8.1.1
+      '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
 
   /@babel/plugin-syntax-private-property-in-object/7.14.5_@babel+core@7.21.0:
@@ -2432,7 +2434,7 @@ packages:
       fs-extra: 7.0.1
       lodash.startcase: 4.4.0
       outdent: 0.5.0
-      prettier: 2.8.2
+      prettier: 2.8.4
       resolve-from: 5.0.0
       semver: 5.7.1
     dev: true
@@ -2618,7 +2620,7 @@ packages:
       '@changesets/types': 5.2.0
       fs-extra: 7.0.1
       human-id: 1.0.2
-      prettier: 2.8.2
+      prettier: 2.8.4
     dev: true
 
   /@cnakazawa/watch/1.0.4:
@@ -3786,51 +3788,6 @@ packages:
       - typescript
     dev: true
 
-  /@nullvoxpopuli/eslint-configs/3.0.1_ccoxihxmx25rm5cufeee3dmlne:
-    resolution: {integrity: sha512-L4WWU+hoB/QKCGbkh8wdY9M2vdAfIgtBuPhNbrrMC8L+h+9RXMgxLWPbcC9vlKvC7ossYHDIbQXv004/gXtIPA==}
-    engines: {node: '>= v16.0.0'}
-    peerDependencies:
-      '@babel/core': ^7.20.12
-      '@babel/eslint-parser': ^7.19.1
-      '@typescript-eslint/eslint-plugin': 5.48.1
-      '@typescript-eslint/parser': 5.48.1
-      eslint: ^7.0.0 || ^8.0.0
-      eslint-plugin-ember: ^11.4.2
-      eslint-plugin-qunit: ^7.3.4
-      prettier: ^2.8.2
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/eslint-parser':
-        optional: true
-      '@typescript-eslint/eslint-plugin':
-        optional: true
-      '@typescript-eslint/parser':
-        optional: true
-      eslint-plugin-ember:
-        optional: true
-      eslint-plugin-qunit:
-        optional: true
-      prettier:
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.0
-      cosmiconfig: 8.0.0
-      eslint: 7.32.0
-      eslint-import-resolver-typescript: 3.5.3_hpmu7kn6tcn2vnxpfzvv33bxmy
-      eslint-plugin-decorator-position: 5.0.1_eslint@7.32.0
-      eslint-plugin-import: 2.26.0_3aa52m4yxoarnhkiex7tltyrnu
-      eslint-plugin-json: 3.1.0
-      eslint-plugin-n: 15.6.1_eslint@7.32.0
-      eslint-plugin-prettier: 4.2.1_eslint@7.32.0
-      eslint-plugin-simple-import-sort: 8.0.0_eslint@7.32.0
-      prettier-plugin-ember-template-tag: 0.3.0
-    transitivePeerDependencies:
-      - eslint-config-prettier
-      - eslint-import-resolver-webpack
-      - supports-color
-    dev: true
-
   /@nullvoxpopuli/eslint-configs/3.0.1_fqyzhpusvewbsl54pqqbxqaegm:
     resolution: {integrity: sha512-L4WWU+hoB/QKCGbkh8wdY9M2vdAfIgtBuPhNbrrMC8L+h+9RXMgxLWPbcC9vlKvC7ossYHDIbQXv004/gXtIPA==}
     engines: {node: '>= v16.0.0'}
@@ -3869,6 +3826,52 @@ packages:
       eslint-plugin-prettier: 4.2.1_fqyzhpusvewbsl54pqqbxqaegm
       eslint-plugin-simple-import-sort: 8.0.0_eslint@7.32.0
       prettier: 2.7.1
+      prettier-plugin-ember-template-tag: 0.3.0
+    transitivePeerDependencies:
+      - eslint-config-prettier
+      - eslint-import-resolver-webpack
+      - supports-color
+    dev: true
+
+  /@nullvoxpopuli/eslint-configs/3.0.1_jpcj7sot5ihtl6zql22wszkurq:
+    resolution: {integrity: sha512-L4WWU+hoB/QKCGbkh8wdY9M2vdAfIgtBuPhNbrrMC8L+h+9RXMgxLWPbcC9vlKvC7ossYHDIbQXv004/gXtIPA==}
+    engines: {node: '>= v16.0.0'}
+    peerDependencies:
+      '@babel/core': ^7.20.12
+      '@babel/eslint-parser': ^7.19.1
+      '@typescript-eslint/eslint-plugin': 5.48.1
+      '@typescript-eslint/parser': 5.48.1
+      eslint: ^7.0.0 || ^8.0.0
+      eslint-plugin-ember: ^11.4.2
+      eslint-plugin-qunit: ^7.3.4
+      prettier: ^2.8.2
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/eslint-parser':
+        optional: true
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      '@typescript-eslint/parser':
+        optional: true
+      eslint-plugin-ember:
+        optional: true
+      eslint-plugin-qunit:
+        optional: true
+      prettier:
+        optional: true
+    dependencies:
+      '@babel/core': 7.21.0
+      cosmiconfig: 8.0.0
+      eslint: 7.32.0
+      eslint-import-resolver-typescript: 3.5.3_hpmu7kn6tcn2vnxpfzvv33bxmy
+      eslint-plugin-decorator-position: 5.0.1_eslint@7.32.0
+      eslint-plugin-import: 2.26.0_3aa52m4yxoarnhkiex7tltyrnu
+      eslint-plugin-json: 3.1.0
+      eslint-plugin-n: 15.6.1_eslint@7.32.0
+      eslint-plugin-prettier: 4.2.1_xlxobjkai7xsh6g3rbhfrwkt4u
+      eslint-plugin-simple-import-sort: 8.0.0_eslint@7.32.0
+      prettier: 2.8.4
       prettier-plugin-ember-template-tag: 0.3.0
     transitivePeerDependencies:
       - eslint-config-prettier
@@ -9803,21 +9806,6 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-prettier/4.2.1_eslint@7.32.0:
-    resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      eslint: '>=7.28.0'
-      eslint-config-prettier: '*'
-      prettier: '>=2.0.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: 7.32.0
-      prettier-linter-helpers: 1.0.0
-    dev: true
-
   /eslint-plugin-prettier/4.2.1_fqyzhpusvewbsl54pqqbxqaegm:
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
     engines: {node: '>=12.0.0'}
@@ -9831,6 +9819,22 @@ packages:
     dependencies:
       eslint: 7.32.0
       prettier: 2.7.1
+      prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-prettier/4.2.1_xlxobjkai7xsh6g3rbhfrwkt4u:
+    resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      eslint: '>=7.28.0'
+      eslint-config-prettier: '*'
+      prettier: '>=2.0.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 7.32.0
+      prettier: 2.8.4
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -13867,7 +13871,7 @@ packages:
       '@glimmer/syntax': 0.84.2
       ember-cli-htmlbars: 6.1.1
       ember-template-imports: 3.4.0_ember-cli-htmlbars@6.1.1
-      prettier: 2.8.2
+      prettier: 2.8.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -13878,8 +13882,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier/2.8.2:
-    resolution: {integrity: sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==}
+  /prettier/2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
