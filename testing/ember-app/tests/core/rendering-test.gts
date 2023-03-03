@@ -91,10 +91,11 @@ module('Core | Resource | rendering', function (hooks) {
       const id = cell(0);
       const condition = cell(true);
 
-      const poll = resourceFactory((id) => {
+      const poll = resourceFactory((id: number) => {
         return resource(({ on }) => {
           assert.step(`setup: ${id}`);
           on.cleanup(() => assert.step(`cleanup: ${id}`));
+          return id;
         });
       });
 
