@@ -9,7 +9,7 @@ runs:
       echo '
         target: ${{ env.dist }}
         setup:
-          run: pnpm build:js
+          run: pnpm build
           cwd: ./ember-resources
         expect: |
           core/index.js
