@@ -1,5 +1,5 @@
 ---
-"ember-resources": patch
+"ember-resources": major
 ---
 
-Support TypeScript 4.8 and 4.9
+Drop support for TypeScript < 4.8
