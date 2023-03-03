@@ -80,7 +80,7 @@ importers:
       '@embroider/macros': ^1.2.0
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
-      '@glint/template': ^0.8.3
+      '@glint/template': ^0.9.0
       '@nullvoxpopuli/eslint-configs': ^3.0.0
       '@types/ember__application': ^4.0.0
       '@types/ember__component': ^4.0.8
@@ -117,7 +117,7 @@ importers:
       '@embroider/addon-dev': 3.0.0_rollup@3.18.0
       '@glimmer/component': 1.1.2_@babel+core@7.21.0
       '@glimmer/tracking': 1.1.2
-      '@glint/template': 0.8.3_@glimmer+component@1.1.2
+      '@glint/template': 0.9.7_@glimmer+component@1.1.2
       '@nullvoxpopuli/eslint-configs': 3.0.1_ccoxihxmx25rm5cufeee3dmlne
       '@types/ember__application': 4.0.0
       '@types/ember__component': 4.0.8
@@ -3595,6 +3595,14 @@ packages:
 
   /@glint/template/0.8.3_@glimmer+component@1.1.2:
     resolution: {integrity: sha512-oT/ikUtLXgynrhl39C5lNQAFaPdgNAF1qbnWRr2GY4nE/MK9EYqdYFle0uPeyZnIxicTpsMvVEVGF9+AnPybew==}
+    peerDependencies:
+      '@glimmer/component': ^1.1.2
+    dependencies:
+      '@glimmer/component': 1.1.2_@babel+core@7.18.5
+    dev: true
+
+  /@glint/template/0.9.7_@glimmer+component@1.1.2:
+    resolution: {integrity: sha512-MCp8GxQDIbH8ZzfNxHhVqCSKlydBgQfBEwJLDpN81lgFRCldSDPueIbk8sz3EhpGiZJVdNQbpGeYIDsUXe1ocg==}
     peerDependencies:
       '@glimmer/component': ^1.1.2
     dependencies:
