@@ -1,18 +1,9 @@
 import { tracked } from '@glimmer/tracking';
-import { assert } from '@ember/debug';
-import { waitForPromise } from '@ember/test-waiters';
+import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from '@ember/destroyable';
+
+import { TrackedAsyncData } from 'ember-async-data';
 
 import { resource } from '../core/function-based';
-
-import type { Hooks } from '../core/function-based';
-
-export type ResourceFn<Return = unknown> = (hooks: Hooks) => Return | Promise<Return>;
-
-type Vanilla<Return> = [object, ResourceFn<Return>];
-type WithInitialValue<Return> = [object, NotFunction<Return>, ResourceFn<Return>];
-
-type NotFunction<T> = T extends Function ? never : T;
-type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
 
 /**
  * _An example utilty that uses [[resource]]_
@@ -54,118 +45,79 @@ type UseFunctionArgs<Return> = Vanilla<Return> | WithInitialValue<Return>;
  *
  * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
  *
- *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Function} theFunction the function to run with the return value available on .value
+ * @param {Object} context destroyable parent, e.g.: component instance aka "this"
+ * @param {Function} fn the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(...passed: Vanilla<Return>): State<Return>;
+export function trackedFunction<Return>(context: object, fn: () => Return) {
+  const state = new State(fn);
 
-/**
- * _An example utilty that uses [[resource]]_
- *
- * Any tracked data accessed in a tracked function _before_ an `await`
- * will "entangle" with the function -- we can call these accessed tracked
- * properties, the "tracked prelude". If any properties within the tracked
- * payload  change, the function will re-run.
- *
- * The optional initial values can be used to provide a nicer fallback than "null"
- *
- * ```js
- * import Component from '@glimmer/component';
- * import { tracked } from '@glimmer/tracking';
- * import { trackedFunction }  from 'ember-resources/util/function';
- *
- * class Demo extends Component {
- *   @tracked id = 1;
- *
- *   request = trackedFunction(this, { initial value here }, async () => {
- *     let response = await fetch(`https://swapi.dev/api/people/${this.id}`);
- *     let data = await response.json();
- *
- *     return data; // { name: 'Luke Skywalker', ... }
- *   });
- *
- *   updateId = (event) => this.id = event.target.value;
- *
- *   // Renders "Luke Skywalker"
- *   <template>
- *     {{this.request.value.name}}
- *
- *     <input value={{this.id}} {{on 'input' this.updateId}}>
- *   </template>
- * }
- * ```
- * _Note_, this example uses the proposed `<template>` syntax from the [First-Class Component Templates RFC][rfc-799]
- *
- * Also note that after an `await`, the `this` context should not be accessed as it could lead to
- * destruction/timing issues.
- *
- * [rfc-799]: https://github.com/emberjs/rfcs/pull/779
- *
- * @param {Object} destroyable context, e.g.: component instance aka "this"
- * @param {Object} initialValue - a non-function that matches the shape of the eventual return value of theFunction
- * @param {Function} theFunction the function to run with the return value available on .value
- */
-export function trackedFunction<Return>(...passed: WithInitialValue<Return>): State<Return>;
-
-export function trackedFunction<Return>(...passedArgs: UseFunctionArgs<Return>) {
-  let [context] = passedArgs;
-  let initialValue: Return | undefined;
-  let fn: ResourceFn<Return>;
-
-  assert(
-    `Expected second argument to useFunction to either be an initialValue or the function to run`,
-    passedArgs[1] !== undefined
-  );
-
-  if (hasNoInitialValue(passedArgs)) {
-    fn = passedArgs[1];
-  } else {
-    initialValue = passedArgs[1];
-    fn = passedArgs[2];
-  }
-
-  return resource<State<Return>>(context, (hooks) => {
-    let state = new State(fn, hooks, initialValue);
-
+  let destroyable = resource<State<Return>>(context, () => {
     state.retry();
 
     return state;
   });
+
+  associateDestroyableChild(destroyable, state);
+
+  return destroyable;
 }
 
 /**
  * State container that represents the asynchrony of a `trackedFunction`
  */
 export class State<Value> {
-  @tracked isResolved = false;
-  @tracked resolvedValue?: Value;
-  @tracked error?: unknown;
+  @tracked data: TrackedAsyncData<Value> | null = null;
+  @tracked declare promise: Value;
 
-  #fn: ResourceFn<Value>;
-  #hooks: Hooks;
-  #initialValue: Value | undefined;
+  #fn: () => Value;
 
-  constructor(fn: ResourceFn<Value>, hooks: Hooks, initialValue?: Value) {
+  constructor(fn: () => Value) {
     this.#fn = fn;
-    this.#hooks = hooks;
-    this.#initialValue = initialValue;
   }
 
-  get value() {
-    return this.resolvedValue || this.#initialValue || null;
+  get state(): 'UNSTARTED' | 'PENDING' | 'RESOLVED' | 'REJECTED' {
+    return this.data?.state ?? 'UNSTARTED';
   }
 
   get isPending() {
-    return !this.isResolved;
+    if (!this.data) return true;
+
+    return this.data.isPending ?? false;
   }
 
-  get isLoading() {
-    return this.isPending;
+  get isResolved() {
+    return this.data?.isResolved ?? false;
   }
 
-  get isError() {
-    return Boolean(this.error);
+  get isRejected() {
+    return this.data?.isRejected ?? false;
+  }
+
+  /**
+   * TrackedAsyncData does not allow the accessing of data before
+   * .state === 'RESOLVED'  (isResolved).
+   *
+   * From a correctness standpoint, this is perfectly reasonable,
+   * as it forces folks to handle thet states involved with async functions.
+   *
+   * The original version of `trackedFunction` did not use TrackedAsyncData,
+   * and did not have these strictnesses upon property access, leaving folks
+   * to be as correct or as fast/prototype-y as they wished.
+   *
+   * For now, `trackedFunction` will retain that flexibility.
+   */
+  get value(): Awaited<Value> | null {
+    if (this.data?.isResolved) {
+      // This is sort of a lie, but it ends up working out due to
+      // how promises chain automatically when awaited
+      return this.data.value as Awaited<Value>;
+    }
+
+    return null;
+  }
+
+  get error() {
+    return this.data?.error ?? null;
   }
 
   /**
@@ -178,29 +130,30 @@ export class State<Value> {
    * until this promise resolves, and then they'll be updated to the new values.
    */
   retry = async () => {
-    try {
-      let notQuiteValue = this.#fn(this.#hooks);
-      let promise = Promise.resolve(notQuiteValue);
+    if (isDestroyed(this) || isDestroying(this)) return;
 
-      waitForPromise(promise);
+    // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
+    this.promise = this.#fn();
 
-      let result = await promise;
+    // TrackedAsyncData interacts with tracked data during instantiation.
+    // We don't want this internal state to entangle with `trackedFunction`
+    // so that *only* the tracked data in `fn` can be entangled.
+    await Promise.resolve();
 
-      this.error = undefined;
-      this.resolvedValue = result;
-    } catch (e) {
-      this.error = e;
-    } finally {
-      this.isResolved = true;
+    if (this.data) {
+      let isUnsafe = isDestroyed(this.data) || isDestroying(this.data);
+
+      if (!isUnsafe) {
+        destroy(this.data);
+        this.data = null;
+      }
     }
-  };
-}
 
-/**
- * @private
- *
- * type-guard
- */
-function hasNoInitialValue<R>(args: UseFunctionArgs<R>): args is Vanilla<R> {
-  return args.length === 2;
+    if (isDestroyed(this) || isDestroying(this)) return;
+
+    // TrackedAsyncData manages the destroyable child association for us
+    this.data = new TrackedAsyncData(this.promise, this);
+
+    return this.promise;
+  };
 }

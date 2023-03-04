@@ -24,7 +24,7 @@ module('Utils | keepLatest | js', function (hooks) {
       });
 
       @use data = keepLatest({
-        when: () => this.request.isLoading,
+        when: () => this.request.isPending,
         value: () => this.request.value,
       });
     }
@@ -33,7 +33,7 @@ module('Utils | keepLatest | js', function (hooks) {
 
     assert.strictEqual(instance.data, undefined);
 
-    await timeout(40);
+    await timeout(100);
 
     assert.strictEqual(instance.data, 1);
 
@@ -42,7 +42,7 @@ module('Utils | keepLatest | js', function (hooks) {
     assert.strictEqual(instance.data, 1);
     await timeout(15);
     assert.strictEqual(instance.data, 1);
-    await timeout(40);
+    await timeout(100);
     assert.strictEqual(instance.data, 2);
   });
 

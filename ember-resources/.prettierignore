@@ -6,6 +6,8 @@
 /dist/
 /tmp/
 CHANGELOG.md
+README.md
+LICENSE.md
 
 # dependencies
 /bower_components/
