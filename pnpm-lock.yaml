@@ -238,7 +238,7 @@ importers:
       expect-type: ^0.13.0
       loader.js: ^4.7.0
       msw: ^0.49.0
-      prettier: ^2.7.1
+      prettier: ^2.8.4
       prettier-plugin-ember-template-tag: ^0.3.2
       qunit: ^2.16.0
       qunit-dom: ^2.0.0
@@ -3183,7 +3183,7 @@ packages:
   /@types/ember__controller/4.0.4:
     resolution: {integrity: sha512-+f0knTIJJkRX5xijeSI/n4FvLfhMFFxIxODyFFFFB483EryYuts3QzpTwU5D66WQ5rAbZvpPRXRMPTTCNJoUhg==}
     dependencies:
-      '@types/ember__object': 4.0.5_@babel+core@7.21.0
+      '@types/ember__object': 4.0.5
     dev: true
 
   /@types/ember__controller/4.0.4_@babel+core@7.21.0:

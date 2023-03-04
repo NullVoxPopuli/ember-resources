@@ -2,7 +2,7 @@ import { Resource, use } from 'ember-resources';
 import { expectTypeOf } from 'expect-type';
 import { expectType } from 'ts-expect';
 
-import type { Thunk } from 'ember-resources';
+import type { ExpandArgs, Thunk } from 'ember-resources';
 // This is private, but we test it for sanity
 // because when this was added, I had none.
 import type { ArgsFrom } from 'ember-resources/core/class-based/resource';
@@ -83,3 +83,27 @@ D.from(() => ({ named: { foo: 2 } }));
 
 D.from<D<number>>(() => ({ positional: [1, 2] }));
 D.from<D<number>>({}, () => ({ positional: [1, 2] }));
+
+type EArgs<T = unknown> = {
+  Positional: [];
+  Named: {
+    foo: T;
+  };
+};
+
+export class E<MyType = unknown> extends Resource<EArgs<MyType>> {
+  modify(
+    positional: ExpandArgs<EArgs<MyType>>['Positional'],
+    named: ExpandArgs<EArgs<MyType>>['Named']
+  ) {
+    expectType<never[]>(positional);
+    expectType<{ foo: MyType }>(named);
+  }
+}
+
+export class EUsage {
+  foo = 2;
+  // Available in TS 4.7+
+  // prettier-ignore
+  myInstance = (E<number>).from(() => ({ foo: this.foo }));
+}
