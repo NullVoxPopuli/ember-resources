@@ -1,6 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 
-import { resource } from './function-resource';
+import { resource } from '../core';
 
 class TrackedValue<T> {
   @tracked value: T | undefined;
