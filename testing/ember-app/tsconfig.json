@@ -9,7 +9,6 @@
     "paths": {
       "ember-app/tests/*": ["tests/*"],
       "ember-app/*": ["app/*"],
-      "ember-resources/*": ["../../ember-resources/dist/*"],
       "*": ["types/*"]
     }
   }

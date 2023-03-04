@@ -146,7 +146,7 @@ export class Resource<Args = unknown> {
    * This isn't a real API, but does help with type inference
    * with the ArgsFrom utility above
    */
-  declare [__ResourceArgs__]: Args;
+  public declare [__ResourceArgs__]: Args;
 
   /**
    * @private (secret)
