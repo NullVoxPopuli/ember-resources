@@ -126,7 +126,7 @@
       "enabled": false
     },
     {
-      "matchPaths": ["testing/**"],
+      "matchPaths": ["test-app/package.json"],
       "enabled": false
     }
   ]

@@ -20,7 +20,6 @@
     "./util/remote-data": "./dist/util/remote-data.js",
     "./util/debounce": "./dist/util/debounce.js",
     "./util/function": "./dist/util/function.js",
-    "./util/function-resource": "./dist/util/function-resource.js",
     "./util/ember-concurrency": "./dist/util/ember-concurrency.js",
     "./addon-main.js": "./addon-main.cjs"
   },
@@ -43,9 +42,6 @@
       ],
       "util/function": [
         "dist/util/function.d.ts"
-      ],
-      "util/function-resource": [
-        "dist/util/function-resource.d.ts"
       ],
       "util/map": [
         "dist/util/map.d.ts"
