@@ -1,8 +1,8 @@
 {
-  "name": "ember-app",
+  "name": "test-app",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for ember-app goes here",
+  "description": "Small description for test-app goes here",
   "repository": "",
   "license": "MIT",
   "author": "",

@@ -1,5 +1,5 @@
 packages:
   - "ember-resources"
   - "docs"
-  - "testing/*"
-  - "build/*"
+  - "test-app"
+  - "dev/*"

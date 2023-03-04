@@ -33,7 +33,7 @@ module.exports = function (defaults) {
   return maybeEmbroider(app, {
     packageRules: [
       {
-        package: 'ember-app',
+        package: 'test-app',
         // Pre-strict mode, helpers and components are ambiguous
         helpers: {
           '{{step}}': { safeToIgnore: true },

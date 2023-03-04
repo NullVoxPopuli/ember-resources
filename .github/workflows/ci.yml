@@ -67,7 +67,7 @@ jobs:
       - uses: ./.github/actions/download-built-package
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
-        working-directory: ./testing/ember-app
+        working-directory: ./test-app
       - name: 'Type checking'
 
         run: |
@@ -129,7 +129,7 @@ jobs:
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
       - name: Run Tests
-        working-directory: ./testing/ember-app
+        working-directory: ./test-app
         run: >-
           node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
           --skip-cleanup
@@ -178,12 +178,12 @@ jobs:
       - uses: ./.github/actions/pnpm
       - uses: ./.github/actions/download-built-package
       - name: measure asset sizes
-        run: node ./build/estimate-bytes/index.js
+        run: node ./dev/estimate-bytes/index.js
       - name: comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: asset-sizes
-          path: ./build/estimate-bytes/comment.txt
+          path: ./dev/estimate-bytes/comment.txt
 
 
   PublishDocstoCloudflarePages:
