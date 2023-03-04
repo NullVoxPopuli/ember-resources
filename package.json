@@ -34,9 +34,11 @@
   "pnpm": {
     "overrides": {
       "@types/eslint": "7.29.0",
+      "@changesets/assemble-release-plan": "5.2.3",
       "mustache": "^4.2.0"
     },
     "overrides-notes": {
+      "@changesets/assemble-release-plan": "patched, we don't want drift until https://github.com/changesets/changesets/issues/835 is resolved",
       "@embroider/addon-shim": "some addons from the test-app are not using ^1.0.0",
       "@types/eslint": "webpack brings in @types/eslint@8, which breaks our type checking",
       "mustache": "ember-cli -> testem -> consolidate -> mustache is ancient"
@@ -49,6 +51,9 @@
       "allowedVersions": {
         "typescript": "*"
       }
+    },
+    "patchedDependencies": {
+      "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch"
     }
   }
 }
