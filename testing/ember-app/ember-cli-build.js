@@ -10,6 +10,9 @@ module.exports = function (defaults) {
     autoImport: {
       watchDependencies: Object.keys(packageJson.dependencies),
     },
+    'ember-cli-babel': {
+      enableTypeScriptTransform: true,
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
