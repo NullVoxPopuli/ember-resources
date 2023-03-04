@@ -212,7 +212,7 @@ importers:
       ember-async-data: ^0.6.0
       ember-auto-import: 2.6.1
       ember-cli: ~4.11.0
-      ember-cli-app-version: ^5.0.0
+      ember-cli-app-version: ^6.0.0
       ember-cli-babel: ^7.0.0
       ember-cli-dependency-checker: ^3.2.0
       ember-cli-deprecation-workflow: ^2.1.0
@@ -312,7 +312,7 @@ importers:
       concurrently: 7.6.0
       ember-auto-import: 2.6.1_webpack@5.75.0
       ember-cli: 4.11.0
-      ember-cli-app-version: 5.0.0
+      ember-cli-app-version: 6.0.0_ember-source@4.0.1
       ember-cli-babel: 7.26.11
       ember-cli-dependency-checker: 3.3.1_ember-cli@4.11.0
       ember-cli-deprecation-workflow: 2.1.0
@@ -7184,11 +7184,14 @@ packages:
       - supports-color
       - webpack
 
-  /ember-cli-app-version/5.0.0:
-    resolution: {integrity: sha512-afhx/CXDOMNXzoe4NDPy5WUfxWmYYHUzMCiTyvPBxCDBXYcMrtxNWxvgaSaeqcoHVEmqzeyBj8V82tzmT1dcyw==}
-    engines: {node: 10.* || >= 12}
+  /ember-cli-app-version/6.0.0_ember-source@4.0.1:
+    resolution: {integrity: sha512-XhzETSTy+RMTIyxM/FaZ/8aJvAwT/iIp8HC9zukpOaSPEm5i6Vm4tskeXY4OBnY3VwFWNXWssDt1hgIkUP76WQ==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^3.28.0 || ^4.0.0
     dependencies:
       ember-cli-babel: 7.26.11
+      ember-source: 4.0.1_qoaxtqicpzj5p3ubthw53xafqm
       git-repo-info: 2.1.1
     transitivePeerDependencies:
       - supports-color
