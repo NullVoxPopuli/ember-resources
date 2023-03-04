@@ -39,6 +39,11 @@
     "ember-resources": "workspace:ember-resources@*",
     "tracked-built-ins": "^3.1.0"
   },
+  "dependenciesMeta": {
+    "ember-resources": {
+      "injected": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/eslint-parser": "^7.19.1",

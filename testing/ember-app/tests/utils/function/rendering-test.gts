@@ -41,9 +41,15 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
     class TestComponent extends Component {
       data = trackedFunction(this, () => {
-        assert.step(`ran trackedFunction ${count++}`);
+        // Copy the count so asynchrony of trackedFunction evaluation
+        // doesn't return a newer value than existed at the time
+        // of the function invocation.
+        let localCount = count;
 
-        return count;
+        count++;
+        assert.step(`ran trackedFunction ${localCount}`);
+
+        return localCount;
       });
 
       <template>
@@ -53,14 +59,16 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     }
 
     await render(<template><TestComponent /></template>);
+    assert.verifySteps(['ran trackedFunction 0']);
+
+    assert.dom('out').hasText('0');
+
+    await click('button');
+    assert.verifySteps(['ran trackedFunction 1']);
 
     assert.dom('out').hasText('1');
 
-    await click('button');
-
-    assert.dom('out').hasText('2');
-
-    assert.verifySteps(['ran trackedFunction 0', 'ran trackedFunction 1']);
+    assert.verifySteps([]);
   });
 
   test('async functions update when the promise resolves', async function (assert) {
@@ -73,7 +81,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
         // tracked data consumed here directly does not entangle with the function (deliberately)
         let { multiplier } = this;
 
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        await timeout(50);
 
         return 2 * multiplier;
       });
@@ -84,20 +92,17 @@ module('Utils | trackedFunction | rendering', function (hooks) {
       </template>
     }
 
-
     render(<template><TestComponent /></template>);
 
     await timeout(25);
     assert.dom('out').hasText('');
 
     await settled();
+
     assert.dom('out').hasText('2');
 
-    click('button');
-    await timeout(25);
-    assert.dom('out').hasText('');
+    await click('button');
 
-    await settled();
     assert.dom('out').hasText('4');
   });
 });

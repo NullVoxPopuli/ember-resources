@@ -22,8 +22,8 @@ export default class GlintTest extends Component {
 
 
   <template>
-    isLoading: {{if this.aMap.isLoading 'true' 'false'}}
-    isError: {{if this.aMap.isError 'true' 'false'}}
+    isLoading: {{if this.aMap.isPending 'true' 'false'}}
+    isError: {{if this.aMap.isRejected 'true' 'false'}}
     isPending: {{if this.aMap.isPending 'true' 'false'}}
     isResolved: {{if this.aMap.isResolved 'true' 'false'}}
 
