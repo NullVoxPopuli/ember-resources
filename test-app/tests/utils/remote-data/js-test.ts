@@ -4,9 +4,9 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { setupMSW } from 'ember-app/tests/msw';
 import { resource, use } from 'ember-resources';
 import { RemoteData, remoteData } from 'ember-resources/util/remote-data';
+import { setupMSW } from 'test-app/tests/msw';
 
 let data = [
   { id: '1', type: 'blogs', attributes: { name: `name:1` } },

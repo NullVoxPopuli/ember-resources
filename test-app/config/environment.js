@@ -4,7 +4,7 @@ let isTestCli = process.argv.includes('test');
 
 module.exports = function (environment) {
   let ENV = {
-    modulePrefix: 'ember-app',
+    modulePrefix: 'test-app',
     environment,
     rootURL: '/',
     locationType: 'auto',

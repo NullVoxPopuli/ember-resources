@@ -1,7 +1,7 @@
 import * as QUnit from 'qunit';
 
-import ENV from 'ember-app/config/environment';
 import { rest, setupWorker } from 'msw';
+import ENV from 'test-app/config/environment';
 
 import type { SetupWorkerApi } from 'msw';
 

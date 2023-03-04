@@ -6,7 +6,7 @@
   "scripts": {
     "release": "changeset publish",
     "dev": "concurrently 'npm:dev:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
-    "dev:ember": "pnpm run --filter ember-app start",
+    "dev:ember": "pnpm run --filter test-app start",
     "dev:addon": "pnpm run --filter ember-resources start --no-watch.clearScreen",
     "dev:docs": "pnpm run --filter docs docs:watch --preserveWatchOutput",
     "ci:update": "npx ember-ci-update",

@@ -7,8 +7,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "ember-app/tests/*": ["tests/*"],
-      "ember-app/*": ["app/*"],
+      "test-app/tests/*": ["tests/*"],
+      "test-app/*": ["app/*"],
       "*": ["types/*"]
     }
   }
