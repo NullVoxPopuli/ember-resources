@@ -180,6 +180,8 @@ export function map<Elements extends readonly unknown[], MapTo = unknown>(
 ) {
   let { data, map } = options;
 
+  // parens required, else ESLint and TypeScript/Glint error here
+  // prettier-ignore
   let resource = (TrackedArrayMap<Elements[number], MapTo>).from(destroyable, () => {
     let reified = data();
 
