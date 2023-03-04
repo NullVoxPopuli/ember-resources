@@ -4,6 +4,8 @@
 
 `trackedFunction` has a new API and thus a major version release is required.
 
+_Work by [@lolmaus](https://github.com/lolmaus)_
+
 tl;dr: the breaking changes:
 
 - no more manual initial value
