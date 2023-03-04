@@ -1,5 +1,191 @@
 # ember-resources
 
+## 6.0.0-beta.0
+
+### Major Changes
+
+- [#715](https://github.com/NullVoxPopuli/ember-resources/pull/715) [`e8155b2`](https://github.com/NullVoxPopuli/ember-resources/commit/e8155b254cfef874287a3b1d0d9c562ed97b88dc) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Drop support for TypeScript < 4.8 in order to support Glint.
+
+- [#778](https://github.com/NullVoxPopuli/ember-resources/pull/778) [`901ae9a`](https://github.com/NullVoxPopuli/ember-resources/commit/901ae9a0b6919af8c66fb8102927d5dee0d2f694) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The `map` utility resource has changed its first type-argument for better inference.
+
+  The utility already supported inference, so this change should not impact too many folks.
+
+  When explicit type-arguments were specified,
+
+  ```ts
+  class Demo {
+    // previously
+    a = map<Element>(this, {
+      data: () => [
+        /* ... list of Element(s) ... */
+      ],
+      map: (element) => {
+        /* some transform */
+      },
+    });
+
+    // now
+    a = map<Element[]>(this, {
+      data: () => [
+        /* ... list of Element(s) ... */
+      ],
+      map: (element) => {
+        /* some transform */
+      },
+    });
+  }
+  ```
+
+  This is advantageous, because with `@tsconfig/ember`, the option `noUncheckedIndexedAccess`
+  is enabled by default. This is a great strictness / quality option to have enabled,
+  as arrays in javascript are mutable, and we can't guarantee that they don't change between
+  index-accesses.
+
+  _However_ the `map` utility resource explicitly disallows the indicies to get out of sync
+  with the source `data`.
+
+  But!, with `noUncheckedIndexedAccess`, you can only infer so much before TS goes the safe route,
+  and makes the returned type `X | undefined`.
+
+  For example, in these type-tests:
+
+  ```ts
+  import { map } from "ember-resources/util/map";
+  import { expectType } from "ts-expect";
+
+  const constArray = [1, 2, 3];
+
+  b = map(this, {
+    data: () => constArray,
+    map: (element) => {
+      expectType<number>(element);
+      return element;
+    },
+  });
+
+  // index-access here is *safely* `| undefined`, due to `constArray` being mutable.
+  expectType<number | undefined>(b[0]);
+  expectType<number | undefined>(b.values()[0]);
+
+  // but when we use a const as const array, we define a tuple,
+  // and can correctly infer and return real values via index access
+  const tupleArray = [1, 2, 3] as const;
+
+  c = map(this, {
+    data: () => tupleArray,
+    map: (element) => {
+      expectType<number>(element);
+      return element;
+    },
+  });
+
+  // No `| undefined` here
+  expectType<number>(c[0]);
+  expectType<number>(c.values()[0]);
+  ```
+
+- [#779](https://github.com/NullVoxPopuli/ember-resources/pull/779) [`a471d9b`](https://github.com/NullVoxPopuli/ember-resources/commit/a471d9b2dad67a73062f9786869fdb00de25f79a) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - `trackedFunction` has a new API and thus a major version release is required.
+
+  _Work by [@lolmaus](https://github.com/lolmaus)_
+
+  tl;dr: the breaking changes:
+
+  - no more manual initial value
+  - `isResolved` is only true on success
+  - `isError` has been renamed to `isRejected`
+  - `isLoading` has been removed as it was redundant
+
+  other changes:
+
+  - `trackedFunction` is a wrapper around `ember-async-data`'s [`TrackedAsyncData`](https://github.com/tracked-tools/ember-async-data/blob/main/ember-async-data/src/tracked-async-data.ts)
+  - behavior is otherwise the same
+
+  NOTE: `trackedFunction` is an example utility of how to use auto-tracking with function invocation,
+  and abstract away the various states involved with async behavior. Now that the heavy lifting is done by `ember-async-data`,
+  `trackedFunction` is now more of an example of how to integrated existing tracked utilities in to resources.
+
+  ***
+
+  **Migration**
+
+  **_Previously_, `trackedFunction` could take an initial value for its second argument.**
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, "initial value", async () => {
+      /* ... */
+    });
+  }
+  ```
+
+  This has been removed, as initial value can be better maintained _and made more explicit_
+  in user-space. For example:
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, async () => {
+      /* ... */
+    });
+
+    get value() {
+      return this.foo.value ?? "initial value";
+    }
+  }
+  ```
+
+  Or, in a template:
+
+  ```hbs
+  {{#if this.foo.value}}
+    {{this.foo.value}}
+  {{else}}
+    initial displayed content
+  {{/if}}
+  ```
+
+  Or, in gjs/strict mode:
+
+  ```gjs
+  const withDefault = (value) => value ?? 'initial value';
+
+  class Demo extends Component {
+    foo = trackedFunction(this, async () => { /* ... */ });
+
+    <template>
+      {{withDefault this.foo.value}}
+    </template>
+  }
+  ```
+
+  **_Previously_, the `isResolved` property was `true` for succesful and error states**
+
+  Now, `isResolved` is only true when the function passed to `trackedFunction` has succesfully
+  completed.
+
+  To have behavior similar to the old behavior, you may want to implement your own `isFinished` getter:
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, async () => {
+      /* ... */
+    });
+
+    get isFinished() {
+      return this.foo.isResolved || this.foo.isRejected;
+    }
+  }
+  ```
+
+### Minor Changes
+
+- [#778](https://github.com/NullVoxPopuli/ember-resources/pull/778) [`f841a98`](https://github.com/NullVoxPopuli/ember-resources/commit/f841a982197f64b0756f8ee9fc35ed3d690fa959) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Use strictest possible settings with TypeScript so that consumers can't be stricter than this library
+
+- [#776](https://github.com/NullVoxPopuli/ember-resources/pull/776) [`a99793e`](https://github.com/NullVoxPopuli/ember-resources/commit/a99793ed126366a9da40a8df632ac660f05b68b1) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Glint is now supported starting with 1.0.0-beta.3
+
+### Patch Changes
+
+- [#769](https://github.com/NullVoxPopuli/ember-resources/pull/769) [`abaad4a`](https://github.com/NullVoxPopuli/ember-resources/commit/abaad4ad9974cf86632524f01bef331cfaa8d253) Thanks [@GreatWizard](https://github.com/GreatWizard)! - fix typo in map error message when checking if every datum is an object
+
 ## 5.6.2
 
 ### Patch Changes
@@ -40,7 +226,7 @@
   import { service } from "@ember/service";
 
   const intervals = new WeakMap();
-  
+
   export default class Demo extends Component {
     @service declare router: RouterService;
 
@@ -51,7 +237,7 @@
       clearInterval(intervals.get(this);
       intervals.set(this, setInterval(fn, interval));
     });
-  
+
     refreshData = () => this.router.refresh();
   }
   ```
