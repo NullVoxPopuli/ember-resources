@@ -129,6 +129,7 @@
     "@glimmer/tracking": "^1.1.2",
     "@glint/template": "^1.0.0-beta.3",
     "@nullvoxpopuli/eslint-configs": "^3.0.0",
+    "@tsconfig/ember": "^2.0.0",
     "@types/ember__application": "^4.0.0",
     "@types/ember__component": "^4.0.8",
     "@types/ember__debug": "^4.0.0",

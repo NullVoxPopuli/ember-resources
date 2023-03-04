@@ -8,7 +8,7 @@ import type { Named, Positional } from '../core/types';
 /**
  * Public API of the return value of the [[map]] resource.
  */
-export interface MappedArray<MappedTo> {
+export interface MappedArray<Elements extends readonly unknown[], MappedTo> {
   /**
    * Array-index access to specific mapped data.
    *
@@ -49,7 +49,7 @@ export interface MappedArray<MappedTo> {
    *  }
    * ```
    */
-  values: () => MappedTo[];
+  values: () => { [K in keyof Elements]: MappedTo };
 
   /**
    * Without evaluating the map function on each element,
@@ -155,7 +155,7 @@ export interface MappedArray<MappedTo> {
  *  }
  * ```
  */
-export function map<Element = unknown, MapTo = unknown>(
+export function map<Elements extends readonly unknown[], MapTo = unknown>(
   /**
    * parent destroyable context, unually `this`
    */
@@ -166,7 +166,7 @@ export function map<Element = unknown, MapTo = unknown>(
      *
      * This can be class instances, plain objects, or anything supported by WeakMap's key
      */
-    data: () => Element[];
+    data: () => Elements;
     /**
      * How to transform each element from `data`,
      * similar to if you were to use Array map yourself.
@@ -175,16 +175,14 @@ export function map<Element = unknown, MapTo = unknown>(
      * - if iterating over part of the data, map will only be called for the elements observed
      * - if not iterating, map will only be called for the elements observed.
      */
-    map: (element: Element) => MapTo;
+    map: (element: Elements[number]) => MapTo;
   }
 ) {
   let { data, map } = options;
 
-  /**
-   * The passing here is hacky, but required until the min-supported
-   * typescript version is 4.7
-   */
-  let resource = TrackedArrayMap.from<TrackedArrayMap<Element, MapTo>>(destroyable, () => {
+  // parens required, else ESLint and TypeScript/Glint error here
+  // prettier-ignore
+  let resource = (TrackedArrayMap<Elements[number], MapTo>).from(destroyable, () => {
     let reified = data();
 
     return { positional: [reified], named: { map } };
@@ -211,11 +209,11 @@ export function map<Element = unknown, MapTo = unknown>(
       return Reflect.get(target, property, receiver);
     },
     // Is there a way to do this without lying to TypeScript?
-  }) as unknown as MappedArray<MapTo>;
+  }) as unknown as MappedArray<Elements, MapTo> & { [K in keyof Elements]: MapTo };
 }
 
 type Args<E = unknown, Result = unknown> = {
-  Positional: [E[]];
+  Positional: [E[] | readonly E[]];
   Named: {
     map: (element: E) => Result;
   };
@@ -228,7 +226,7 @@ const AT = Symbol('__AT__');
  */
 export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
   extends Resource<Args<Element, MappedTo>>
-  implements MappedArray<MappedTo>
+  implements MappedArray<Element[], MappedTo>
 {
   // Tells TS that we can array-index-access
   [index: number]: MappedTo;
@@ -282,6 +280,15 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
    */
   [AT](i: number) {
     let record = this._records[i];
+
+    assert(
+      `Expected record to exist at index ${i}, but it did not. ` +
+        `The array item is expected to exist, because the map utility resource lazily iterates along the indicies of the original array passed as data. ` +
+        `This error could happen if the data array passed to map has been mutated while iterating. ` +
+        `To resolve this error, do not mutate arrays while iteration occurs.`,
+      record
+    );
+
     let value = this.#map.get(record);
 
     if (!value) {
