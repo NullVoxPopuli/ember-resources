@@ -24,10 +24,24 @@ and abstract away the various states involved with async behavior. Now that the 
 
 **Migration**
 
-**_Previously_**, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.
+**_Previously_, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.**
 
 _now_, `isFinished` can be used instead. 
 `isResolved` is now only true when the function runs to completion without error, aligning with the semantics of promises.
+
+```js
+class Demo {
+  foo = trackedFunction(this, async () => {
+    /* ... */
+  });
+
+  <template>
+    {{this.foo.isFinished}} =
+      {{this.foo.isResolved}} or
+      {{this.foo.isError}}
+  </template>
+}
+```
 
 
 **_Previously_, `trackedFunction` could take an initial value for its second argument.**
@@ -79,21 +93,3 @@ class Demo extends Component {
 }
 ```
 
-**_Previously_, the `isResolved` property was `true` for succesful and error states**
-
-Now, `isResolved` is only true when the function passed to `trackedFunction` has succesfully
-completed.
-
-To have behavior similar to the old behavior, you may want to implement your own `isFinished` getter:
-
-```js
-class Demo {
-  foo = trackedFunction(this, async () => {
-    /* ... */
-  });
-
-  get isFinished() {
-    return this.foo.isResolved || this.foo.isRejected;
-  }
-}
-```
