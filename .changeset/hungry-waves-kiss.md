@@ -10,8 +10,6 @@ tl;dr: the breaking changes:
 
 - no more manual initial value
 - `isResolved` is only true on success
-- `isError` has been renamed to `isRejected`
-- `isLoading` has been removed as it was redundant
 
 other changes:
 
