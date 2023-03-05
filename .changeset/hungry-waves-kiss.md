@@ -24,6 +24,12 @@ and abstract away the various states involved with async behavior. Now that the 
 
 **Migration**
 
+**_Previously_**, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.
+
+_now_, `isFinished` can be used instead. 
+`isResolved` is now only true when the function runs to completion without error, aligning with the semantics of promises.
+
+
 **_Previously_, `trackedFunction` could take an initial value for its second argument.**
 
 ```js
