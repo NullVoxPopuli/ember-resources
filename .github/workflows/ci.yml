@@ -30,6 +30,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+        with:
+          node-version: 16
+          pnpm-version: 7.24
+
       - name: Lint
         run: pnpm lint
 
