@@ -6,6 +6,7 @@ import { capabilities as helperCapabilities, invokeHelper, setHelperManager } fr
 
 import type { Cache } from './types';
 import type Owner from '@ember/owner';
+import { resource } from './resource';
 
 type SpreadFor<T> = T extends Array<any> ? T : [T];
 type ResourceFactory<Value = any, Args = any[]> = (...args: SpreadFor<Args>) => Value;
@@ -134,13 +135,53 @@ class ResourceInvokerManager {
  *  })
  *  ```
  */
-export function resourceFactory<Value = any, Args = any>(
-  wrapperFn: ResourceFactory<Value, Args>
-): (args: () => Args) => Value {
+export function resourceFactory<Value = unknown, Args extends any[] = any[]>(
+  wrapperFn: (...args: Args) => ReturnType<typeof resource<Value>>
+  /**
+   * This is a bonkers return type.
+   * Here are the scenarios:
+   *   const A = resourceFactory((...args) => {
+   *     return resource(({ on }) => {
+   *       ...
+   *     })
+   *   })
+   *
+   * Invocation styles need to be type-correct:
+   *   @use a = A(() => [b, c, d])
+   *   => single argument which is a function where the return type is the args
+   *
+   *   {{#let (A b c d) as |a|}}
+   *      {{a}}
+   *   {{/let}}
+   *   => args are passed directly as positional arguments
+   */
+) {
   setHelperManager(ResourceInvokerFactory, wrapperFn);
 
-  return wrapperFn as unknown as (args: () => Args) => Value;
+  return wrapperFn as ResourceBlueprint<Value, Args>;
 }
+
+type ResourceBlueprint<Value, Args> =
+  /**
+   * Type for template invocation
+   *  {{#let (A b c d) as |a|}}
+   *     {{a}}
+   *  {{/let}}
+   *
+   * This could also be used in JS w/ invocation with @use
+   *   @use a = A(() => b)
+   *
+   * NOTE: it is up to the function passed to resourceFactory to handle some of the parameter ambiguity
+   */
+  | ((...args: SpreadFor<Args>) => ReturnType<typeof resource<Value>>)
+  /**
+   * Not passing args is allowed, too
+   *   @use a = A()
+   *
+   *   {{A}}
+   */
+  | (() => ReturnType<typeof resource<Value>>);
+// semicolon
 
 // Provide a singleton manager.
 const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);
