@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
 
   lint:
     name: Lint
@@ -29,7 +29,7 @@ jobs:
     needs: [install_dependencies]
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - name: Lint
         run: pnpm lint
 
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/assert-build
 
 
@@ -60,7 +60,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
@@ -83,7 +83,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - run: pnpm --filter ember-app test:ember
 
@@ -94,7 +94,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
         with:
           no-lockfile: true
       - uses: ./.github/actions/download-built-package
@@ -123,7 +123,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - name: Run Tests
         working-directory: ./test-app
@@ -149,7 +149,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -172,7 +172,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - name: measure asset sizes
         run: node ./dev/estimate-bytes/index.js
@@ -197,7 +197,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - run: |
           pnpm build:docs
@@ -232,7 +232,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0-beta.1
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
