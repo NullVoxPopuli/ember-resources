@@ -134,7 +134,7 @@ class ResourceInvokerManager {
  *  })
  *  ```
  */
-export function resourceFactory<Value = unknown, Args extends unknown[] = unknown[]>(
+export function resourceFactory<Value = unknown, Args extends any[] = any[]>(
   wrapperFn: (...args: Args) => ReturnType<typeof resource<Value>>
   /**
    * This is a bonkers return type.
@@ -162,20 +162,20 @@ export function resourceFactory<Value = unknown, Args extends unknown[] = unknow
 
 type ResourceBlueprint<Value, Args> =
   /**
-   * type for JS invocation with @use
-   *   @use a = A.from(() => [b, c, d])
-   */
-  | ((thunk: () => SpreadFor<Args>) => ReturnType<typeof resource<Value>>)
-  /**
    * Type for template invocation
    *  {{#let (A b c d) as |a|}}
    *     {{a}}
    *  {{/let}}
+   *
+   * This could also be used in JS w/ invocation with @use
+   *   @use a = A(() => b)
+   *
+   * NOTE: it is up to the function passed to resourceFactory to handle some of the parameter ambiguity
    */
   | ((...args: SpreadFor<Args>) => ReturnType<typeof resource<Value>>)
   /**
    * Not passing args is allowed, too
-   *   @use a = A.from()
+   *   @use a = A()
    *
    *   {{A}}
    */
