@@ -68,9 +68,9 @@ jobs:
       - name: 'Type checking'
 
         run: |
-          pnpm --filter ember-app exec tsc -v;
-          pnpm --filter ember-app exec glint --version;
-          pnpm --filter ember-app exec glint;
+          pnpm --filter test-app exec tsc -v;
+          pnpm --filter test-app exec glint --version;
+          pnpm --filter test-app exec glint;
 
 
 
@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: NullVoxPopuli/action-setup-pnpm@v1.0.0
       - uses: ./.github/actions/download-built-package
-      - run: pnpm --filter ember-app test:ember
+      - run: pnpm --filter test-app test:ember
 
   floating_tests:
     name: Floating Deps Test
@@ -98,7 +98,7 @@ jobs:
         with:
           no-lockfile: true
       - uses: ./.github/actions/download-built-package
-      - run: pnpm --filter ember-app test:ember
+      - run: pnpm --filter test-app test:ember
 
 
   try_scenarios:
