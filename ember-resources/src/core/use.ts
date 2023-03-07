@@ -9,18 +9,7 @@ import { INTERNAL } from './function-based/types';
 import { normalizeThunk } from './utils';
 
 import type { InternalFunctionResourceConfig } from './function-based/types';
-import type { Thunk } from '[core-types]';
-
-interface Descriptor {
-  initializer: () => unknown;
-}
-
-interface ClassResourceConfig {
-  thunk: Thunk;
-  definition: unknown;
-  type: 'class-based';
-  [INTERNAL]: true;
-}
+import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
 
 type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 
@@ -49,7 +38,7 @@ type Config = ClassResourceConfig | InternalFunctionResourceConfig;
  * (new MyClass()).data === 2
  * ```
  */
-export function use(_prototype: object, key: string, descriptor?: Descriptor): void {
+export function use(_prototype: object, key: string, descriptor?: Stage1DecoratorDescriptor): void {
   if (!descriptor) return;
 
   assert(`@use can only be used with string-keys`, typeof key === 'string');

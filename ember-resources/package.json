@@ -12,6 +12,7 @@
     "./core": "./dist/core/index.js",
     "./core/class-based": "./dist/core/class-based/index.js",
     "./core/function-based": "./dist/core/function-based/index.js",
+    "./service": "./dist/service.js",
     "./util": "./dist/util/index.js",
     "./util/cell": "./dist/util/cell.js",
     "./util/keep-latest": "./dist/util/keep-latest.js",
@@ -31,6 +32,9 @@
       ],
       "core": [
         "dist/core/index.d.ts"
+      ],
+      "service": [
+        "dist/service.d.ts"
       ],
       "util": [
         "dist/util/index.d.ts"
