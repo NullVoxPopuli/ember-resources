@@ -6,6 +6,8 @@ The `map` utility resource has changed its first type-argument for better infere
 
 The utility already supported inference, so this change should not impact too many folks.
 
+<details><summary>Migration and Reasoning</summary>
+
 When explicit type-arguments were specified,
 
 ```ts
@@ -79,3 +81,5 @@ c = map(this, {
 expectType<number>(c[0]);
 expectType<number>(c.values()[0]);
 ```
+
+</details>
