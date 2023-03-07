@@ -4,6 +4,8 @@
 
 New Utils: UpdateFrequency and FrameRate
 
+NOTE: for existing users of `ember-resources`, this addition has no impact on your bundle.
+
 <details><summary>FrameRate</summary>
 
  Utility that uses requestAnimationFrame to report
@@ -23,7 +25,7 @@ New Utils: UpdateFrequency and FrameRate
 </details>
 
 
-<details><summary>FrameRate</summary>
+<details><summary>UpdateFrequency</summary>
 
 
  Utility that will report the frequency of updates to tracked data.

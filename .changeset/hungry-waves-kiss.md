@@ -20,9 +20,7 @@ NOTE: `trackedFunction` is an example utility of how to use auto-tracking with f
 and abstract away the various states involved with async behavior. Now that the heavy lifting is done by `ember-async-data`,
 `trackedFunction` is now more of an example of how to integrated existing tracked utilities in to resources.
 
----
-
-**Migration**
+<details><summary>Migration</summary>
 
 **_Previously_, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.**
 
@@ -93,3 +91,4 @@ class Demo extends Component {
 }
 ```
 
+</details>
