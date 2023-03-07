@@ -79,16 +79,55 @@ export class State<Value> {
     return this.data?.state ?? 'UNSTARTED';
   }
 
+  /**
+   * Initially true, and remains true
+   * until the underlying promise resolves or rejects.
+   */
   get isPending() {
     if (!this.data) return true;
 
     return this.data.isPending ?? false;
   }
 
+  /**
+   * Alias for `isResolved || isRejected`
+   */
+  get isFinished() {
+    return this.isResolved || this.isRejected;
+  }
+
+  /**
+   * Alias for `isFinished`
+   * which is in turn an alias for `isResolved || isRejected`
+   */
+  get isSettled() {
+    return this.isFinished;
+  }
+
+  /**
+   * Alias for `isPending`
+   */
+  get isLoading() {
+    return this.isPending;
+  }
+
+  /**
+   * When true, the function passed to `trackedFunction` has resolved
+   */
   get isResolved() {
     return this.data?.isResolved ?? false;
   }
 
+  /**
+   * Alias for `isRejected`
+   */
+  get isError() {
+    return this.isRejected;
+  }
+
+  /**
+   * When true, the function passed to `trackedFunction` has errored
+   */
   get isRejected() {
     return this.data?.isRejected ?? false;
   }
@@ -116,6 +155,10 @@ export class State<Value> {
     return null;
   }
 
+  /**
+   * When the function passed to `trackedFunction` throws an error,
+   * that error will be the value returned by this property
+   */
   get error() {
     return this.data?.error ?? null;
   }
