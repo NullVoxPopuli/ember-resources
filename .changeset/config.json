@@ -12,7 +12,7 @@
   "fixed": [],
   "linked": [],
   "access": "public",
-  "baseBranch": "main",
+  "baseBranch": "v5",
   "updateInternalDependencies": "patch",
   "ignore": ["docs", "ember-app", "@nullvoxpopuli/estimate-bytes"]
 }
