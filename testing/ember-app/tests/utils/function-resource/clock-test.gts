@@ -15,8 +15,17 @@ module('Examples | resource | Clock', function (hooks) {
     assert.timeout(3000);
   });
 
+  interface ClockArgs {
+    start?: Date;
+    locale?: string;
+  }
+
   // Wrapper functions are the only way to pass Args to a resource.
-  const Clock = resourceFactory(({ start, locale = 'en-US' }) => {
+  const Clock = resourceFactory((options: ClockArgs | (() => ClockArgs)) => {
+    let opts = (typeof options === 'function') ? options() : options;
+    let start = opts.start;
+    let locale = opts.locale ?? 'en-US';
+
     // For a persistent state across arg changes, `Resource` may be better`
     let time = cell(start);
     let formatter = new Intl.DateTimeFormat(locale, {
