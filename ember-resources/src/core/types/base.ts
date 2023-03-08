@@ -38,7 +38,7 @@ declare const Empty: unique symbol;
  * which has no named args, if someone invokes it with any named args, they will
  * get a type error.
  *
- * @internal This is exported so declaration emit works (if it were not emitted,
+ * internal: This is exported so declaration emit works (if it were not emitted,
  *   declarations which fall back to it would not work). It is *not* intended for
  *   public usage, and the specific mechanics it uses may change at any time.
  *   The location of this export *is* part of the public API, because moving it

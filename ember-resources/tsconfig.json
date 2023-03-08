@@ -8,6 +8,8 @@
     "declarationDir": "./dist",
     "declaration": true,
     "declarationMap": true,
+    // https://www.typescriptlang.org/tsconfig#stripInternal
+    "stripInternal": true,
     // Build settings
     "noEmitOnError": false,
     "paths": {
