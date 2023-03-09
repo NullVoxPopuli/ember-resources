@@ -4,7 +4,8 @@
   "initialVersions": {
     "docs": "0.0.0",
     "ember-resources": "5.6.2",
-    "ember-app": "0.0.0"
+    "ember-app": "0.0.0",
+    "test-app": "0.0.0"
   },
   "changesets": [
     "afraid-cherries-type",
@@ -12,6 +13,9 @@
     "gold-weeks-destroy",
     "hungry-waves-kiss",
     "long-apples-sneeze",
-    "twenty-adults-knock"
+    "many-brooms-turn",
+    "red-badgers-doubt",
+    "twenty-adults-knock",
+    "young-walls-own"
   ]
 }

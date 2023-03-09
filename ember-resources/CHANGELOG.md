@@ -1,5 +1,64 @@
 # ember-resources
 
+## 6.0.0-beta.1
+
+### Major Changes
+
+- [#785](https://github.com/NullVoxPopuli/ember-resources/pull/785) [`66cee0e`](https://github.com/NullVoxPopuli/ember-resources/commit/66cee0e3cb91a4baa6b8a35aed8c67c2d05322a3) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The import path `ember-resources/util/function-resource` has been removed,
+  as all the relevent exports have been available from `ember-resources` since v5.
+
+### Minor Changes
+
+- [#794](https://github.com/NullVoxPopuli/ember-resources/pull/794) [`8989bbb`](https://github.com/NullVoxPopuli/ember-resources/commit/8989bbb1afb41404f27c76a0b083f7bb46d7fc9e) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - New Utils: UpdateFrequency and FrameRate
+
+  NOTE: for existing users of `ember-resources`, this addition has no impact on your bundle.
+
+  <details><summary>FrameRate</summary>
+
+  Utility that uses requestAnimationFrame to report
+  how many frames per second the current monitor is
+  rendering at.
+
+  The result is rounded to two decimal places.
+
+  ```js
+  import { FramRate } from "ember-resources/util/fps";
+
+  <template>{{ FrameRate }}</template>;
+  ```
+
+  </details>
+
+  <details><summary>UpdateFrequency</summary>
+
+  Utility that will report the frequency of updates to tracked data.
+
+  ```js
+  import { UpdateFrequency } from 'ember-resources/util/fps';
+
+  export default class Demo extends Component {
+    @tracked someProp;
+
+    @use updateFrequency = UpdateFrequency(() => this.someProp);
+
+    <template>
+      {{this.updateFrequency}}
+    </template>
+  }
+  ```
+
+  NOTE: the function passed to UpdateFrequency may not set tracked data.
+
+  </details>
+
+### Patch Changes
+
+- [#806](https://github.com/NullVoxPopuli/ember-resources/pull/806) [`00e8f2f`](https://github.com/NullVoxPopuli/ember-resources/commit/00e8f2f2f3f35fb3272629ff0e9c7dfbd1aaf9b0) Thanks [@sergey-zhidkov](https://github.com/sergey-zhidkov)! - `trackedTask` must return correct last value.
+
+  Fixes the issue described at #793
+  If the task was called multiple times and the last returned value was null or undefined,
+  then trackedTask will return the previous value instead of the current one.
+
 ## 6.0.0-beta.0
 
 ### Major Changes
