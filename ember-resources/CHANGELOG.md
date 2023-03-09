@@ -1,5 +1,15 @@
 # ember-resources
 
+## 5.6.3
+
+### Patch Changes
+
+- [#808](https://github.com/NullVoxPopuli/ember-resources/pull/808) [`34884c2`](https://github.com/NullVoxPopuli/ember-resources/commit/34884c218e642d188f8236372476b8824052d6c0) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - `trackedTask` must return correct last value.
+
+  Fixes the issue described at #793
+  If the task was called multiple times and the last returned value was null or undefined,
+  then trackedTask will return the previous value instead of the current one.
+
 ## 5.6.2
 
 ### Patch Changes
