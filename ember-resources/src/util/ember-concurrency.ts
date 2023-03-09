@@ -214,7 +214,11 @@ export class TaskResource<
   declare lastTask: TaskInstance<Return> | undefined;
 
   get value() {
-    return this.currentTask.value ?? this.lastTask?.value;
+    if (this.currentTask?.isFinished) {
+      return this.currentTask.value;
+    }
+
+    return this.lastTask?.value;
   }
 
   modify(positional: Args) {
