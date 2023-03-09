@@ -75,7 +75,7 @@ export class State<Value> {
     this.#fn = fn;
   }
 
-  get state(): 'UNSTARTED' | 'PENDING' | 'RESOLVED' | 'REJECTED' {
+  get state(): TrackedAsyncData<Value>['state'] | 'UNSTARTED' {
     return this.data?.state ?? 'UNSTARTED';
   }
 
@@ -133,7 +133,10 @@ export class State<Value> {
   }
 
   /**
-   * TrackedAsyncData does not allow the accessing of data before
+   * this.data may not exist yet.
+   *
+   * Additionaly, prior iterations of TrackedAsyncData did
+   * not allow the accessing of data before
    * .state === 'RESOLVED'  (isResolved).
    *
    * From a correctness standpoint, this is perfectly reasonable,
