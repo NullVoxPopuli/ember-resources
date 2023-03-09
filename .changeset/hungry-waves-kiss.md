@@ -14,6 +14,8 @@ tl;dr: the breaking changes:
 other changes:
 
 - `trackedFunction` is a wrapper around `ember-async-data`'s [`TrackedAsyncData`](https://github.com/tracked-tools/ember-async-data/blob/main/ember-async-data/src/tracked-async-data.ts)
+  - `ember-async-data` will need to be installed in the consumer's app to continue using `trackedFunction`
+    This keeps installs minimal for folks using ember-resources and are not using `trackedFunction`
 - behavior is otherwise the same
 
 NOTE: `trackedFunction` is an example utility of how to use auto-tracking with function invocation,
