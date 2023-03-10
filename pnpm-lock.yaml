@@ -59,7 +59,7 @@ importers:
       typedoc-gitlab-wiki-theme: ^1.0.0
       typedoc-plugin-markdown: ^3.14.0
       typedoc-plugin-markdown-pages: ^0.3.0
-      typedoc-plugin-mdn-links: ^2.0.0
+      typedoc-plugin-mdn-links: ^3.0.0
       typescript: ^4.8.3
     devDependencies:
       typedoc: 0.23.26_typescript@4.9.5
@@ -67,7 +67,7 @@ importers:
       typedoc-gitlab-wiki-theme: 1.0.0_fukoy6jgklpnhaz4jx7cggnvsu
       typedoc-plugin-markdown: 3.14.0_typedoc@0.23.26
       typedoc-plugin-markdown-pages: 0.3.0
-      typedoc-plugin-mdn-links: 2.0.2_typedoc@0.23.26
+      typedoc-plugin-mdn-links: 3.0.2_typedoc@0.23.26
       typescript: 4.9.5
 
   ember-resources:
@@ -14792,10 +14792,10 @@ packages:
       typedoc: 0.23.26_typescript@4.9.5
     dev: true
 
-  /typedoc-plugin-mdn-links/2.0.2_typedoc@0.23.26:
-    resolution: {integrity: sha512-Fzjvfsj3rxvmZNqWRvq9JTGBkOkrPp0kBtvJCJ4U5Jm14OF1KoRErtmwgVQcPLA5Xs8h5I/W4uZBaL8SDHsgxQ==}
+  /typedoc-plugin-mdn-links/3.0.2_typedoc@0.23.26:
+    resolution: {integrity: sha512-PKUVaxjMuGUGzrPs1Yc9dpFJ4eU8GeJcdr5PYXpA3AaMnycjjzUCpE10xWLQCu5APUwsO6syuItIEwgnASeE7g==}
     peerDependencies:
-      typedoc: 0.22.x || 0.23.x
+      typedoc: '>= 0.23.14 || 0.24.x'
     dependencies:
       typedoc: 0.23.26_typescript@4.9.5
     dev: true
@@ -15623,7 +15623,7 @@ packages:
     resolution: {directory: ember-resources, type: directory}
     id: file:ember-resources
     name: ember-resources
-    version: 6.0.0-beta.1
+    version: 6.0.0-beta.2
     peerDependencies:
       '@ember/test-waiters': ^3.0.0
       '@glimmer/component': ^1.1.2
