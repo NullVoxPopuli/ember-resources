@@ -28,6 +28,8 @@ const config = {
     'core/use.js': {},
     'core/class-based/index.js': {},
     'core/function-based/index.js': {},
+    'link.js': {},
+    'service.js': {},
     'util/*.js': {},
   }
 }
