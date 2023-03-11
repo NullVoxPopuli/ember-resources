@@ -1,5 +1,15 @@
 # ember-resources
 
+## 6.0.0-beta.3
+
+### Major Changes
+
+- [#815](https://github.com/NullVoxPopuli/ember-resources/pull/815) [`54e2b50`](https://github.com/NullVoxPopuli/ember-resources/commit/54e2b501ffe1cede2eec9465ed092ead5af6effd) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The `RemoteData` resource now has the same state changes and semantics as `trackedFunction`.
+
+  Breaking Changes:
+
+  - `isResolved` is only true when the request succeeds. During migration, you may use `isFinished` for previous behavior.
+
 ## 6.0.0-beta.2
 
 ### Minor Changes
