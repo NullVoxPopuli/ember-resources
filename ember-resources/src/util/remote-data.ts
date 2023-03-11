@@ -27,10 +27,28 @@ export class State<T = unknown> {
   @tracked status: null | number = null;
 
   /**
+   * True if the request has succeeded
+   */
+  @tracked isResolved = false;
+
+  /**
+   * True if the request has failed
+   */
+  @tracked isRejected = false;
+
+  /**
    * true if the request has finished
    */
-  get isResolved() {
-    return Boolean(this.value) || Boolean(this.error);
+  get isFinished() {
+    return this.isResolved || this.isRejected;
+  }
+
+  /**
+   * Alias for `isFinished`
+   * which is in turn an alias for `isResolved || isRejected`
+   */
+  get isSettled() {
+    return this.isFinished;
   }
 
   /**
@@ -44,14 +62,14 @@ export class State<T = unknown> {
    * true if the fetch request is in progress
    */
   get isLoading() {
-    return !this.isResolved;
+    return !this.isFinished;
   }
 
   /**
    * true if the request throws an exception
    */
   get isError() {
-    return Boolean(this.error);
+    return this.isRejected;
   }
 }
 
@@ -110,9 +128,11 @@ export function remoteData<T = unknown>(
         return response.json();
       })
       .then((data) => {
+        state.isResolved = true;
         state.value = data;
       })
       .catch((error) => {
+        state.isRejected = true;
         state.error = error;
       })
   );
