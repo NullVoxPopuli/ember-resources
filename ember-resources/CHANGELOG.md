@@ -1,5 +1,11 @@
 # ember-resources
 
+## 6.0.0-beta.4
+
+### Minor Changes
+
+- [#818](https://github.com/NullVoxPopuli/ember-resources/pull/818) [`feeb2db`](https://github.com/NullVoxPopuli/ember-resources/commit/feeb2db329735ab331be4088488510f430806e43) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - RemoteData now checks the response's Content-Type header to decide whether to convert to JSON or Text
+
 ## 6.0.0-beta.3
 
 ### Major Changes
