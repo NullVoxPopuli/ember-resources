@@ -125,7 +125,11 @@ export function remoteData<T = unknown>(
       .then((response) => {
         state.status = response.status;
 
-        return response.json();
+        if (response.headers.get('Content-Type')?.includes('json')) {
+          return response.json();
+        }
+
+        return response.text();
       })
       .then((data) => {
         state.isResolved = true;
