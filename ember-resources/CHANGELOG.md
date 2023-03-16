@@ -1,5 +1,17 @@
 # ember-resources
 
+## 6.0.0-beta.5
+
+### Patch Changes
+
+- [#828](https://github.com/NullVoxPopuli/ember-resources/pull/828) [`24b540e`](https://github.com/NullVoxPopuli/ember-resources/commit/24b540e191848c720401ce0da6d547bfe3d35b37) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - ember-async-data@v1 is out, so since we're _just now_ using it, that can be the minimum version.
+  NOTE: `ember-async-data`'s minimum ember-source is 4.8, so while things _might_ work with earlier ember-source's it's not guaranteed.
+
+- [#826](https://github.com/NullVoxPopuli/ember-resources/pull/826) [`50ad1ba`](https://github.com/NullVoxPopuli/ember-resources/commit/50ad1ba2851825263a2024b370e830eba86e375b) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - When using RemoteData, isError should be true when the http status code is >= 400. Resolves #825".
+  Previously, when you had a JSON response with 404 status code, `isError` would be false instead of true.
+
+- [#830](https://github.com/NullVoxPopuli/ember-resources/pull/830) [`0767c08`](https://github.com/NullVoxPopuli/ember-resources/commit/0767c08a32ae48a90feca34673d20bd061f38885) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Support TS 5.0
+
 ## 6.0.0-beta.4
 
 ### Minor Changes
