@@ -36,6 +36,16 @@ yarn add ember-resources
 ember install ember-resources
 ```
 
+Or if you want to use `main` (unstable) from git, you can use this in your package.json:
+
+```
+"ember-resources": "github:NullVoxPopuli/ember-resources#dist"
+```
+Which comes from [this branch][self-dist] from [this automation][self-dist-ci]
+
+[self-dist]: https://github.com/NullVoxPopuli/ember-resources/tree/dist
+[self-dist-ci]: https://github.com/NullVoxPopuli/ember-resources/blob/main/.github/workflows/push-dist.yml
+
 
 See: [API Documentation](https://ember-resources.pages.dev/modules)
 for more examples.
