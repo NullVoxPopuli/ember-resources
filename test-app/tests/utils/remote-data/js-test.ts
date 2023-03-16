@@ -166,9 +166,9 @@ module('Utils | remote-data | js', function (hooks) {
         errors: [{ detail: 'Blog not found', status: '404' }],
       });
       assert.false(test.request.isLoading);
-      assert.false(test.request.isError);
+      assert.true(test.request.isError, 'isError');
       assert.true(test.request.isResolved);
-      assert.strictEqual(test.request.status, 404);
+      assert.strictEqual(test.request.status, 404, 'expected status');
     });
 
     module('works with non-json requests', function () {
@@ -203,7 +203,7 @@ module('Utils | remote-data | js', function (hooks) {
 
         assert.strictEqual(test.request.value, 'hello world');
 
-        assert.strictEqual(test.request.status, 200);
+        assert.strictEqual(test.request.status, 500);
       });
     });
   });
@@ -346,7 +346,7 @@ module('Utils | remote-data | js', function (hooks) {
         errors: [{ detail: 'Blog not found', status: '404' }],
       });
       assert.false(test.request.isLoading);
-      assert.false(test.request.isError);
+      assert.true(test.request.isError);
       assert.true(test.request.isResolved);
       assert.strictEqual(test.request.status, 404);
     });
