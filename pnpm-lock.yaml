@@ -101,7 +101,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.54.0
       '@typescript-eslint/parser': ^5.54.0
       concurrently: ^7.6.0
-      ember-async-data: ^0.7.0
+      ember-async-data: ^1.0.0
       ember-source: 4.11.0
       ember-template-lint: 5.6.0
       eslint: ^8.35.0
@@ -144,7 +144,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
       '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
       concurrently: 7.6.0
-      ember-async-data: 0.7.0
+      ember-async-data: 1.0.1_ember-source@4.11.0
       ember-source: 4.11.0_wdt64mjlww5fpvzagecura56i4
       ember-template-lint: 5.6.0
       eslint: 8.35.0
@@ -7408,12 +7408,14 @@ packages:
       - supports-color
     dev: false
 
-  /ember-async-data/0.7.0:
-    resolution: {integrity: sha512-hiHSSMXYGd4eBM+w1EYCHiIkfnTpup/mxEUeEGVMmaAAzVMjb+ACieEPx2xoZ5Wi5baswYMKIIyoKDWT69645Q==}
-    engines: {node: 14.* || 16.* || >= 18}
+  /ember-async-data/1.0.1_ember-source@4.11.0:
+    resolution: {integrity: sha512-R9nBxCZ9WDPMJpuGBODs8wV1PHXUbkSbrzVmL34R4aOWbx237yLBllJghQOwfJs1+D72wdzgxg/+J3DY43xz3g==}
+    peerDependencies:
+      ember-source: ^4.8.4
     dependencies:
       '@ember/test-waiters': 3.0.2
       '@embroider/addon-shim': 1.8.4
+      ember-source: 4.11.0_wdt64mjlww5fpvzagecura56i4
     transitivePeerDependencies:
       - supports-color
     dev: true
