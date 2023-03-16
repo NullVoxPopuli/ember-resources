@@ -1,0 +1,58 @@
+# This is how we can keep tabs on future typescript versions
+# and if they are compatible with ember-resources
+# without blocking PRs
+# 
+name: Weekly TypeScript 
+
+on:
+  schedule:
+    # Runs "At 03:00 on Sunday." (see https://crontab.guru)
+    - cron: '0 3 * * 0'
+
+jobs:
+  install_dependencies:
+    name: Install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.1.0
+
+  build:
+    name: Build Tests
+    needs: [install_dependencies]
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.1.0
+      - uses: ./.github/actions/assert-build
+
+  typecheck:
+    name: '${{ matrix.typescript-scenario }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs: [build]
+    continue-on-error: true
+    strategy:
+      fail-fast: true
+      matrix:
+        typescript-scenario:
+          - typescript@4.8
+          - typescript@4.9
+          - typescript@next
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: NullVoxPopuli/action-setup-pnpm@v1.1.0
+      - uses: ./.github/actions/download-built-package
+      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
+        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+        working-directory: ./test-app
+      - name: 'Type checking'
+
+        run: |
+          pnpm --filter test-app exec tsc -v;
+          pnpm --filter test-app exec glint --version;
+          pnpm --filter test-app exec glint;
+
+

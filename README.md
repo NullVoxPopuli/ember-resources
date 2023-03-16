@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/ember-resources.svg)](https://badge.fury.io/js/ember-resources)
 [![CI](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/ci.yml)
+[![typescript@next](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/weekly-typescript.yml/badge.svg?branch=main)](https://github.com/NullVoxPopuli/ember-resources/actions/workflows/weekly-typescript.yml)
 _An_ implementation of the _Resource_ pattern in Ember.JS.
 
 - [Installation](#installation)
