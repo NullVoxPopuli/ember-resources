@@ -173,6 +173,8 @@
 
   The utility already supported inference, so this change should not impact too many folks.
 
+  <details><summary>Migration and Reasoning</summary>
+
   When explicit type-arguments were specified,
 
   ```ts
@@ -247,6 +249,8 @@
   expectType<number>(c.values()[0]);
   ```
 
+  </details>
+
 - [#779](https://github.com/NullVoxPopuli/ember-resources/pull/779) [`a471d9b`](https://github.com/NullVoxPopuli/ember-resources/commit/a471d9b2dad67a73062f9786869fdb00de25f79a) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - `trackedFunction` has a new API and thus a major version release is required.
 
   _Work by [@lolmaus](https://github.com/lolmaus)_
@@ -255,21 +259,39 @@
 
   - no more manual initial value
   - `isResolved` is only true on success
-  - `isError` has been renamed to `isRejected`
-  - `isLoading` has been removed as it was redundant
 
   other changes:
 
   - `trackedFunction` is a wrapper around `ember-async-data`'s [`TrackedAsyncData`](https://github.com/tracked-tools/ember-async-data/blob/main/ember-async-data/src/tracked-async-data.ts)
+    - `ember-async-data` will need to be installed in the consumer's app to continue using `trackedFunction`
+      This keeps installs minimal for folks using ember-resources and are not using `trackedFunction`
   - behavior is otherwise the same
 
   NOTE: `trackedFunction` is an example utility of how to use auto-tracking with function invocation,
   and abstract away the various states involved with async behavior. Now that the heavy lifting is done by `ember-async-data`,
   `trackedFunction` is now more of an example of how to integrated existing tracked utilities in to resources.
 
-  ***
+  <details><summary>Migration</summary>
 
-  **Migration**
+  **_Previously_, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.**
+
+  _now_, `isFinished` can be used instead. 
+  `isResolved` is now only true when the function runs to completion without error, aligning with the semantics of promises.
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, async () => {
+      /* ... */
+    });
+
+    <template>
+      {{this.foo.isFinished}} =
+        {{this.foo.isResolved}} or
+        {{this.foo.isError}}
+    </template>
+  }
+  ```
+
 
   **_Previously_, `trackedFunction` could take an initial value for its second argument.**
 
@@ -320,24 +342,7 @@
   }
   ```
 
-  **_Previously_, the `isResolved` property was `true` for succesful and error states**
-
-  Now, `isResolved` is only true when the function passed to `trackedFunction` has succesfully
-  completed.
-
-  To have behavior similar to the old behavior, you may want to implement your own `isFinished` getter:
-
-  ```js
-  class Demo {
-    foo = trackedFunction(this, async () => {
-      /* ... */
-    });
-
-    get isFinished() {
-      return this.foo.isResolved || this.foo.isRejected;
-    }
-  }
-  ```
+  </details>
 
 ### Minor Changes
 
