@@ -67,9 +67,13 @@ export class State<T = unknown> {
 
   /**
    * true if the request throws an exception
+   * or if the request.status is >= 400
    */
   get isError() {
-    return this.isRejected;
+    let httpError = this.status && this.status >= 400;
+    let promiseThrew = this.isRejected;
+
+    return httpError || promiseThrew;
   }
 }
 

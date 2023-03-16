@@ -41,6 +41,12 @@ module('Utils | remote-data | js', function (hooks) {
         ctx.json({ errors: [{ status: '404', detail: 'Blog not found' }] })
       );
     }),
+    rest.get('/text-error/:id', (req, res, ctx) => {
+      return res(ctx.status(500), ctx.text('hello world'));
+    }),
+    rest.get('/text-success/:id', (req, res, ctx) => {
+      return res(ctx.text('hello world'));
+    }),
   ]);
 
   module('RemoteData', function () {
@@ -160,9 +166,45 @@ module('Utils | remote-data | js', function (hooks) {
         errors: [{ detail: 'Blog not found', status: '404' }],
       });
       assert.false(test.request.isLoading);
-      assert.false(test.request.isError);
+      assert.true(test.request.isError, 'isError');
       assert.true(test.request.isResolved);
-      assert.strictEqual(test.request.status, 404);
+      assert.strictEqual(test.request.status, 404, 'expected status');
+    });
+
+    module('works with non-json requests', function () {
+      test('text with a successful response', async function (assert) {
+        class Test {
+          @use request = RemoteData('/text-success/100');
+        }
+
+        let test = new Test();
+
+        setOwner(test, this.owner);
+
+        assert.strictEqual(test.request.status, null);
+        await settled();
+
+        assert.strictEqual(test.request.value, 'hello world');
+
+        assert.strictEqual(test.request.status, 200);
+      });
+
+      test('text with an error response', async function (assert) {
+        class Test {
+          @use request = RemoteData('/text-error/100');
+        }
+
+        let test = new Test();
+
+        setOwner(test, this.owner);
+
+        assert.strictEqual(test.request.status, null);
+        await settled();
+
+        assert.strictEqual(test.request.value, 'hello world');
+
+        assert.strictEqual(test.request.status, 500);
+      });
     });
   });
 
@@ -304,7 +346,7 @@ module('Utils | remote-data | js', function (hooks) {
         errors: [{ detail: 'Blog not found', status: '404' }],
       });
       assert.false(test.request.isLoading);
-      assert.false(test.request.isError);
+      assert.true(test.request.isError);
       assert.true(test.request.isResolved);
       assert.strictEqual(test.request.status, 404);
     });
