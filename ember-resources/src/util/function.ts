@@ -135,12 +135,12 @@ export class State<Value> {
   /**
    * this.data may not exist yet.
    *
-   * Additionaly, prior iterations of TrackedAsyncData did
+   * Additionally, prior iterations of TrackedAsyncData did
    * not allow the accessing of data before
    * .state === 'RESOLVED'  (isResolved).
    *
    * From a correctness standpoint, this is perfectly reasonable,
-   * as it forces folks to handle thet states involved with async functions.
+   * as it forces folks to handle the states involved with async functions.
    *
    * The original version of `trackedFunction` did not use TrackedAsyncData,
    * and did not have these strictnesses upon property access, leaving folks
@@ -198,7 +198,7 @@ export class State<Value> {
     if (isDestroyed(this) || isDestroying(this)) return;
 
     // TrackedAsyncData manages the destroyable child association for us
-    this.data = new TrackedAsyncData(this.promise, this);
+    this.data = new TrackedAsyncData(this.promise);
 
     return this.promise;
   };
