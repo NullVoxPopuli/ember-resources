@@ -32,7 +32,7 @@
     "@embroider/macros": "^1.6.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "ember-async-data": "^0.6.0",
+    "ember-async-data": "^1.0.0",
     "ember-concurrency": "^2.0.0",
     "ember-concurrency-ts": "^0.3.1",
     "ember-functions-as-helper-polyfill": "^2.0.1",
