@@ -1,5 +1,11 @@
 # ember-resources
 
+## 6.0.0-beta.6
+
+### Patch Changes
+
+- [#838](https://github.com/NullVoxPopuli/ember-resources/pull/838) [`acbf03d`](https://github.com/NullVoxPopuli/ember-resources/commit/acbf03d723f904f7fb3ad6758298eb99a0309227) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Fixes [#835](https://github.com/NullVoxPopuli/ember-resources/issues/835) - resolves regression introduced by [PR: #808 ](https://github.com/NullVoxPopuli/ember-resources/pull/808) which aimed to correctly return the _previous_ task instance's value if the _current task_ hasn't finished yet. The regression described by #835 was that if a task in cancelled (e.g.: dropped), it is considered finished, and that canceled task's value would be used instead of the last compuleted task. In normal ember-concurrency APIs, this is abstracted over via the `.lastSuccessful` property on the `TaskProperty`. The goal of the `.value` on `trackedTask` is to mimic the property chain: `taskProperty.lastSuccessful?.value`.
+
 ## 6.0.0-beta.5
 
 ### Patch Changes
@@ -275,7 +281,7 @@
 
   **_Previously_, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.**
 
-  _now_, `isFinished` can be used instead. 
+  _now_, `isFinished` can be used instead.
   `isResolved` is now only true when the function runs to completion without error, aligning with the semantics of promises.
 
   ```js
@@ -291,7 +297,6 @@
     </template>
   }
   ```
-
 
   **_Previously_, `trackedFunction` could take an initial value for its second argument.**
 
