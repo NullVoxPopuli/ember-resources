@@ -214,7 +214,7 @@ export class TaskResource<
   declare lastTask: TaskInstance<Return> | undefined;
 
   get value() {
-    if (this.currentTask?.isFinished) {
+    if (this.currentTask?.isFinished && !this.currentTask.isCanceled) {
       return this.currentTask.value;
     }
 
