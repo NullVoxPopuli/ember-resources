@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { tracked } from '@glimmer/tracking';
 import { settled } from '@ember/test-helpers';
+import { waitFor } from '@ember/test-waiters';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { restartableTask, timeout } from 'ember-concurrency';
+import { dropTask, restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
@@ -167,6 +168,37 @@ module('useTask', function () {
         assert.true(foo.search.isFinished);
         assert.false(foo.search.isRunning);
         assert.strictEqual(foo.search.value, null);
+      });
+
+      test('it returns correct task value when tasks have been dropped', async function (assert) {
+        class Test {
+          @tracked input = 'initial value';
+
+          search = trackedTask(this, taskFor(this._search), () => [this.input]);
+
+          @dropTask
+          @waitFor
+          *_search(input: string) {
+            yield new Promise((resolve) => setTimeout(() => resolve('')));
+
+            return input;
+          }
+        }
+
+        let foo = new Test();
+
+        // task is initiated upon first access
+        foo.search.value;
+
+        // immediately start another task (this will be dropped/cancelled)
+        foo.input = 'updated value';
+        foo.search.value;
+
+        await settled();
+
+        assert.strictEqual(foo.search.value, 'initial value', 'returns value from first task');
+        assert.true(foo.search.isFinished);
+        assert.false(foo.search.isRunning);
       });
     });
   });
