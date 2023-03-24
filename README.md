@@ -65,7 +65,7 @@ class MyClass {
     let json = await response.json();
 
     return json.results;
-  }),
+  });
 
   get records() {
     return this.data.value ?? [];
