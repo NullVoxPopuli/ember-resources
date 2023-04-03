@@ -1,11 +1,16 @@
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
-import { getOwner } from '@ember/application';
 import { assert } from '@ember/debug';
 import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
-import { isDevelopingApp, isTesting, macroCondition } from '@embroider/macros';
+import {
+  dependencySatisfies,
+  importSync,
+  isDevelopingApp,
+  isTesting,
+  macroCondition,
+} from '@embroider/macros';
 
 import { Resource } from './core';
 import { INTERNAL } from './core/function-based/types';
@@ -13,6 +18,16 @@ import { INTERNAL } from './core/function-based/types';
 import type { InternalFunctionResourceConfig } from './core/function-based/types';
 import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
 import type Owner from '@ember/owner';
+
+let getOwner: (context: unknown) => Owner | undefined;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.10.0'))) {
+  // Using 'any' here because importSync can't lookup types correctly
+  getOwner = (importSync('@ember/owner') as any).getOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  getOwner = (importSync('@ember/application') as any).getOwner;
+}
 
 /**
  * Reminder:
