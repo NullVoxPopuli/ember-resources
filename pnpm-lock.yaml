@@ -391,9 +391,6 @@ importers:
       ember-cli-inject-live-reload:
         specifier: ^2.1.0
         version: 2.1.0
-      ember-export-application-global:
-        specifier: ^2.0.1
-        version: 2.0.1
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.21.3)
@@ -3104,7 +3101,6 @@ packages:
       semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@embroider/macros@1.6.0:
     resolution: {integrity: sha512-yUEXJGJGP3rjtxorxrbkdxriBFEwnmzOrNk4zK64IXKBfyRjiDZFUHV9DSTrbaYLS29Mw5yK73ZIwi8L13C4Zw==}
@@ -8236,11 +8232,6 @@ packages:
       - supports-color
     dev: false
 
-  /ember-export-application-global@2.0.1:
-    resolution: {integrity: sha512-B7wiurPgsxsSGzJuPFkpBWnaeuCu2PGpG2BjyrfA1VcL7//o+5RSnZqiCEY326y7qmxb2GoCgo0ft03KBU0rRw==}
-    engines: {node: '>= 4'}
-    dev: true
-
   /ember-functions-as-helper-polyfill@2.0.1:
     resolution: {integrity: sha512-IK+GAv2Pw/siQ7aN6V5CRQBNBrnjqNlm2u+bTV+OIP3RsPeStytbYwGI3yaUD9qqPNjFfxYeOkFSZV7q4CQplQ==}
     engines: {node: '>= 14.0.0'}
@@ -8825,7 +8816,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@4.8.2)
+      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@5.0.3)
       debug: 3.2.7
       eslint: 8.35.0
       eslint-import-resolver-node: 0.3.7
@@ -8845,7 +8836,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.21.4
-      '@babel/eslint-parser': 7.19.1(@babel/core@7.21.3)(eslint@8.35.0)
+      '@babel/eslint-parser': 7.19.1(@babel/core@7.21.4)(eslint@8.35.0)
       '@babel/plugin-proposal-decorators': 7.21.0(@babel/core@7.21.4)
       '@ember-data/rfc395-data': 0.0.4
       ember-rfc176-data: 0.3.18
@@ -8910,7 +8901,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@4.8.2)
+      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@5.0.3)
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
@@ -15304,7 +15295,7 @@ packages:
       '@babel/runtime': 7.21.0
       '@ember/test-waiters': 3.0.2
       '@embroider/addon-shim': 1.8.4
-      '@embroider/macros': 1.6.0
+      '@embroider/macros': 1.10.0
       '@glimmer/component': 1.1.2(@babel/core@7.21.3)
       '@glimmer/tracking': 1.1.2
       '@glint/template': 1.0.0-beta.3
