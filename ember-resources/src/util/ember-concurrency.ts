@@ -112,8 +112,8 @@ function buildUnproxiedTaskResource<
 }
 
 /**
-  * @private
-*/
+ * @private
+ */
 export function proxyClass<
   ArgsList extends any[],
   Return,
@@ -200,13 +200,13 @@ export interface TaskInstance<Return = unknown> extends Promise<Return> {
 }
 
 /**
-  * @private
-*/
+ * @private
+ */
 export const TASK = Symbol('TASK');
 
 /**
-  * @private
-*/
+ * @private
+ */
 export class TaskResource<
   Args extends any[],
   Return,

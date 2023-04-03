@@ -91,8 +91,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       typedoc-plugin-mdn-links:
-        specifier: ^3.0.0
-        version: 3.0.0(typedoc@0.23.28)
+        specifier: ^3.0.3
+        version: 3.0.3(typedoc@0.23.28)
       typescript:
         specifier: ^5.0.0
         version: 5.0.2
@@ -3132,6 +3132,7 @@ packages:
       semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@embroider/macros@1.6.0:
     resolution: {integrity: sha512-yUEXJGJGP3rjtxorxrbkdxriBFEwnmzOrNk4zK64IXKBfyRjiDZFUHV9DSTrbaYLS29Mw5yK73ZIwi8L13C4Zw==}
@@ -14799,8 +14800,8 @@ packages:
       typedoc: 0.23.28(typescript@5.0.2)
     dev: true
 
-  /typedoc-plugin-mdn-links@3.0.0(typedoc@0.23.28):
-    resolution: {integrity: sha512-X3IVDY/ZdrVM1MOPNMNPavy3TNh9XteLMzfSbfh0ibxxr7LqfTUJUBukDHTkmht0coaWIP5kglE7ZtopZx9O/Q==}
+  /typedoc-plugin-mdn-links@3.0.3(typedoc@0.23.28):
+    resolution: {integrity: sha512-NXhIpwQnsg7BcyMCHVqj3tUK+DL4g3Bt96JbFl4APzTGFkA+iM6GfZ/fn3TAqJ8O0CXG5R9BfWxolw1m1omNuQ==}
     peerDependencies:
       typedoc: '>= 0.23.14 || 0.24.x'
     dependencies:
@@ -15556,7 +15557,7 @@ packages:
       '@babel/runtime': 7.21.0
       '@ember/test-waiters': 3.0.2
       '@embroider/addon-shim': 1.8.4
-      '@embroider/macros': 1.10.0
+      '@embroider/macros': 1.6.0
       '@glimmer/component': 1.1.2(@babel/core@7.21.3)
       '@glimmer/tracking': 1.1.2
       '@glint/template': 1.0.0-beta.3
