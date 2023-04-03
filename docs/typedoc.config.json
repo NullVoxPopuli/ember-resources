@@ -1,20 +1,32 @@
 {
   "tsconfig": "../ember-resources/tsconfig.json",
+  "compilerOptions": {
+    "noEmitOnError": false
+  },
   "entryPoints": [
-    "../ember-resources/src/index.ts",
-    "../ember-resources/src/util/"
+    "../ember-resources/src",
   ],
-  "entryPointStrategy": "expand",
+  "navigationLinks": {
+    "Tutorial": "https://tutorial.glimdown.com",
+    "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
+  },
+  "sidebarLinks": {
+    "keepLatest": "/utils/keep-latest/index.html"
+  },
+  "entryPointStrategy": "resolve",
   "readme": "../README.md",
-  "exclude": [],
+  "exclude": [
+  ],
   "json": "./docs.json",
   "out": "dist",
+  "emit": "docs",
   "pretty": true,
+  "skipErrorChecking": true,
   "excludePrivate": true,
   "excludeProtected": false,
   "excludeExternals": true,
-  "disableSources": true,
   "searchInComments": true,
+  "disableSources": false,
   "categorizeByGroup": false,
   "plugin": [
   ]
