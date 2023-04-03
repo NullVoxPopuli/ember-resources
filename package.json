@@ -25,10 +25,13 @@
     "prettier": "^2.8.4",
     "typescript": "^5.0.0"
   },
+  "engines": {
+    "node": ">= 18.*",
+    "yarn": "use pnpm",
+    "npm": "use pnpm"
+  },
   "volta": {
     "node": "18.15.0",
-    "yarn": "use-pnpm",
-    "npm": "use-pnpm",
     "pnpm": "8.1.0"
   },
   "packageManager": "pnpm@7.30.0",
