@@ -21,7 +21,9 @@ import type Owner from '@ember/owner';
 
 let getOwner: (context: unknown) => Owner | undefined;
 
-if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+// if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+// In no version of ember where `@ember/owner` tried to be imported did it exist
+if (macroCondition(false)) {
   // Using 'any' here because importSync can't lookup types correctly
   getOwner = (importSync('@ember/owner') as any).getOwner;
 } else {
