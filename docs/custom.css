@@ -1,0 +1,39 @@
+.col-menu.menu-sticky-wrap {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: start;
+}
+
+.tsd-navigation.settings {
+  display: none;
+}
+
+.tsd-navigation.primary {
+  display: none;
+}
+
+#tsd-sidebar-links::before {
+  content: 'Utils';
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  display: block;
+  margin-top: 0.5rem;
+  margin-left: -0.25rem;
+}
+
+#tsd-sidebar-links a::after,
+#tsd-toolbar-links a::after {
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>');
+  width: 0.75rem;
+  height: 0.75rem;
+  display: inline-block;
+  margin-left: 0.5rem;
+  color: currentColor;
+}
+
+@media (prefers-color-scheme: dark) {
+  #tsd-sidebar-links a::after,
+  #tsd-toolbar-links a::after {
+    filter: invert(1);
+  }
+}

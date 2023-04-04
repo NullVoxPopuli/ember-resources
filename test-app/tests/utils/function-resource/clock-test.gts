@@ -115,22 +115,22 @@ module('Examples | resource | Clock', function (hooks) {
         </template>
       );
 
-      let textA = find('time')?.innerText;
+      let textA = find('time')?.textContent;
 
-      assert.ok(textA, textA);
+      assert.ok(textA, textA ?? 'expected to find text');
 
       await wait();
 
-      let textB = find('time')?.innerText;
+      let textB = find('time')?.textContent;
 
-      assert.ok(textB, textB);
+      assert.ok(textB, textB ?? 'expected to find text');
       assert.notStrictEqual(textA, textB, `${textB} is 1s after ${textA}`);
 
       await wait();
 
-      let textC = find('time')?.innerText;
+      let textC = find('time')?.textContent;
 
-      assert.ok(textC, textC);
+      assert.ok(textC, textC ?? 'expected to find text');
       assert.notStrictEqual(textB, textC, `${textC} is 1s after ${textB}`);
 
       await clearRender();
@@ -151,35 +151,35 @@ module('Examples | resource | Clock', function (hooks) {
         <time>{{Clock (hash start=instance.date locale=instance.locale)}}</time>
       </template>);
 
-      let textA = find('time')?.innerText;
+      let textA = find('time')?.textContent;
 
-      assert.ok(textA, textA);
+      assert.ok(textA, textA ?? 'expected to find text');
 
       await wait();
 
-      let textB = find('time')?.innerText;
+      let textB = find('time')?.textContent;
 
-      assert.ok(textB, textB);
+      assert.ok(textB, textB?? 'expected to find text');
       assert.notStrictEqual(textA, textB, `${textB} is 1s after ${textA}`);
 
       await wait();
 
-      let textC = find('time')?.innerText;
+      let textC = find('time')?.textContent;
 
-      assert.ok(textC, textC);
+      assert.ok(textC, textC?? 'expected to find text');
       assert.notStrictEqual(textB, textC, `${textC} is 1s after ${textB}`);
 
       instance.locale = 'en-CA';
       await settled();
 
-      let textD = find('time')?.innerText;
+      let textD = find('time')?.textContent;
 
       assert.strictEqual(textD, textA, 'Time is reset');
 
       instance.date = new Date();
       await settled();
 
-      let textE = find('time')?.innerText;
+      let textE = find('time')?.textContent;
 
       assert.notStrictEqual(textE, textD, 'Time has changed');
     });
