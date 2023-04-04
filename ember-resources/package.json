@@ -178,7 +178,7 @@
     "main": "addon-main.cjs",
     "app-js": {}
   },
-  "packageManager": "pnpm@7.30.0",
+  "packageManager": "pnpm@7.31.0",
   "volta": {
     "extends": "../package.json"
   }
