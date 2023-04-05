@@ -8,9 +8,10 @@
   display: none;
 }
 
-.tsd-navigation.primary {
-  display: none;
-}
+/* We can't have two custom.css files, because the output is always named custom.css */
+/* .tsd-navigation.primary { */
+/*   display: none; */
+/* } */
 
 #tsd-sidebar-links::before {
   content: 'Utils';

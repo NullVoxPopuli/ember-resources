@@ -1,6 +1,7 @@
 {
   "tsconfig": "../ember-resources/tsconfig.json",
   "customCss": "./custom.css",
+  "cleanOutputDir": false,
   "compilerOptions": {
     "noEmitOnError": false
   },
@@ -12,21 +13,20 @@
     "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
   },
   "sidebarLinks": {
-    "link": "/utils/link/functions/link.html",
-    "service": "/utils/service/functions/service.html",
-    "keepLatest": "/utils/keepLatest/functions/keepLatest.html",
-    "fps": "/utils/fps/index.html",
-    "map": "/utils/map/functions/map.html",
-    "helper": "/utils/helper/functions/helper.html",
-    "remoteData": "/utils/remoteData/functions/RemoteData.html",
-    "debounce": "/utils/debounce/functions/debounce.html",
-    "emberConcurrency": "/utils/emberConcurrency/functions/trackedTask.html",
-    "trackedFunction": "/utils/function/functions/trackedFunction.html"
+    "link": "/functions/link.link.html",
+    "service": "/functions/service.service.html",
+    "RemoteData": "/functions/util_remote_data.RemoteData.html",
+    "UpdateFrequency": "/functions/util_fps.UpdateFrequency.html",
+    "keepLatest": "/functions/util_keep_latest.keepLatest.html",
+    "debounce": "/functions/util_debounce.debounce.html",
+    "map": "/functions/util_map.map.html",
+    "trackedFunction": "/functions/util_function.trackedFunction.html",
+    "trackedTask": "/functions/util_ember_concurrency.trackedTask.html",
+    "helper": "/functions/util_helper.helper.html"
   },
   "entryPointStrategy": "resolve",
   "readme": "../README.md",
   "exclude": [],
-  "json": "./docs.json",
   "out": "dist",
   "emit": "docs",
   "pretty": true,
