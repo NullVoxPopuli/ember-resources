@@ -1,0 +1,45 @@
+{
+  "tsconfig": "../ember-resources/tsconfig.json",
+  "customCss": "./custom.css",
+  "cleanOutputDir": false,
+  "compilerOptions": {
+    "noEmitOnError": false
+  },
+  "entryPoints": [
+    "../ember-resources/src/link.ts",
+    "../ember-resources/src/service.ts",
+    "../ember-resources/src/util/debounce.ts",
+    "../ember-resources/src/util/ember-concurrency.ts",
+    "../ember-resources/src/util/fps.ts",
+    "../ember-resources/src/util/function.ts",
+    "../ember-resources/src/util/helper.ts",
+    "../ember-resources/src/util/keep-latest.ts",
+    "../ember-resources/src/util/map.ts",
+    "../ember-resources/src/util/remote-data.ts",
+  ],
+  "navigationLinks": {
+    "Tutorial": "https://tutorial.glimdown.com",
+    "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
+  },
+  "sidebarLinks": {
+    "Resource": "/classes/Resource.html",
+    "resource": "/functions/resource-1.html",
+    "use": "/functions/use.html",
+    "resourceFactory": "/functions/resourceFactory.html",
+    "cell": "/functions/cell.html",
+  },
+  "entryPointStrategy": "resolve",
+  "readme": "none",
+  "exclude": [],
+  "out": "dist",
+  "emit": "docs",
+  "pretty": true,
+  "skipErrorChecking": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "searchInComments": true,
+  "disableSources": false,
+  "categorizeByGroup": false,
+  "plugin": []
+}
