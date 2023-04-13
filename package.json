@@ -31,7 +31,7 @@
     "npm": "use pnpm"
   },
   "volta": {
-    "node": "18.15.0",
+    "node": "18.16.0",
     "pnpm": "8.1.0"
   },
   "packageManager": "pnpm@8.2.0",
