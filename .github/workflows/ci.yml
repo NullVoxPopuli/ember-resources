@@ -151,7 +151,7 @@ jobs:
       - uses: NullVoxPopuli/action-setup-pnpm@v2
       - uses: ./.github/actions/download-built-package
       - name: Run Tests
-        run: pnpm turbo test:ember
+        run: pnpm test:ember
         working-directory: ${{ matrix.concurrencyVersion }} 
 
 
