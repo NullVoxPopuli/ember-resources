@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { tracked } from '@glimmer/tracking';
 import { settled } from '@ember/test-helpers';
-import { waitFor } from '@ember/test-waiters';
+import { waitForPromise } from '@ember/test-waiters';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 import { dropTask, restartableTask, timeout } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
 module('useTask', function () {
@@ -18,16 +17,15 @@ module('useTask', function () {
         class Test {
           @tracked input = '';
 
-          search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-          @restartableTask
-          *_search(input: string) {
+          _search = restartableTask(async (input: string) => {
             // or some bigger timeout for an actual search task to debounce
-            yield timeout(0);
+            await timeout(0);
 
             // or some api data if actual search task
             return { results: [input] };
-          }
+          });
+
+          search = trackedTask(this, this._search, () => [this.input]);
         }
 
         let foo = new Test();
@@ -64,19 +62,18 @@ module('useTask', function () {
         class Test {
           @tracked input = '';
 
-          search = trackedTask(this, taskFor(this._search));
-
-          @restartableTask
-          *_search() {
+          _search = restartableTask(async () => {
             // NOTE: args must be consumed before the first yield
             let { input } = this;
 
             // or some bigger timeout for an actual search task to debounce
-            yield timeout(0);
+            await timeout(0);
 
             // or some api data if actual search task
             return { results: [input] };
-          }
+          });
+
+          search = trackedTask(this, this._search);
         }
 
         let foo = new Test();
@@ -113,16 +110,15 @@ module('useTask', function () {
         class Test {
           @tracked input: string | undefined | null = 'initial value';
 
-          search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-          @restartableTask
-          *_search(input: string | undefined | null) {
+          _search = restartableTask(async (input: string | undefined | null) => {
             // or some bigger timeout for an actual search task to debounce
-            yield timeout(0);
+            await timeout(0);
 
             // or some api data if actual search task
             return input;
-          }
+          });
+
+          search = trackedTask(this, this._search, () => [this.input]);
         }
 
         let foo = new Test();
@@ -174,15 +170,13 @@ module('useTask', function () {
         class Test {
           @tracked input = 'initial value';
 
-          search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-          @dropTask
-          @waitFor
-          *_search(input: string) {
-            yield new Promise((resolve) => setTimeout(() => resolve('')));
+          _search = dropTask(async (input: string) => {
+            await waitForPromise(new Promise((resolve) => setTimeout(() => resolve(''))));
 
             return input;
-          }
+          });
+
+          search = trackedTask(this, this._search, () => [this.input]);
         }
 
         let foo = new Test();

@@ -6,7 +6,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { restartableTask, timeout } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
 let version = '^3.0.0';
@@ -20,14 +19,13 @@ module('useTask', function () {
         class TestComponent extends Component<{ Blocks: { default: [TestComponent] } }> {
           @tracked input = 'Hello there';
 
-          search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-          @restartableTask
-          *_search(input: string) {
-            yield timeout(500);
+          _search = restartableTask(async (input: string) => {
+            await timeout(500);
 
             return input;
-          }
+          });
+
+          search = trackedTask(this, this._search, () => [this.input]);
 
           get result() {
             return `${this.search.value}`;
@@ -84,14 +82,14 @@ module('useTask', function () {
       });
 
       class Test {
-        search = trackedTask(this, taskFor(this._search));
-
-        @restartableTask
-        *_search() {
-          yield timeout(100);
+        _search = restartableTask(async () => {
+          await timeout(100);
 
           throw new Error('boop');
-        }
+        });
+
+        search = trackedTask(this, this._search);
+
 
         get error() {
           return `${this.search.error}`;
@@ -116,14 +114,12 @@ module('useTask', function () {
       class Test {
         @tracked input = 'Hello there';
 
-        search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-        @restartableTask
-        *_search(input: string) {
-          yield timeout(100);
+        _search = restartableTask(async (input: string) => {
+          await timeout(100);
 
           return input;
-        }
+        });
+        search = trackedTask(this, this._search, () => [this.input]);
       }
 
       let ctx = new Test();
@@ -142,14 +138,12 @@ module('useTask', function () {
 
     test('isCanceled', async function (assert) {
       class Test {
-        search = trackedTask(this, taskFor(this._search));
-
-        @restartableTask
-        *_search() {
-          yield timeout(100);
+        _search = restartableTask(async () => {
+          await timeout(100);
 
           throw new Error('boop');
-        }
+        });
+        search = trackedTask(this, this._search);
       }
 
       let ctx = new Test();
@@ -170,14 +164,12 @@ module('useTask', function () {
 
     test('isError', async function (assert) {
       class Test {
-        search = trackedTask(this, taskFor(this._search));
-
-        @restartableTask
-        *_search() {
-          yield timeout(100);
+        _search = restartableTask(async () => {
+          await timeout(100);
 
           throw new Error('boop');
-        }
+        });
+        search = trackedTask(this, this._search);
       }
 
       let ctx = new Test();
@@ -198,14 +190,12 @@ module('useTask', function () {
       class Test {
         @tracked input = 'Hello there';
 
-        search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-        @restartableTask
-        *_search(input: string) {
-          yield timeout(100);
+        _search = restartableTask(async (input: string) => {
+          await timeout(100);
 
           return input;
-        }
+        });
+        search = trackedTask(this, this._search, () => [this.input]);
       }
 
       let ctx = new Test();
@@ -226,14 +216,12 @@ module('useTask', function () {
       class Test {
         @tracked input = 'Hello there';
 
-        search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-        @restartableTask
-        *_search(input: string) {
-          yield timeout(100);
+        _search = restartableTask(async (input: string) => {
+          await timeout(100);
 
           return input;
-        }
+        });
+        search = trackedTask(this, this._search, () => [this.input]);
       }
 
       let ctx = new Test();
@@ -254,14 +242,12 @@ module('useTask', function () {
       class Test {
         @tracked input = 'Hello there';
 
-        search = trackedTask(this, taskFor(this._search), () => [this.input]);
-
-        @restartableTask
-        *_search(input: string) {
-          yield timeout(100);
+        _search = restartableTask(async (input: string) => {
+          await timeout(100);
 
           return input;
-        }
+        });
+        search = trackedTask(this, this._search, () => [this.input]);
 
         get result() {
           return `${this.search.value || ''}`;
