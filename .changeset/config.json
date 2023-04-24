@@ -14,5 +14,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["docs", "test-app", "@nullvoxpopuli/estimate-bytes"]
+  "ignore": ["docs", "test-app", "@nullvoxpopuli/estimate-bytes", "test-app-ec-2", "test-app-ec-3"]
 }

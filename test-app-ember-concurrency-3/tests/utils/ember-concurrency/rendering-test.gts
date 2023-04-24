@@ -9,10 +9,10 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
-let version = '^2.0.0';
+let version = '^3.0.0';
 
 module('useTask', function () {
-  module('ember-concurrency@v2', function () {
+  module('ember-concurrency@v3', function () {
     module('in templates', function (hooks) {
       setupRenderingTest(hooks);
 

@@ -10,7 +10,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import { trackedTask } from 'ember-resources/util/ember-concurrency';
 
 module('useTask', function () {
-  module('ember-concurrency@v2', function () {
+  module('ember-concurrency@v3', function () {
     module('in JS', function (hooks) {
       setupTest(hooks);
 
