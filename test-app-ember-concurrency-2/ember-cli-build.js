@@ -13,6 +13,7 @@ module.exports = function (defaults) {
     'ember-cli-babel': {
       enableTypeScriptTransform: true,
     },
+    name: 'test-app',
   });
 
   // Use `app.import` to add additional libraries to the generated

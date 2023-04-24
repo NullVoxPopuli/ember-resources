@@ -120,6 +120,12 @@
       "enabled": false
     },
     {
+      // these apps test specific ember-concurrency versions
+      "matchPaths": ["test-app-ec-2/package.json", "test-app-ec-3/package.json"],
+      "matchDepPatterns": ["ember-concurrency"],
+      "enabled": false,
+    },
+    {
       // changing engines forces other people to need to upgrade their minimum node
       // therefor engine changes are breaking changes
       "depTypeList": ["engines"],
