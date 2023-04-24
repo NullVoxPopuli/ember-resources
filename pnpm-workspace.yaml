@@ -2,4 +2,5 @@ packages:
   - "ember-resources"
   - "docs"
   - "test-app"
+  - "test-app-ember-concurrency*"
   - "dev/*"
