@@ -1,10 +1,21 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
+import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
+// @ts-ignore
+import { invokeHelper } from '@ember/helper';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
 
-import type { Cache, Destructor, InternalFunctionResourceConfig, ResourceFunction } from './types';
+import { INTERNAL } from './types';
+
+import type {
+  Cache,
+  Destructor,
+  InternalFunctionResourceConfig,
+  Reactive,
+  ResourceFunction,
+} from './types';
 import type Owner from '@ember/owner';
 
 /**
@@ -34,6 +45,7 @@ class FunctionResourceManager {
      */
     let thisFn = fn.bind(null);
     let previousFn: object;
+    let usableCache = new WeakMap<object, unknown>();
 
     let cache = createCache(() => {
       if (previousFn) {
@@ -45,12 +57,48 @@ class FunctionResourceManager {
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
+      const use = (usable: unknown) => {
+        assert(
+          `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
+          typeof usable === 'object'
+        );
+        assert(
+          `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${usable}.`,
+          usable
+        );
+        assert(
+          `Expected the resource's \`use(...)\` utility to have been passed another resource, but something else was passed.`,
+          INTERNAL in usable
+        );
+
+        let previousCache = usableCache.get(usable);
+
+        if (previousCache) {
+          destroy(previousCache);
+        }
+
+        let cache = invokeHelper(this.owner, usable);
+
+        associateDestroyableChild(currentFn, cache as object);
+
+        usableCache.set(usable, cache);
+
+        return {
+          get current() {
+            let cache = usableCache.get(usable);
+
+            return getValue(cache);
+          },
+        };
+      };
+
       let maybeValue = currentFn({
         on: {
           cleanup: (destroyer: Destructor) => {
             registerDestructor(currentFn, destroyer);
           },
         },
+        use,
         owner: this.owner,
       });
 

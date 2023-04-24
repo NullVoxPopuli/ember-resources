@@ -13,6 +13,8 @@ import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types
 
 type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 
+type UseArgs = [object, string, Stage1DecoratorDescriptor];
+
 /**
  * The `@use` decorator has two responsibilities
  *    - abstract away the underlying reactivity configuration (invokeHelper)
@@ -38,7 +40,19 @@ type Config = ClassResourceConfig | InternalFunctionResourceConfig;
  * (new MyClass()).data === 2
  * ```
  */
-export function use(_prototype: object, key: string, descriptor?: Stage1DecoratorDescriptor): void {
+export function use(...args: UseArgs) {
+  if (args.length === 3) {
+    return useDecorator(...args);
+  }
+
+  assert(`@use can only be used as a decorator, e.g. \`@use foo = resource(() => { ... })\``);
+}
+
+function useDecorator(
+  _prototype: object,
+  key: string,
+  descriptor?: Stage1DecoratorDescriptor
+): void {
   if (!descriptor) return;
 
   assert(`@use can only be used with string-keys`, typeof key === 'string');
