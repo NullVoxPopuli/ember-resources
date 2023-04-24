@@ -2,10 +2,11 @@ import { tracked } from '@glimmer/tracking';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { timeout } from 'ember-concurrency';
 import { use } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 import { keepLatest } from 'ember-resources/util/keep-latest';
+
+const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module('Utils | keepLatest | js', function (hooks) {
   setupTest(hooks);

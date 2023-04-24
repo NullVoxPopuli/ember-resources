@@ -5,9 +5,10 @@ import { module, test } from 'qunit';
 import { render, settled } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { timeout } from 'ember-concurrency';
 import { trackedFunction } from 'ember-resources/util/function';
 import { keepLatest } from 'ember-resources/util/keep-latest';
+
+const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 module('Utils | keepLatest | rendering', function (hooks) {
   setupRenderingTest(hooks);
