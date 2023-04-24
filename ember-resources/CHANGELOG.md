@@ -1,5 +1,340 @@
 # ember-resources
 
+## 6.0.0
+
+### Major Changes
+
+- [#715](https://github.com/NullVoxPopuli/ember-resources/pull/715) [`e8155b2`](https://github.com/NullVoxPopuli/ember-resources/commit/e8155b254cfef874287a3b1d0d9c562ed97b88dc) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Drop support for TypeScript < 4.8 in order to support Glint.
+
+- [#778](https://github.com/NullVoxPopuli/ember-resources/pull/778) [`901ae9a`](https://github.com/NullVoxPopuli/ember-resources/commit/901ae9a0b6919af8c66fb8102927d5dee0d2f694) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The `map` utility resource has changed its first type-argument for better inference.
+
+  The utility already supported inference, so this change should not impact too many folks.
+
+  <details><summary>Migration and Reasoning</summary>
+
+  When explicit type-arguments were specified,
+
+  ```ts
+  class Demo {
+    // previously
+    a = map<Element>(this, {
+      data: () => [
+        /* ... list of Element(s) ... */
+      ],
+      map: (element) => {
+        /* some transform */
+      },
+    });
+
+    // now
+    a = map<Element[]>(this, {
+      data: () => [
+        /* ... list of Element(s) ... */
+      ],
+      map: (element) => {
+        /* some transform */
+      },
+    });
+  }
+  ```
+
+  This is advantageous, because with `@tsconfig/ember`, the option `noUncheckedIndexedAccess`
+  is enabled by default. This is a great strictness / quality option to have enabled,
+  as arrays in javascript are mutable, and we can't guarantee that they don't change between
+  index-accesses.
+
+  _However_ the `map` utility resource explicitly disallows the indicies to get out of sync
+  with the source `data`.
+
+  But!, with `noUncheckedIndexedAccess`, you can only infer so much before TS goes the safe route,
+  and makes the returned type `X | undefined`.
+
+  For example, in these type-tests:
+
+  ```ts
+  import { map } from "ember-resources/util/map";
+  import { expectType } from "ts-expect";
+
+  const constArray = [1, 2, 3];
+
+  b = map(this, {
+    data: () => constArray,
+    map: (element) => {
+      expectType<number>(element);
+      return element;
+    },
+  });
+
+  // index-access here is *safely* `| undefined`, due to `constArray` being mutable.
+  expectType<number | undefined>(b[0]);
+  expectType<number | undefined>(b.values()[0]);
+
+  // but when we use a const as const array, we define a tuple,
+  // and can correctly infer and return real values via index access
+  const tupleArray = [1, 2, 3] as const;
+
+  c = map(this, {
+    data: () => tupleArray,
+    map: (element) => {
+      expectType<number>(element);
+      return element;
+    },
+  });
+
+  // No `| undefined` here
+  expectType<number>(c[0]);
+  expectType<number>(c.values()[0]);
+  ```
+
+  </details>
+
+- [#815](https://github.com/NullVoxPopuli/ember-resources/pull/815) [`54e2b50`](https://github.com/NullVoxPopuli/ember-resources/commit/54e2b501ffe1cede2eec9465ed092ead5af6effd) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The `RemoteData` resource now has the same state changes and semantics as `trackedFunction`.
+
+  Breaking Changes:
+
+  - `isResolved` is only true when the request succeeds. During migration, you may use `isFinished` for previous behavior.
+
+- [#779](https://github.com/NullVoxPopuli/ember-resources/pull/779) [`a471d9b`](https://github.com/NullVoxPopuli/ember-resources/commit/a471d9b2dad67a73062f9786869fdb00de25f79a) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - `trackedFunction` has a new API and thus a major version release is required.
+
+  _Work by [@lolmaus](https://github.com/lolmaus)_
+
+  tl;dr: the breaking changes:
+
+  - no more manual initial value
+  - `isResolved` is only true on success
+
+  other changes:
+
+  - `trackedFunction` is a wrapper around `ember-async-data`'s [`TrackedAsyncData`](https://github.com/tracked-tools/ember-async-data/blob/main/ember-async-data/src/tracked-async-data.ts)
+    - `ember-async-data` will need to be installed in the consumer's app to continue using `trackedFunction`
+      This keeps installs minimal for folks using ember-resources and are not using `trackedFunction`
+  - behavior is otherwise the same
+
+  NOTE: `trackedFunction` is an example utility of how to use auto-tracking with function invocation,
+  and abstract away the various states involved with async behavior. Now that the heavy lifting is done by `ember-async-data`,
+  `trackedFunction` is now more of an example of how to integrated existing tracked utilities in to resources.
+
+  <details><summary>Migration</summary>
+
+  **_Previously_, the state's `isResolved` property on `trackedFunction` was `true` on both success and error.**
+
+  _now_, `isFinished` can be used instead.
+  `isResolved` is now only true when the function runs to completion without error, aligning with the semantics of promises.
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, async () => {
+      /* ... */
+    });
+
+    <template>
+      {{this.foo.isFinished}} =
+        {{this.foo.isResolved}} or
+        {{this.foo.isError}}
+    </template>
+  }
+  ```
+
+  **_Previously_, `trackedFunction` could take an initial value for its second argument.**
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, "initial value", async () => {
+      /* ... */
+    });
+  }
+  ```
+
+  This has been removed, as initial value can be better maintained _and made more explicit_
+  in user-space. For example:
+
+  ```js
+  class Demo {
+    foo = trackedFunction(this, async () => {
+      /* ... */
+    });
+
+    get value() {
+      return this.foo.value ?? "initial value";
+    }
+  }
+  ```
+
+  Or, in a template:
+
+  ```hbs
+  {{#if this.foo.value}}
+    {{this.foo.value}}
+  {{else}}
+    initial displayed content
+  {{/if}}
+  ```
+
+  Or, in gjs/strict mode:
+
+  ```gjs
+  const withDefault = (value) => value ?? 'initial value';
+
+  class Demo extends Component {
+    foo = trackedFunction(this, async () => { /* ... */ });
+
+    <template>
+      {{withDefault this.foo.value}}
+    </template>
+  }
+  ```
+
+  </details>
+
+- [#785](https://github.com/NullVoxPopuli/ember-resources/pull/785) [`66cee0e`](https://github.com/NullVoxPopuli/ember-resources/commit/66cee0e3cb91a4baa6b8a35aed8c67c2d05322a3) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The import path `ember-resources/util/function-resource` has been removed,
+  as all the relevent exports have been available from `ember-resources` since v5.
+
+### Minor Changes
+
+- [#797](https://github.com/NullVoxPopuli/ember-resources/pull/797) [`18adb86`](https://github.com/NullVoxPopuli/ember-resources/commit/18adb86dc7a399b47dfd6a2065b059ad38b82967) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Add link() and @link, importable from `ember-resources/link`.
+
+  NOTE: for existing users of `ember-resources`, this addition has no impact on your bundle.
+
+  <details><summary>Example property usage</summary>
+
+  ```js
+  import { link } from 'ember-resources/link';
+
+  class MyClass {  ... }
+
+  export default class Demo extends Component {
+    // This usage does now allow passing args to `MyClass`
+    @link(MyClass) myInstance;
+  }
+  ```
+
+  </details>
+
+  <details><summary>Example inline usage</summary>
+
+  ```js
+  import Component from "@glimmer/component";
+  import { cached } from "@glimmer/tracking";
+  import { link } from "ember-resources/link";
+
+  export default class Demo extends Component {
+    // To pass args to `MyClass`, you must use this form
+    // NOTE though, that `instance` is linked to the `Demo`s lifecycle.
+    //  So if @foo is changing frequently, memory pressure will increase rapidly
+    //  until the `Demo` instance is destroyed.
+    //
+    //  Resources are a better fit for this use case, as they won't add to memory pressure.
+    @cached
+    get myFunction() {
+      let instance = new MyClass(this.args.foo);
+
+      return link(instance, this);
+    }
+  }
+  ```
+
+  </details>
+
+  This abstracts away the following boilerplate:
+
+  ```js
+  import { getOwner, setOwner } from "@ember/owner";
+  import { associateDestroyableChild } from "@ember/destroyable";
+
+  class MyClass {
+    /* ... */
+  }
+
+  export default class Demo extends Component {
+    @cached
+    get myInstance() {
+      let instance = new MyClass();
+
+      associateDestroyableChild(this, instance);
+
+      let owner = getOwner(this);
+
+      if (owner) {
+        setOwner(instance, owner);
+      }
+
+      return instance;
+    }
+  }
+  ```
+
+- [#778](https://github.com/NullVoxPopuli/ember-resources/pull/778) [`f841a98`](https://github.com/NullVoxPopuli/ember-resources/commit/f841a982197f64b0756f8ee9fc35ed3d690fa959) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Use strictest possible settings with TypeScript so that consumers can't be stricter than this library
+
+- [#776](https://github.com/NullVoxPopuli/ember-resources/pull/776) [`a99793e`](https://github.com/NullVoxPopuli/ember-resources/commit/a99793ed126366a9da40a8df632ac660f05b68b1) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Glint is now supported starting with 1.0.0-beta.3
+
+- [#818](https://github.com/NullVoxPopuli/ember-resources/pull/818) [`feeb2db`](https://github.com/NullVoxPopuli/ember-resources/commit/feeb2db329735ab331be4088488510f430806e43) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - RemoteData now checks the response's Content-Type header to decide whether to convert to JSON or Text
+
+- [#794](https://github.com/NullVoxPopuli/ember-resources/pull/794) [`8989bbb`](https://github.com/NullVoxPopuli/ember-resources/commit/8989bbb1afb41404f27c76a0b083f7bb46d7fc9e) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - New Utils: UpdateFrequency and FrameRate
+
+  NOTE: for existing users of `ember-resources`, this addition has no impact on your bundle.
+
+  <details><summary>FrameRate</summary>
+
+  Utility that uses requestAnimationFrame to report
+  how many frames per second the current monitor is
+  rendering at.
+
+  The result is rounded to two decimal places.
+
+  ```js
+  import { FramRate } from "ember-resources/util/fps";
+
+  <template>{{ FrameRate }}</template>;
+  ```
+
+  </details>
+
+  <details><summary>UpdateFrequency</summary>
+
+  Utility that will report the frequency of updates to tracked data.
+
+  ```js
+  import { UpdateFrequency } from 'ember-resources/util/fps';
+
+  export default class Demo extends Component {
+    @tracked someProp;
+
+    @use updateFrequency = UpdateFrequency(() => this.someProp);
+
+    <template>
+      {{this.updateFrequency}}
+    </template>
+  }
+  ```
+
+  NOTE: the function passed to UpdateFrequency may not set tracked data.
+
+  </details>
+
+### Patch Changes
+
+- [#769](https://github.com/NullVoxPopuli/ember-resources/pull/769) [`abaad4a`](https://github.com/NullVoxPopuli/ember-resources/commit/abaad4ad9974cf86632524f01bef331cfaa8d253) Thanks [@GreatWizard](https://github.com/GreatWizard)! - fix typo in map error message when checking if every datum is an object
+
+- [#828](https://github.com/NullVoxPopuli/ember-resources/pull/828) [`24b540e`](https://github.com/NullVoxPopuli/ember-resources/commit/24b540e191848c720401ce0da6d547bfe3d35b37) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - ember-async-data@v1 is out, so since we're _just now_ using it, that can be the minimum version.
+  NOTE: `ember-async-data`'s minimum ember-source is 4.8, so while things _might_ work with earlier ember-source's it's not guaranteed.
+
+- [#826](https://github.com/NullVoxPopuli/ember-resources/pull/826) [`50ad1ba`](https://github.com/NullVoxPopuli/ember-resources/commit/50ad1ba2851825263a2024b370e830eba86e375b) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - When using RemoteData, isError should be true when the http status code is >= 400. Resolves #825".
+  Previously, when you had a JSON response with 404 status code, `isError` would be false instead of true.
+
+- [#865](https://github.com/NullVoxPopuli/ember-resources/pull/865) [`6df54b1`](https://github.com/NullVoxPopuli/ember-resources/commit/6df54b1b64932559cc6f5d0db6fb4453e60a6a16) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Add the last v4 LTS, ember-source v4.12, to the test matrix
+
+- [#806](https://github.com/NullVoxPopuli/ember-resources/pull/806) [`00e8f2f`](https://github.com/NullVoxPopuli/ember-resources/commit/00e8f2f2f3f35fb3272629ff0e9c7dfbd1aaf9b0) Thanks [@sergey-zhidkov](https://github.com/sergey-zhidkov)! - `trackedTask` must return correct last value.
+
+  Fixes the issue described at #793
+  If the task was called multiple times and the last returned value was null or undefined,
+  then trackedTask will return the previous value instead of the current one.
+
+- [#838](https://github.com/NullVoxPopuli/ember-resources/pull/838) [`acbf03d`](https://github.com/NullVoxPopuli/ember-resources/commit/acbf03d723f904f7fb3ad6758298eb99a0309227) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Fixes [#835](https://github.com/NullVoxPopuli/ember-resources/issues/835) - resolves regression introduced by [PR: #808 ](https://github.com/NullVoxPopuli/ember-resources/pull/808) which aimed to correctly return the _previous_ task instance's value if the _current task_ hasn't finished yet. The regression described by #835 was that if a task in cancelled (e.g.: dropped), it is considered finished, and that canceled task's value would be used instead of the last compuleted task. In normal ember-concurrency APIs, this is abstracted over via the `.lastSuccessful` property on the `TaskProperty`. The goal of the `.value` on `trackedTask` is to mimic the property chain: `taskProperty.lastSuccessful?.value`.
+
+- [#830](https://github.com/NullVoxPopuli/ember-resources/pull/830) [`0767c08`](https://github.com/NullVoxPopuli/ember-resources/commit/0767c08a32ae48a90feca34673d20bd061f38885) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Support TS 5.0
+
+- [#868](https://github.com/NullVoxPopuli/ember-resources/pull/868) [`b6f78c9`](https://github.com/NullVoxPopuli/ember-resources/commit/b6f78c938e1132f75fa84fddec1fa601594843e4) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Test against ember-concurrency@v3, and add it as an allowed peerDepnedency
+
 ## 6.0.0-beta.6
 
 ### Patch Changes
