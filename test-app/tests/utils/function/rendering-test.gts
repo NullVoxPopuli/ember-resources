@@ -6,8 +6,9 @@ import { on } from '@ember/modifier';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { timeout } from 'ember-concurrency';
 import { trackedFunction } from 'ember-resources/util/function';
+
+const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 module('Utils | trackedFunction | rendering', function (hooks) {
   setupRenderingTest(hooks);
