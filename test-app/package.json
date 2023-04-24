@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@ember/test-waiters": "^3.0.2",
-    "@embroider/macros": "^1.6.0",
+    "@embroider/macros": "^1.10.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "ember-async-data": "^1.0.1",
