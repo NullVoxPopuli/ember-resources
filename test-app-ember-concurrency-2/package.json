@@ -134,7 +134,7 @@
   "ember": {
     "edition": "octane"
   },
-  "packageManager": "pnpm@7.1.2",
+  "packageManager": "pnpm@7.32.2",
   "volta": {
     "extends": "../package.json"
   },
