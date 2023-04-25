@@ -522,17 +522,17 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(ember-source@4.11.0)
       ember-concurrency:
-        specifier: 2.2.1
-        version: 2.2.1(@babel/core@7.21.4)
+        specifier: 3.0.0
+        version: 3.0.0(@babel/core@7.21.4)
       ember-concurrency-ts:
         specifier: ^0.3.1
-        version: 0.3.1(ember-concurrency@2.2.1)
+        version: 0.3.1(ember-concurrency@3.0.0)
       ember-functions-as-helper-polyfill:
         specifier: ^2.0.1
         version: 2.0.1
       ember-resources:
         specifier: workspace:ember-resources@*
-        version: file:ember-resources(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-async-data@1.0.1)(ember-concurrency@2.2.1)(ember-source@4.11.0)
+        version: file:ember-resources(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-async-data@1.0.1)(ember-concurrency@3.0.0)(ember-source@4.11.0)
       tracked-built-ins:
         specifier: ^3.1.0
         version: 3.1.0
@@ -7818,7 +7818,7 @@ packages:
       - '@babel/core'
       - supports-color
 
-  /ember-concurrency-ts@0.3.1(ember-concurrency@2.2.1):
+  /ember-concurrency-ts@0.3.1(ember-concurrency@3.0.0):
     resolution: {integrity: sha512-lE9uqPgK1Y9PN/0BJ5zE2a+h95izRCn6FCyt7qVV3012TlblTynsBaoUuAbN1T3KfzFsrJaXwsxzRbDjEde2Sw==}
     engines: {node: 10.* || >= 12}
     peerDependencies:
@@ -7826,7 +7826,7 @@ packages:
     dependencies:
       ember-cli-babel: 7.26.11
       ember-cli-htmlbars: 4.5.0
-      ember-concurrency: 2.2.1(@babel/core@7.21.4)
+      ember-concurrency: 3.0.0(@babel/core@7.21.4)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -15020,43 +15020,6 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
-
-  file:ember-resources(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-async-data@1.0.1)(ember-concurrency@2.2.1)(ember-source@4.11.0):
-    resolution: {directory: ember-resources, type: directory}
-    id: file:ember-resources
-    name: ember-resources
-    version: 6.0.0
-    peerDependencies:
-      '@ember/test-waiters': ^3.0.0
-      '@glimmer/component': ^1.1.2
-      '@glimmer/tracking': ^1.1.2
-      '@glint/template': ^1.0.0-beta.3 || ^1.0.0
-      ember-async-data: ^1.0.1
-      ember-concurrency: ^2.0.0 || ^3.0.0
-      ember-source: ^3.28.0 || ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      '@ember/test-waiters':
-        optional: true
-      '@glimmer/component':
-        optional: true
-      ember-async-data:
-        optional: true
-      ember-concurrency:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@ember/test-waiters': 3.0.2
-      '@embroider/addon-shim': 1.8.4
-      '@embroider/macros': 1.10.0
-      '@glimmer/component': 1.1.2(@babel/core@7.21.4)
-      '@glimmer/tracking': 1.1.2
-      '@glint/template': 1.0.0-beta.3
-      ember-async-data: 1.0.1(ember-source@4.11.0)
-      ember-concurrency: 2.2.1(@babel/core@7.21.4)
-      ember-source: 4.11.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(webpack@5.72.1)
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   file:ember-resources(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.0-beta.3)(ember-async-data@1.0.1)(ember-concurrency@3.0.0)(ember-source@4.11.0):
     resolution: {directory: ember-resources, type: directory}
