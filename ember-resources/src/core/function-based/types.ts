@@ -9,6 +9,11 @@ export interface InternalFunctionResourceConfig<Value = unknown> {
   [INTERNAL]: true;
 }
 
+// Will need to be a class for .current flattening / auto-rendering
+export interface Reactive<Value> {
+  current: Value;
+}
+
 export type Hooks = {
   on: {
     /**
@@ -34,6 +39,49 @@ export type Hooks = {
      */
     cleanup: (destroyer: Destructor) => void;
   };
+
+  /**
+   * Allows for composition of resources.
+   *
+   * Example:
+   * ```js
+   * let formatter = new Intl.DateTimeFormat("en-US", {
+   *   hour: "numeric",
+   *   minute: "numeric",
+   *   second: "numeric",
+   *   hour12: false,
+   * });
+   * let format = (time: Reactive<Date>) => formatter.format(time.current);
+   *
+   * const Now = resource(({ on }) => {
+   *    let now = cell(nowDate);
+   *    let timer = setInterval(() => now.set(Date.now()), 1000);
+   *
+   *    on.cleanup(() => clearInterval(timer));
+   *
+   *    return () => now.current;
+   *  });
+   *
+   *  const Stopwatch = resource(({ use }) => {
+   *    let time = use(Now);
+   *
+   *     return () => format(time);
+   *  });
+   * ```
+   */
+  use: <Value>(resource: Value) => Reactive<Value>;
+  /**
+   * The Application owner.
+   * This allows for direct access to traditional ember services.
+   *
+   * Example:
+   * ```js
+   * resource(({ owner }) => {
+   *   owner.lookup('service:router').currentRouteName
+   *  //...
+   * }
+   * ```
+   */
   owner: Owner;
 };
 
