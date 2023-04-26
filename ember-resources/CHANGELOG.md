@@ -1,5 +1,54 @@
 # ember-resources
 
+## 6.1.0
+
+### Minor Changes
+
+- [#866](https://github.com/NullVoxPopuli/ember-resources/pull/866) [`e1e4f66`](https://github.com/NullVoxPopuli/ember-resources/commit/e1e4f6638f876910916e31a1dff9fcf4f14adab4) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Add the ability to compose function resources.
+  This is enabled only for function resources as class-based resources could already compose.
+
+  <details><summary>how function resources compose</summary>
+
+  ```js
+  let formatter = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+
+  let format = (time) => formatter.format(time.current);
+
+  // representing the current time.
+  // This could be rendered directly as {{Now}}
+  // but Date does not serialize nicely for humans (Date.now() is a number)
+  const Now = resource(({ on }) => {
+    let now = cell(Date.now());
+    let timer = setInterval(() => now.set(Date.now()), 1000);
+
+    on.cleanup(() => clearInterval(timer));
+
+    return () => now.current;
+  });
+
+  const Clock = resource(({ use }) => {
+    let time = use(Now);
+
+    return () => format(time);
+  });
+
+  // Rendered, Clock is always the formatted time
+  <template>
+    <time>{{ Clock }}</time>
+  </template>;
+  ```
+
+  </details>
+
+### Patch Changes
+
+- [#829](https://github.com/NullVoxPopuli/ember-resources/pull/829) [`ff776b1`](https://github.com/NullVoxPopuli/ember-resources/commit/ff776b15172b2d3649a1d6f24d00b2db15d179ac) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Move ember-async-data to "dependencies" because users are not required to import from that package ever"
+
 ## 6.0.0
 
 ### Major Changes
