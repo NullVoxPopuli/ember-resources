@@ -24,7 +24,7 @@ module('Core | resource | use | rendering', function (hooks) {
 
   test('it works', async function (assert) {
     let nowDate = Date.now();
-    let format = (time: Reactive<Date>) => formatter.format(time.current);
+    let format = (time: Reactive<number>) => formatter.format(time.current);
 
     const Now = resource(({ on }) => {
       let now = cell(nowDate);

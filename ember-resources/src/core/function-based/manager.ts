@@ -57,7 +57,7 @@ class FunctionResourceManager {
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
-      const use = (usable: unknown) => {
+      const use = <Value = unknown>(usable: Value): Reactive<Value> => {
         assert(
           `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
           typeof usable === 'object'

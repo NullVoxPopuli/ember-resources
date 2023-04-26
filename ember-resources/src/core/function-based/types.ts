@@ -69,7 +69,7 @@ export type Hooks = {
    *  });
    * ```
    */
-  use: <Value>(resource: () => Value) => Reactive<Value>;
+  use: <Value>(resource: Value) => Reactive<Value>;
   /**
    * The Application owner.
    * This allows for direct access to traditional ember services.
