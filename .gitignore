@@ -4,6 +4,7 @@
 dist/
 tmp/
 tsconfig.tsbuildinfo
+bundlemon.json
 
 # dependencies
 node_modules/
