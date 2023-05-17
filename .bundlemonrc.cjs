@@ -19,7 +19,7 @@ const jsFiles = Object.values(manifest.exports)
 module.exports = {
   baseDir: path.join(__dirname, './ember-resources/dist'),
   groups: [
-    { path: '(index.js)|(core/**/*.js)', friendlyName: 'index.js' },
+    { path: 'index.bundled.js', friendlyName: 'index.js' },
   ],
   files: jsFiles.map(distFile => ({ path: distFile })),
   defaultCompression: Compression.Brotli,
