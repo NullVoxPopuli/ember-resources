@@ -32,7 +32,6 @@ export default defineConfig({
     ...(process.env['TERSER'] ? [
       terser({
         ecma: 2016, module: true,
-        pure_getters: true,
         toplevel: true,
       })
     ] : []),
