@@ -14,7 +14,7 @@ const jsFiles = Object.values(manifest.exports);
 /** @type {Config} */
 module.exports = {
   baseDir: path.join(__dirname, './ember-resources/dist'),
-  files: jsFiles.map(distFile => ({ path: distFile }),
+  files: jsFiles.map(distFile => ({ path: distFile })),
   defaultCompression: Compression.Brotli,
   includeCommitMessage: true,
   reportOutput: [
