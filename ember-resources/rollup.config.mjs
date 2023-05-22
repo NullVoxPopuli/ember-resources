@@ -3,6 +3,7 @@ import ts from 'rollup-plugin-ts';
 import { Addon } from '@embroider/addon-dev/rollup';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'rollup';
+import terser from '@rollup/plugin-terser';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -26,6 +27,18 @@ export default defineConfig({
     hoistTransitiveImports: false,
   },
   plugins: [
+    // Used for bundle impact estimation
+    // not shipped to npm.
+    ...(process.env['TERSER']
+      ? [
+          terser({
+            ecma: 2016,
+            module: true,
+            toplevel: true,
+          }),
+        ]
+      : []),
+
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
     addon.publicEntrypoints(['**/*.ts']),

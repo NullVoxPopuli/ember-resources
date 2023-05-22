@@ -1,13 +1,16 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import url from 'url';
 import * as terser from 'terser';
 import { globby } from 'globby';
 import esbuild from 'esbuild';
+import { createRequire } from "node:module"
 import { dir as tmpDir } from 'tmp-promise';
 import { gzip } from 'gzip-cli';
 import { filesize } from 'filesize';
 
+const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
 const dist = path.join(root, 'ember-resources/dist');
@@ -99,7 +102,9 @@ async function collectStats() {
   await fs.writeFile(path.join(__dirname, 'comment.txt'), output);
 }
 
-async function bundle(entry, outFile) {
+export async function bundle(entry, outFile) {
+  packageJson ||= JSON.parse((await fs.readFile(packageJsonPath)).toString());
+
   let externals = [
     ...Object.keys(packageJson.dependencies || {}),
     ...Object.keys(packageJson.peerDependencies || {})
@@ -162,4 +167,11 @@ async function statsFor(outFile, { tmp }) {
   return result;
 }
 
-collectStats();
+
+if (import.meta.url.startsWith('file:')) { // (A)
+  const modulePath = url.fileURLToPath(import.meta.url);
+  if (process.argv[1] === modulePath) { // (B)
+    // Main ESM module
+    collectStats();
+  }
+}
