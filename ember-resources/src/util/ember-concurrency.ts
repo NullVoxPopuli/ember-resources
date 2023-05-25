@@ -37,15 +37,13 @@ import type { Cache } from '../core/types';
  * class Demo {
  *   @tracked id = 1;
  *
- *   last = trackedTask(this, this.searchTask, () => [this.id]);
- *
- *   @restartableTask
- *   *searchTask(id) {
- *     yield timeout(200);
- *     yield fetch('...');
- *
+ *   searchTask = restartableTask(async () => {
+ *     await timeout(200);
+ *     await fetch('...');
  *     return 'the-value';
- *   }
+ *   })
+ *
+ *   last = trackedTask(this, this.searchTask, () => [this.id]);
  * }
  * ```
  * ```hbs
