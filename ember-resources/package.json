@@ -154,7 +154,7 @@
     "ember-source": "5.0.0",
     "ember-template-lint": "5.7.3",
     "eslint": "^8.35.0",
-    "expect-type": "^0.15.0",
+    "expect-type": "^0.16.0",
     "prettier": "^2.8.4",
     "prettier-plugin-ember-template-tag": "^0.3.2",
     "rollup": "3.23.0",
