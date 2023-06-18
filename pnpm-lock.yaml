@@ -197,8 +197,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(webpack@5.72.1)
       ember-template-lint:
-        specifier: 5.10.0
-        version: 5.10.0
+        specifier: 5.10.3
+        version: 5.10.3
       eslint:
         specifier: ^8.35.0
         version: 8.35.0
@@ -8979,8 +8979,8 @@ packages:
       - supports-color
     dev: true
 
-  /ember-template-lint@5.10.0:
-    resolution: {integrity: sha512-LK+ZBXuqflI8KYXgzS5HcgkxSMAEOqilQVBMrwmWyfY7otDOL17mlPjMeB0OFUMXYKIq/qzz72HbM+J7WsBE6A==}
+  /ember-template-lint@5.10.3:
+    resolution: {integrity: sha512-IuvnJnCN36vnFoDUQ4TPiS9SsoMtvS3hL+zsdNpd+f3ZqKrlXSfcdyRqjKLrucbYE34Lk5BKpbYv68YZ86N69w==}
     engines: {node: ^14.18.0 || ^16.0.0 || >= 18.0.0}
     hasBin: true
     dependencies:
