@@ -7,4 +7,5 @@ export { use } from './core/use';
 export { cell } from 'util/cell';
 
 // Public Type Utilities
+export type { Hooks as ResourceAPI } from './core/function-based';
 export type { ArgsWrapper, ExpandArgs, Thunk } from './core/types';

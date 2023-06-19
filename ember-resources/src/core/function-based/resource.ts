@@ -20,6 +20,9 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  *      //  - `cleanup`
  *      on,
  *
+ *      // used for composing other resources
+ *      use,
+ *
  *      // used for accessing services, etc on the app/engine owner instance
  *      owner
  *    }) => {
@@ -207,7 +210,7 @@ export function resource<Value>(
   }
 
   assert(
-    `Mismatched argument typs passed to \`resource\`. ` +
+    `Mismatched argument types passed to \`resource\`. ` +
       `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
       `Received ${typeof context} instead.`,
     typeof context === 'object'
