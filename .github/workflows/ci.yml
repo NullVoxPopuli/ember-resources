@@ -232,7 +232,7 @@ jobs:
           #    - https://github.com/TypeStrong/typedoc/issues/2111
           #    - https://github.com/cloudflare/wrangler2/issues/2240
           mv dist/functions dist/funcs  
-          find ./dist -type f -name '*.html' | xargs sed -i.bak --regexp-extended 's:(href="[^"]+)functions/:\1funcs/:g' 
+          find ./dist -type f -name '*.html' | xargs sed -i.bak --regexp-extended 's:(href="[^"]*)functions/:\1funcs/:g' 
 
       - name: Publish to Cloudflare Pages
         id: publishStep
