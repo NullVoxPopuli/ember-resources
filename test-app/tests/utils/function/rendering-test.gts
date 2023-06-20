@@ -6,9 +6,10 @@ import { on } from '@ember/modifier';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
+import { resource } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 
-const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module('Utils | trackedFunction | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -24,7 +25,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>
+        <button type="button" {{on "click" this.increment}}></button>
       </template>
     }
 
@@ -55,7 +56,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.data.retry}}></button>
+        <button type="button" {{on "click" this.data.retry}}></button>
       </template>
     }
 
@@ -89,7 +90,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>
+        <button type="button" {{on "click" this.increment}}></button>
       </template>
     }
 
@@ -105,5 +106,25 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     await click('button');
 
     assert.dom('out').hasText('4');
+  });
+
+  module('composition', function () {
+    test('it composes', async function (assert) {
+      const Composed = resource(({ use }) => {
+        const usable = use(
+          trackedFunction(async () => {
+            return 'the value';
+          })
+        );
+
+        return () => {
+          return usable.current;
+        };
+      });
+
+      await render(<template>{{Composed}}</template>);
+
+      assert.dom().containsText('the value');
+    });
   });
 });
