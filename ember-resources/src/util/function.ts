@@ -1,5 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from '@ember/destroyable';
+import { waitForPromise } from '@ember/test-waiters';
 
 import { TrackedAsyncData } from 'ember-async-data';
 
@@ -181,10 +182,12 @@ export class State<Value> {
     // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
     this.promise = this.#fn();
 
+    waitForPromise(this.promise as Promise<unknown>);
+
     // TrackedAsyncData interacts with tracked data during instantiation.
     // We don't want this internal state to entangle with `trackedFunction`
     // so that *only* the tracked data in `fn` can be entangled.
-    await Promise.resolve();
+    await waitForPromise(Promise.resolve());
 
     if (this.data) {
       let isUnsafe = isDestroyed(this.data) || isDestroying(this.data);
