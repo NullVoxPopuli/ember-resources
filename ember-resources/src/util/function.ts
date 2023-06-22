@@ -182,8 +182,6 @@ export class State<Value> {
     // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
     this.promise = this.#fn();
 
-    waitForPromise(this.promise as Promise<unknown>);
-
     // TrackedAsyncData interacts with tracked data during instantiation.
     // We don't want this internal state to entangle with `trackedFunction`
     // so that *only* the tracked data in `fn` can be entangled.
@@ -203,6 +201,6 @@ export class State<Value> {
     // TrackedAsyncData manages the destroyable child association for us
     this.data = new TrackedAsyncData(this.promise);
 
-    return this.promise;
+    return waitForPromise(Promise.resolve(this.promise));
   };
 }
