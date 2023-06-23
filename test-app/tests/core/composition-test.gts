@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, cell } from 'ember-resources';
+import { resource, cell, resourceFactory } from 'ember-resources';
 
 // Will need to be a class for .current flattening / auto-rendering
 interface Reactive<Value> {
@@ -42,6 +42,41 @@ module('Core | resource | use | rendering', function (hooks) {
     });
 
     await render(<template><time>{{Stopwatch}}</time></template>);
+
+    let first = formatter.format(Date.now());
+    assert.dom('time').hasText(first);
+
+    await wait(1010);
+
+    let second = formatter.format(Date.now());
+    assert.dom('time').hasText(second);
+    assert.notEqual(first, second);
+  });
+
+  test('it works with the blueprint/factory', async function (assert) {
+    let nowDate = Date.now();
+    let format = (time: Reactive<number>) => formatter.format(time.current);
+
+    const Now = resourceFactory((ms = 1000) =>
+      resource(({ on }) => {
+        let now = cell(nowDate);
+        let timer = setInterval(() => now.set(Date.now()), ms);
+
+        on.cleanup(() => clearInterval(timer));
+
+        return () => now.current;
+      })
+    );
+
+    const Stopwatch = resourceFactory((ms = 500) =>
+      resource(({ use }) => {
+        let time = use(Now(ms));
+
+        return () => format(time);
+      })
+    );
+
+    await render(<template><time>{{Stopwatch 250}}</time></template>);
 
     let first = formatter.format(Date.now());
     assert.dom('time').hasText(first);
@@ -111,7 +146,14 @@ module('Core | resource | use | rendering', function (hooks) {
 
     await rerender();
     assert.verifySteps(
-      ['Inner:setup 1', 'Outer:setup 0', 'Outer:value:1', 'Inner:value:1', 'Outer:cleanup 0', 'Inner:cleanup 0'],
+      [
+        'Inner:setup 1',
+        'Outer:setup 0',
+        'Outer:value:1',
+        'Inner:value:1',
+        'Outer:cleanup 0',
+        'Inner:cleanup 0',
+      ],
       'outer is re-setup'
     );
 

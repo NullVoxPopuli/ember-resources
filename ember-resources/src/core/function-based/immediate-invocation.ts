@@ -3,6 +3,7 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import type { resource } from './resource';
 import type { Cache } from './types';
@@ -16,6 +17,18 @@ interface State {
   fn: any;
   args: any;
   _?: any;
+}
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
 }
 
 class ResourceInvokerManager {
@@ -36,8 +49,12 @@ class ResourceInvokerManager {
     let cache = createCache(() => {
       let resource = fn(...args.positional) as object;
 
+      setOwner(resource, this.owner);
+
       return invokeHelper(cache, resource);
     });
+
+    setOwner(cache, this.owner);
 
     return { fn, args, cache, _: getValue(cache) };
   }

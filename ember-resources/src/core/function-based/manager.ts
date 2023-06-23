@@ -6,6 +6,7 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { invokeHelper } from '@ember/helper';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { INTERNAL } from './types';
 
@@ -17,6 +18,18 @@ import type {
   ResourceFunction,
 } from './types';
 import type Owner from '@ember/owner';
+
+let getOwner: (context: unknown) => Owner | undefined;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  getOwner = (importSync('@ember/owner') as any).getOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  getOwner = (importSync('@ember/application') as any).getOwner;
+}
 
 /**
  * Note, a function-resource receives on object, hooks.
@@ -46,6 +59,7 @@ class FunctionResourceManager {
     let thisFn = fn.bind(null);
     let previousFn: object;
     let usableCache = new WeakMap<object, unknown>();
+    let owner = this.owner;
 
     let cache = createCache(() => {
       if (previousFn) {
@@ -77,7 +91,7 @@ class FunctionResourceManager {
           destroy(previousCache);
         }
 
-        let cache = invokeHelper(this.owner, usable);
+        let cache = invokeHelper(owner, usable);
 
         associateDestroyableChild(currentFn, cache as object);
 
