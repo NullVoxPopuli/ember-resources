@@ -29,4 +29,13 @@ const Stopwatch = resourceFactory((ms = 500) =>
 await render(<template><time>{{Stopwatch 250}}</time></template>);
 ```
 
+The owner is part of the hooks API for `resource` and an error is thrown when it is undefined - regardless if used.
+
+
+```js
+const Demo = resource(({ on, use, owner }) => {
+  // ...
+});
+```
+
 </details>
