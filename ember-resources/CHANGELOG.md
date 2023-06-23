@@ -1,5 +1,46 @@
 # ember-resources
 
+## 6.1.1
+
+### Patch Changes
+
+- [#925](https://github.com/NullVoxPopuli/ember-resources/pull/925) [`e320cf8`](https://github.com/NullVoxPopuli/ember-resources/commit/e320cf84b7ba82b6f9a2482bddb57e52732a6cab) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Fix situation where, when composing with blueprint/factory-creted Resources, the owner was not passed to the t`used`d resource.
+
+  <details><summay>Example from the added test</summary>
+
+  ```js
+  const Now = resourceFactory((ms = 1000) =>
+    resource(({ on }) => {
+      let now = cell(nowDate);
+      let timer = setInterval(() => now.set(Date.now()), ms);
+
+      on.cleanup(() => clearInterval(timer));
+
+      return () => now.current;
+    })
+  );
+
+  const Stopwatch = resourceFactory((ms = 500) =>
+    resource(({ use }) => {
+      let time = use(Now(ms));
+
+      return () => format(time);
+    })
+  );
+
+  await render(<template><time>{{Stopwatch 250}}</time></template>);
+  ```
+
+  The owner is part of the hooks API for `resource` and an error is thrown when it is undefined - regardless if used.
+
+  ```js
+  const Demo = resource(({ on, use, owner }) => {
+    // ...
+  });
+  ```
+
+  </details>
+
 ## 6.1.0
 
 ### Minor Changes
