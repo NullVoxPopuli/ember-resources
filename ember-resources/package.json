@@ -151,7 +151,7 @@
     "@typescript-eslint/parser": "^5.54.0",
     "concurrently": "^8.0.0",
     "ember-async-data": "^1.0.1",
-    "ember-source": "5.0.0",
+    "ember-source": "5.1.0",
     "ember-template-lint": "5.10.3",
     "eslint": "^8.35.0",
     "expect-type": "^0.16.0",
