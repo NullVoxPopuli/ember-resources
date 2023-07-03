@@ -114,7 +114,7 @@ importers:
         version: 1.10.0
       ember-async-data:
         specifier: ^1.0.1
-        version: 1.0.1(ember-source@5.1.0)
+        version: 1.0.1(ember-source@5.1.2)
       ember-concurrency:
         specifier: ^2.0.0 || ^3.0.0
         version: 2.2.1(@babel/core@7.22.5)
@@ -198,8 +198,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       ember-source:
-        specifier: 5.1.0
-        version: 5.1.0(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)
+        specifier: 5.1.2
+        version: 5.1.2(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)
       ember-template-lint:
         specifier: 5.10.3
         version: 5.10.3
@@ -1437,10 +1437,6 @@ packages:
     resolution: {integrity: sha512-8RvlJG2mj4huQ4pZ+rU9lqKi9ZKiRmuvGuM2HlWmkmgOhbs6zEAw6IEiJ5cQqGbDzGZOhwuOQNtZMi/ENLjZoQ==}
     engines: {node: '>=6.9.0'}
 
-  /@babel/helper-plugin-utils@7.21.5:
-    resolution: {integrity: sha512-0WDaIlXKOX/3KfBK/dwP1oQGiPh6rjMkT7HIRv7i5RR2VUMwrx5ZL0dwBkKx7+SW1zwNdgjHd34IMk5ZjTeHVg==}
-    engines: {node: '>=6.9.0'}
-
   /@babel/helper-plugin-utils@7.22.5:
     resolution: {integrity: sha512-uLls06UVKgFG9QD4OeFYLEGteMIAa5kpTPcFL28yuCIIzsf6ZyKZMllKVOCZFhiZ5ptnwX4mtKdWCBE/uT4amg==}
     engines: {node: '>=6.9.0'}
@@ -1634,7 +1630,7 @@ packages:
     dependencies:
       '@babel/core': 7.21.4
       '@babel/helper-create-class-features-plugin': 7.22.1(@babel/core@7.21.4)
-      '@babel/helper-plugin-utils': 7.21.5
+      '@babel/helper-plugin-utils': 7.22.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1647,7 +1643,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.5(supports-color@8.1.1)
       '@babel/helper-create-class-features-plugin': 7.22.1(@babel/core@7.22.5)
-      '@babel/helper-plugin-utils': 7.21.5
+      '@babel/helper-plugin-utils': 7.22.5
     transitivePeerDependencies:
       - supports-color
 
@@ -2314,7 +2310,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.21.4
-      '@babel/helper-plugin-utils': 7.20.2
+      '@babel/helper-plugin-utils': 7.22.5
       '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.21.4)
     dev: true
 
@@ -8130,7 +8126,19 @@ packages:
     dependencies:
       '@ember/test-waiters': 3.0.2
       '@embroider/addon-shim': 1.8.4
-      ember-source: 5.1.0(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)
+      ember-source: 5.1.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)(webpack@5.72.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /ember-async-data@1.0.1(ember-source@5.1.2):
+    resolution: {integrity: sha512-R9nBxCZ9WDPMJpuGBODs8wV1PHXUbkSbrzVmL34R4aOWbx237yLBllJghQOwfJs1+D72wdzgxg/+J3DY43xz3g==}
+    peerDependencies:
+      ember-source: '*'
+    dependencies:
+      '@ember/test-waiters': 3.0.2
+      '@embroider/addon-shim': 1.8.4
+      ember-source: 5.1.2(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -9222,8 +9230,8 @@ packages:
       - supports-color
       - webpack
 
-  /ember-source@5.1.0(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5):
-    resolution: {integrity: sha512-atUeliA3TGyL8LB8EYIouvJukLtlbqFdtNT83Lst9TEtKtqnoyGJhr/5C/C+AxOX7r5s5Lo5cBBNBQadJgNFNg==}
+  /ember-source@5.1.2(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5):
+    resolution: {integrity: sha512-HTh8CANROxGuBIy/x3c42v4u4255IA55E40KXI3YABww/tV9N1vBRiXolkPcR8aSRDdl32UxL3wBV6/v8npxDQ==}
     engines: {node: '>= 16.*'}
     peerDependencies:
       '@glimmer/component': ^1.1.2
@@ -9244,8 +9252,10 @@ packages:
       '@glimmer/program': 0.84.2
       '@glimmer/reference': 0.84.2
       '@glimmer/runtime': 0.84.2
+      '@glimmer/syntax': 0.84.2
       '@glimmer/validator': 0.84.2
       '@glimmer/vm-babel-plugins': 0.84.2(@babel/core@7.22.5)
+      '@simple-dom/interface': 1.4.0
       babel-plugin-debug-macros: 0.3.4(@babel/core@7.22.5)
       babel-plugin-filter-imports: 4.0.0
       backburner.js: 2.7.0
@@ -16417,7 +16427,6 @@ packages:
     resolution: {directory: ember-resources, type: directory}
     id: file:ember-resources
     name: ember-resources
-    version: 6.1.1
     peerDependencies:
       '@ember/test-waiters': ^3.0.0
       '@glimmer/component': ^1.1.2
@@ -16451,7 +16460,6 @@ packages:
     resolution: {directory: ember-resources, type: directory}
     id: file:ember-resources
     name: ember-resources
-    version: 6.1.1
     peerDependencies:
       '@ember/test-waiters': ^3.0.0
       '@glimmer/component': ^1.1.2
@@ -16485,7 +16493,6 @@ packages:
     resolution: {directory: ember-resources, type: directory}
     id: file:ember-resources
     name: ember-resources
-    version: 6.1.1
     peerDependencies:
       '@ember/test-waiters': ^3.0.0
       '@glimmer/component': ^1.1.2
