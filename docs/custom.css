@@ -13,8 +13,13 @@
 /*   display: none; */
 /* } */
 
+.site-menu {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 #tsd-sidebar-links::before {
-  content: 'Utils';
+  content: "Utils / Examples";
   font-weight: bold;
   margin-bottom: 0.4rem;
   display: block;
