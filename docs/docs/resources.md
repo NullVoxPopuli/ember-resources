@@ -21,7 +21,7 @@ The only thing that changes when you convert a reactive value into a resource is
 
 </details>
 
-## A Very Simple Resource[^starbeam-simple-resource]
+## A Very Simple Resource
 
 To illustrate the concept, let's create a simple resource that represents the current time.
 
@@ -43,14 +43,7 @@ export const Now = resource(({ on }) => {
 });
 ```
 
-> **💡**
-> A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
-
-----------------------------------------
-
-[^starbeam]: These docs have been adapted from the [Starbeam](https://www.starbeamjs.com/guides/fundamentals/resources.html) docs on Resources.
-
-[^starbeam-simple-resource]: In Stabeam, this example is (and copied from their docs): <details><summary>using @starbeam/universal</summary>
+<details><summary>In Starbeam</summary>
 
 ```js 
 import { Cell, Resource } from "@starbeam/universal";
@@ -66,11 +59,17 @@ export const Now = Resource(({ on }) => {
     clearInterval(timer);
   });
  
-  return now;
+  return () => now.current;
 });
 ```
 
 </details>
 
 
+> **💡**
+> A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
+
+----------------------------------------
+
+[^starbeam]: These docs have been adapted from the [Starbeam](https://www.starbeamjs.com/guides/fundamentals/resources.html) docs on Resources.
 
