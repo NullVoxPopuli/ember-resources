@@ -39,7 +39,7 @@ export const Now = resource(({ on }) => {
     clearInterval(timer);
   });
  
-  return () => now.current;
+  return now;
 });
 ```
 
@@ -59,7 +59,7 @@ export const Now = Resource(({ on }) => {
     clearInterval(timer);
   });
  
-  return () => now.current;
+  return now;
 });
 ```
 
@@ -68,6 +68,18 @@ export const Now = Resource(({ on }) => {
 
 > **💡**
 > A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
+
+When you use the `Now` resource in a component, it will automatically get its lifetime linked to that component. In this case, that means that the interval will be cleaned up when the component is destroyed.
+
+The `resource` function creates a resource Constructor. A resource constructor:
+
+1. Sets up internal reactive state that changes over time.
+2. Sets up the external process that needs to be cleaned up.
+3. Registers the cleanup code that will run when the resource is cleaned up.
+4. Returns a reactive value that represents the current state of the resource as a value.
+
+In this case:
+
 
 ----------------------------------------
 

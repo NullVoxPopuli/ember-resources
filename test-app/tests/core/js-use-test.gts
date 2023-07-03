@@ -10,7 +10,7 @@ import { resource, resourceFactory, use } from 'ember-resources';
 import type Owner from '@ember/owner';
 
 // not testing in template, because that's the easy part
-module('Core | Resource | js', function (hooks) {
+module('Core | resource | js', function (hooks) {
   setupTest(hooks);
 
   test('it works', async function (assert) {
