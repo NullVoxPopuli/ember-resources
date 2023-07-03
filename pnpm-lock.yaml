@@ -201,8 +201,8 @@ importers:
         specifier: 5.1.2
         version: 5.1.2(@babel/core@7.22.5)(@glimmer/component@1.1.2)(@glint/template@1.0.0-beta.3)(rsvp@4.8.5)
       ember-template-lint:
-        specifier: 5.10.3
-        version: 5.10.3
+        specifier: 5.11.0
+        version: 5.11.0
       eslint:
         specifier: ^8.35.0
         version: 8.35.0
@@ -9377,8 +9377,8 @@ packages:
       - supports-color
     dev: true
 
-  /ember-template-lint@5.10.3:
-    resolution: {integrity: sha512-IuvnJnCN36vnFoDUQ4TPiS9SsoMtvS3hL+zsdNpd+f3ZqKrlXSfcdyRqjKLrucbYE34Lk5BKpbYv68YZ86N69w==}
+  /ember-template-lint@5.11.0:
+    resolution: {integrity: sha512-uoVz4IAFRyg3JnMTL+SDtZkHPZM6O1qhvvgcb7LD6325W6asjPZGF1YHDyxnssEOnCSVsu1S5bk77tqE5NnyNg==}
     engines: {node: ^14.18.0 || ^16.0.0 || >= 18.0.0}
     hasBin: true
     dependencies:
@@ -9393,7 +9393,7 @@ packages:
       find-up: 6.3.0
       fuse.js: 6.6.2
       get-stdin: 9.0.0
-      globby: 13.1.4
+      globby: 13.2.1
       is-glob: 4.0.3
       language-tags: 1.0.8
       micromatch: 4.0.5
@@ -11177,6 +11177,17 @@ packages:
 
   /globby@13.1.4:
     resolution: {integrity: sha512-iui/IiiW+QrJ1X1hKH5qwlMQyv34wJAYwH1vrf8b9kBA4sNiif3gKsMHa+BrdnOpEudWjpotfa7LrTzB1ERS/g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      dir-glob: 3.0.1
+      fast-glob: 3.2.12
+      ignore: 5.2.4
+      merge2: 1.4.1
+      slash: 4.0.0
+    dev: true
+
+  /globby@13.2.1:
+    resolution: {integrity: sha512-DPCBxctI7dN4EeIqjW2KGqgdcUMbrhJ9AzON+PlxCtvppWhubTLD4+a0GFxiym14ZvacUydTPjLPc2DlKz7EIg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dir-glob: 3.0.1
