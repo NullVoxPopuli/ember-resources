@@ -1,10 +1,7 @@
 # Resources[^starbeam]
 
-{% note %}
 
-**NOTE:** A resource is a reactive function with cleanup logic.
-
-{% endnote %}
+(!): **NOTE:** A resource is a reactive function with cleanup logic.
 
 
 ----------------------------------------
