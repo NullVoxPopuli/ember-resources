@@ -78,6 +78,9 @@ export class State<T = unknown> {
 }
 
 /**
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * Native [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
  * but with built-in [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
  *
@@ -149,6 +152,11 @@ export function remoteData<T = unknown>(
 }
 
 /**
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ *
+ *
  * json-based remote data utility.
  *
  * this API mimics the API of `fetch`, and will give you a reactive

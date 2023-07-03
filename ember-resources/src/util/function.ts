@@ -6,6 +6,9 @@ import { TrackedAsyncData } from 'ember-async-data';
 import { resource } from '../core/function-based';
 
 /**
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * _An example utilty that uses [[resource]]_
  *
  * Any tracked data accessed in a tracked function _before_ an `await`

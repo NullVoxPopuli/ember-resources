@@ -1,6 +1,9 @@
 import { cell, resource, resourceFactory } from '../index';
 
 /**
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * Utility that uses requestAnimationFrame to report
  * how many frames per second the current monitor is
  * rendering at.
@@ -45,6 +48,12 @@ export const FrameRate = resource(({ on }) => {
 });
 
 /**
+ *
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ *
+ *
  * Utility that will report the frequency of updates to tracked data.
  *
  * ```js

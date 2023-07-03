@@ -30,6 +30,9 @@ interface Options<T = unknown> {
 }
 
 /**
+ * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * A utility decorator for smoothing out changes in upstream data between
  * refreshes / reload.
  *

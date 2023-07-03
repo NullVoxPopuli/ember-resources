@@ -20,12 +20,10 @@
     "lint:prettier:fix": "prettier --write .",
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js:fix": "eslint . --fix",
-    "start": "ember serve",
+    "start": "concurrently 'ember serve' 'pnpm _syncPnpm --watch' --names 'tests serve,tests sync deps'",
+    "test": "ember test",
     "test:ember": "ember test",
-    "embroider:start": "EMBROIDER_TEST_SETUP_FORCE=embroider EMBROIDER_TEST_SETUP_OPTIONS=optimized ember s",
-    "embroider:test": "EMBROIDER_TEST_SETUP_FORCE=embroider EMBROIDER_TEST_SETUP_OPTIONS=optimized ember test",
-    "try:embroider:start": "ember try:one embroider-optimized --- ember s",
-    "try:embroider:test": "ember try:one embroider-optimized"
+    "_syncPnpm": "pnpm sync-dependencies-meta-injected"
   },
   "dependencies": {
     "@ember/test-waiters": "^3.0.2",
@@ -114,6 +112,7 @@
     "expect-type": "^0.13.0",
     "loader.js": "^4.7.0",
     "msw": "^0.49.0",
+    "pnpm-sync-dependencies-meta-injected": "^0.0.8",
     "prettier": "^2.8.4",
     "prettier-plugin-ember-template-tag": "^0.3.2",
     "qunit": "^2.19.4",

@@ -42,6 +42,9 @@ class Cell<Value = unknown> {
 }
 
 /**
+ *
+ * @note This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy.
+ *
  * Small state utility for helping reduce the number of imports
  * when working with resources in isolation.
  *

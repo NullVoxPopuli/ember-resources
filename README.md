@@ -42,11 +42,11 @@ Which comes from [this branch][self-dist] from [this automation][self-dist-ci]
 ## Documentation
 
 
-- [API Documentation](https://ember-resources.pages.dev/modules)
+- [Resource Authoring](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/resources.md)
 - [Interactive Tutorial](https://tutorial.glimdown.com/2-reactivity/5-resources)
     - [util: RemoteData](https://tutorial.glimdown.com/11-requesting-data/1-using-remote-data)
     - [util: keepLatest](https://tutorial.glimdown.com/12-loading-patterns/1-keeping-latest)
-- [Resource Authoring](https://github.com/NullVoxPopuli/ember-resources/blob/main/DOCS.md)
+- [API Reference](https://ember-resources.pages.dev/modules)
 
 
 ## Contributing

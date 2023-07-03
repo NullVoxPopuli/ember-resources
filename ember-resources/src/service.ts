@@ -55,6 +55,9 @@ export const __secret_service_cache__ = new WeakMap<Owner, Map<ResourceType, any
 const REPLACEMENTS = new WeakMap<Owner, Map<ResourceType, ResourceType>>();
 
 /**
+ * @note This is not a core part of ember-resources, but demonstrates how services *are* an extension of resources.  This utility should be considered a prototype, but this utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * An alternative to Ember's built in `@service` decorator.
  *
  * This decorator takes a resource and ties the resource's lifeime to the app / owner.
