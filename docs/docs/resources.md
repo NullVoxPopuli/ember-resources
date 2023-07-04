@@ -16,8 +16,7 @@ _details on that soon_
 <hr>
 
 
-> **NOTE** 
-> A resource is a reactive function with cleanup logic.
+> **NOTE** <br> A resource is a reactive function with cleanup logic.
 
 Resources are created with an owner, and whenever the owner is cleaned up, the resource is also cleaned up. This is called ownership linking.
 
@@ -83,8 +82,7 @@ export const Now = Resource(({ on }) => {
 </details>
 
 
-> **💡**
-> A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
+> **💡** A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
 
 When you use the `Now` resource in a component, it will automatically get its lifetime linked to that component. In this case, that means that the interval will be cleaned up when the component is destroyed.
 
@@ -251,8 +249,7 @@ On the other hand, Starbeam Resources naturally avoid computing values that are 
 
 TL;DR Starbeam Resources do not represent a stream of values that you operate on using stream operators.
 
-> **Key Point** <br>
-> Starbeam resources represent a single reactive value that is always up to date when demanded.
+> **Key Point** <br> Starbeam resources represent a single reactive value that is always up to date when demanded.
 
 This also allows you to use Starbeam resources and other values interchangably in functions, and even pass them to functions that expect reactive values.
 
@@ -388,8 +385,7 @@ flowchart LR
 As a result, the resource will be cleaned up and the channel unsubscribed. After that, the resource will be re-created from the new channelName, and the process will continue.
 
 
-> **Key Point** <br>
-> From the perspective of the creator of a resource, the resource represents a stable reactive value.
+> **Key Point** <br> From the perspective of the creator of a resource, the resource represents a stable reactive value.
 
 <details><summary>Under the hood</summary>
 
