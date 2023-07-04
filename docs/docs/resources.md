@@ -16,6 +16,12 @@ _details on that soon_
 <hr>
 
 > **NOTE** A resource is a reactive function with cleanup logic.
+> 
+> **Note** A resource is a reactive function with cleanup logic.
+
+
+> **Note** <br>
+> A resource is a reactive function with cleanup logic.
 
 > **NOTE**
 > A resource is a reactive function with cleanup logic.
