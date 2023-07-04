@@ -15,8 +15,10 @@ _details on that soon_
 
 <hr>
 
-
 > **NOTE** A resource is a reactive function with cleanup logic.
+
+> **NOTE**
+> A resource is a reactive function with cleanup logic.
 
 Resources are created with an owner, and whenever the owner is cleaned up, the resource is also cleaned up. This is called ownership linking.
 
