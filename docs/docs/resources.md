@@ -58,7 +58,7 @@ export const Now = resource(({ on }) => {
 });
 ```
 
-To see this code an action [checkout the live demo](https://limber.glimdown.com/edit?c=MQAggiDKAuD2AOB3AhtAxgCwFBbbAJgKYgBmhAdmsdMgOYDOIay5IARsQK72H4hwh8ASwBOhNNAA2ATxBjyREU1gBbeLHIVo9ADRZkjRIUmSQBuRUX8MxPERD1yQ%2BPELRrxSUIButgn5VCRhIRVQA6HAB5eGghDXoALhwAWhAAAy9fNJBUgH15RUYhVnhJZCpcrFSMn2J4MW8hQkRs-MtCESKSsqodEFLy4toPB1hOESozEmgOkcziAo7K6vn%2BhqbEdmNYFpA2hQ6u-p7CPoG0IbnaiwOlDkkdkfoxicJKrDTP2gArRnmsIRqWAidwAbwsz3GvSYxlMAF9SKEVCAAOSEFQcETJMSQ170FEAbhwhAAHuoQcpyPR3AA5R4AXghLyoAAoWeCNCA4QBKED0gB8IFBWBAlOpIHIDJhJhZABFUIQwpLECzudyiSARWL3LFAkpGTxoABJcgzETeZCSNm8gVCrWi5VhQ1yhVKnaq9VankarUaMJoSSEFiceDWvmC4Wi0UBoMiE1mi1W3UdT2i71arViaDjVjKonpnAAHhmajKM35WqN7iEiRAxcBhH5oNBdMQcLhhYA9MmK12SwNyx9PkA&format=glimdown).
+To see this code in action, [checkout the live demo](https://limber.glimdown.com/edit?c=MQAggiDKAuD2AOB3AhtAxgCwFBbbAJgKYgBmhAdmsdMgOYDOIay5IARsQK72H4hwh8ASwBOhNNAA2ATxBjyREU1gBbeLHIVo9ADRZkjRIUmSQBuRUX8MxPERD1yQ%2BPELRrxSUIButgn5VCRhIRVQA6HAB5eGghDXoALhwAWhAAAy9fNJBUgH15RUYhVnhJZCpcrFSMn2J4MW8hQkRs-MtCESKSsqodEFLy4toPB1hOESozEmgOkcziAo7K6vn%2BhqbEdmNYFpA2hQ6u-p7CPoG0IbnaiwOlDkkdkfoxicJKrDTP2gArRnmsIRqWAidwAbwsz3GvSYxlMAF9SKEVCAAOSEFQcETJMSQ170FEAbhwhAAHuoQcpyPR3AA5R4AXghLyoAAoWeCNCA4QBKED0gB8IFBWBAlOpIHIDJhJhZABFUIQwpLECzudyiSARWL3LFAkpGTxoABJcgzETeZCSNm8gVCrWi5VhQ1yhVKnaq9VankarUaMJoSSEFiceDWvmC4Wi0UBoMiE1mi1W3UdT2i71arViaDjVjKonpnAAHhmajKM35WqN7iEiRAxcBhH5oNBdMQcLhhYA9MmK12SwNyx9PkA&format=glimdown).
 
 <details><summary>In Starbeam</summary>
 
@@ -146,7 +146,7 @@ export const Stopwatch = resource((r) => {
 });
 ```
 
-To see this code an action [checkout the live demo](https://limber.glimdown.com/edit?c=MQAggiDKAuD2AOB3AhtAxgCwFBbbAJgKYgBmhAdmsdMgOYDOIay5IARsQK72H4hwh8ASwBOhNNAA2ATxBjyREU1gBbeLHIVo9ADRZkjRIUmSQBuRUX8MxPERD1yQ%2BPELRrxSUIButgn5VCRhIRVQA6HAB5eGghDXoALhwAWhAAAy9fNJBUgH15RUYhVnhJZCpcrFSMn2J4MW8hQkRs-MtCESKSsqodEFLy4toPB1hOESozEmgOkcziAo7K6vn%2BhqbEdmNYFpA2hQ6u-p7CPoG0IbnaiwOlDkkdkfoxicJKrDTP2gArRnmsIRqWAidwAbwsz3GvSYxlMAF9SKEVCAAOSEFQcETJMSQ170FEAbhweHI9HcJGBKlQMyUAF4QJpNgBJchSMIAEVQhAAKoDCAAxSmoAAUACIKMkAKqQUV9UFYEAgDAvBIgUXkTiBERCNCyhUgFTFTgzVXqzUdHV6xU8En4U0arWWvSK5XjACMACZVSRkJIeHo4QBKIm4eLuGAIFDoDAgek4l5UYXC8EaEBB2MAPhA8sVJLJ-D5sZhJmFjJAnJmwsDwf1efcxRp3l9RZ40BZjd9ScDmYLgTCaHG8nc9LLFcIVb6boADDOa-qNP3JIQWJx4F2e2gl8gRO2Ok3JMKG3vfdWQ4qxNBxqwqz2c4rlKT3ORHvTYn2ByIh2f7xer6QhdANJhBSIhUtApY7DWipwlgQYhgAPDMahlDMGb6ky9aJCAiF8hmoKghGSCoJgcJwvBAD0b6EGhFFIQMqEfJ8QA&format=glimdown).
+To see this code in action, [checkout the live demo](https://limber.glimdown.com/edit?c=MQAggiDKAuD2AOB3AhtAxgCwFBbbAJgKYgBmhAdmsdMgOYDOIay5IARsQK72H4hwh8ASwBOhNNAA2ATxBjyREU1gBbeLHIVo9ADRZkjRIUmSQBuRUX8MxPERD1yQ%2BPELRrxSUIButgn5VCRhIRVQA6HAB5eGghDXoALhwAWhAAAy9fNJBUgH15RUYhVnhJZCpcrFSMn2J4MW8hQkRs-MtCESKSsqodEFLy4toPB1hOESozEmgOkcziAo7K6vn%2BhqbEdmNYFpA2hQ6u-p7CPoG0IbnaiwOlDkkdkfoxicJKrDTP2gArRnmsIRqWAidwAbwsz3GvSYxlMAF9SKEVCAAOSEFQcETJMSQ170FEAbhweHI9HcJGBKlQMyUAF4QJpNgBJchSMIAEVQhAAKoDCAAxSmoAAUACIKMkAKqQUV9UFYEAgDAvBIgUXkTiBERCNCyhUgFTFTgzVXqzUdHV6xU8En4U0arWWvSK5XjACMACZVSRkJIeHo4QBKIm4eLuGAIFDoDAgek4l5UYXC8EaEBB2MAPhA8sVJLJ-D5sZhJmFjJAnJmwsDwf1efcxRp3l9RZ40BZjd9ScDmYLgTCaHG8nc9LLFcIVb6boADDOa-qNP3JIQWJx4F2e2gl8gRO2Ok3JMKG3vfdWQ4qxNBxqwqz2c4rlKT3ORHvTYn2ByIh2f7xer6QhdANJhBSIhUtApY7DWipwlgQYhgAPDMahlDMGb6ky9aJCAiF8hmoKghGSCoJgcJwvBAD0b6EGhFFIQMqEfJ8QA&format=glimdown).
 
 <details><summary>In Starbeam</summary>
 
@@ -265,11 +265,11 @@ In this example, the channel name that we're subscribing to is dynamic, and we w
 ```js 
 import { resourceFactory, resource, cell } from 'ember-resources';
 
-const ChannelResource = resourecFactory((channelName) => {
+const ChannelResource = resourceFactory((channelName) => {
   return resource(({ on }) => {
     const lastMessage = cell(null);
  
-    const channel = Channel.subscribe(channelName.read());
+    const channel = Channel.subscribe(channelName);
  
     channel.onMessage((message) => {
       lastMessage.set(message);
@@ -280,7 +280,7 @@ const ChannelResource = resourecFactory((channelName) => {
     });
  
     return () => {
-      const prefix = `[${channelName.read()}] `;
+      const prefix = `[${channelName}] `;
       if (lastMessage.current === null) {
         return `${prefix} No messages received yet`;
       } /*E1*/ else {
@@ -290,6 +290,8 @@ const ChannelResource = resourecFactory((channelName) => {
   });
 });
 ```
+
+To see this code in action, [checkout the live demo](https://limber.glimdown.com/edit?c=MQAgMglgtgRgpgJxAUQCYQC4HsEChcDGWqcIAZnAHYGkYCGA5gM4gF2UjwgCuTcqIbCHQI4BDABsAniFGUSSIlAAOWSlQxMANLjosA7nAkSQe2VQWCAFqSIkQTShGXK4Ga6QkQAbreJ%2BoOBYyBCwoADp8AHllDAg1JgAufABaEAADL190kDSAfTkFFggOZQk6GjzcNMyfUmVRbwg4fRyCi0Ri0vKaLRAyipKGDwcsbgQaUzIMRBGs0kLEKpr5-sbm-U4jLFaQdvlOkBL%2Bnrg%2BgYIhubrzA6R4CR2RpjGJuCrcdK%2BGACsWedw0FUCHcAG9zC9xjQAGIVbAIKR9USQt59GjGEAAX3IoSgIAA5HBYIgUsjXjQmPiANz4AD0ACp6SAAAqiGbyEAAYSs7HUJiBEiJGjocTU5BwnHWGBk9NphAS7m5vKMIAAvCBQbgQA5uDAmAQEBB4IkQAAKAg8yh8gBydECAEo1QA%2BDVa7UgQXuNjGGAVADWLHVAG0ALo0t3a2m0hzQbjlGbmGg%2BK4vAh%2BtwgQJMJiMIL9RDxdDe6QRj0ZkozBDeOgmdV8DAASUolerElNpsdqpdmvd7s9RwE6oAsiKrOFQtx5KaRxgxwh2Kgwh2QEyABwABkdAGoQABGGm97X9ngIWsZKwYDDKJJRpj6OjKCDhEjeWkPiC0gAkoItyoktsCTEv1BCBUExdJ8EPcg3AtU1xgke1S17cJZyoU1kVUSg%2BGdCFML4cI-jUDtEKg7UUJsShTVQEU6BwntSO1YtfTTJhwigB9zRrCRmL9HCmP9KiaPCSg7Tge0SNIzF7QPd1MT6Xd10U6TIPdNlxg4ejezUIcghzBg4BNU0yEoTsXX4ljwmUXgrCMkydCgycmF1fVDWNM1TNdBjzIDNUQFDGSoIIQU6AQJsWxrU0K0QVtlKgzFS3i7V4vi-AiCwxVLT5AAlIJyVIdUyShOBYXEHApHbX8rSMACxLot01IQDhCredtwTFKS6t7NKmHccoep07Nc189E20oOMEIPUtuq9TKVXVJUqokcInL1A0jTgc1Zv-UTYqmrbwm03Tc3bLM9NqrtPMPPqMAGs7lrcU1TtzWLZN2rTKHCIK4HYbhlHbDzNPdSq%2BXCRznLW%2BAOwCrE3tUtx1PczrD2mtY4DICAAA9fPSINv2B6rRMxEMMmh7UIDIM1rtu3NPvGOR3FVRmQDG4xHUB3sGo4dJvwaNHMexa0sEzI79JYUQk18AQpDcdJSaxEAGWQXdZRAIxsPZuGMAR7nQV59GMexb8qZFuBaYQenwLlxLZJkqSaTt-AAB4ZhUeM4CdN1HfQbwHGlQVVQAIhgHAFBNXdlCxl4vFQKl%2BjoVB0EoBgw9EKAqQDj3e1BUEFuy3KipAAPXCwMo4ADzFrcd2lvY9quXYGGYPa%2BCCgA&format=glimdown)
 
 <details><summary>In Starbeam</summary>
 
@@ -333,14 +335,17 @@ It then creates a cell that holds the last message it received on the channel, a
 At this point, let's take a look at the dependencies:
 
 ```mermaid 
-flowchart TB
+flowchart LR
     ChannelResource-->channelName
     subgraph ChannelResource
-    lastMessage-->lastMessage
+    lastMessage
     end
     output-->channelName
     output-->lastMessage
 
+    style channelName fill:#8888ff,color:white
+    style output fill:#8888ff,color:white
+    style lastMessage fill:#8888ff,color:white
 ```
 
 Our output depends on the channel name and the last message received on that channel. The lastMessage depends on the channel name as well, and whenever the channel name changes, the resource is cleaned up and the channel is unsubscribed.
@@ -348,8 +353,17 @@ Our output depends on the channel name and the last message received on that cha
 If we receive a new message, the lastMessage cell is set to the new message. This invalidates lastMessage and therefore the output as well.
 
 ```mermaid 
+flowchart LR
+    ChannelResource-->channelName
+    subgraph ChannelResource
+    lastMessage
+    end
+    output-->channelName
+    output-->lastMessage
 
-
+    style channelName fill:#8888ff,color:white
+    style output fill:#ff8888,color:black
+    style lastMessage fill:#ff8888,color:black
 ```
 
 However, this does not invalidate the resource itself, so the channel subscription remains active.
@@ -357,7 +371,17 @@ However, this does not invalidate the resource itself, so the channel subscripti
 On the other hand, if we change the channelName, that invalidates the ChannelResource itself.
 
 ```mermaid 
+flowchart LR
+    ChannelResource-->channelName
+    subgraph ChannelResource
+    lastMessage
+    end
+    output-->channelName
+    output-->lastMessage
 
+    style channelName fill:#ff8888,color:black
+    style output fill:#ff8888,color:black
+    style lastMessage fill:#ff8888,color:black
 
 ```
 
