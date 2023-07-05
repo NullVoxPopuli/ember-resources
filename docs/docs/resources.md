@@ -328,7 +328,7 @@ function ChannelResource(channelName) {
 
 `ChannelResource` is a JavaScript function that takes the channel name as a reactive input and returns a resource constructor.
 
-That resource constructor starts by subscribing to the current value of the `channelName`, and then telling ember to unsubscribe from the channel when the resource is cleaned up.
+That resource constructor starts by subscribing to the current value of the `channelName`, and then telling Ember to unsubscribe from the channel when the resource is cleaned up.
 
 It then creates a cell that holds the last message it received on the channel, and returns a function that returns that message as a formatted string (or a helpful message if the channel hasn't received any messages yet).
 
