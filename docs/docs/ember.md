@@ -376,6 +376,23 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 - Usage in a class 
 
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  export default class Demo extends Component {
+    @tracked doc = '...';
+
+    @use(Compiled(this.doc)) state;
+
+    /* ... */
+  }
+  ```
+  This is _not_ reactive because the value of `this.doc` is read when evaluating the decorator.
+
 </details>
 
 
@@ -386,6 +403,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in gjs directly in the template:
   ```gjs 
   import { Compiled } from 'ember-repl';
   import { hash } from '@ember/helper';
@@ -399,6 +417,26 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   </template>
   ```
 
+- Usage in a class 
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  export default class Demo extends Component {
+    @tracked doc = '...';
+    @tracked format = '...';
+
+    @use(Compiled(this.doc, { format: this.format )) state;
+
+    /* ... */
+  }
+  ```
+  This is _not_ reactive because the value both `this.doc` and the second arg are read when evaluating the decorator.
+
 </details>
 
 
@@ -409,6 +447,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in gjs directly in the template:
   ```gjs 
   import { Compiled } from 'ember-repl';
   import { hash } from '@ember/helper';
@@ -422,6 +461,26 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   </template>
   ```
 
+
+- Usage in a class 
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  export default class Demo extends Component {
+    @tracked doc = '...';
+    @tracked format = '...';
+
+    @use(Compiled(this.doc, this.format)) state;
+
+    /* ... */
+  }
+  ```
+  This is _not_ reactive because the value both `this.doc` and `this.format` are read when evaluating the decorator.
+
 </details>
 
 
@@ -433,6 +492,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in a class 
   ```gjs 
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
@@ -461,6 +521,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in a class 
   ```gjs 
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
@@ -488,6 +549,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in a class 
   ```gjs 
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
@@ -516,6 +578,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in a class 
   ```gjs 
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
@@ -544,6 +607,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 </summary>
 
+- Usage in a class 
   ```gjs 
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
