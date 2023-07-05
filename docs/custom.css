@@ -54,3 +54,8 @@
   border: 1px solid;
   padding: 0.5rem 1rem;
 }
+
+/* the "On This Page" menu */
+.page-menu .tsd-index-accordion.tsd-page-navigation {
+  display: none;
+}
