@@ -67,6 +67,9 @@ export default class Demo extends Component {
    * This looks goofy!
    * This assignes the value "Clock" to the property on Demo, "Clock"
    * [property] = value;
+   * 
+   * It could also be 
+   * AClock = Clock, and then access in the template as this.AClock
    */
   Clock = Clock;
 }
@@ -269,6 +272,36 @@ and each of the individual `{{ }}` usages will individually auto-track with the 
 
 ## Usage in TypeScript / Glint
 
+### Typing the above examples 
+
+If you've used typescript in ember before, this may look familiar as we declare the types on services in the same way. This follows the same pattern described [here](https://jamescdavis.com/declare-your-injections-or-risk-losing-them/)
+
+```ts 
+import { use } from 'ember-resources';
+import { Clock } from './location/of/clock'; 
+
+class Demo {
+  @use(Clock) declare clock: string;
+
+  @use(ClockWithArgs('en-US')) declare clock: string;
+}
+```
+
+```ts 
+import { use } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
+import { Clock } from './location/of/clock'; 
+
+class Demo {
+  @tracked locale = 'en-US';
+
+  @use(Clock(() => this.locale)) declare clock: string;
+}
+```
+
+
+### For Library Authors
+
 For TypeScript, you may have noticed that, if you're a library author, you may want to be concerned with supporting all usages of Resources in all contexts, in which case, you may need to support overloaded function calls. 
 
 TypeScript does not support overloading anonymous functions, so we need to abstract the callback passed to `resourceFactory` into a named function, which we can then define overloads for.
@@ -278,24 +311,24 @@ Here is how the overloads for `Compiled`, the resource that represents a dynamic
 [compile/index.ts](https://github.com/NullVoxPopuli/limber/blob/main/packages/ember-repl/addon/src/browser/compile/index.ts)
 
 ```ts 
-export function buildCompiler(markdownText: Input | (() => Input)): Value;
-export function buildCompiler(markdownText: Input | (() => Input), options?: Format): Value;
-export function buildCompiler(markdownText: Input | (() => Input), options?: () => Format): Value;
-export function buildCompiler(markdownText: Input | (() => Input), options?: ExtraOptions): Value;
-export function buildCompiler(
-  markdownText: Input | (() => Input),
-  options?: () => ExtraOptions
-): Value;
+// Additional types and APIs omitted for brevity
+export function buildCompiler(markdownText: Input | (() => Input)): State;
+export function buildCompiler(markdownText: Input | (() => Input), options?: Format): State;
+export function buildCompiler(markdownText: Input | (() => Input), options?: () => Format): State;
+export function buildCompiler(markdownText: Input | (() => Input), options?: ExtraOptions): State;
+export function buildCompiler(markdownText: Input | (() => Input), options?: () => ExtraOptions): State;
 
 export function buildCompiler(
   markdownText: Input | (() => Input),
   maybeOptions?: Format | (() => Format) | ExtraOptions | (() => ExtraOptions)
-): Value {
+): State {
   return resource(() => {
-    let maybeObject = typeof maybeOptions === 'function' ? maybeOptions() : maybeOptions;
+    let maybeObject = 
+      typeof maybeOptions === 'function' ? maybeOptions() : maybeOptions;
     let format =
       (typeof maybeObject === 'string' ? maybeObject : maybeObject?.format) || 'glimdown';
-    let options = (typeof maybeObject === 'string' ? {} : maybeObject) || {};
+    let options = 
+      (typeof maybeObject === 'string' ? {} : maybeObject) || {};
 
     let input = typeof markdownText === 'function' ? markdownText() : markdownText;
 
@@ -311,3 +344,241 @@ export function buildCompiler(
 
 export const Compiled = resourceFactory(buildCompiler) as typeof buildCompiler;
 ```
+
+When defining `Compiled` this way, we can be type-safe in a variety of situations.
+Note that when we invoke from a template, we don't need to worry about functions because,
+in templates, all tracked values are inherently reactive, and will re-invoke functions appropriately.
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: string) => State`
+
+</summary>
+
+  ```gjs 
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  <template>
+    {{#let (Compiled doc) as |state|}}
+       ...
+    {{/let}}
+  </template>
+  ```
+
+</details>
+
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: string, options: ExtraOptions) => State`
+
+</summary>
+
+  ```gjs 
+  import { Compiled } from 'ember-repl';
+  import { hash } from '@ember/helper';
+
+  let doc = '...';
+
+  <template>
+    {{#let (Compiled doc (hash format='gjs')) as |state|}}
+       ...
+    {{/let}}
+  </template>
+  ```
+
+</details>
+
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: string, format: Format) => State`
+
+</summary>
+
+  ```gjs 
+  import { Compiled } from 'ember-repl';
+  import { hash } from '@ember/helper';
+
+  let doc = '...';
+
+  <template>
+    {{#let (Compiled doc 'gjs') as |state|}}
+       ...
+    {{/let}}
+  </template>
+  ```
+
+</details>
+
+
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: () => string) => State`
+
+</summary>
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+
+    @use(Compiled(() => this.doc)) state;
+
+    /* ... */
+  } 
+  ```
+
+</details>
+
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: () => string, format: Format) => State`
+
+</summary>
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+
+    @use(Compiled(() => this.doc), 'gjs') state;
+
+    /* ... */
+  } 
+  ```
+
+</details>
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: () => string, format: () => Format) => State`
+
+</summary>
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+    @tracked format = 'gjs';
+
+    @use(Compiled(() => this.doc), () => this.format) state;
+
+    /* ... */
+  } 
+  ```
+
+</details>
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: () => string, options: ExtraOptions) => State`
+
+</summary>
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+
+    @use(Compiled(() => this.doc), { format: 'gjs', ...extraOptions }) state;
+
+    /* ... */
+  } 
+  ```
+
+</details>
+
+
+<details>
+<summary>  Using `Compiled` as 
+
+`(doc: () => string, options: () => ExtraOptions) => State`
+
+</summary>
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+    @tracked options = { format: 'gjs', ...extraOptions }; 
+
+    @use(Compiled(() => this.doc), () => this.options) state;
+
+    /* ... */
+  } 
+  ```
+
+Note that for this example, it's possible to have as fine-grained reactivity as you want:
+
+  ```gjs 
+  import Component from '@glimmer/component';
+  import { tracked } from '@glimmer/tracking';
+
+  import { use } from 'ember-resources';
+  import { Compiled } from 'ember-repl';
+
+  let doc = '...';
+
+  export default class Demo extends Component { 
+    @tracked doc = '';
+
+    // this isn't supported by the example, but it's possible to implement,
+    // if the need is there
+    @use(Compiled(() => this.doc), {
+        format: () => this.format,
+        foo: () => this.foo,
+        bar: () => this.bar,
+    }) state;
+
+    /* ... */
+  } 
+  ```
+
+</details>

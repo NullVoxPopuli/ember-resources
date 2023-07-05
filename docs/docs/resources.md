@@ -251,7 +251,8 @@ On the other hand, Starbeam Resources naturally avoid computing values that are 
 
 TL;DR Starbeam Resources do not represent a stream of values that you operate on using stream operators.
 
-> **Key Point** <br> Starbeam resources represent a single reactive value that is always up to date when demanded.
+> **:key: Key Point** <br> 
+>Starbeam resources represent a single reactive value that is always up to date when demanded.
 
 This also allows you to use Starbeam resources and other values interchangably in functions, and even pass them to functions that expect reactive values.
 
@@ -387,7 +388,7 @@ flowchart LR
 As a result, the resource will be cleaned up and the channel unsubscribed. After that, the resource will be re-created from the new channelName, and the process will continue.
 
 
-> **Key Point** <br> From the perspective of the creator of a resource, the resource represents a stable reactive value.
+> **:key: Key Point** <br> From the perspective of the creator of a resource, the resource represents a stable reactive value.
 
 <details><summary>Under the hood</summary>
 
