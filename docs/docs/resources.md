@@ -83,7 +83,7 @@ export const Now = Resource(({ on }) => {
 </details>
 
 
-> **Bulb** <br> 
+> **:bulb:** <br> 
 > A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
 
 When you use the `Now` resource in a component, it will automatically get its lifetime linked to that component. In this case, that means that the interval will be cleaned up when the component is destroyed.
