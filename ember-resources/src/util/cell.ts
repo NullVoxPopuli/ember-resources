@@ -39,6 +39,11 @@ class Cell<Value = unknown> {
   set = (nextValue: Value) => {
     this.current = nextValue;
   };
+
+  /**
+   * Returns the current value.
+   */
+  read = () => this.current;
 }
 
 /**
@@ -89,3 +94,24 @@ export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
 
   return new Cell();
 }
+
+// @ts-ignore
+import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
+
+class CellManager {
+  capabilities = helperCapabilities('3.23', {
+    hasValue: true,
+  });
+
+  createHelper(cell: Cell) {
+    return cell;
+  }
+
+  getValue(cell: Cell) {
+    return cell.current;
+  }
+}
+
+const cellEvaluator = new CellManager();
+
+setHelperManager(() => cellEvaluator, Cell.prototype);

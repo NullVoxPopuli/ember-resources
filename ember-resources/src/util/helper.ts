@@ -21,7 +21,7 @@ type Get<T, K, Otherwise = unknown> = K extends keyof T ? T[K] : Otherwise;
  *
  * </div>
  *
- * @utility implemented with raw `invokeHelper` API, no classes from `ember-resources` used.
+ * implemented with raw `invokeHelper` API, no classes from `ember-resources` used.
  *
  * -----------------------
  *

@@ -27,7 +27,7 @@ import type { Cache } from '../core/types';
  *
  * </div>
  *
- * @utility uses Resource to make ember-concurrency tasks reactive.
+ * uses Resource to make ember-concurrency tasks reactive.
  *
  * -------------------------
  *
