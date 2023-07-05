@@ -114,7 +114,7 @@ This is an advanced use-case because you will need to think about how external m
 
 ## A Ticking Stopwatch
 
-Here's a demo of a `Stapwatch` resource, similar to the above demo.
+Here's a demo of a `Stopwatch` resource, similar to the above demo.
 The main difference here is that the return value is a function.
 
 ```js 
