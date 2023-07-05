@@ -6,7 +6,7 @@ This document shows the mechanics of how to interact with a Resource in ember.
 
 ## Direct usage in template
 
-Using resources directly in templates uses no feature of `ember-resources`, but here we can review the various ways in wheach resources can be rendered.
+Using resources directly in templates uses no feature of `ember-resources`, but here we can review the various ways in which resources can be rendered.
 
 ### In Strict Mode / `<template>`
 

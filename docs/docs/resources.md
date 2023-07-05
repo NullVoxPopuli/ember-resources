@@ -15,15 +15,8 @@ _details on that soon_
 
 <hr>
 
-> **NOTE** A resource is a reactive function with cleanup logic.
-> 
-> **Note** A resource is a reactive function with cleanup logic.
-
 
 > **Note** <br>
-> A resource is a reactive function with cleanup logic.
-
-> **NOTE**
 > A resource is a reactive function with cleanup logic.
 
 Resources are created with an owner, and whenever the owner is cleaned up, the resource is also cleaned up. This is called ownership linking.
@@ -90,7 +83,8 @@ export const Now = Resource(({ on }) => {
 </details>
 
 
-> **💡** A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
+> **Lightbulb** <br> 
+> A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
 
 When you use the `Now` resource in a component, it will automatically get its lifetime linked to that component. In this case, that means that the interval will be cleaned up when the component is destroyed.
 
