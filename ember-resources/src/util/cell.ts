@@ -86,6 +86,18 @@ class Cell<Value = unknown> {
  *   It is: <time>{{Clock}}</time>
  * </template>
  * ```
+ *
+ * Additionally, cells can be directly rendered:
+ * ```js
+ * import { resource, cell } from 'ember-resources';
+ *
+ * const value = cell(0);
+ *
+ * <template>
+ *    {{value}}
+ * </template>
+ * ```
+ *
  */
 export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
   if (initialValue !== undefined) {
