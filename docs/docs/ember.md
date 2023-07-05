@@ -295,7 +295,7 @@ import { Clock } from './location/of/clock';
 class Demo {
   @tracked locale = 'en-US';
 
-  @use(Clock(() => this.locale)) declare clock: string;
+  @use(ClockWithReactiveArgs(() => this.locale)) declare clock: string;
 }
 ```
 
@@ -349,12 +349,17 @@ When defining `Compiled` this way, we can be type-safe in a variety of situation
 Note that when we invoke from a template, we don't need to worry about functions because,
 in templates, all tracked values are inherently reactive, and will re-invoke functions appropriately.
 
+> **Note** <br>
+> The function concept here is this demo is _an_ example of how to pass on reactivity to future auto-tracking context. You could pass a `Cell` (created with this library's `cell` util), or some other instance of an object that has its own tracked properties. Functions, however, are a platform primitive that allows for easy demoing -- but it's important to use the abstraction that best fits your, and your team's, use case.
+
 <details>
 <summary>  Using `Compiled` as 
 
 `(doc: string) => State`
 
 </summary>
+
+- Usage in gjs directly in the template:
 
   ```gjs 
   import { Compiled } from 'ember-repl';
@@ -367,6 +372,9 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
     {{/let}}
   </template>
   ```
+  This is reactive
+
+- Usage in a class 
 
 </details>
 
