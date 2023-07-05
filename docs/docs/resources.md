@@ -6,7 +6,7 @@ _this document has been adapted/copied[^copying] from the Starbeam[^starbeam] do
 This is a high-level introduction to Resources, and how to use them.
 For how to integrate Resources in to Ember (Components, etc), see ['./ember.md]('./ember.md'); 
 
-In addition to the live demos accompanying each code snippet, all code snippets will have their starbeam counterparts below them, so that folks can see how similar the libraries are.
+In addition to the live demos accompanying each code snippet, all code snippets will have their Starbeam counterparts below them, so that folks can see how similar the libraries are.
 
 When Starbeam is integrated in to Ember, there will be a codemod to convert from ember-resources' APIs to Starbeam's APIs. 
 
