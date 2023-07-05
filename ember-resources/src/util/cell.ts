@@ -27,7 +27,7 @@ class Cell<Value = unknown> {
 
   /**
    * Updates the value of `current`
-   * by calling a function that recieves the previous value.
+   * by calling a function that receives the previous value.
    */
   update = (updater: (prevValue: Value) => Value) => {
     this.current = updater(this.current);
@@ -42,9 +42,12 @@ class Cell<Value = unknown> {
 }
 
 /**
+ * <div class="callout note">
  *
- * @note
- * (!) This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy.
+ * This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy. Additionally, the "Cell" is a core concept in Starbeam. See [Cells in Starbeam](https://www.starbeamjs.com/guides/fundamentals/cells.html)
+ *
+ * </div>
+ *
  *
  * Small state utility for helping reduce the number of imports
  * when working with resources in isolation.
