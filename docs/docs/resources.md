@@ -104,7 +104,7 @@ In this case:
 
 <details><summary>Resource's values are immutable</summary>
 
-When you return a reactive value from a resource, it will always behave like a generic, immutable reactive value. This means that if you return a `Cell` from a resource, the resource's value will have `.current` and `.read()`, but not `.set()`, `.update()` or other cell-specific methods.
+When you return a reactive value from a resource, it will always behave like a generic, immutable reactive value. This means that if you return a `cell` from a resource, the resource's value will have `.current` and `.read()`, but not `.set()`, `.update()` or other cell-specific methods.
 
 If you want your resource to return a value that can support mutation, you can return a JavaScript object with accessors and methods that can be used to mutate the value.
 
