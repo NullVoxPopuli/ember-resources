@@ -119,7 +119,7 @@ declare const __ResourceArgs__: unique symbol;
  * This way, consumers only need one import.
  *
  * If your resource may be used with other resources in the same file,
- * class-based resources also work with [[use]], which gives the benefit of
+ * class-based resources also work with use, which gives the benefit of
  * omitting the `this` parameter to `from`.
  *
  * ```js

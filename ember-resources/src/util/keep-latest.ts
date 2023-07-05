@@ -30,14 +30,19 @@ interface Options<T = unknown> {
 }
 
 /**
- * @note This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ *
  * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
  *
  * A utility decorator for smoothing out changes in upstream data between
  * refreshes / reload.
  *
  * @example
- * when using [[RemoteData]] (or some other promise-based "eventually a value" resource),
+ * when using RemoteData (or some other promise-based "eventually a value" resource),
  * the value returned from the API is what's useful to see to users. But if the URL
  * changes, the remote request will start anew, and isLoading becomes true, and the value is falsey until the request finishes. This can result in some flicker
  * until the new request finishes.
