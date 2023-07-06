@@ -1,5 +1,9 @@
 # Using Resources with Ember
 
+1. [Introduction](./README.md)
+2. [Resources](./resources.md) 
+3. [Usage in Ember](./ember.md) 👈 You are here
+
 `ember-resources` tries to stay out of your way when working with Resources.
 
 This document shows the mechanics of how to interact with a Resource in ember.
