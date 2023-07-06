@@ -1,8 +1,8 @@
 # ember-resources
 
-1. Introduction -- This document
-2. [Resources](./resources.md)
-2. [Usage in Ember](./ember.md)
+1. [Introduction](./README.md) 👈 You are here
+2. [Resources](./resources.md) 
+3. [Usage in Ember](./ember.md)
 
 ## Reactivity in Ember Octane
 
