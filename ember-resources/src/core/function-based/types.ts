@@ -14,6 +14,9 @@ export interface Reactive<Value> {
   current: Value;
 }
 
+/**
+ * @internal
+ */
 export type Hooks = {
   on: {
     /**

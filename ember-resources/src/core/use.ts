@@ -1,3 +1,6 @@
+// NOTE: https://2ality.com/2022/10/javascript-decorators.html#class-getter-decorators%2C-class-setter-decorators
+// (for spec decorators, when it comes time to implement those)
+//
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
@@ -8,59 +11,142 @@ import { invokeHelper } from '@ember/helper';
 import { INTERNAL } from './function-based/types';
 import { normalizeThunk } from './utils';
 
-import type { InternalFunctionResourceConfig } from './function-based/types';
+import type { resource } from './function-based';
+import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
 import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
 
 type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 
 /**
- * The `@use` decorator has two responsibilities
- *    - abstract away the underlying reactivity configuration (invokeHelper)
- *       - by doing this, we get destruction-association properly configured so that
- *         when the host class is destroyed, if the resource has a destructor, it
- *         will be called during destruction
- *    - allows the return value of the resource to be "the" value of the property.
+ * The `@use(...)` decorator can be used to use a Resource in javascript classes
  *
- *
- * This `@use` decorator is needed for function-resources, and *not* needed for class-based
- * resources (for now).
- *
- * @example
  * ```js
  * import { resource, use } from 'ember-resources';
  *
+ * const Clock = resource( ... );
+ *
+ * class Demo {
+ *   @use(Clock) time;
+ * }
+ * ```
+ */
+export function use<Value>(definition: Value | (() => Value)): PropertyDecorator;
+
+/**
+ * The `@use` decorator can be used to use a Resource in javascript classes
+ *
+ * ```js
+ * import { resource, use } from 'ember-resources';
+ *
+ * const Clock = resource(() => 2);
+ *
  * class MyClass {
- *   @use data = resource(() => {
- *     return 2;
- *   });
+ *   @use data = Clock;
  * }
  *
  * (new MyClass()).data === 2
  * ```
  */
-export function use(_prototype: object, key: string, descriptor?: Stage1DecoratorDescriptor): void {
-  if (!descriptor) return;
+export function use(prototype: object, key: string, descriptor: Stage1DecoratorDescriptor): void;
 
-  assert(`@use can only be used with string-keys`, typeof key === 'string');
+/**
+ * The `use function can be used to use a Resource in javascript classes
+ *
+ * Note that when using this version of `use`, the value is only accessible on the `current`
+ * property.
+ *
+ * ```js
+ * import { resource, use } from 'ember-resources';
+ *
+ * const Clock = resource( ... );
+ *
+ * class Demo {
+ *   time = use(this, Clock);
+ * }
+ *
+ * (new Demo()).data.current === 2
+ * ```
+ */
+export function use<Value>(parent: object, definition: Value | (() => Value)): Reactive<Value>;
 
+export function use(
+  ...args:
+    | Parameters<typeof initializerDecorator>
+    | Parameters<typeof argumentToDecorator>
+    | Parameters<typeof classContextLink>
+) {
+  if (args.length === 3) {
+    return initializerDecorator(...args);
+  }
+
+  if (args.length === 2) {
+    if (typeof args[1] !== 'string' && typeof args[1] !== 'symbol') {
+      return classContextLink(args[0], args[1]);
+    }
+  }
+
+  if (args.length === 1) {
+    return argumentToDecorator(args[0]);
+  }
+
+  assert(`Unknown arity for \`use\`. Received ${args.length} arguments`, false);
+}
+
+function classContextLink<Value>(
+  context: object,
+  definition: Value | (() => Value)
+): Reactive<Value> {
+  let cache = invokeHelper(context, definition);
+
+  associateDestroyableChild(context, cache);
+
+  return {
+    get current() {
+      let value = getValue(cache);
+
+      if (typeof value === 'object' && value !== null && 'current' in value) {
+        return value.current;
+      }
+
+      return value;
+    },
+  };
+}
+
+function argumentToDecorator<Value>(definition: Value | (() => Value)): PropertyDecorator {
+  return (
+    _prototype: object,
+    key: string | symbol,
+    descriptor?: Stage1DecoratorDescriptor
+  ): void => {
+    // TS's types for decorators use the Stage2 implementation, even though Babel uses Stage 1
+    if (!descriptor) return;
+
+    assert(`@use can only be used with string-keys`, typeof key === 'string');
+
+    assert(
+      `When @use(...) is passed a resource, an initialized value is not allowed. ` +
+        `\`@use(Clock) time;`,
+      !descriptor.initializer
+    );
+
+    let newDescriptor = descriptorGetter(definition);
+
+    return newDescriptor as unknown as void /* Thanks, TS and Stage 2 Decorators */;
+  };
+}
+
+function descriptorGetter(initializer: unknown | (() => unknown)) {
   let caches = new WeakMap<object, any>();
 
-  let { initializer } = descriptor;
-
-  assert(
-    `@use may only be used on initialized properties. For example, ` +
-      `\`@use foo = resource(() => { ... })\` or ` +
-      `\`@use foo = SomeResource.from(() => { ... });\``,
-    initializer
-  );
-
-  // https://github.com/pzuraq/ember-could-get-used-to-this/blob/master/addon/index.js
   return {
     get(this: object) {
       let cache = caches.get(this);
 
       if (!cache) {
-        let config = initializer.call(this) as Config;
+        let config = (
+          typeof initializer === 'function' ? initializer.call(this) : initializer
+        ) as Config;
 
         assert(
           `Expected initialized value under @use to have used either the \`resource\` wrapper function, or a \`Resource.from\` call`,
@@ -84,5 +170,27 @@ export function use(_prototype: object, key: string, descriptor?: Stage1Decorato
 
       return getValue(cache);
     },
-  } as unknown as void /* Thanks TS. */;
+  };
+}
+
+function initializerDecorator(
+  _prototype: object,
+  key: string,
+  descriptor?: Stage1DecoratorDescriptor
+): void {
+  // TS's types for decorators use the Stage2 implementation, even though Babel uses Stage 1
+  if (!descriptor) return;
+
+  assert(`@use can only be used with string-keys`, typeof key === 'string');
+
+  let { initializer } = descriptor;
+
+  assert(
+    `@use may only be used on initialized properties. For example, ` +
+      `\`@use foo = resource(() => { ... })\` or ` +
+      `\`@use foo = SomeResource.from(() => { ... });\``,
+    initializer
+  );
+
+  return descriptorGetter(initializer) as unknown as void /* Thanks, TS and Stage 2 Decorators */;
 }

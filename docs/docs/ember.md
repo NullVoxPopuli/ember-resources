@@ -65,7 +65,7 @@ import Component from '@glimmer/component';
 export default class Demo extends Component {
   /**
    * This looks goofy!
-   * This assignes the value "Clock" to the property on Demo, "Clock"
+   * This assigns the value "Clock" to the property on Demo, "Clock"
    * [property] = value;
    * 
    * It could also be 
@@ -98,7 +98,7 @@ import { use } from 'ember-resources';
 import { Clock } from './location/of/clock'; 
 
 class Demo {
-  @use(Clock) clock;
+  clock = use(this, Clock);
 }
 ```
 
@@ -109,7 +109,7 @@ import { use } from 'ember-resources';
 import { Clock } from './location/of/clock'; 
 
 class Demo {
-  @use(Clock('en-US')) clock;
+  clock = use(this, Clock('en-US'));
 }
 ```
 
@@ -123,9 +123,43 @@ import { Clock } from './location/of/clock';
 class Demo {
   @tracked locale = 'en-US';
 
-  @use(Clock(() => this.locale)) clock;
+  clock = use(this, Clock(() => this.locale));
 }
 ```
+
+<details><summary>why can't a decorator be used here?</summary>
+
+When defining a function in the decorator 
+
+```js
+class Demo {
+  @use(Clock(() => this.locale)) clock;
+  /* ... */
+}
+```
+
+The arrow function does _not_ take on the context of the class instance, 
+because decorators are evaluated before an instance is created.
+The `this` is actually the type of the context that the class is defined in.
+
+This form of decorator *is* implemented, but it turned out to not be useful 
+enough for the variety of use cases we need for resource invocation.
+
+Here is how it looks for no args, and static args, and both of these situations 
+work as you'd expect:
+
+```js 
+
+import { use } from 'ember-resources';
+import { Clock } from './location/of/clock'; 
+
+class Demo {
+  @use(Clock) clock;
+  @use(ClockWithArg('en-US')) clock;
+}
+```
+
+</details>
 
 This technique with using a function is nothing special to ember-resources, and can be used with any other data / class / etc as well.
 
@@ -153,10 +187,10 @@ class Demo {
   @tracked locale = 'en-US';
   @tracked timezone = 'America/New_York';
 
-  @use(Clock({
+  clock = use(this, Clock({
     locale: () => this.locale,
     timeZone: () => this.timezone,
-  })) clock;
+  }));
 }
 ```
 
@@ -182,7 +216,7 @@ export const Clock = resourceFactory(( args ) => {
 <details><summary>using functions for fine-grained reactivity</summary>
 
 Earlier, it was mentioned that this way of managing reactivity isn't specific to `ember-resources`.
-That's because it's one techneique you can use to build native classes in you app that have fine-grained reactivity.
+That's because it's one technique you can use to build native classes in you app that have fine-grained reactivity.
 
 For example, say you have a component:
 ```js 
@@ -281,9 +315,11 @@ import { use } from 'ember-resources';
 import { Clock } from './location/of/clock'; 
 
 class Demo {
-  @use(Clock) declare clock: string;
+  clock = use(this, Clock); 
+// ^? string  
 
-  @use(ClockWithArgs('en-US')) declare clock: string;
+  clock2 = use(this, ClockWithArgs('en-US')); 
+// ^? string  
 }
 ```
 
@@ -295,7 +331,8 @@ import { Clock } from './location/of/clock';
 class Demo {
   @tracked locale = 'en-US';
 
-  @use(ClockWithReactiveArgs(() => this.locale)) declare clock: string;
+  clock = use(this, ClockWithReactiveArgs(() => this.locale)); 
+// ^? string  
 }
 ```
 
@@ -430,7 +467,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
     @tracked doc = '...';
     @tracked format = '...';
 
-    @use(Compiled(this.doc, { format: this.format )) state;
+    state = use(this, Compiled(this.doc, { format: this.format }));
 
     /* ... */
   }
@@ -474,7 +511,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
     @tracked doc = '...';
     @tracked format = '...';
 
-    @use(Compiled(this.doc, this.format)) state;
+    state = use(this, Compiled(this.doc, this.format));
 
     /* ... */
   }
@@ -505,7 +542,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   export default class Demo extends Component { 
     @tracked doc = '';
 
-    @use(Compiled(() => this.doc)) state;
+    state = use(this, Compiled(() => this.doc));
 
     /* ... */
   } 
@@ -534,7 +571,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   export default class Demo extends Component { 
     @tracked doc = '';
 
-    @use(Compiled(() => this.doc), 'gjs') state;
+    state = use(this, Compiled(() => this.doc, 'gjs'));
 
     /* ... */
   } 
@@ -563,7 +600,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
     @tracked doc = '';
     @tracked format = 'gjs';
 
-    @use(Compiled(() => this.doc), () => this.format) state;
+    state = use(this, Compiled(() => this.doc, () => this.format));
 
     /* ... */
   } 
@@ -591,7 +628,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   export default class Demo extends Component { 
     @tracked doc = '';
 
-    @use(Compiled(() => this.doc), { format: 'gjs', ...extraOptions }) state;
+    state = use(this, Compiled(() => this.doc, { format: 'gjs', ...extraOptions }));
 
     /* ... */
   } 
@@ -621,7 +658,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
     @tracked doc = '';
     @tracked options = { format: 'gjs', ...extraOptions }; 
 
-    @use(Compiled(() => this.doc), () => this.options) state;
+    state = use(this, Compiled(() => this.doc, () => this.options));
 
     /* ... */
   } 
@@ -643,11 +680,11 @@ Note that for this example, it's possible to have as fine-grained reactivity as 
 
     // this isn't supported by the example, but it's possible to implement,
     // if the need is there
-    @use(Compiled(() => this.doc), {
+    state = use(this, Compiled(() => this.doc), {
         format: () => this.format,
         foo: () => this.foo,
         bar: () => this.bar,
-    }) state;
+    });
 
     /* ... */
   } 
