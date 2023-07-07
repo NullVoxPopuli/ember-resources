@@ -72,6 +72,8 @@ Those primitives are:
 
 </details>
 
+### ✨ ~ ember-resources ~ ✨ ~ Starbeam ~ ✨
+
 `ember-resources` is a _sort of_ polyfill for Starbeam for use in Ember, supporting `ember-source@3.28.0`+. 
 
 `ember-resources` is built in user-land on top of 100% public APIs.
@@ -88,12 +90,32 @@ It can be read and updated, just like a `@tracked` function.
 
 Here is an [interactive demo](https://tutorial.glimdown.com/2-reactivity/1-values) demonstrating how `cell` can be used anywhere (in this case, in module-space[^module-space])
 
+<details><summary>Code for the demo</summary>
+
+```gjs
+import { cell } from 'ember-resources';
+
+const greeting = cell("Hello there!");
+
+// Change the value after 3 seconds
+setTimeout(() => {
+	greeting.current = "General Kenobi!";
+}, 3000);
+
+<template>
+	Greeting: {{greeting.current}}
+</template>
+```
+
+</details>
+
+
 [^module-space]: Even though we can define state in module-space, you typically do not want to do so in your apps. Adding state at the module level is a "module side-effect", and tree-shaking tools may not tree-shake if they detect a "module side-effect". Additionally, when state is, in some way, only created within the context of an app, that state is easily reset between tests (assuming that app state is not shared between tests).
 
 > **Note** <br>
 > Cells do not _replace_ `@tracked` or `TrackedObject` / `TrackedArray` or any other reactive state utility you may be used to, but they are another tool to use in your applications and libraries and are otherwise an implementation detail of the more complex reactive data-structures.
 
-<details><summary>Re-implementing @tracked</summary>
+<details><summary>Deep Dive: Re-implementing @tracked</summary>
 
 When framing reactivity in terms of "cells", the implementation of `@tracked` could be thought of as an abstraction around a `getter` and `setter`, backed by a private `cell`:
 
@@ -148,25 +170,6 @@ See also [`@babel/plugin-proposal-decorators`](https://babeljs.io/docs/babel-plu
 One huge advantage of this way of defining the lowest level reactive primitive is that we can escape the typical framework boundaries of components, routes, services, etc, and rely every tool JavaScript has to offer. Especially as Starbeam is being developed, abstractions made with these primitives can be used in other frameworks as well.  
 
 
-<details><summary>Code for the demo</summary>
-
-```gjs
-import { cell } from 'ember-resources';
-
-const greeting = cell("Hello there!");
-
-// Change the value after 3 seconds
-setTimeout(() => {
-	greeting.current = "General Kenobi!";
-}, 3000);
-
-<template>
-	Greeting: {{greeting.current}}
-</template>
-```
-
-</details>
-
 Here is an [interactive demo showcasing `@tracked`](https://tutorial.glimdown.com/2-reactivity/2-decorated-values), but framed in way that builds off of this new "value" primitive.
 
 <details><summary>Code for the demo</summary>
@@ -193,6 +196,29 @@ setTimeout(() => {
 </details>
 
 ### Functions
+
+This is a reactive function.
+
+```js
+function shout(text) {
+  return text.toUpperCase();
+}
+```
+It's _just a function_. And we don't like to use the word "just" in technical writing, but there are honestly 0 caveats or gotchyas here.
+
+Used in Ember, it make look like this:
+```js
+function shout(text) {
+  return text.toUpperCase();
+}
+
+<template>
+	{{shout @greeting}}
+</template>
+```
+
+The function, `shout`, is reactive: in that when the `@greeting` argument changes, `shout` will be re-called with the new value.
+
 
 Here is an interactive demo showcasing how [functions are reactive](https://tutorial.glimdown.com/2-reactivity/4-functions)
 
@@ -221,7 +247,23 @@ setTimeout(() => {
 
 _Why does cleanup matter?_
 
+Many things in a JavaScript app require cleanup. We need to cleanup in order to:
+- prevent to memory leaks
+- reduce unneeded network activity 
+- reduce CPU usage 
 
+This includes handling timers, intervals, fetch, sockets, etc.
+
+_Resources_ are functions with cleanup, but cleanup isn't all they're conceptually concerned with.
+
+>
+> Resources Convert Processes Into Values 
+>
+> Typically, a resource converts an imperative, stateful process.
+> That allows you to work with a process just like you'd work with any other reactive value.
+> 
+
+For details on resources, see [./resources.md](./resources.md).
 
 Here is an interactive demo showcasing how [resources are reactive functions with cleanup](https://tutorial.glimdown.com/2-reactivity/5-resources)
 
