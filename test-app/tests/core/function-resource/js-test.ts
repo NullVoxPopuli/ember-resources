@@ -14,7 +14,9 @@ module('Utils | (function) resource | js', function (hooks) {
   setupTest(hooks);
 
   test('it works', async function (assert) {
-    let inc = () => {};
+    let inc = () => {
+      /* pending override */
+    };
     let Incrementer = resource(({ on }) => {
       let value = cell(0);
 
