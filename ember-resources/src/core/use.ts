@@ -11,7 +11,6 @@ import { invokeHelper } from '@ember/helper';
 import { INTERNAL } from './function-based/types';
 import { normalizeThunk } from './utils';
 
-import type { resource } from './function-based';
 import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
 import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
 
@@ -92,23 +91,34 @@ export function use(
   assert(`Unknown arity for \`use\`. Received ${args.length} arguments`, false);
 }
 
+function getCurrentValue<Value>(value: Value | Reactive<Value>): Value {
+  /**
+   * If we are working with a cell, forward the '.current' call to it.
+   */
+  if (typeof value === 'object' && value !== null && 'current' in value) {
+    return value.current;
+  }
+
+  return value;
+}
+
 function classContextLink<Value>(
   context: object,
   definition: Value | (() => Value)
 ): Reactive<Value> {
-  let cache = invokeHelper(context, definition);
-
-  associateDestroyableChild(context, cache);
+  let cache: ReturnType<typeof invokeHelper>;
 
   return {
     get current() {
-      let value = getValue(cache);
+      if (!cache) {
+        cache = invokeHelper(context, definition);
 
-      if (typeof value === 'object' && value !== null && 'current' in value) {
-        return value.current;
+        associateDestroyableChild(context, cache);
       }
 
-      return value;
+      let value = getValue(cache);
+
+      return getCurrentValue(value);
     },
   };
 }
@@ -168,7 +178,9 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
         assert(`Failed to create cache for internal resource configuration object`, cache);
       }
 
-      return getValue(cache);
+      let value = getValue(cache);
+
+      return getCurrentValue(value);
     },
   };
 }

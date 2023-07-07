@@ -11,6 +11,14 @@
 
 ## Rethinking Reactivity
 
-- value
+- values
 - functions
 - functions with cleanup
+
+### Values
+
+
+### Functions
+
+### Functions with cleanup
+

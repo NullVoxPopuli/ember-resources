@@ -10,7 +10,7 @@ import { resource, resourceFactory, use } from 'ember-resources';
 import type Owner from '@ember/owner';
 
 // not testing in template, because that's the easy part
-module('Core | resource + use | js', function (hooks) {
+module('Core | (function) resource + use | js', function (hooks) {
   setupTest(hooks);
 
   test('it works', async function (assert) {
@@ -86,8 +86,8 @@ module('Core | resource + use | js', function (hooks) {
 
     let foo = new Test();
 
-    // Intentionally access property that doesn't exist
-    (foo.data as any).anything;
+    // destruction only occurs if the resource is constructor, which would be upon access
+    foo.data.current;
 
     assert.notOk(isDestroyed(foo), 'not destroyed');
     assert.verifySteps([]);
@@ -118,17 +118,20 @@ module('Core | resource + use | js', function (hooks) {
     class Test {
       @tracked count = 0;
 
-      @use(Doubler(() => this.count)) declare data: number;
+      data = use(
+        this,
+        Doubler(() => this.count)
+      );
     }
 
     let foo = new Test();
 
-    foo.data;
+    foo.data.current;
     foo.count = 4;
-    foo.data;
+    foo.data.current;
     await settled();
     foo.count = 5;
-    foo.data;
+    foo.data.current;
     await settled();
 
     destroy(foo);
@@ -151,6 +154,6 @@ module('Core | resource + use | js', function (hooks) {
     let foo = new Test();
 
     assert.strictEqual(foo.data1, 'hello');
-    assert.strictEqual(foo.data2, 'hello');
+    assert.strictEqual(foo.data2.current, 'hello');
   });
 });

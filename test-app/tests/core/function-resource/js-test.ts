@@ -10,15 +10,15 @@ import { cell, resource, use } from 'ember-resources';
 
 import type QUnit from 'qunit';
 
-module('Utils | resource | js', function (hooks) {
+module('Utils | (function) resource | js', function (hooks) {
   setupTest(hooks);
 
   test('it works', async function (assert) {
-    let inc: () => void;
+    let inc = () => {};
     let Incrementer = resource(({ on }) => {
       let value = cell(0);
 
-      inc = () => value.set(value.current++);
+      inc = () => value.current++;
 
       return value;
     });
@@ -29,12 +29,12 @@ module('Utils | resource | js', function (hooks) {
 
     let foo = new Test();
 
-    assert.strictEqual(foo.data, 1);
+    assert.strictEqual(foo.data, 0);
     await settled();
 
     inc();
     await settled();
-    assert.strictEqual(foo.data, 2);
+    assert.strictEqual(foo.data, 1);
   });
 
   module('with teardown', function () {

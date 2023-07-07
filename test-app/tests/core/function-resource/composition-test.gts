@@ -10,7 +10,7 @@ interface Reactive<Value> {
   current: Value;
 }
 
-module('Core | resource | use | rendering', function (hooks) {
+module('Core | (function) resource | use | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
   const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

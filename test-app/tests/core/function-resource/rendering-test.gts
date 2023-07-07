@@ -8,7 +8,7 @@ import { setupRenderingTest } from 'ember-qunit';
 
 import { resource, use } from 'ember-resources';
 
-module('Utils | resource | rendering', function (hooks) {
+module('Utils | (function) resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
   module('lifecycle', function () {
@@ -36,9 +36,7 @@ module('Utils | resource | rendering', function (hooks) {
           return num;
         });
 
-        await render(<template>
-          <out>{{theResource}}</out>
-        </template>);
+        await render(<template><out>{{theResource}}</out></template>);
 
         assert.dom('out').containsText('0');
 
@@ -206,15 +204,16 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        let theResource = (_num: number) => resource(({ on }) => {
-          let i = foo.num;
+        let theResource = (_num: number) =>
+          resource(({ on }) => {
+            let i = foo.num;
 
-          on.cleanup(() => assert.step(`destroy ${i}`));
+            on.cleanup(() => assert.step(`destroy ${i}`));
 
-          assert.step(`resolve ${i}`);
+            assert.step(`resolve ${i}`);
 
-          return 'a value!';
-        });
+            return 'a value!';
+          });
 
         await render(<template>
           {{#if foo.show}}
@@ -271,9 +270,7 @@ module('Utils | resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-        await render(<template>
-          <out>{{foo.theResource}}</out>
-        </template>);
+        await render(<template><out>{{foo.theResource}}</out></template>);
 
         assert.dom('out').containsText('0');
 
@@ -480,9 +477,7 @@ module('Utils | resource | rendering', function (hooks) {
 
       setOwner(testData, this.owner);
 
-      await render(<template>
-        <out>{{testData.data}}</out>
-      </template>);
+      await render(<template><out>{{testData.data}}</out></template>);
 
       assert.dom('out').containsText('1');
 
