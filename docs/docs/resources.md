@@ -402,6 +402,12 @@ Under the hood, the internal `ChannelResource` instance is cleaned up and recrea
 
 ----------------------------------------
 
+Previous: [Introduction](./README.md) 
+Next: [Usage in Ember](./ember.md)
+
+
+
+
 [^starbeam]: These docs have been adapted from the [Starbeam](https://www.starbeamjs.com/guides/fundamentals/resources.html) docs on Resources.
 
 [^copying]: while ~90% of the content is copied, adjustments have been made for casing of APIs, as well as omissions / additions as relevant to the ember ecosystem right now. Starbeam is focused on _Universal Reactivity_, which in documentation for Ember, we don't need to focus on in this document. Also, mega huge thanks to [@wycats](https://github.com/wycats) who wrote most of this documentation. I, `@nullvoxpopuli`, am often super stressed by documentation writing (at least when stakes are high) -- I am much happier/relatex writing code, and getting on the same page between our two projects.

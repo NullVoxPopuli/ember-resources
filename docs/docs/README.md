@@ -1,4 +1,4 @@
-<!-- vi: tabstop=3 noexpandtab -->
+<!-- vi: tabstop=4 noexpandtab -->
 
 # ember-resources
 
@@ -6,28 +6,14 @@
 2. [Resources](./resources.md) 
 3. [Usage in Ember](./ember.md)
 
+<!--
 
-- [ ] what is a cell?
-  - [ ] can resources be used without cells?
-        (yes, any reactive state can be used within, around, and passed to a resource, but ember has not had a good enough primitive -- so that's where cell steps in -- tracked could be thought of as a wrapper around a cell) 
-- [ ] why does cleanup matter?
-- [ ] Frame as primitive
-  - [ ] when learning a reactive system / library resources are about the third primitive you'd learn values, functions, and then functions with cleanup.
-       - link to tutorial
-            - values: https://tutorial.glimdown.com/2-reactivity/1-values
-            - functions: https://tutorial.glimdown.com/2-reactivity/4-functions
-            - (etc)
-      - in part, this is covered by the starbeam docs: 
-          - 
-  - [ ] intro to reactivity? (how much of the starbeam docs would I need to end up copying / reframing from ember's perspective?)
 - [x] have a README.md in the docs folder, which is the highest level overview of _reactivity_
-  - [ ] what are ember-octane's reactive primitives?
   - [ ] how can we reframe reactive-primitives to be more portable?
-       why do we care about them being more portable?
-  - [ ] how does starbeam fit in?
-       this library aligns with starbeam, it's goals -- _kind of_ a polyfill
-  - [ ] (link to resource.md)
+			why do we care about them being more portable?
 - [ ] on the ember.md page, show the "anatomy" of a few resources, pointing out the "reactive function", "reactive state", etc
+
+-->
 
 
 
@@ -56,7 +42,7 @@ By the end of the v3.x series, we had _two_ user-facing reactive primitives:
 
 - functions with cleanup  
   Many things in a JavaScript app require cleanup, but it is often forgotten about, leading to memory leaks, increased network activity, and increased CPU usage. This includes handling timers, intervals, fetch, sockets, etc.
-   
+	
 
 These are general concepts that extend beyond Ember or any framework -- and this is what [Starbeam](https://www.starbeamjs.com/) is solving -- _Universal Reactivity_.
 
@@ -81,28 +67,55 @@ const greeting = cell('Hello there!');
 ```
 It can be read and updated, just like a `@tracked` function.
 
+Here is an [interactive demo](https://tutorial.glimdown.com/2-reactivity/1-values) demonstrating how `cell` can be used anywhere (in this case, in module-space[^module-space])
+
+[^module-space]: Even though we can define state in module-space, you typically do not want to do so in your apps. Adding state at the module level is a "module side-effect", and tree-shaking tools may not tree-shake if they detect a "module side-effect". Additionally, when state is, in some way, only created within the context of an app, that state is easily reset between tests (assuming that app state is not shared between tests).
+
+> **Note** <br>
+> Cells do not _replace_ `@tracked` or `TrackedObject` / `TrackedArray` or any other reactive state utility you may be used to, but they are another tool to use in your applications and libraries and are otherwise an implementation detail of the more complex reactive data-structures.
+
 <details><summary>Re-implementing @tracked</summary>
 
-When framing reactivity this way, the implementation of `@tracked` is only a handful of lines:
+When framing reactivity in terms of "cells", the implementation of `@tracked` could be thought of as an abstraction around a `getter` and `setter`, backed by a private `cell`:
 
 ```js 
-function tracked(target, key, descriptor) { /* "legacy decorator" (stage 1) */
-  let cache = new WeakMap();
-  let getCell = (ctx) => {
-    let reactiveValue = cache.get(ctx);
-    if (!reactiveValue) {
-      cache.set(ctx, reactiveValue = cell(descriptor.initializer?.()));
-    }
-    return reactiveValue;
-  }
-  return {
-    get() {
-      return getCell(this).current;
-    },
-    set(value) {
-      getCell(this).set(value);
-    }
-  }
+class Demo {
+	#greeting = cell('Hello there!');
+
+	get greeting() {
+		return this.#greeting.current;
+	}
+	set greeting(value) {
+		this.#greeting.set(value);
+	}
+}
+```
+
+
+And then actual implementation of the decorator, which abstracts the above, is only a handful of lines:
+
+```js 
+function tracked(target, key, descriptor) {
+	let cache = new WeakMap();
+
+	let getCell = (ctx) => {
+		let reactiveValue = cache.get(ctx);
+
+		if (!reactiveValue) {
+			cache.set(ctx, reactiveValue = cell(descriptor.initializer?.()));
+		}
+
+		return reactiveValue;
+	};
+
+	return {
+		get() {
+			return getCell(this).current;
+		},
+		set(value) {
+			getCell(this).set(value);
+		}
+	}
 }
 ```
 
@@ -113,7 +126,8 @@ See also [`@babel/plugin-proposal-decorators`](https://babeljs.io/docs/babel-plu
 
 </details>
 
-Here is an [interactive demo showcasing values](https://tutorial.glimdown.com/2-reactivity/1-values) and how tracked state is no longer constrained to the boundary of a class.
+One huge advantage of this way of defining the lowest level reactive primitive is that we can escape the typical framework boundaries of components, routes, services, etc, and rely every tool JavaScript has to offer. Especially as Starbeam is being developed, abstractions made with these primitives can be used in other frameworks as well.  
+
 
 <details><summary>Code for the demo</summary>
 
@@ -124,11 +138,11 @@ const greeting = cell("Hello there!");
 
 // Change the value after 3 seconds
 setTimeout(() => {
-  greeting.current = "General Kenobi!";
+	greeting.current = "General Kenobi!";
 }, 3000);
 
 <template>
-  Greeting: {{greeting.current}}
+	Greeting: {{greeting.current}}
 </template>
 ```
 
@@ -142,18 +156,18 @@ Here is an [interactive demo showcasing `@tracked`](https://tutorial.glimdown.co
 import { tracked } from '@glimmer/tracking';
 
 class Demo {
-  @tracked greeting = 'Hello there!';
+	@tracked greeting = 'Hello there!';
 }
 
 const demo = new Demo();
 
 // Change the value after 3 seconds
 setTimeout(() => {
-  demo.greeting = "General Kenobi!";
+	demo.greeting = "General Kenobi!";
 }, 3000);
 
 <template>
-  Greeting: {{demo.greeting}}
+	Greeting: {{demo.greeting}}
 </template>
 ```
 
@@ -173,11 +187,11 @@ const shout = (text) => text.toUpperCase();
 
 // Change the value after 3 seconds
 setTimeout(() => {
-  greeting.current = "General Kenobi!";
+	greeting.current = "General Kenobi!";
 }, 3000);
 
 <template>
-  Greeting: {{ (shout greeting.current) }}
+	Greeting: {{ (shout greeting.current) }}
 </template>
 ```
 
@@ -198,16 +212,16 @@ Here is an interactive demo showcasing how [resources are reactive functions wit
 import { resource, cell } from 'ember-resources';
 
 const Clock = resource(({ on }) => {
-  let time = cell(new Date());
-  let interval = setInterval(() => time.current = new Date(), 1000);
+	let time = cell(new Date());
+	let interval = setInterval(() => time.current = new Date(), 1000);
 
-  on.cleanup(() => clearInterval(interval));
+	on.cleanup(() => clearInterval(interval));
 
-  return () => time.current;
+	return () => time.current;
 });
 
 <template>
-  It is: <time>{{Clock}}</time>
+	It is: <time>{{Clock}}</time>
 </template>
 ```
 
@@ -230,3 +244,7 @@ const Clock = resource(({ on }) => {
   - [Solid.JS](https://www.solidjs.com/guides/reactivity)
 
 
+-----------------------------------
+
+
+Next: [Resources](./resources.md) 

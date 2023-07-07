@@ -695,3 +695,10 @@ Note that for this example, it's possible to have as fine-grained reactivity as 
   ```
 
 </details>
+
+
+-----------------------------
+
+
+
+Previous: [Resources](./resources.md) 👈 You are here
