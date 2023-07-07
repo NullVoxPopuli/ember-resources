@@ -6,17 +6,6 @@
 2. [Resources](./resources.md) 
 3. [Usage in Ember](./ember.md)
 
-<!--
-
-- [x] have a README.md in the docs folder, which is the highest level overview of _reactivity_
-  - [ ] how can we reframe reactive-primitives to be more portable?
-			why do we care about them being more portable?
-- [ ] on the ember.md page, show the "anatomy" of a few resources, pointing out the "reactive function", "reactive state", etc
-
--->
-
-
-
 ## Reactivity in Ember Octane
 
 With the introduction of Ember's first edition, Octane, a new Reactivity system was introduced, ["tracked properties"](https://blog.emberjs.com/octane-is-here/#toc_glimmer-reactivity).
@@ -201,7 +190,7 @@ This is a reactive function.
 
 ```js
 function shout(text) {
-  return text.toUpperCase();
+	return text.toUpperCase();
 }
 ```
 It's _just a function_. And we don't like to use the word "just" in technical writing, but there are honestly 0 caveats or gotchyas here.
@@ -209,7 +198,7 @@ It's _just a function_. And we don't like to use the word "just" in technical wr
 Used in Ember, it make look like this:
 ```js
 function shout(text) {
-  return text.toUpperCase();
+	return text.toUpperCase();
 }
 
 <template>
