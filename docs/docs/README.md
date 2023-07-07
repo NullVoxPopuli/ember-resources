@@ -48,6 +48,7 @@ These are general concepts that extend beyond Ember or any framework -- and this
 
 ### _This is where Starbeam comes in_
 
+
 In Starbeam,
 - Values are [_`Cell`s_](https://www.starbeamjs.com/guides/fundamentals/cells.html)
 - Functions are just [functions](https://www.starbeamjs.com/guides/fundamentals/functions.html)
@@ -55,7 +56,25 @@ In Starbeam,
 
 And Starbeam is planned for inclusion in the next [edition](https://emberjs.com/editions/) of Ember, Polaris.
 
-`ember-resources` is a _sort of_ polyfill for Starbeam for use in Ember, supporting `ember-source@3.28.0`+
+It's no secret that Ember's community is smaller other javascript communities, so one of the goals of Polaris is to reduce the amount of maintenance that small community needs to do. For example, the [embroider](https://github.com/embroider-build/embroider/) project aims to reduce the maintenance burden on the build system by using broader ecosystem tools such as webpack, vite, rollup, etc. Another example is the reactivity system, `@glimmer/tracking`. We don't need it to be specific to Ember, and in fact, the Starbeam project _is that_ -- Ember's Reactivity _for everyone_, and has focused on [`React`](https://www.starbeamjs.com/frameworks/react/) and [`Preact`](https://www.starbeamjs.com/frameworks/preact/) first, with [`Vue`](https://github.com/starbeamjs/starbeam/tree/main/packages) shortly behind. Reactivity is a non-trivial system that, with bigger community, can help lighten the load on ember maintainers, and additionally breathe new life (and performance) in to the framework by providing reactive primitives at a much lower layer in the tech stack.
+
+<details><summary>Additional Starbeam primitives</summary>
+
+While starbeam includes the 3 primitives listed above, 
+there are still two more primitives coming -- not just because Ember needs them, but because 
+all of JavaScript needs them.
+
+Those primitives are:
+- modifiers  
+  The building blocks are here to build modifiers already, as modifiers are a resource builder that receives an element as one of its arguments.
+- services  
+  The building blocks are here to build services already, as services are resources where there lifetime is tied to the application, rather than something more ephemeral, like a component.
+
+</details>
+
+`ember-resources` is a _sort of_ polyfill for Starbeam for use in Ember, supporting `ember-source@3.28.0`+. 
+
+`ember-resources` is built in user-land on top of 100% public APIs.
 
 When Starbeam is integrated in to Ember, there will be codemods to help migrate.
 
