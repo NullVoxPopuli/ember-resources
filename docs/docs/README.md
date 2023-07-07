@@ -68,7 +68,7 @@ Those primitives are:
 - modifiers  
   The building blocks are here to build modifiers already, as modifiers are a resource builder that receives an element as one of its arguments.
 - services  
-  The building blocks are here to build services already, as services are resources where there lifetime is tied to the application, rather than something more ephemeral, like a component.
+  The building blocks are here to build services already, as services are resources where their lifetime is tied to the application, rather than something more ephemeral, like a component.
 
 </details>
 
