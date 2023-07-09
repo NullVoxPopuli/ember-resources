@@ -1,8 +1,16 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
+import { Invoke } from '@glint/template/-private/integration';
+
 class Cell<Value = unknown> {
   @tracked declare current: Value;
+
+  /**
+   * Because Cells have a helper manager,
+   * we can declare them as invokeable for Glint.
+   */
+  declare [Invoke]: Value;
 
   constructor();
   constructor(initialValue: Value);

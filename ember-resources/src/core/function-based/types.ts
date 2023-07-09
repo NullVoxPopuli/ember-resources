@@ -1,4 +1,5 @@
 import type Owner from '@ember/owner';
+import type { Invoke } from '@glint/template/-private/integration';
 
 export const INTERMEDIATE_VALUE = '__Intermediate_Value__';
 export const INTERNAL = '__INTERNAL__';
@@ -12,6 +13,7 @@ export interface InternalFunctionResourceConfig<Value = unknown> {
 // Will need to be a class for .current flattening / auto-rendering
 export interface Reactive<Value> {
   current: Value;
+  [Invoke]?: Value;
 }
 
 /**
@@ -72,7 +74,7 @@ export type Hooks = {
    *  });
    * ```
    */
-  use: <Value>(resource: Value) => Reactive<Value>;
+  use: <Value>(resource: Value) => Reactive<Value extends Reactive<any> ? Value['current'] : Value>;
   /**
    * The Application owner.
    * This allows for direct access to traditional ember services.

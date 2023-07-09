@@ -16,6 +16,10 @@ import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types
 
 type Config = ClassResourceConfig | InternalFunctionResourceConfig;
 
+type NonInstanceType<K> = K extends InstanceType<any> ? object : K;
+type DecoratorKey<K> = K extends string | symbol ? K : never;
+type NonDecoratorKey<K> = K extends string | symbol ? never : ThisType<K>;
+
 /**
  * The `@use(...)` decorator can be used to use a Resource in javascript classes
  *
@@ -46,7 +50,11 @@ export function use<Value>(definition: Value | (() => Value)): PropertyDecorator
  * (new MyClass()).data === 2
  * ```
  */
-export function use(prototype: object, key: string, descriptor: Stage1DecoratorDescriptor): void;
+export function use<Prototype, Key>(
+  prototype: NonInstanceType<Prototype>,
+  key: DecoratorKey<Key>,
+  descriptor?: Stage1DecoratorDescriptor
+): void;
 
 /**
  * The `use function can be used to use a Resource in javascript classes
@@ -66,7 +74,11 @@ export function use(prototype: object, key: string, descriptor: Stage1DecoratorD
  * (new Demo()).data.current === 2
  * ```
  */
-export function use<Value>(parent: object, definition: Value | (() => Value)): Reactive<Value>;
+export function use<Value>(
+  parent: object,
+  definition: Value | (() => Value),
+  _?: never
+): Reactive<Value extends Reactive<any> ? Value['current'] : Value>;
 
 export function use(
   ...args:
@@ -187,7 +199,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 
 function initializerDecorator(
   _prototype: object,
-  key: string,
+  key: string | symbol,
   descriptor?: Stage1DecoratorDescriptor
 ): void {
   // TS's types for decorators use the Stage2 implementation, even though Babel uses Stage 1
