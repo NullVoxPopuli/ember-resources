@@ -31,7 +31,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "ember-functions-as-helper-polyfill": "^2.0.1",
-    "ember-resources": "workspace:ember-resources@*",
+    "ember-resources": "workspace:*",
     "tracked-built-ins": "^3.1.0"
   },
   "dependenciesMeta": {

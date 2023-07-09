@@ -17,7 +17,19 @@ export interface Reactive<Value> {
 }
 
 /**
- * @internal
+ * This is the type of the arguments passed to the `resource` function
+ *
+ * The export is `ResourceAPI`
+ *
+ * ```ts
+ * import { resource, type ResourceAPI } from 'ember-resources';
+ *
+ * export const Clock = resource((api: ResourceAPI) => {
+ *   let { on, use, owner } = api;
+ *
+ *   // ...
+ * })
+ * ```
  */
 export type Hooks = {
   on: {

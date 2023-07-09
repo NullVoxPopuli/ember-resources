@@ -245,7 +245,7 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       ember-resources:
-        specifier: workspace:ember-resources@*
+        specifier: workspace:*
         version: file:ember-resources(@ember/test-waiters@3.0.2)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.0.2)(ember-concurrency@3.0.0)(ember-source@5.1.0)
       tracked-built-ins:
         specifier: ^3.1.0
@@ -8622,7 +8622,7 @@ packages:
       ember-source: '*'
     dependencies:
       '@ember/test-waiters': 3.0.2
-      '@embroider/addon-shim': 1.8.5
+      '@embroider/addon-shim': 1.8.4
       ember-source: 5.1.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.2)(rsvp@4.8.5)(webpack@5.72.1)
     transitivePeerDependencies:
       - supports-color
