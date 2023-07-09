@@ -87,6 +87,7 @@
     "start": "rollup -c ./rollup.config.mjs --watch",
     "build": "rollup -c ./rollup.config.mjs",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
+    "lint:types": "tsc --noEmit",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
     "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
     "lint:js": "eslint . --cache",
