@@ -1,8 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
-import { Invoke } from '@glint/template/-private/integration';
-
 interface GlintRenderable {
   /**
    * Cells aren't inherently understood by Glint,
@@ -27,11 +25,6 @@ class Cell<Value = unknown> implements GlintRenderable {
       'Not a valid API. Please access either .current or .read() if the value of this Cell is needed'
     );
   }
-  /**
-   * Because Cells have a helper manager,
-   * we can declare them as invokeable for Glint.
-   */
-  declare [Invoke]: Value;
 
   constructor();
   constructor(initialValue: Value);
