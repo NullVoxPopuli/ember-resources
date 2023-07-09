@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 overrides:
   '@types/eslint': 7.29.0
   '@changesets/assemble-release-plan': 5.2.3
@@ -17215,7 +17219,3 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
