@@ -1,8 +1,8 @@
 import { expectTypeOf } from 'expect-type';
 
-import type { ContentValue } from '@glint/template';
-
 import { cell } from '../src/index';
+
+import type { ContentValue } from '@glint/template';
 
 expectTypeOf(cell('some string')).toMatchTypeOf<ContentValue>();
 expectTypeOf(cell(2)).toMatchTypeOf<ContentValue>();
