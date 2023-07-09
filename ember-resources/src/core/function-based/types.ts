@@ -1,4 +1,5 @@
 import type Owner from '@ember/owner';
+import type { Invoke } from '@glint/template/-private/integration';
 
 export const INTERMEDIATE_VALUE = '__Intermediate_Value__';
 export const INTERNAL = '__INTERNAL__';
@@ -12,9 +13,23 @@ export interface InternalFunctionResourceConfig<Value = unknown> {
 // Will need to be a class for .current flattening / auto-rendering
 export interface Reactive<Value> {
   current: Value;
+  [Invoke]?: Value;
 }
 
-export type Hooks = {
+/**
+ * This is the type of the arguments passed to the `resource` function
+ *
+ * ```ts
+ * import { resource, type ResourceAPI } from 'ember-resources';
+ *
+ * export const Clock = resource((api: ResourceAPI) => {
+ *   let { on, use, owner } = api;
+ *
+ *   // ...
+ * })
+ * ```
+ */
+export type ResourceAPI = {
   on: {
     /**
      * Optionally a function-resource can provide a cleanup function.
@@ -69,7 +84,7 @@ export type Hooks = {
    *  });
    * ```
    */
-  use: <Value>(resource: Value) => Reactive<Value>;
+  use: <Value>(resource: Value) => Reactive<Value extends Reactive<any> ? Value['current'] : Value>;
   /**
    * The Application owner.
    * This allows for direct access to traditional ember services.
@@ -88,7 +103,7 @@ export type Hooks = {
 /**
  * Type of the callback passed to `resource`
  */
-export type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value | (() => Value);
+export type ResourceFunction<Value = unknown> = (hooks: ResourceAPI) => Value | (() => Value);
 
 /**
  * The perceived return value of `resource`
@@ -96,7 +111,7 @@ export type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value | (() =>
  * of the resource is the result of the collapsed functions
  * passed to `resource`
  */
-export type ResourceFn<Value = unknown> = (hooks: Hooks) => Value;
+export type ResourceFn<Value = unknown> = (hooks: ResourceAPI) => Value;
 
 export type Destructor = () => void;
 export type Cache = object;

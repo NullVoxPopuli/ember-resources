@@ -5,8 +5,7 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { INTERNAL } from 'core/function-based/types';
-
+import { INTERNAL } from '../function-based/types';
 import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
 import type { AsThunk, Cache, Constructor, Named, Positional, Thunk } from '[core-types]';
@@ -119,7 +118,7 @@ declare const __ResourceArgs__: unique symbol;
  * This way, consumers only need one import.
  *
  * If your resource may be used with other resources in the same file,
- * class-based resources also work with [[use]], which gives the benefit of
+ * class-based resources also work with use, which gives the benefit of
  * omitting the `this` parameter to `from`.
  *
  * ```js

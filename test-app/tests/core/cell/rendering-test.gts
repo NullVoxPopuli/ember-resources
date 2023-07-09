@@ -44,11 +44,36 @@ module('Utils | cell | rendering', function (hooks) {
 
     assert.dom().hasText('10');
 
-    state.update(prev => {
-      return prev / 5
+    state.update((prev) => {
+      return prev / 5;
     });
     await settled();
     assert.dom().hasText('2');
+  });
 
-  })
+  test('read() works the same as current', async function (assert) {
+    let state = cell(0);
+
+    await render(<template><div>{{(state.read)}}</div> - <div>{{state.current}}</div></template>);
+
+    assert.dom().hasText('0 - 0');
+
+    state.set(10);
+    await settled();
+
+    assert.dom().hasText('10 - 10');
+  });
+
+  test('placing a cell in vanilla {{ }} should automatically call .current', async function (assert) {
+    let state = cell(0);
+
+    await render(<template>{{state}}</template>);
+
+    assert.dom().hasText('0');
+
+    state.set(10);
+    await settled();
+
+    assert.dom().hasText('10');
+  });
 });

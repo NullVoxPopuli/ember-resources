@@ -73,7 +73,7 @@ export type LoosenThunkReturn<Args> = Args extends { positional: unknown[]; name
  *
  * Note that thunks are awkward when they aren't required -- they may even be awkward
  * when they are required. Whenever possible, we should rely on auto-tracking, such as
- * what [[trackedFunction]] provides.
+ * what trackedFunction provides.
  *
  * So when and why are thunks needed?
  * - when we want to manage reactivity *separately* from a calling context.

@@ -77,7 +77,7 @@ export interface MappedArray<Elements extends readonly unknown[], MappedTo> {
    * Iterate over the mapped array, lazily invoking the passed map function
    * that was passed to [[map]].
    *
-   * This will always return previously mapped records without re-evaluting
+   * This will always return previously mapped records without re-evaluating
    * the map function, so the default `{{#each}}` behavior in ember will
    * be optimized on "object-identity". e.g.:
    *
@@ -120,6 +120,14 @@ export interface MappedArray<Elements extends readonly unknown[], MappedTo> {
 }
 
 /**
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
  * Reactivily apply a `map` function to each element in an array,
  * persisting map-results for each object, based on identity.
  *
@@ -157,7 +165,7 @@ export interface MappedArray<Elements extends readonly unknown[], MappedTo> {
  */
 export function map<Elements extends readonly unknown[], MapTo = unknown>(
   /**
-   * parent destroyable context, unually `this`
+   * parent destroyable context, usually `this`
    */
   destroyable: object,
   options: {
@@ -283,7 +291,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
 
     assert(
       `Expected record to exist at index ${i}, but it did not. ` +
-        `The array item is expected to exist, because the map utility resource lazily iterates along the indicies of the original array passed as data. ` +
+        `The array item is expected to exist, because the map utility resource lazily iterates along the indices of the original array passed as data. ` +
         `This error could happen if the data array passed to map has been mutated while iterating. ` +
         `To resolve this error, do not mutate arrays while iteration occurs.`,
       record

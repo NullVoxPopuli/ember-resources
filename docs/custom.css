@@ -13,13 +13,24 @@
 /*   display: none; */
 /* } */
 
+.site-menu {
+  display: flex;
+  flex-direction: column-reverse;
+  align-self: start;
+  gap: 2rem;
+}
+
+.tsd-small-nested-navigation {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 #tsd-sidebar-links::before {
-  content: 'Utils';
+  content: "Utils / Examples";
   font-weight: bold;
   margin-bottom: 0.4rem;
   display: block;
   margin-top: 0.5rem;
-  margin-left: -0.25rem;
 }
 
 #tsd-sidebar-links a::after,
@@ -37,4 +48,14 @@
   #tsd-toolbar-links a::after {
     filter: invert(1);
   }
+}
+
+.callout {
+  border: 1px solid;
+  padding: 0.5rem 1rem;
+}
+
+/* the "On This Page" menu */
+.page-menu .tsd-index-accordion.tsd-page-navigation {
+  display: none;
 }

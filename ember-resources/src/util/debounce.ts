@@ -7,6 +7,14 @@ class TrackedValue<T> {
 }
 
 /**
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
  * A utility for debouncing high-frequency updates.
  * The returned value will only be updated every `ms` and is
  * initially undefined.
@@ -35,7 +43,7 @@ class TrackedValue<T> {
  * ```
  *
  * @example
- * This could be further composed with [[RemoteData]]
+ * This could be further composed with RemoteData
  * ```js
  *  import Component from '@glimmer/component';
  *  import { tracked } from '@glimmer/tracking';

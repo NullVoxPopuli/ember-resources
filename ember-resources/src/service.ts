@@ -43,7 +43,7 @@ type ResourceType = InternalFunctionResourceConfig | typeof Resource;
  * in an app, this variable needs to be in module scope.
  *
  * When the owner is destroyed, the cache is cleared
- * (beacuse the WeakMap will see that nothing is referencing the key (owner) anymore)
+ * (because the WeakMap will see that nothing is referencing the key (owner) anymore)
  *
  * @internal
  */
@@ -55,6 +55,14 @@ export const __secret_service_cache__ = new WeakMap<Owner, Map<ResourceType, any
 const REPLACEMENTS = new WeakMap<Owner, Map<ResourceType, ResourceType>>();
 
 /**
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but demonstrates how services *are* an extension of resources.  This utility should be considered a prototype, but this utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
  * An alternative to Ember's built in `@service` decorator.
  *
  * This decorator takes a resource and ties the resource's lifeime to the app / owner.

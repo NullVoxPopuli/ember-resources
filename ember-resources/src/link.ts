@@ -7,6 +7,14 @@ import type { Class, Stage1Decorator, Stage1DecoratorDescriptor } from '[core-ty
 type NonKey<K> = K extends string ? never : K extends symbol ? never : K;
 
 /**
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
  * A util to abstract away the boilerplate of linking of "things" with an owner
  * and making them destroyable.
  *
@@ -23,6 +31,9 @@ type NonKey<K> = K extends string ? never : K extends symbol ? never : K;
  */
 export function link<Instance>(child: Class<Instance>): Stage1Decorator;
 /**
+ * @note This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * A util to abstract away the boilerplate of linking of "things" with an owner
  * and making them destroyable.
  *
@@ -47,6 +58,9 @@ export function link<Instance>(child: Class<Instance>): Stage1Decorator;
 export function link<Child, Other>(child: Child, parent: NonKey<Other>): Child;
 
 /**
+ * @note This is not a core part of ember-resources, but is a useful utility when working with Resources. This utility is still under the broader library's SemVer policy.
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
  * A util to abstract away the boilerplate of linking of "things" with an owner
  * and making them destroyable.
  *

@@ -6,12 +6,38 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { resource, use } from 'ember-resources';
+import { cell, resource, use } from 'ember-resources';
 
 import type QUnit from 'qunit';
 
-module('Utils | resource | js', function (hooks) {
+module('Utils | (function) resource | js', function (hooks) {
   setupTest(hooks);
+
+  test('it works', async function (assert) {
+    let inc = () => {
+      /* pending override */
+    };
+    let Incrementer = resource(({ on }) => {
+      let value = cell(0);
+
+      inc = () => value.current++;
+
+      return value;
+    });
+
+    class Test {
+      @use(Incrementer) declare data: number;
+    }
+
+    let foo = new Test();
+
+    assert.strictEqual(foo.data, 0);
+    await settled();
+
+    inc();
+    await settled();
+    assert.strictEqual(foo.data, 1);
+  });
 
   module('with teardown', function () {
     class Test {

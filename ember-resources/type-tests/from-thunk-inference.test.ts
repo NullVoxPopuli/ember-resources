@@ -5,8 +5,7 @@
  */
 import { expectTypeOf } from 'expect-type';
 
-// import { AsThunk, Class, ContextOf, ExpandThunkReturn, Named, Positional } from '[core-types]';
-import { Resource } from '../resource';
+import { Resource } from '../src/core/class-based/resource';
 
 /**
  * with no arguments specified

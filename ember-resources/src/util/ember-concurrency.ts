@@ -19,12 +19,20 @@ import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 import type { Cache } from '../core/types';
 
 /**
- * @utility uses [[Resource]] to make ember-concurrency tasks reactive.
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
+ * uses Resource to make ember-concurrency tasks reactive.
  *
  * -------------------------
  *
  * @note `ember-resources` does not provide or depend on ember-concurrency.
- * If you want to use [[task]], you'll need to add ember-concurrency as a dependency
+ * If you want to use task, you'll need to add ember-concurrency as a dependency
  * in your project.
  *
  * @example

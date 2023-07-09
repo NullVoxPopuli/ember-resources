@@ -18,7 +18,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
-    "@nullvoxpopuli/eslint-configs": "^3.1.3",
+    "@nullvoxpopuli/eslint-configs": "^3.2.0",
     "concurrently": "^8.0.0",
     "eslint": "^8.35.0",
     "loader.js": "^4.7.0",
@@ -43,7 +43,6 @@
     },
     "overrides-notes": {
       "@changesets/assemble-release-plan": "patched, we don't want drift until https://github.com/changesets/changesets/issues/835 is resolved",
-      "@embroider/addon-shim": "some addons from the test-app are not using ^1.0.0",
       "@types/eslint": "webpack brings in @types/eslint@8, which breaks our type checking",
       "mustache": "ember-cli -> testem -> consolidate -> mustache is ancient"
     },
