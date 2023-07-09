@@ -17,7 +17,7 @@ import type {
   Reactive,
   ResourceFunction,
 } from './types';
-import type { Hooks } from './types';
+import type { ResourceAPI } from './types';
 import type Owner from '@ember/owner';
 
 let getOwner: (context: unknown) => Owner | undefined;
@@ -72,7 +72,7 @@ class FunctionResourceManager {
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
-      const use: Hooks['use'] = (usable) => {
+      const use: ResourceAPI['use'] = (usable) => {
         assert(
           `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
           typeof usable === 'object'

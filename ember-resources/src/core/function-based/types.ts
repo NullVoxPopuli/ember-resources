@@ -19,8 +19,6 @@ export interface Reactive<Value> {
 /**
  * This is the type of the arguments passed to the `resource` function
  *
- * The export is `ResourceAPI`
- *
  * ```ts
  * import { resource, type ResourceAPI } from 'ember-resources';
  *
@@ -31,7 +29,7 @@ export interface Reactive<Value> {
  * })
  * ```
  */
-export type Hooks = {
+export type ResourceAPI = {
   on: {
     /**
      * Optionally a function-resource can provide a cleanup function.
@@ -105,7 +103,7 @@ export type Hooks = {
 /**
  * Type of the callback passed to `resource`
  */
-export type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value | (() => Value);
+export type ResourceFunction<Value = unknown> = (hooks: ResourceAPI) => Value | (() => Value);
 
 /**
  * The perceived return value of `resource`
@@ -113,7 +111,7 @@ export type ResourceFunction<Value = unknown> = (hooks: Hooks) => Value | (() =>
  * of the resource is the result of the collapsed functions
  * passed to `resource`
  */
-export type ResourceFn<Value = unknown> = (hooks: Hooks) => Value;
+export type ResourceFn<Value = unknown> = (hooks: ResourceAPI) => Value;
 
 export type Destructor = () => void;
 export type Cache = object;

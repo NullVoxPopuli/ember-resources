@@ -3,7 +3,7 @@ import { waitForPromise } from '@ember/test-waiters';
 
 import { resource, resourceFactory } from '../core/function-based';
 
-import type { Hooks } from '../core/function-based';
+import type { ResourceAPI } from '../core/function-based';
 
 type FetchOptions = Parameters<typeof fetch>[1];
 
@@ -123,7 +123,7 @@ export class State<T = unknown> {
  *
  */
 export function remoteData<T = unknown>(
-  { on }: Hooks,
+  { on }: ResourceAPI,
   url: string,
   options: FetchOptions = {}
 ): State<T> {
