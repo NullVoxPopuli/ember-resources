@@ -48,7 +48,7 @@ jobs:
   typecheck:
     name: '${{ matrix.typescript-scenario }}'
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     needs: [build]
     continue-on-error: true
     strategy:
