@@ -1,6 +1,6 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
-  "include": ["src/**/*", "unpublished-development-types/**/*"],
+  "include": ["src/**/*", "unpublished-development-types/**/*", "type-tests/**/*"],
   "compilerOptions": {
     // We only use tsc for type checking and declaration output
     "emitDeclarationOnly": false,
@@ -13,10 +13,9 @@
     "noEmitOnError": false,
     // Lazy import settings, affects build time only
     // because these aliases are only used for type imports
-    "baseUrl": "./src",
     "paths": {
-      "[core-types]": ["./core/types"],
-      "[deprecated-types]": ["./deprecated-in-v4/types"]
+      "[core-types]": ["./src/core/types"],
+      "[deprecated-types]": ["./src/deprecated-in-v4/types"]
     }
   }
 }

@@ -5,8 +5,7 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { INTERNAL } from 'core/function-based/types';
-
+import { INTERNAL } from '../function-based/types';
 import { DEFAULT_THUNK, normalizeThunk } from '../utils';
 
 import type { AsThunk, Cache, Constructor, Named, Positional, Thunk } from '[core-types]';

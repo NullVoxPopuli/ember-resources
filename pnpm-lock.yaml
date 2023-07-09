@@ -156,7 +156,7 @@ importers:
         version: 1.0.2
       '@nullvoxpopuli/eslint-configs':
         specifier: ^3.0.0
-        version: 3.1.3(@babel/core@7.21.4)(@babel/eslint-parser@7.19.1)(@typescript-eslint/eslint-plugin@5.54.0)(@typescript-eslint/parser@5.54.0)(eslint-config-prettier@8.3.0)(eslint-plugin-ember@11.4.7)(eslint-plugin-qunit@8.0.0)(eslint@8.35.0)(prettier@2.8.4)
+        version: link:../../eslint-configs
       '@tsconfig/ember':
         specifier: ^2.0.0
         version: 2.0.0

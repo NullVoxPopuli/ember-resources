@@ -1,8 +1,8 @@
 import { expectTypeOf } from 'expect-type';
 
-import { Resource } from '../class-based';
+import { Resource } from '../src/core/class-based';
 
-import type { ArgsFrom } from '../class-based/resource';
+import type { ArgsFrom } from '../src/core/class-based/resource';
 import type { EmptyObject, Named, Positional } from '[core-types]';
 
 // -----------------------------------------------------------

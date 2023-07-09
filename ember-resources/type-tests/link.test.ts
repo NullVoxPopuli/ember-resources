@@ -1,6 +1,6 @@
 import { expectTypeOf } from 'expect-type';
 
-import { link } from '../link';
+import { link } from '../src/link';
 
 class Demo {
   foo = 2;

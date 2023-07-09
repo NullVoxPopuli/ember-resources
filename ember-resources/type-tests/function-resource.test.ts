@@ -1,6 +1,6 @@
 import { expectTypeOf } from 'expect-type';
 
-import { cell, type Reactive, resource, resourceFactory } from '../index';
+import { cell, type Reactive, resource, resourceFactory } from '../src/index';
 
 const StuckClock = resource(() => 2);
 
