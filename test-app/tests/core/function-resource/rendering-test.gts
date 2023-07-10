@@ -6,10 +6,18 @@ import { clearRender, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, use } from 'ember-resources';
+import { resource, use, cell } from 'ember-resources';
 
 module('Utils | (function) resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
+
+  test(`returning a cell renders the cell's value`, async function (assert) {
+    const StuckClock = resource(() => cell(2));
+
+    await render(<template>{{StuckClock}}</template>);
+
+    assert.dom().hasText('2');
+  });
 
   module('lifecycle', function () {
     module('direct rendering', function () {
@@ -345,7 +353,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
         assert.verifySteps(['destroy 0']);
       });
 
-      test('when gated by an if and conusming tracked data', async function (assert) {
+      test('when gated by an if and consuming tracked data', async function (assert) {
         // reminder that destruction is async
         let steps: string[] = [];
         let step = (msg: string) => {

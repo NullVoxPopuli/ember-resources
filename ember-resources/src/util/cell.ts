@@ -17,7 +17,7 @@ interface GlintRenderable {
   toHTML(): string;
 }
 
-class Cell<Value = unknown> implements GlintRenderable {
+export class Cell<Value = unknown> implements GlintRenderable {
   @tracked declare current: Value;
 
   toHTML(): string {
