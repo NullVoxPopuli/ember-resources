@@ -41,8 +41,9 @@ Which comes from [this branch][self-dist] from [this automation][self-dist-ci]
 
 ## Documentation
 
-
+- [Intro](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/README.md)
 - [Resource Authoring](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/resources.md)
+- [Usage in Ember](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/ember.md)
 - [Interactive Tutorial](https://tutorial.glimdown.com/2-reactivity/5-resources)
     - [util: RemoteData](https://tutorial.glimdown.com/11-requesting-data/1-using-remote-data)
     - [util: keepLatest](https://tutorial.glimdown.com/12-loading-patterns/1-keeping-latest)
