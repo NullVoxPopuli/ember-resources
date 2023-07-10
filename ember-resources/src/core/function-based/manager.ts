@@ -8,6 +8,7 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
+import { Cell } from '../../util/cell';
 import { INTERNAL } from './types';
 
 import type {
@@ -128,6 +129,10 @@ class FunctionResourceManager {
 
     if (typeof maybeValue === 'function') {
       return maybeValue();
+    }
+
+    if (maybeValue instanceof Cell) {
+      return maybeValue.current;
     }
 
     return maybeValue;
