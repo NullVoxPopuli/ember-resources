@@ -45,7 +45,7 @@ In Starbeam,
 
 And Starbeam is planned for inclusion in the next [edition](https://emberjs.com/editions/) of Ember, Polaris.
 
-It's no secret that Ember's community is smaller other javascript communities, so one of the goals of Polaris is to reduce the amount of maintenance that small community needs to do. For example, the [embroider](https://github.com/embroider-build/embroider/) project aims to reduce the maintenance burden on the build system by using broader ecosystem tools such as webpack, vite, rollup, etc. Another example is the reactivity system, `@glimmer/tracking`. We don't need it to be specific to Ember, and in fact, the Starbeam project _is that_ -- Ember's Reactivity _for everyone_, and has focused on [`React`](https://www.starbeamjs.com/frameworks/react/) and [`Preact`](https://www.starbeamjs.com/frameworks/preact/) first, with [`Vue`](https://github.com/starbeamjs/starbeam/tree/main/packages) shortly behind. Reactivity is a non-trivial system that, with bigger community, can help lighten the load on ember maintainers, and additionally breathe new life (and performance) in to the framework by providing reactive primitives at a much lower layer in the tech stack.
+It's no secret that Ember's community is smaller than other javascript communities, so one of the goals of Polaris is to reduce the amount of maintenance that a small community needs to do. For example, the [embroider](https://github.com/embroider-build/embroider/) project aims to reduce the maintenance burden on the build system by using broader ecosystem tools such as webpack, vite, rollup, etc. Another example is the reactivity system, `@glimmer/tracking`. We don't need it to be specific to Ember, and in fact, the Starbeam project _is that_ -- Ember's Reactivity _for everyone_, and has focused on [`React`](https://www.starbeamjs.com/frameworks/react/) and [`Preact`](https://www.starbeamjs.com/frameworks/preact/) first, with [`Vue`](https://github.com/starbeamjs/starbeam/tree/main/packages) shortly behind. Reactivity is a non-trivial system that, with bigger community, can help lighten the load on ember maintainers, and additionally breathe new life (and performance) in to the framework by providing reactive primitives at a much lower layer in the tech stack.
 
 <details><summary>Additional Starbeam primitives</summary>
 
@@ -195,7 +195,7 @@ function shout(text) {
 ```
 It's _just a function_. And we don't like to use the word "just" in technical writing, but there are honestly 0 caveats or gotchyas here.
 
-Used in Ember, it make look like this:
+Used in Ember, it may look like this:
 ```js
 function shout(text) {
 	return text.toUpperCase();
@@ -237,7 +237,7 @@ setTimeout(() => {
 _Why does cleanup matter?_
 
 Many things in a JavaScript app require cleanup. We need to cleanup in order to:
-- prevent to memory leaks
+- prevent memory leaks
 - reduce unneeded network activity 
 - reduce CPU usage 
 
@@ -252,7 +252,7 @@ _Resources_ are functions with cleanup, but cleanup isn't all they're conceptual
 > That allows you to work with a process just like you'd work with any other reactive value.
 > 
 
-For details on resources, see [./resources.md](./resources.md).
+For details on resources, see the [Resources chapter](./resources.md).
 
 Here is an interactive demo showcasing how [resources are reactive functions with cleanup](https://tutorial.glimdown.com/2-reactivity/5-resources)
 

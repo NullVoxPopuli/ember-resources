@@ -4,9 +4,9 @@
 2. [Resources](./resources.md) 
 3. [Usage in Ember](./ember.md) 👈 You are here
 
-`ember-resources` tries to stay out of your way when working with Resources.
+`ember-resources` tries to stay out of your way when working with resources.
 
-This document shows the mechanics of how to interact with a Resource in ember.
+This document shows the mechanics of how to interact with a resource in ember.
 
 ## Direct usage in template
 
@@ -41,16 +41,16 @@ const Clock = resourceFactory((locale) => {
 
 ### In Templates 
 
-In `ember-resources`, Resources are powered by Ember's "Helper Manager" APIs, such as [`invokeHelper`](https://api.emberjs.com/ember/release/functions/@ember%2Fhelper/invokeHelper).
+In `ember-resources`, resources are powered by Ember's "Helper Manager" APIs, such as [`invokeHelper`](https://api.emberjs.com/ember/release/functions/@ember%2Fhelper/invokeHelper).
 
-So in order to use Resources in template-only components, they'll need to be re-exported in your `app/helpers/*` folder.
+So in order to use resources in template-only components, they'll need to be re-exported in your `app/helpers/*` folder.
 
 For example, by defining `app/helpers/clock.js`,
 ```js 
 export { Clock as default } from './location/of/clock';
 ```
 
-you'd then be able to directly reference `Clock` in your template, albeit in the lower-kebab-case format (i.e.: if your helper is MultiWard, it's invoked as `multi-word`), 
+you'd then be able to directly reference `Clock` in your template, albeit in the lower-kebab-case format (i.e.: if your helper is MultiWord, it's invoked as `multi-word`), 
 
 ```hbs 
 {{ (clock) }}
@@ -59,7 +59,7 @@ you'd then be able to directly reference `Clock` in your template, albeit in the
 
 ### When the template has a backing class.
 
-Because resources in `ember-resources` are backed by the Helper Manager API, and ever since "everything that has a value can be used in a template" [docs here](https://guides.emberjs.com/release/in-depth-topics/rendering-values/), we can _almost_ use Resources in templates _as if_ you were using `<template>`.
+Because resources in `ember-resources` are backed by the Helper Manager API, and ever since "everything that has a value can be used in a template" [docs here](https://guides.emberjs.com/release/in-depth-topics/rendering-values/), we can _almost_ use resources in templates _as if_ you were using `<template>`.
 This is not a feature of ember-resources, but it is a useful technique that we've been able to use since `ember-source@3.25` 
 
 ```js 
@@ -155,11 +155,11 @@ work as you'd expect:
 ```js 
 
 import { use } from 'ember-resources';
-import { Clock } from './location/of/clock'; 
+import { Clock, ClockWithArgs } from './location/of/clock'; 
 
 class Demo {
   @use(Clock) clock;
-  @use(ClockWithArg('en-US')) clock;
+  @use(ClockWithArgs('en-US')) clockWithArg;
 }
 ```
 
@@ -312,11 +312,11 @@ and each of the individual `{{ }}` usages will individually auto-track with the 
 
 ### Typing the above examples 
 
-If you've used typescript in ember before, this may look familiar as we declare the types on services in the same way. This follows the same pattern described [here](https://jamescdavis.com/declare-your-injections-or-risk-losing-them/)
+If you've used TypeScript in Ember before, this may look familiar as we declare the types on services in the same way. This follows the same pattern described [here](https://jamescdavis.com/declare-your-injections-or-risk-losing-them/)
 
 ```ts 
 import { use } from 'ember-resources';
-import { Clock } from './location/of/clock'; 
+import { Clock, ClockWithArgs } from './location/of/clock'; 
 
 class Demo {
   clock = use(this, Clock); 
@@ -330,7 +330,7 @@ class Demo {
 ```ts 
 import { use } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
-import { Clock } from './location/of/clock'; 
+import { Clock, ClockWithReactiveArgs } from './location/of/clock'; 
 
 class Demo {
   @tracked locale = 'en-US';
@@ -343,7 +343,7 @@ class Demo {
 
 ### For Library Authors
 
-For TypeScript, you may have noticed that, if you're a library author, you may want to be concerned with supporting all usages of Resources in all contexts, in which case, you may need to support overloaded function calls. 
+For TypeScript, you may have noticed that, if you're a library author, you may want to be concerned with supporting all usages of resources in all contexts, in which case, you may need to support overloaded function calls. 
 
 TypeScript does not support overloading anonymous functions, so we need to abstract the callback passed to `resourceFactory` into a named function, which we can then define overloads for.
 
