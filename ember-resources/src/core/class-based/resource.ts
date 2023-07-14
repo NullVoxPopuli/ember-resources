@@ -51,6 +51,17 @@ declare const __ResourceArgs__: unique symbol;
  * which requires that the "State machine interpreter"
  * is stopped when you are discarding the parent context (such as a component).
  *
+ * _When would you reach for the class-based `Resource` instead of the function-based `resource`?_
+ *
+ *  - the capabilities of the function-based resource and class-based resource are almost identical.
+ *    the main difference is that function-based resources may represent a single a value
+ *    (which could, itself, be a class instance, or object with properties),
+ *    class-based-resources expose the whole class instance to the consumer.
+ *
+ *  - function-based resources, however, are much easier to work with and understand, and have
+ *    better intellisense capabilities.
+ *
+ *
  * An example
  * ```js
  * import { Resource } from 'ember-resources';
