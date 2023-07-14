@@ -1,5 +1,11 @@
 # ember-resources
 
+## 6.2.2
+
+### Patch Changes
+
+- [#947](https://github.com/NullVoxPopuli/ember-resources/pull/947) [`16b844e`](https://github.com/NullVoxPopuli/ember-resources/commit/16b844e82b641fc55a90e278f06dc2abe6944172) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Update in-editor docs on the function resource
+
 ## 6.2.1
 
 ### Patch Changes
