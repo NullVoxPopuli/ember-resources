@@ -9,8 +9,7 @@ import { wrapForPlainUsage } from './utils';
 import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
 
 /**
- * `resource` is an alternative API to the class-based `Resource`.
- * It may provide a single read-only value and provides a way to optionally cleanup.
+ * `resource` provides a single reactive read-only value with lifetime and may have cleanup.
  *
  * Arguments passed to the `resource` function:
  * ```js
@@ -30,15 +29,6 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  *    }
  *  );
  *  ```
- *
- * When would you reach for the class-based `Resource`?
- *  - the capabilities of the function-based resource and class-based resource are identical,
- *    with the exception that function-based resources may represent a single value, rather than
- *    an object with properties/methods (the only option with class-based resources)
- *
- * A function-resource
- *  - _must_ return a value.
- *  - cannot, itself, be async - but can interact with promises and update a value
  *
  *  Example using `fetch` + `AbortController`
  *  ```js
@@ -80,7 +70,8 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
  *
  *
  *  Example using strict mode + `<template>` syntax and a template-only component:
- *  ```jsx gjs
+ *
+ *  ```js
  *  import { resource } from 'ember-resources';
  *  import { TrackedObject } from 'tracked-built-ins';
  *
