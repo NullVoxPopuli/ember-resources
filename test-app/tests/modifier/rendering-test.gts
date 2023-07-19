@@ -10,6 +10,7 @@ module('modifier | rendering', function (hooks) {
 
   test('throws an error if no argument is passed', async function (assert) {
     assert.throws(() => {
+      // @ts-expect-error
       modifier();
     }, /modifier\(\) must be invoked with a function/);
   });
