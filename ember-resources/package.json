@@ -42,7 +42,7 @@
         "dist/service.d.ts"
       ],
       "modifier": [
-        "dist/modifier.d.ts"
+        "dist/modifier/index.d.ts"
       ],
       "util": [
         "dist/util/index.d.ts"
