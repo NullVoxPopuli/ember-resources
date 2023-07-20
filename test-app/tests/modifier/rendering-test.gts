@@ -34,9 +34,6 @@ module('modifier | rendering', function (hooks) {
   test('no arguments (with explicit signature)', async function (assert) {
     const capture = modifier<{
       Element: HTMLDivElement;
-      Args: {
-        Positional: [];
-      };
     }>((...args) => {
       assert.step(`${args.length} args`);
 
@@ -91,7 +88,9 @@ module('modifier | rendering', function (hooks) {
 
     const capture = modifier<{
       Element: HTMLDivElement;
-      Positional: [number];
+      Args: {
+        Positional: [number];
+      };
     }>((...args) => {
       assert.step(`${args.length} args`);
 

@@ -19,11 +19,13 @@ type NamedArgs<S> = S extends { Args?: object }
     : EmptyObject
   : EmptyObject;
 
-type ArgsForFn<S> = NamedArgs<S> extends EmptyObject
-  ? [...PositionalArgs<S>]
-  : [...PositionalArgs<S>, NamedArgs<S>];
+type ArgsForFn<S> = S extends { Args?: object }
+  ? ArgsFor<S['Args']>['Named'] extends EmptyObject
+    ? [...PositionalArgs<S>]
+    : [...PositionalArgs<S>, NamedArgs<S>]
+  : [];
 
-export function modifier<El = unknown, Args extends unknown[] = unknown[]>(
+export function modifier<El extends Element, Args extends unknown[] = unknown[]>(
   fn: (element: El, ...args: Args) => void
 ): ModifierLike<{
   Element: El;
@@ -33,7 +35,13 @@ export function modifier<El = unknown, Args extends unknown[] = unknown[]>(
   };
 }>;
 
-export function modifier<S>(
+export function modifier<S extends { Element?: Element }>(
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+): ModifierLike<S>;
+export function modifier<S extends { Args?: object }>(
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+): ModifierLike<S>;
+export function modifier<S extends { Element?: Element; Args?: object }>(
   fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
 ): ModifierLike<S>;
 
