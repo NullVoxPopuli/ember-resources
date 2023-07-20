@@ -14,6 +14,7 @@
     "./core/function-based": "./dist/core/function-based/index.js",
     "./link": "./dist/link.js",
     "./service": "./dist/service.js",
+    "./modifier": "./dist/modifier/index.js",
     "./util": "./dist/util/index.js",
     "./util/cell": "./dist/util/cell.js",
     "./util/keep-latest": "./dist/util/keep-latest.js",
@@ -39,6 +40,9 @@
       ],
       "service": [
         "dist/service.d.ts"
+      ],
+      "modifier": [
+        "dist/modifier/index.d.ts"
       ],
       "util": [
         "dist/util/index.d.ts"
@@ -102,7 +106,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.8",
     "@embroider/addon-shim": "^1.2.0",
-    "@embroider/macros": "^1.2.0",
+    "@embroider/macros": "^1.12.3",
     "ember-async-data": "^1.0.1"
   },
   "peerDependencies": {
@@ -134,7 +138,7 @@
     "@babel/plugin-transform-typescript": "^7.18.4",
     "@babel/preset-typescript": "^7.17.12",
     "@ember/test-waiters": "^3.0.0",
-    "@embroider/addon-dev": "^3.0.0",
+    "@embroider/addon-dev": "^3.1.2",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/template": "^1.0.2",

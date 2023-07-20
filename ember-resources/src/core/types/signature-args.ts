@@ -14,6 +14,12 @@ export type ArgsFor<S> =
       }
     : { Named: EmptyObject; Positional: [] };
 
+export type ElementFor<S> = 'Element' extends keyof S
+  ? S['Element'] extends Element
+    ? S['Element']
+    : Element
+  : Element;
+
 /**
  * Converts a variety of types to the expanded arguments type
  * that aligns with the 'Args' portion of the 'Signature' types
