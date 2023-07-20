@@ -5,7 +5,7 @@ import { setModifierManager } from '@ember/modifier';
 import { resourceFactory } from '../index';
 import FunctionBasedModifierManager from './manager';
 
-import type { resource} from '../index';
+import type { resource } from '../index';
 import type { ArgsFor, ElementFor, EmptyObject } from '[core-types]';
 import type { ModifierLike } from '@glint/template';
 
