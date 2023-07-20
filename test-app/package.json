@@ -23,7 +23,7 @@
     "start": "concurrently 'ember serve' 'pnpm _syncPnpm --watch' --names 'tests serve,tests sync deps'",
     "test": "ember test",
     "test:ember": "ember test",
-    "_syncPnpm": "pnpm sync-dependencies-meta-injected"
+    "_syncPnpm": "DEBUG=true pnpm sync-dependencies-meta-injected"
   },
   "dependencies": {
     "@ember/test-waiters": "^3.0.2",

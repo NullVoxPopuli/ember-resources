@@ -16,7 +16,28 @@ module('modifier | rendering', function (hooks) {
   });
 
   test('no arguments', async function (assert) {
-    const capture = modifier((...args: [Element, ...unknown[]]) => {
+    const capture = modifier((...args: [HTMLDivElement]) => {
+      assert.step(`${args.length} args`);
+
+      let [element] = args;
+
+      return resource(() => {
+        assert.step(`received element ${element.tagName}`);
+      });
+    });
+
+    await render(<template><div {{capture}}>content</div></template>);
+
+    assert.verifySteps(['1 args', 'received element DIV']);
+  });
+
+  test('no arguments (with explicit signature)', async function (assert) {
+    const capture = modifier<{
+      Element: HTMLDivElement;
+      Args: {
+        Positional: [];
+      };
+    }>((...args) => {
       assert.step(`${args.length} args`);
 
       let [element] = args;
@@ -36,6 +57,42 @@ module('modifier | rendering', function (hooks) {
     const visible = cell(true);
 
     const capture = modifier((...args: [Element, number]) => {
+      assert.step(`${args.length} args`);
+
+      return resource(({ on }) => {
+        let value = args[1];
+
+        assert.step(`received element ${args[0].tagName} for value ${value}`);
+
+        on.cleanup(() => assert.step(`cleanup ${value}`));
+      });
+    });
+
+    await render(<template>
+      {{#if visible.current}}
+        <div {{capture state.current}}>content</div>
+      {{/if}}
+    </template>);
+
+    assert.verifySteps(['2 args', 'received element DIV for value 0']);
+
+    state.current++;
+    await settled();
+    assert.verifySteps(['2 args', 'received element DIV for value 1', 'cleanup 0']);
+
+    visible.current = false;
+    await settled();
+    assert.verifySteps(['cleanup 1']);
+  });
+
+  test('positional arguments (with explicit signature)', async function (assert) {
+    const state = cell(0);
+    const visible = cell(true);
+
+    const capture = modifier<{
+      Element: HTMLDivElement;
+      Positional: [number];
+    }>((...args) => {
       assert.step(`${args.length} args`);
 
       return resource(({ on }) => {

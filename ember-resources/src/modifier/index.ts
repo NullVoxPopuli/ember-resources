@@ -5,7 +5,8 @@ import { setModifierManager } from '@ember/modifier';
 import { resourceFactory } from '../index';
 import FunctionBasedModifierManager from './manager';
 
-import type { ArgsFor, ElementFor } from '[core-types]';
+import type { resource} from '../index';
+import type { ArgsFor, ElementFor, EmptyObject } from '[core-types]';
 import type { ModifierLike } from '@glint/template';
 
 // Provide a singleton manager.
@@ -15,21 +16,37 @@ type PositionalArgs<S> = S extends { Args?: object } ? ArgsFor<S['Args']>['Posit
 type NamedArgs<S> = S extends { Args?: object }
   ? ArgsFor<S['Args']>['Named'] extends object
     ? ArgsFor<S['Args']>['Named']
-    : never
-  : never;
+    : EmptyObject
+  : EmptyObject;
+
+type ArgsForFn<S> = NamedArgs<S> extends EmptyObject
+  ? [...PositionalArgs<S>]
+  : [...PositionalArgs<S>, NamedArgs<S>];
+
+export function modifier<El = unknown, Args extends unknown[] = unknown[]>(
+  fn: (element: El, ...args: Args) => void
+): ModifierLike<{
+  Element: El;
+  Args: {
+    Named: EmptyObject;
+    Positional: Args;
+  };
+}>;
+
+export function modifier<S>(
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+): ModifierLike<S>;
 
 /**
  * An API for writing simple modifiers.
  *
  * @param fn The function which defines the modifier.
  */
-export function modifier<S>(
-  fn: (element: ElementFor<S>, ...args: [...PositionalArgs<S>, NamedArgs<S>]) => void
-): ModifierLike<{
-  Element: ElementFor<S>;
+export function modifier(fn: (element: Element, ...args: unknown[]) => void): ModifierLike<{
+  Element: Element;
   Args: {
-    Named: NamedArgs<S>;
-    Positional: PositionalArgs<S>;
+    Named: {};
+    Positional: [];
   };
 }> {
   assert(`modifier() must be invoked with a function`, typeof fn === 'function');
@@ -37,10 +54,10 @@ export function modifier<S>(
   resourceFactory(fn);
 
   return fn as unknown as ModifierLike<{
-    Element: ElementFor<S>;
+    Element: Element;
     Args: {
-      Named: NamedArgs<S>;
-      Positional: PositionalArgs<S>;
+      Named: {};
+      Positional: [];
     };
   }>;
 }
