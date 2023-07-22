@@ -53,6 +53,38 @@ export type ResourceAPI = {
      *  })
      */
     cleanup: (destroyer: Destructor) => void;
+
+    /**
+     * Co-locate setup and teardown together.
+     * This allows you to keep "management variables" out of scope
+     * for the overall resource.
+     *
+     * Example:
+     * ```js
+     * import { resource, cell } from 'ember-resources';
+     *
+     * const DateTime = resource(({ on }) => {
+     *   const now = cell(new Date())
+     *
+     *   on.setup(() => {
+     *     let interval = setInterval(() => now.current = new Date(), 1000);
+     *
+     *     // This function is the cleanup
+     *     return () => clearInterval(interval);
+     *   });
+     *
+     *   on.setup(() => {
+     *     let timeout = setTimeout(() => now.current = 0, 30_000);
+     *
+     *     return () => clearTimeout(timeout);
+     *   });
+     *
+     *   return now;
+     * });
+     * ```
+     *
+     */
+    setup: (setup: () => void | Destructor) => void;
   };
 
   /**

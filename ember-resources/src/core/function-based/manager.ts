@@ -1,7 +1,12 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
+import {
+  associateDestroyableChild,
+  destroy,
+  isDestroyed,
+  registerDestructor,
+} from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 // @ts-ignore
@@ -112,6 +117,22 @@ class FunctionResourceManager {
         on: {
           cleanup: (destroyer: Destructor) => {
             registerDestructor(currentFn, destroyer);
+          },
+          setup: (setuper: () => void | Destructor) => {
+            // TODO: figure out a good option here.
+            // Potential options:
+            //  - requestAnimationFrame
+            //  - requestIdleCallback
+            //  - "after render" (runloop schedule)
+            requestAnimationFrame(() => {
+              if (isDestroyed(currentFn)) return;
+
+              let destroyer = setuper();
+
+              if (destroyer) {
+                registerDestructor(currentFn, destroyer);
+              }
+            });
           },
         },
         use,
