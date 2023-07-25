@@ -8,8 +8,8 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { CURRENT, Reactive, ReadonlyCell } from '../../util/cell';
-import { INTERNAL } from './types';
+import { ReadonlyCell } from '../../util/cell';
+import { CURRENT, INTERNAL } from './types';
 
 import type { Cache, Destructor, InternalFunctionResourceConfig, ResourceFunction } from './types';
 import type { ResourceAPI } from './types';
@@ -123,8 +123,8 @@ class FunctionResourceManager {
       return maybeValue();
     }
 
-    if (maybeValue instanceof Reactive) {
-      return maybeValue[CURRENT]();
+    if (CURRENT in maybeValue) {
+      return maybeValue[CURRENT];
     }
 
     return maybeValue;

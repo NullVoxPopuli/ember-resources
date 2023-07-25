@@ -1,38 +1,20 @@
 import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
-interface GlintRenderable {
-  /**
-   * Cells aren't inherently understood by Glint,
-   * so to work around that, we'll hook in to the fact that
-   * ContentValue (the type expected for all renderables),
-   * defines an interface with this signature.
-   *
-   * (SafeString)
-   *
-   * There *has* been interest in the community to formally support
-   * toString and toHTML APIs across all objects. An RFC needs to be
-   * written so that we can gather feedback / potential problems.
-   */
-  toHTML(): string;
-}
-
-export const CURRENT = Symbol('ember-resources::CURRENT');
-
-export abstract class Reactive<Value> {
-  abstract [CURRENT](): Value;
-}
-
-export class ReadonlyCell<Value> extends Reactive<Value> {
+export class ReadonlyCell<Value> implements Reactive<Value> {
   #getter: () => Value;
 
   constructor(getter: () => Value) {
-    super();
-
     this.#getter = getter;
   }
 
-  [CURRENT](): Value {
+  toHTML(): string {
+    assert(
+      'Not a valid API. Please access either .current or .read() if the value of this Cell is needed'
+    );
+  }
+
+  get [CURRENT](): Value {
     return this.current;
   }
 
@@ -41,10 +23,10 @@ export class ReadonlyCell<Value> extends Reactive<Value> {
   }
 }
 
-export class Cell<Value = unknown> extends Reactive<Value> implements GlintRenderable {
+export class Cell<Value = unknown> implements Reactive<Value> {
   @tracked declare current: Value;
 
-  [CURRENT](): Value {
+  get [CURRENT](): Value {
     return this.current;
   }
 
@@ -57,8 +39,6 @@ export class Cell<Value = unknown> extends Reactive<Value> implements GlintRende
   constructor();
   constructor(initialValue: Value);
   constructor(initialValue?: Value) {
-    super();
-
     if (initialValue !== undefined) {
       this.current = initialValue;
     }
@@ -161,6 +141,10 @@ export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
 
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
+
+import { CURRENT } from '../core/function-based/types';
+
+import type { GlintRenderable, Reactive } from '../core/function-based/types';
 
 class CellManager {
   capabilities = helperCapabilities('3.23', {
