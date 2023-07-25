@@ -17,8 +17,36 @@ interface GlintRenderable {
   toHTML(): string;
 }
 
-export class Cell<Value = unknown> implements GlintRenderable {
+export const CURRENT = Symbol('ember-resources::CURRENT');
+
+export abstract class Reactive<Value> {
+  abstract [CURRENT](): Value;
+}
+
+export class ReadonlyCell<Value> extends Reactive<Value> {
+  #getter: () => Value;
+
+  constructor(getter: () => Value) {
+    super();
+
+    this.#getter = getter;
+  }
+
+  [CURRENT](): Value {
+    return this.current;
+  }
+
+  get current(): Value {
+    return this.#getter();
+  }
+}
+
+export class Cell<Value = unknown> extends Reactive<Value> implements GlintRenderable {
   @tracked declare current: Value;
+
+  [CURRENT](): Value {
+    return this.current;
+  }
 
   toHTML(): string {
     assert(
@@ -29,6 +57,8 @@ export class Cell<Value = unknown> implements GlintRenderable {
   constructor();
   constructor(initialValue: Value);
   constructor(initialValue?: Value) {
+    super();
+
     if (initialValue !== undefined) {
       this.current = initialValue;
     }

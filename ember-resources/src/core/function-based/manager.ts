@@ -8,16 +8,10 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { Cell } from '../../util/cell';
+import { CURRENT, Reactive, ReadonlyCell } from '../../util/cell';
 import { INTERNAL } from './types';
 
-import type {
-  Cache,
-  Destructor,
-  InternalFunctionResourceConfig,
-  Reactive,
-  ResourceFunction,
-} from './types';
+import type { Cache, Destructor, InternalFunctionResourceConfig, ResourceFunction } from './types';
 import type { ResourceAPI } from './types';
 import type Owner from '@ember/owner';
 
@@ -99,13 +93,11 @@ class FunctionResourceManager {
 
         usableCache.set(usable, cache);
 
-        return {
-          get current() {
-            let cache = usableCache.get(usable);
+        return new ReadonlyCell(() => {
+          let cache = usableCache.get(usable);
 
-            return getValue(cache);
-          },
-        };
+          return getValue(cache);
+        });
       };
 
       let maybeValue = currentFn({
@@ -131,8 +123,8 @@ class FunctionResourceManager {
       return maybeValue();
     }
 
-    if (maybeValue instanceof Cell) {
-      return maybeValue.current;
+    if (maybeValue instanceof Reactive) {
+      return maybeValue[CURRENT]();
     }
 
     return maybeValue;

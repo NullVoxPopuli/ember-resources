@@ -20,7 +20,7 @@
     "lint:prettier:fix": "prettier --write .",
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js:fix": "eslint . --fix",
-    "start": "concurrently 'ember serve' 'pnpm _syncPnpm --watch' --names 'tests serve,tests sync deps'",
+    "start": "concurrently 'ember serve -p 4204' 'pnpm _syncPnpm --watch' --names 'tests serve,tests sync deps'",
     "test": "ember test",
     "test:ember": "ember test",
     "_syncPnpm": "DEBUG=true pnpm sync-dependencies-meta-injected"

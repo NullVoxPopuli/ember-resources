@@ -1,4 +1,4 @@
-import { render, rerender, clearRender } from '@ember/test-helpers';
+import { render, rerender, clearRender, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -51,6 +51,27 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     let second = formatter.format(Date.now());
     assert.dom('time').hasText(second);
     assert.notEqual(first, second);
+  });
+
+  test('it works with directly returning the resource', async function (assert) {
+    let controlledCount = cell(0);
+
+    const Count = resource(() => {
+      return controlledCount;
+    });
+
+    const AlsoCount = resource(({ use }) => {
+      return use(Count);
+    });
+
+    await render(<template>{{AlsoCount}}</template>);
+
+    assert.dom().hasText('0');
+
+    controlledCount.current++;
+    await settled();
+
+    assert.dom().hasText('1');
   });
 
   test('it works with the blueprint/factory', async function (assert) {

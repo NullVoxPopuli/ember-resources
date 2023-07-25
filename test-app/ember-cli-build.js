@@ -29,9 +29,9 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  const { maybeEmbroider } = require('@embroider/test-setup');
+  const { Webpack } = require('@embroider/webpack');
 
-  return maybeEmbroider(app, {
+  return require('@embroider/compat').compatBuild(app, Webpack, {
     packageRules: [
       {
         package: 'test-app',
@@ -44,5 +44,8 @@ module.exports = function (defaults) {
         },
       },
     ],
+    packagerOptions: {
+      webpackConfig: { devtool: 'source-map' },
+    },
   });
 };
