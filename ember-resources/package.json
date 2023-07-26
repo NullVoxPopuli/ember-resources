@@ -157,7 +157,7 @@
     "concurrently": "^8.0.0",
     "ember-async-data": "^1.0.1",
     "ember-source": "5.1.2",
-    "ember-template-lint": "5.11.0",
+    "ember-template-lint": "5.11.1",
     "eslint": "^8.35.0",
     "expect-type": "^0.16.0",
     "prettier": "^2.8.4",
