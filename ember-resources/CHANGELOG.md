@@ -1,5 +1,29 @@
 # ember-resources
 
+## 6.3.1
+
+### Patch Changes
+
+- [#960](https://github.com/NullVoxPopuli/ember-resources/pull/960) [`77d54e6`](https://github.com/NullVoxPopuli/ember-resources/commit/77d54e6810a00cf0cb8980210216ebd9ca8e7411) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - Resolves: https://github.com/NullVoxPopuli/ember-resources/issues/958
+
+  `use`d Resources can now be immediately returned from other resources.
+
+  ```js
+  const Clock = resource(({ use }) => {
+    return use(Instant({ intervalMs: 1000 });
+  });
+
+  const Stopwatch = resource(({ use }) => {
+    return use(Instant({ intervalMs: 0 });
+  });
+
+  <template>
+      <time>{{Clock}}</time>
+
+      MS since Epoch: {{Stopwatch}}
+  </template>
+  ```
+
 ## 6.3.0
 
 ### Minor Changes
