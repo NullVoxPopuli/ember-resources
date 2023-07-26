@@ -11,20 +11,29 @@ import { dependencySatisfies, importSync, macroCondition } from '@embroider/macr
 import { ReadonlyCell } from '../../util/cell';
 import { CURRENT, INTERNAL } from './types';
 
-import type { Cache, Destructor, InternalFunctionResourceConfig, ResourceFunction } from './types';
+import type {
+  Cache,
+  Destructor,
+  InternalFunctionResourceConfig,
+  Reactive,
+  ResourceFunction,
+} from './types';
 import type { ResourceAPI } from './types';
 import type Owner from '@ember/owner';
 
 let getOwner: (context: unknown) => Owner | undefined;
+let setOwner: (context: unknown, owner: Owner) => void;
 
 if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
   // In no version of ember where `@ember/owner` tried to be imported did it exist
   // if (macroCondition(false)) {
   // Using 'any' here because importSync can't lookup types correctly
   getOwner = (importSync('@ember/owner') as any).getOwner;
+  setOwner = (importSync('@ember/owner') as any).setOwner;
 } else {
   // Using 'any' here because importSync can't lookup types correctly
   getOwner = (importSync('@ember/application') as any).getOwner;
+  setOwner = (importSync('@ember/application') as any).setOwner;
 }
 
 /**
@@ -87,11 +96,11 @@ class FunctionResourceManager {
           destroy(previousCache);
         }
 
-        let cache = invokeHelper(owner, usable);
+        let nestedCache = invokeHelper(cache, usable);
 
-        associateDestroyableChild(currentFn, cache as object);
+        associateDestroyableChild(currentFn, nestedCache as object);
 
-        usableCache.set(usable, cache);
+        usableCache.set(usable, nestedCache);
 
         return new ReadonlyCell(() => {
           let cache = usableCache.get(usable);
@@ -113,6 +122,8 @@ class FunctionResourceManager {
       return maybeValue;
     });
 
+    setOwner(cache, owner);
+
     return { fn: thisFn, cache };
   }
 
@@ -123,7 +134,7 @@ class FunctionResourceManager {
       return maybeValue();
     }
 
-    if (CURRENT in maybeValue) {
+    if (isReactive(maybeValue)) {
       return maybeValue[CURRENT];
     }
 
@@ -133,6 +144,10 @@ class FunctionResourceManager {
   getDestroyable({ fn }: { fn: ResourceFunction }) {
     return fn;
   }
+}
+
+function isReactive<Value>(maybe: unknown): maybe is Reactive<Value> {
+  return typeof maybe === 'object' && maybe !== null && CURRENT in maybe;
 }
 
 export const ResourceManagerFactory = (owner: Owner) => new FunctionResourceManager(owner);

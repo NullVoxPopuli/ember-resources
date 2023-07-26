@@ -74,6 +74,31 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     assert.dom().hasText('1');
   });
 
+  test('it deeply works with directly returning the resource', async function (assert) {
+    let controlledCount = cell(0);
+
+    const Count = resource(() => {
+      return controlledCount;
+    });
+
+    const AlsoCount = resource(({ use }) => {
+      return use(Count);
+    });
+
+    const DeeplyCount = resource(({ use }) => {
+      return use(AlsoCount);
+    });
+
+    await render(<template>{{DeeplyCount}}</template>);
+
+    assert.dom().hasText('0');
+
+    controlledCount.current++;
+    await settled();
+
+    assert.dom().hasText('1');
+  });
+
   test('it works with the blueprint/factory', async function (assert) {
     let nowDate = Date.now();
     let format = (time: Reactive<number>) => formatter.format(time.current);
