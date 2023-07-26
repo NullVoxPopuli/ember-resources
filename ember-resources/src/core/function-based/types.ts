@@ -10,9 +10,28 @@ export interface InternalFunctionResourceConfig<Value = unknown> {
   [INTERNAL]: true;
 }
 
+export const CURRENT = Symbol('ember-resources::CURRENT');
+
+export interface GlintRenderable {
+  /**
+   * Cells aren't inherently understood by Glint,
+   * so to work around that, we'll hook in to the fact that
+   * ContentValue (the type expected for all renderables),
+   * defines an interface with this signature.
+   *
+   * (SafeString)
+   *
+   * There *has* been interest in the community to formally support
+   * toString and toHTML APIs across all objects. An RFC needs to be
+   * written so that we can gather feedback / potential problems.
+   */
+  toHTML(): string;
+}
+
 // Will need to be a class for .current flattening / auto-rendering
-export interface Reactive<Value> {
+export interface Reactive<Value> extends GlintRenderable {
   current: Value;
+  [CURRENT]: Value;
   [Invoke]?: Value;
 }
 

@@ -8,6 +8,7 @@ import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
+import { ReadonlyCell } from '../util/cell';
 import { INTERNAL } from './function-based/types';
 import { normalizeThunk } from './utils';
 
@@ -120,19 +121,17 @@ function classContextLink<Value>(
 ): Reactive<Value> {
   let cache: ReturnType<typeof invokeHelper>;
 
-  return {
-    get current() {
-      if (!cache) {
-        cache = invokeHelper(context, definition);
+  return new ReadonlyCell<Value>(() => {
+    if (!cache) {
+      cache = invokeHelper(context, definition);
 
-        associateDestroyableChild(context, cache);
-      }
+      associateDestroyableChild(context, cache);
+    }
 
-      let value = getValue(cache);
+    let value = getValue(cache);
 
-      return getCurrentValue(value);
-    },
-  };
+    return getCurrentValue(value);
+  });
 }
 
 function argumentToDecorator<Value>(definition: Value | (() => Value)): PropertyDecorator {

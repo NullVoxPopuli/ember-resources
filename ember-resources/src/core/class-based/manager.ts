@@ -9,20 +9,6 @@ import { Resource } from './resource';
 import type { ArgsWrapper } from '[core-types]';
 import type Owner from '@ember/owner';
 
-/**
- *
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-// export interface Resource<T extends ArgsWrapper = ArgsWrapper> extends InstanceType<
-//   HelperLike<{
-//     Args: {
-//       Named: NonNullable<T['named']>;
-//       Positional: NonNullable<T['positional']>
-//     };
-//     // Return: number
-//   }>
-// > {}
-
 class ResourceManager {
   capabilities = helperCapabilities('3.23', {
     hasValue: true,
