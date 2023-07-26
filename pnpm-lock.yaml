@@ -213,8 +213,8 @@ importers:
         specifier: ^2.8.4
         version: 2.8.4
       prettier-plugin-ember-template-tag:
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^1.0.0
+        version: 1.0.0(prettier@2.8.4)
       rollup:
         specifier: 3.26.3
         version: 3.26.3
@@ -752,8 +752,8 @@ importers:
         specifier: ^2.8.4
         version: 2.8.4
       prettier-plugin-ember-template-tag:
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^1.0.0
+        version: 1.0.0(prettier@2.8.4)
       qunit:
         specifier: ^2.19.4
         version: 2.19.4
@@ -1023,8 +1023,8 @@ importers:
         specifier: ^2.8.4
         version: 2.8.4
       prettier-plugin-ember-template-tag:
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^1.0.0
+        version: 1.0.0(prettier@2.8.4)
       qunit:
         specifier: ^2.19.4
         version: 2.19.4
@@ -6161,7 +6161,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.1
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@4.8.2)
       typescript: 4.8.2
     transitivePeerDependencies:
@@ -6182,7 +6182,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.1
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.0.3)
       typescript: 5.0.3
     transitivePeerDependencies:
@@ -6203,7 +6203,7 @@ packages:
       eslint: 8.35.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0(eslint@8.35.0)
-      semver: 7.5.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -6223,7 +6223,7 @@ packages:
       eslint: 8.35.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0(eslint@8.35.0)
-      semver: 7.5.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -9648,7 +9648,7 @@ packages:
       hash-for-dep: 1.5.1
       heimdalljs-logger: 0.1.10
       json-stable-stringify: 1.0.2
-      semver: 7.5.1
+      semver: 7.5.4
       silent-error: 1.1.1
       strip-bom: 4.0.0
       walk-sync: 2.2.0
@@ -9660,7 +9660,7 @@ packages:
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
       '@ember/edition-utils': 1.2.0
-      babel-plugin-ember-template-compilation: 2.0.2
+      babel-plugin-ember-template-compilation: 2.1.1
       babel-plugin-htmlbars-inline-precompile: 5.3.1
       broccoli-debug: 0.6.5
       broccoli-persistent-filter: 3.1.3
@@ -9816,7 +9816,7 @@ packages:
     engines: {node: 6.* || 8.* || >= 10.*}
     dependencies:
       resolve-package-path: 1.2.7
-      semver: 5.7.1
+      semver: 5.7.2
 
   /ember-cli-version-checker@4.1.1:
     resolution: {integrity: sha512-bzEWsTMXUGEJfxcAGWPe6kI7oHEGD3jaxUWDYPTqzqGhNkgPwXTBgoWs9zG1RaSMaOPFnloWuxRcoHi4TrYS3Q==}
@@ -11185,7 +11185,7 @@ packages:
       minimatch: 3.1.2
       object.values: 1.1.6
       resolve: 1.22.2
-      semver: 6.3.0
+      semver: 6.3.1
       tsconfig-paths: 3.14.2
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
@@ -11217,7 +11217,7 @@ packages:
       minimatch: 3.1.2
       object.values: 1.1.6
       resolve: 1.22.2
-      semver: 6.3.0
+      semver: 6.3.1
       tsconfig-paths: 3.14.2
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
@@ -15174,6 +15174,22 @@ packages:
       ember-template-imports: 3.4.2
       prettier: 2.8.4
       ts-replace-all: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /prettier-plugin-ember-template-tag@1.0.0(prettier@2.8.4):
+    resolution: {integrity: sha512-wl0GKqf8X9oB3KBi4JgMH0Cn8LMBr988p8IPkC7X0cLW5GnfdIE4Q5WMLqIiCXnCYt9Wj6Sm34zHF5w8AdgZLA==}
+    engines: {node: 16.* || 18.* || >= 20}
+    requiresBuild: true
+    peerDependencies:
+      prettier: '>= 3.0.0'
+    dependencies:
+      '@babel/core': 7.22.9(supports-color@8.1.1)
+      '@glimmer/syntax': 0.84.3
+      ember-cli-htmlbars: 6.2.0
+      ember-template-imports: 3.4.2
+      prettier: 2.8.4
     transitivePeerDependencies:
       - supports-color
     dev: true
