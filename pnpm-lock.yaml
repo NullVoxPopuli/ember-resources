@@ -701,8 +701,8 @@ importers:
         specifier: ^7.1.0-0
         version: 7.1.0-0(@ember/test-helpers@3.0.3)(ember-source@5.1.0)(qunit@2.19.4)
       ember-resolver:
-        specifier: ^10.0.0
-        version: 10.0.0(@ember/string@3.0.1)(ember-source@5.1.0)
+        specifier: ^11.0.0
+        version: 11.0.0(ember-source@5.1.0)
       ember-source:
         specifier: ~5.1.0
         version: 5.1.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.2)(rsvp@4.8.5)(webpack@5.72.1)
@@ -972,8 +972,8 @@ importers:
         specifier: ^7.1.0-0
         version: 7.1.0-0(@ember/test-helpers@3.0.3)(ember-source@5.1.0)(qunit@2.19.4)
       ember-resolver:
-        specifier: ^10.0.0
-        version: 10.0.0(@ember/string@3.0.1)(ember-source@5.1.0)
+        specifier: ^11.0.0
+        version: 11.0.0(ember-source@5.1.0)
       ember-source:
         specifier: ~5.1.0
         version: 5.1.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.2)(rsvp@4.8.5)(webpack@5.72.1)
@@ -1216,7 +1216,7 @@ packages:
       '@babel/helper-validator-option': 7.22.5
       browserslist: 4.21.5
       lru-cache: 5.1.1
-      semver: 6.3.0
+      semver: 6.3.1
 
   /@babel/helper-compilation-targets@7.21.4(@babel/core@7.22.9):
     resolution: {integrity: sha512-Fa0tTuOXZ1iL8IeDFUWCzjZcn+sJGd9RZdH9esYVjEejGmzf+FFYQpMi/kZUk2kPy/q1H3/GPw7np8qar/stfg==}
@@ -3660,7 +3660,7 @@ packages:
     resolution: {integrity: sha512-pDgpdTsC9i/+5hHziygK5VIZc64OG8bupiqL0OxJp+bnINURalHMbu5B3Gikq/a0QIvMPzDFWzKxIZCBpeiHkg==}
     engines: {node: 12.* || 14.* || >= 16}
     dependencies:
-      '@embroider/shared-internals': 2.1.0
+      '@embroider/shared-internals': 2.2.3
       broccoli-funnel: 3.0.8
       semver: 7.5.4
     transitivePeerDependencies:
@@ -3830,7 +3830,7 @@ packages:
       js-string-escape: 1.0.1
       lodash: 4.17.21
       resolve-package-path: 4.0.3
-      semver: 7.5.0
+      semver: 7.5.4
       typescript-memoize: 1.1.1
     dev: false
 
@@ -7063,7 +7063,7 @@ packages:
       '@babel/compat-data': 7.22.3
       '@babel/core': 7.22.9(supports-color@8.1.1)
       '@babel/helper-define-polyfill-provider': 0.3.3(@babel/core@7.22.9)
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -9730,7 +9730,7 @@ packages:
       fs-extra: 7.0.1
       resolve: 1.22.2
       rsvp: 4.8.5
-      semver: 6.3.0
+      semver: 6.3.1
       stagehand: 1.0.1
       walk-sync: 1.1.4
     transitivePeerDependencies:
@@ -10371,17 +10371,15 @@ packages:
       - supports-color
     dev: true
 
-  /ember-resolver@10.0.0(@ember/string@3.0.1)(ember-source@5.1.0):
-    resolution: {integrity: sha512-e99wFJ4ZpleJ6JMEcIk4WEYP4s3nc+9/iNSXtwBHXC8ADJHJTeN3HjnT/eEbFbswdui4FYxIYuK+UCdP09811Q==}
+  /ember-resolver@11.0.0(ember-source@5.1.0):
+    resolution: {integrity: sha512-TOc685OnGEMMNEt04BukmQHOYVXnRJc+sGZij/vzWdxXRq+Wpsu1Nw2nLFo6fbMqqVLATk5oLKAQ1eKQwte2wQ==}
     engines: {node: 14.* || 16.* || >= 18}
     peerDependencies:
-      '@ember/string': ^3.0.1
       ember-source: '*'
     peerDependenciesMeta:
       ember-source:
         optional: true
     dependencies:
-      '@ember/string': 3.0.1
       ember-cli-babel: 7.26.11
       ember-source: 5.1.0(@babel/core@7.21.4)(@glimmer/component@1.1.2)(@glint/template@1.0.2)(rsvp@4.8.5)(webpack@5.72.1)
     transitivePeerDependencies:
@@ -11041,7 +11039,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@4.8.2)
+      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@5.0.3)
       debug: 3.2.7
       eslint: 8.35.0
       eslint-import-resolver-node: 0.3.7
@@ -11090,7 +11088,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.22.9(supports-color@8.1.1)
-      '@babel/eslint-parser': 7.19.1(@babel/core@7.21.4)(eslint@8.35.0)
+      '@babel/eslint-parser': 7.19.1(@babel/core@7.22.9)(eslint@8.35.0)
       '@babel/plugin-proposal-decorators': 7.22.7(@babel/core@7.22.9)
       '@ember-data/rfc395-data': 0.0.4
       ember-rfc176-data: 0.3.18
@@ -11155,7 +11153,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@4.8.2)
+      '@typescript-eslint/parser': 5.54.0(eslint@8.35.0)(typescript@5.0.3)
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
