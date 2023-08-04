@@ -1,7 +1,7 @@
 # Using Resources with Ember
 
 1. [Introduction](./README.md)
-2. [Resources](./resources.md) 
+2. [Resources](./resources.md)
 3. [Usage in Ember](./ember.md) 👈 You are here
 
 `ember-resources` tries to stay out of your way when working with resources.
@@ -16,10 +16,10 @@ Using resources directly in templates uses no feature of `ember-resources`, but 
 
 Resources work best in strict mode / gjs/gts / `<template>`.
 
-For more information about this format, please see [this interactive tutorial](tutorial.glimdown.com/)
+For more information about this format, please see [this interactive tutorial](https://tutorial.glimdown.com)
 
-```gjs 
-const Clock = resource(/* ... */); 
+```gjs
+const Clock = resource(/* ... */);
 
 <template>
   {{Clock}}
@@ -39,20 +39,20 @@ const Clock = resourceFactory((locale) => {
 ```
 
 
-### In Templates 
+### In Templates
 
 In `ember-resources`, resources are powered by Ember's "Helper Manager" APIs, such as [`invokeHelper`](https://api.emberjs.com/ember/release/functions/@ember%2Fhelper/invokeHelper).
 
 So in order to use resources in template-only components, they'll need to be re-exported in your `app/helpers/*` folder.
 
 For example, by defining `app/helpers/clock.js`,
-```js 
+```js
 export { Clock as default } from './location/of/clock';
 ```
 
-you'd then be able to directly reference `Clock` in your template, albeit in the lower-kebab-case format (i.e.: if your helper is MultiWord, it's invoked as `multi-word`), 
+you'd then be able to directly reference `Clock` in your template, albeit in the lower-kebab-case format (i.e.: if your helper is MultiWord, it's invoked as `multi-word`),
 
-```hbs 
+```hbs
 {{ (clock) }}
 ```
 
@@ -60,10 +60,10 @@ you'd then be able to directly reference `Clock` in your template, albeit in the
 ### When the template has a backing class.
 
 Because resources in `ember-resources` are backed by the Helper Manager API, and ever since "everything that has a value can be used in a template" [docs here](https://guides.emberjs.com/release/in-depth-topics/rendering-values/), we can _almost_ use resources in templates _as if_ you were using `<template>`.
-This is not a feature of ember-resources, but it is a useful technique that we've been able to use since `ember-source@3.25` 
+This is not a feature of ember-resources, but it is a useful technique that we've been able to use since `ember-source@3.25`
 
-```js 
-import { Clock } from './location/of/clock'; 
+```js
+import { Clock } from './location/of/clock';
 import Component from '@glimmer/component';
 
 export default class Demo extends Component {
@@ -71,35 +71,35 @@ export default class Demo extends Component {
    * This looks goofy!
    * This assigns the value "Clock" to the property on Demo, "Clock"
    * [property] = value;
-   * 
-   * It could also be 
+   *
+   * It could also be
    * AClock = Clock, and then access in the template as this.AClock
    */
   Clock = Clock;
 }
-``` 
-```hbs 
-{{this.Clock}} 
+```
+```hbs
+{{this.Clock}}
 
 {{! and if Clock takes arguments }}
 
 {{this.Clock 'en-US'}}
 ```
 
-## Usage in JavaScript 
+## Usage in JavaScript
 
 In JavaScript, we need a helper utility to bridge from native javascript in to ember's reactivity system.
 
 When using `@use`, the host class will need to have [_the Owner_](https://api.emberjs.com/ember/5.0/modules/@ember%2Fowner) set on it.
 
-Resources may only be composed within 
+Resources may only be composed within
 - a class with an owner
 - another resource (covered [here](./resources.md)
 
 
-```js 
+```js
 import { use } from 'ember-resources';
-import { Clock } from './location/of/clock'; 
+import { Clock } from './location/of/clock';
 
 class Demo {
   clock = use(this, Clock);
@@ -108,9 +108,9 @@ class Demo {
 
 Or, if the resource takes arguments:
 
-```js 
+```js
 import { use } from 'ember-resources';
-import { Clock } from './location/of/clock'; 
+import { Clock } from './location/of/clock';
 
 class Demo {
   clock = use(this, Clock('en-US'));
@@ -119,10 +119,10 @@ class Demo {
 
 If you need the argument(s) to the resource to be reactive, you can pass a function:
 
-```js 
+```js
 import { use } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
-import { Clock } from './location/of/clock'; 
+import { Clock } from './location/of/clock';
 
 class Demo {
   @tracked locale = 'en-US';
@@ -133,7 +133,7 @@ class Demo {
 
 <details><summary>why can't a decorator be used here?</summary>
 
-When defining a function in the decorator 
+When defining a function in the decorator
 
 ```js
 class Demo {
@@ -142,20 +142,20 @@ class Demo {
 }
 ```
 
-The arrow function does _not_ take on the context of the class instance, 
+The arrow function does _not_ take on the context of the class instance,
 because decorators are evaluated before an instance is created.
 The `this` is actually the type of the context that the class is defined in.
 
-This form of decorator *is* implemented, but it turned out to not be useful 
+This form of decorator *is* implemented, but it turned out to not be useful
 enough for the variety of use cases we need for resource invocation.
 
-Here is how it looks for no args, and static args, and both of these situations 
+Here is how it looks for no args, and static args, and both of these situations
 work as you'd expect:
 
-```js 
+```js
 
 import { use } from 'ember-resources';
-import { Clock, ClockWithArgs } from './location/of/clock'; 
+import { Clock, ClockWithArgs } from './location/of/clock';
 
 class Demo {
   @use(Clock) clock;
@@ -171,7 +171,7 @@ Further, if multiple reactive arguments are needed with individual reactive beha
 
 <details><summary>about resourceFactory</summary>
 
-`resourceFactory` is a pass-through function purely for telling ember to 
+`resourceFactory` is a pass-through function purely for telling ember to
 invoke the underlying resource immediately after invoking the `resourceFactory` function.
 
 Without `resourceFactory`, ember would need extra internal changes to support primitives that
@@ -182,10 +182,10 @@ The signature is basically `() => () => Value`, where we want to flatten that ch
 </details>
 
 
-```js 
+```js
 import { use } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
-import { Clock } from './location/of/clock'; 
+import { Clock } from './location/of/clock';
 
 class Demo {
   @tracked locale = 'en-US';
@@ -200,14 +200,14 @@ class Demo {
 
 So when authoring a `Clock` that receives these types of function arguments, but _also_ needs to support being invoked from a template, how do you implement that?
 
-```js 
+```js
 import { resourceFactory } from 'ember-resources';
 
 export const Clock = resourceFactory(( args ) => {
   return resource(() => {
     let { locale, timeZone } = args;
 
-    // each of locale and timeZone could be either be a 
+    // each of locale and timeZone could be either be a
     // string or a function that returns a string
     let localeValue = typeof locale === 'function' ? locale() : locale;
     let timeZoneValue = typeof timeZone === 'function' ? timeZone() : timeZone;
@@ -223,7 +223,7 @@ Earlier, it was mentioned that this way of managing reactivity isn't specific to
 That's because it's one technique you can use to build native classes in you app that have fine-grained reactivity.
 
 For example, say you have a component:
-```js 
+```js
 import Component from '@glimmer/component';
 
 export default class Demo extends Component {
@@ -234,13 +234,13 @@ export default class Demo extends Component {
 And you have want to manage state in another class that doesn't necessarily need to a be a component.
 For example, this could be a data abstraction, or a statemachine, or some other integration with the browser.
 
-```js 
-class MyState {} 
+```js
+class MyState {}
 ```
 
 You can assign an instance of `MyState` to an instance of your component by calling `new`.
 
-```js 
+```js
 import Component from '@glimmer/component';
 
 export default class Demo extends Component {
@@ -252,12 +252,12 @@ export default class Demo extends Component {
 
 but then to pass args, you may expect that you'd pass them like this:
 
-```js 
+```js
 import Component from '@glimmer/component';
 
 export default class Demo extends Component {
   state = new MyState(this.locale, this.timezone);
-  
+
   /** ... */
 }
 ```
@@ -265,18 +265,18 @@ export default class Demo extends Component {
 But this is not reactive, because the values of `locale` and `timezone` are evaluated at the time of creating `MyState`.
 
 We can delay auto-tracking by converting these properties to functions:
-```js 
+```js
 import Component from '@glimmer/component';
 
 export default class Demo extends Component {
   state = new MyState(() => this.locale, () => this.timezone);
-  
+
   /** ... */
 }
 ```
 
 and then using them in getters:
-```js 
+```js
 class MyState {
   constructor(localeFn, timeZoneFn) {
     this.#localeFn = localeFn;
@@ -290,14 +290,14 @@ class MyState {
   get timeZone() {
     return this.#timeZoneFn();
   }
-} 
+}
 ```
 
 And then all the way back in our component template (`demo.hbs`), we can say:
-```hbs 
+```hbs
 {{this.state.locale}}
 
-and 
+and
 
 {{this.state.timeZone}}
 ```
@@ -310,40 +310,40 @@ and each of the individual `{{ }}` usages will individually auto-track with the 
 
 ## Usage in TypeScript / Glint
 
-### Typing the above examples 
+### Typing the above examples
 
 If you've used TypeScript in Ember before, this may look familiar as we declare the types on services in the same way. This follows the same pattern described [here](https://jamescdavis.com/declare-your-injections-or-risk-losing-them/)
 
-```ts 
+```ts
 import { use } from 'ember-resources';
-import { Clock, ClockWithArgs } from './location/of/clock'; 
+import { Clock, ClockWithArgs } from './location/of/clock';
 
 class Demo {
-  clock = use(this, Clock); 
-// ^? string  
+  clock = use(this, Clock);
+// ^? string
 
-  clock2 = use(this, ClockWithArgs('en-US')); 
-// ^? string  
+  clock2 = use(this, ClockWithArgs('en-US'));
+// ^? string
 }
 ```
 
-```ts 
+```ts
 import { use } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
-import { Clock, ClockWithReactiveArgs } from './location/of/clock'; 
+import { Clock, ClockWithReactiveArgs } from './location/of/clock';
 
 class Demo {
   @tracked locale = 'en-US';
 
-  clock = use(this, ClockWithReactiveArgs(() => this.locale)); 
-// ^? string  
+  clock = use(this, ClockWithReactiveArgs(() => this.locale));
+// ^? string
 }
 ```
 
 
 ### For Library Authors
 
-For TypeScript, you may have noticed that, if you're a library author, you may want to be concerned with supporting all usages of resources in all contexts, in which case, you may need to support overloaded function calls. 
+For TypeScript, you may have noticed that, if you're a library author, you may want to be concerned with supporting all usages of resources in all contexts, in which case, you may need to support overloaded function calls.
 
 TypeScript does not support overloading anonymous functions, so we need to abstract the callback passed to `resourceFactory` into a named function, which we can then define overloads for.
 
@@ -351,7 +351,7 @@ Here is how the overloads for `Compiled`, the resource that represents a dynamic
 
 [compile/index.ts](https://github.com/NullVoxPopuli/limber/blob/main/packages/ember-repl/addon/src/browser/compile/index.ts)
 
-```ts 
+```ts
 // Additional types and APIs omitted for brevity
 export function buildCompiler(markdownText: Input | (() => Input)): State;
 export function buildCompiler(markdownText: Input | (() => Input), options?: Format): State;
@@ -364,11 +364,11 @@ export function buildCompiler(
   maybeOptions?: Format | (() => Format) | ExtraOptions | (() => ExtraOptions)
 ): State {
   return resource(() => {
-    let maybeObject = 
+    let maybeObject =
       typeof maybeOptions === 'function' ? maybeOptions() : maybeOptions;
     let format =
       (typeof maybeObject === 'string' ? maybeObject : maybeObject?.format) || 'glimdown';
-    let options = 
+    let options =
       (typeof maybeObject === 'string' ? {} : maybeObject) || {};
 
     let input = typeof markdownText === 'function' ? markdownText() : markdownText;
@@ -394,7 +394,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 > The function concept here is this demo is _an_ example of how to pass on reactivity to future auto-tracking context. You could pass a `Cell` (created with this library's `cell` util), or some other instance of an object that has its own tracked properties. Functions, however, are a platform primitive that allows for easy demoing -- but it's important to use the abstraction that best fits your, and your team's, use case.
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: string) => State`
 
@@ -402,7 +402,7 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 - Usage in gjs directly in the template:
 
-  ```gjs 
+  ```gjs
   import { Compiled } from 'ember-repl';
 
   let doc = '...';
@@ -415,9 +415,9 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   ```
   This is reactive
 
-- Usage in a class 
+- Usage in a class
 
-  ```gjs 
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -438,14 +438,14 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: string, options: ExtraOptions) => State`
 
 </summary>
 
 - Usage in gjs directly in the template:
-  ```gjs 
+  ```gjs
   import { Compiled } from 'ember-repl';
   import { hash } from '@ember/helper';
 
@@ -458,9 +458,9 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   </template>
   ```
 
-- Usage in a class 
+- Usage in a class
 
-  ```gjs 
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -482,14 +482,14 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: string, format: Format) => State`
 
 </summary>
 
 - Usage in gjs directly in the template:
-  ```gjs 
+  ```gjs
   import { Compiled } from 'ember-repl';
   import { hash } from '@ember/helper';
 
@@ -503,8 +503,8 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
   ```
 
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -527,14 +527,14 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: () => string) => State`
 
 </summary>
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -543,27 +543,27 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
 
     state = use(this, Compiled(() => this.doc));
 
     /* ... */
-  } 
+  }
   ```
 
 </details>
 
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: () => string, format: Format) => State`
 
 </summary>
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -572,26 +572,26 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
 
     state = use(this, Compiled(() => this.doc, 'gjs'));
 
     /* ... */
-  } 
+  }
   ```
 
 </details>
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: () => string, format: () => Format) => State`
 
 </summary>
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -600,27 +600,27 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
     @tracked format = 'gjs';
 
     state = use(this, Compiled(() => this.doc, () => this.format));
 
     /* ... */
-  } 
+  }
   ```
 
 </details>
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: () => string, options: ExtraOptions) => State`
 
 </summary>
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -629,27 +629,27 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
 
     state = use(this, Compiled(() => this.doc, { format: 'gjs', ...extraOptions }));
 
     /* ... */
-  } 
+  }
   ```
 
 </details>
 
 
 <details>
-<summary>  Using `Compiled` as 
+<summary>  Using `Compiled` as
 
 `(doc: () => string, options: () => ExtraOptions) => State`
 
 </summary>
 
-- Usage in a class 
-  ```gjs 
+- Usage in a class
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -658,19 +658,19 @@ in templates, all tracked values are inherently reactive, and will re-invoke fun
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
-    @tracked options = { format: 'gjs', ...extraOptions }; 
+    @tracked options = { format: 'gjs', ...extraOptions };
 
     state = use(this, Compiled(() => this.doc, () => this.options));
 
     /* ... */
-  } 
+  }
   ```
 
 Note that for this example, it's possible to have as fine-grained reactivity as you want:
 
-  ```gjs 
+  ```gjs
   import Component from '@glimmer/component';
   import { tracked } from '@glimmer/tracking';
 
@@ -679,7 +679,7 @@ Note that for this example, it's possible to have as fine-grained reactivity as 
 
   let doc = '...';
 
-  export default class Demo extends Component { 
+  export default class Demo extends Component {
     @tracked doc = '';
 
     // this isn't supported by the example, but it's possible to implement,
@@ -691,7 +691,7 @@ Note that for this example, it's possible to have as fine-grained reactivity as 
     });
 
     /* ... */
-  } 
+  }
   ```
 
 </details>
