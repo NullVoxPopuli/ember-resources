@@ -7,12 +7,12 @@
 _this document has been adapted/copied[^copying] from the Starbeam[^starbeam] documentation_
 
 
-This is a high-level introduction to Resources, and how to use them.  
-For how to integrate Resources in to Ember (Components, etc), see [./ember.md](./ember.md); 
+This is a high-level introduction to Resources, and how to use them.
+For how to integrate Resources in to Ember (Components, etc), see [./ember.md](./ember.md);
 
 In addition to the live demos accompanying each code snippet, all code snippets will have their Starbeam counterparts below them, so that folks can see how similar the libraries are.
 
-When Starbeam is integrated in to Ember, there will be a codemod to convert from ember-resources' APIs to Starbeam's APIs. 
+When Starbeam is integrated in to Ember, there will be a codemod to convert from ember-resources' APIs to Starbeam's APIs.
 
 _details on that soon_
 
@@ -44,20 +44,20 @@ The only thing that changes when you convert a reactive value into a resource is
 
 To illustrate the concept, let's create a simple resource that represents the current time.
 
-```js 
+```js
 import { cell, resource } from "ember-resources";
- 
+
 export const Now = resource(({ on }) => {
   const now = cell(Date.now());
- 
+
   const timer = setInterval(() => {
     now.set(Date.now());
   });
- 
+
   on.cleanup(() => {
     clearInterval(timer);
   });
- 
+
   return now;
 });
 ```
@@ -66,20 +66,20 @@ To see this code in action, [checkout the live demo](https://limber.glimdown.com
 
 <details><summary>In Starbeam</summary>
 
-```js 
+```js
 import { Cell, Resource } from "@starbeam/universal";
- 
+
 export const Now = Resource(({ on }) => {
   const now = Cell(Date.now());
- 
+
   const timer = setInterval(() => {
     now.set(Date.now());
   });
- 
+
   on.cleanup(() => {
     clearInterval(timer);
   });
- 
+
   return now;
 });
 ```
@@ -87,7 +87,7 @@ export const Now = Resource(({ on }) => {
 </details>
 
 
-> **:bulb:** <br> 
+> **:bulb:** <br>
 > A resource's return value is a reactive value. If your resource represents a single cell, it's fine to return it directly. It's also common to return a function which returns reactive data -- that depends on reactive state that you created inside the resource constructor.
 
 When you use the `Now` resource in a component, it will automatically get its lifetime linked to that component. In this case, that means that the interval will be cleaned up when the component is destroyed.
@@ -112,7 +112,7 @@ When you return a reactive value from a resource, it will always behave like a g
 
 If you want your resource to return a value that can support mutation, you can return a JavaScript object with accessors and methods that can be used to mutate the value.
 
-This is an advanced use-case because you will need to think about how external mutations should affect the running process. 
+This is an advanced use-case because you will need to think about how external mutations should affect the running process.
 
 </details>
 
@@ -121,8 +121,8 @@ This is an advanced use-case because you will need to think about how external m
 Here's a demo of a `Stopwatch` resource, similar to the above demo.
 The main difference here is that the return value is a function.
 
-```js 
-import { cell, resource } from "@starbeam/universal";
+```js
+import { resource, cell } from 'ember-resources';
 
 const formatter = new Intl.DateTimeFormat("en-US", {
   hour: "numeric",
@@ -199,34 +199,34 @@ You might be thinking that `Stopwatch` reimplements a whole bunch of `Now`, and 
 
 You'd be right!
 
-```js 
+```js
 const formatter = new Intl.DateTimeFormat("en-US", {
   hour: "numeric",
   minute: "numeric",
   second: "numeric",
   hour12: false,
 });
- 
+
 const Stopwatch = resource(({ use }) => {
   const time = use(Now);
-         
+
   return () => formatter.format(time.current);
 });
 ```
 
 <details><summary>In Starbeam</summary>
 
-```js 
+```js
 const formatter = new Intl.DateTimeFormat("en-US", {
   hour: "numeric",
   minute: "numeric",
   second: "numeric",
   hour12: false,
 });
- 
+
 const Stopwatch = Resource(({ use }) => {
   const time = use(Now);
-         
+
   return Formula(() => formatter.format(time.current));
 });
 ```
@@ -255,7 +255,7 @@ On the other hand, Starbeam Resources naturally avoid computing values that are 
 
 TL;DR Starbeam Resources do not represent a stream of values that you operate on using stream operators.
 
-> **:key: Key Point** <br> 
+> **:key: Key Point** <br>
 >Starbeam resources represent a single reactive value that is always up to date when demanded.
 
 This also allows you to use Starbeam resources and other values interchangably in functions, and even pass them to functions that expect reactive values.
@@ -266,23 +266,23 @@ Let's take a look at an example of a resource that receives messages on a channe
 
 In this example, the channel name that we're subscribing to is dynamic, and we want to unsubscribe from the channel whenever the channel name changes, but not when we get a new message.
 
-```js 
+```js
 import { resourceFactory, resource, cell } from 'ember-resources';
 
 const ChannelResource = resourceFactory((channelName) => {
   return resource(({ on }) => {
     const lastMessage = cell(null);
- 
+
     const channel = Channel.subscribe(channelName);
- 
+
     channel.onMessage((message) => {
       lastMessage.set(message);
     });
- 
+
     on.cleanup(() => {
       channel.unsubscribe();
     });
- 
+
     return () => {
       const prefix = `[${channelName}] `;
       if (lastMessage.current === null) {
@@ -299,23 +299,23 @@ To see this code in action, [checkout the live demo](https://limber.glimdown.com
 
 <details><summary>In Starbeam</summary>
 
-```js 
+```js
 import { Resource, Cell, Formula } from '@starbeam/universal';
 
 function ChannelResource(channelName) {
   return Resource(({ on }) => {
     const lastMessage = Cell(null);
- 
+
     const channel = Channel.subscribe(channelName.read());
- 
+
     channel.onMessage((message) => {
       lastMessage.set(message);
     });
- 
+
     on.cleanup(() => {
       channel.unsubscribe();
     });
- 
+
     return Formula(() => {
       const prefix = `[${channelName.read()}] `;
       if (lastMessage.current === null) {
@@ -338,7 +338,7 @@ It then creates a cell that holds the last message it received on the channel, a
 
 At this point, let's take a look at the dependencies:
 
-```mermaid 
+```mermaid
 flowchart LR
     ChannelResource-->channelName
     subgraph ChannelResource
@@ -356,7 +356,7 @@ Our output depends on the channel name and the last message received on that cha
 
 If we receive a new message, the lastMessage cell is set to the new message. This invalidates lastMessage and therefore the output as well.
 
-```mermaid 
+```mermaid
 flowchart LR
     ChannelResource-->channelName
     subgraph ChannelResource
@@ -374,7 +374,7 @@ However, this does not invalidate the resource itself, so the channel subscripti
 
 On the other hand, if we change the channelName, that invalidates the ChannelResource itself.
 
-```mermaid 
+```mermaid
 flowchart LR
     ChannelResource-->channelName
     subgraph ChannelResource
@@ -402,7 +402,7 @@ Under the hood, the internal `ChannelResource` instance is cleaned up and recrea
 
 ----------------------------------------
 
-Previous: [Introduction](./README.md) 
+Previous: [Introduction](./README.md)
 Next: [Usage in Ember](./ember.md)
 
 
