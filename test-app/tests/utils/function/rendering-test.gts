@@ -143,9 +143,30 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     assert.dom('out').hasText('4');
   });
 
-  test('can be composed with the resource use', async function (assert) {
-    type NumberThunk = () => number;
+  type NumberThunk = () => number;
+  test('can be composed directly within a resource', async function (assert) {
+    const Doubled = resourceFactory((num: number) => {
+      return resource(({ use }) => {
+        let state = use(trackedFunction(() => num * 2));
 
+        return () => state.current.value;
+      });
+    });
+
+    class State {
+      @tracked num = 2;
+    }
+
+    let state = new State();
+
+    setOwner(state, this.owner);
+
+    await render(<template><out>{{Doubled state.num}}</out></template>);
+
+    assert.dom('out').hasText('4');
+  });
+
+  test('can be composed with the resource use', async function (assert) {
     const Sqrt = resourceFactory((numFn: NumberThunk) =>
       trackedFunction(async () => {
         let num = numFn();
