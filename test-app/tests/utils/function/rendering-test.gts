@@ -5,10 +5,12 @@ import { click, render, settled } from '@ember/test-helpers';
 import { on } from '@ember/modifier';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { setOwner } from '@ember/application';
 
+import { use, resource, resourceFactory } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 
-const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module('Utils | trackedFunction | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -24,7 +26,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>
+        <button type="button" {{on "click" this.increment}}></button>
       </template>
     }
 
@@ -55,7 +57,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.data.retry}}></button>
+        <button type="button" {{on "click" this.data.retry}}></button>
       </template>
     }
 
@@ -89,7 +91,7 @@ module('Utils | trackedFunction | rendering', function (hooks) {
 
       <template>
         <out>{{this.data.value}}</out>
-        <button type='button' {{on 'click' this.increment}}></button>
+        <button type="button" {{on "click" this.increment}}></button>
       </template>
     }
 
@@ -105,5 +107,103 @@ module('Utils | trackedFunction | rendering', function (hooks) {
     await click('button');
 
     assert.dom('out').hasText('4');
+  });
+
+  test('can be "use"d in a class', async function (assert) {
+    const Doubler = resourceFactory((numFn) =>
+      trackedFunction(async () => {
+        let num = numFn();
+
+        return num * 2;
+      })
+    );
+
+    class TestComponent extends Component {
+      @tracked multiplier = 1;
+
+      increment = () => this.multiplier++;
+
+      data = use(
+        this,
+        Doubler(() => this.multiplier)
+      );
+
+      <template>
+        <out>{{this.data.current.value}}</out>
+        <button type="button" {{on "click" this.increment}}></button>
+      </template>
+    }
+
+    await render(<template><TestComponent /></template>);
+
+    assert.dom('out').hasText('2');
+
+    await click('button');
+
+    assert.dom('out').hasText('4');
+  });
+
+  test('can be composed with the resource use', async function (assert) {
+    type NumberThunk = () => number;
+
+    const Sqrt = resourceFactory((numFn: NumberThunk) =>
+      trackedFunction(async () => {
+        let num = numFn();
+
+        return Math.sqrt(num);
+      })
+    );
+
+    const Squared = resourceFactory((numFn: NumberThunk) =>
+      trackedFunction(async () => {
+        let num = numFn();
+
+        return Math.pow(num, 2);
+      })
+    );
+
+    const Hypotenuse = resourceFactory((aFn: NumberThunk, bFn: NumberThunk) => {
+      return resource(({ use }) => {
+        const aSquared = use(Squared(aFn));
+        const bSquared = use(Squared(bFn));
+        const c = use(
+          Sqrt(() => {
+            return (aSquared.current.value ?? 0) + (bSquared.current.value ?? 0);
+          })
+        );
+
+        return () => c.current.value;
+      });
+    });
+
+    class State {
+      @tracked a = 3;
+      @tracked b = 4;
+
+      c = use(
+        this,
+        Hypotenuse(
+          () => this.a,
+          () => this.b
+        )
+      );
+    }
+
+    let state = new State();
+
+    setOwner(state, this.owner);
+
+    await render(<template><out>{{state.c}}</out></template>);
+
+    assert.dom('out').hasText('5');
+
+    state.a = 7;
+    await settled();
+
+    assert.dom('out').containsText('8.06');
+
+    state.b = 10;
+    await settled();
+    assert.dom('out').containsText('12.206');
   });
 });
