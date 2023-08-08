@@ -163,3 +163,4 @@ class CellManager {
 const cellEvaluator = new CellManager();
 
 setHelperManager(() => cellEvaluator, Cell.prototype);
+setHelperManager(() => cellEvaluator, ReadonlyCell.prototype);

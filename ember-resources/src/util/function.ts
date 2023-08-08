@@ -1,9 +1,60 @@
 import { tracked } from '@glimmer/tracking';
+import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from '@ember/destroyable';
 
 import { TrackedAsyncData } from 'ember-async-data';
 
 import { resource } from '../core/function-based';
+
+/**
+ * <div class="callout note">
+ *
+ * This is not a core part of ember-resources, but is an example utility to demonstrate a concept when authoring your own resources. However, this utility is still under the broader library's SemVer policy.
+ *
+ * A consuming app will not pay for the bytes of this utility unless imported.
+ *
+ * </div>
+ *
+ * _An example utility that uses resource_
+ *
+ * Any tracked data accessed in a tracked function _before_ an `await`
+ * will "entangle" with the function -- we can call these accessed tracked
+ * properties, the "tracked prelude". If any properties within the tracked
+ * payload  change, the function will re-run.
+ *
+ * ```js
+ * import Component from '@glimmer/component';
+ * import { tracked } from '@glimmer/tracking';
+ * import { resourceFactory, use } from 'ember-resources';
+ * import { trackedFunction }  from 'ember-resources/util/function';
+ *
+ * const Request = resourceFactory((idFn) => {
+ *   return trackedFunction(this, async () => {
+ *     let id = idFn();
+ *     let response = await fetch(`https://swapi.dev/api/people/${id}`);
+ *     let data = await response.json();
+ *
+ *     return data; // { name: 'Luke Skywalker', ... }
+ *   });
+ * });
+ *
+ * class Demo extends Component {
+ *   @tracked id = 1;
+ *
+ *   updateId = (event) => this.id = event.target.value;
+ *
+ *   request = use(this, Request(() => this.id));
+ *
+ *   // Renders "Luke Skywalker"
+ *   <template>
+ *     {{this.request.current.value.name}}
+ *
+ *     <input value={{this.id}} {{on 'input' this.updateId}}>
+ *   </template>
+ * }
+ * ```
+ */
+export function trackedFunction<Return>(fn: () => Return): State<Return>;
 
 /**
  * <div class="callout note">
@@ -56,7 +107,37 @@ import { resource } from '../core/function-based';
  * @param {Object} context destroyable parent, e.g.: component instance aka "this"
  * @param {Function} fn the function to run with the return value available on .value
  */
-export function trackedFunction<Return>(context: object, fn: () => Return) {
+export function trackedFunction<Return>(context: object, fn: () => Return): State<Return>;
+
+export function trackedFunction<Return>(
+  ...args: Parameters<typeof directTrackedFunction<Return>> | Parameters<typeof classUsable<Return>>
+): State<Return> {
+  if (args.length === 1) {
+    return classUsable(...args);
+  }
+
+  if (args.length === 2) {
+    return directTrackedFunction(...args);
+  }
+
+  assert('Unknown arity: trackedFunction must be called with 1 or 2 arguments');
+}
+
+function classUsable<Return>(fn: () => Return) {
+  const state = new State(fn);
+
+  let destroyable = resource<State<Return>>(() => {
+    state.retry();
+
+    return state;
+  });
+
+  associateDestroyableChild(destroyable, state);
+
+  return destroyable;
+}
+
+function directTrackedFunction<Return>(context: object, fn: () => Return) {
   const state = new State(fn);
 
   let destroyable = resource<State<Return>>(context, () => {
