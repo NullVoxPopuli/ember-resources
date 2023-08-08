@@ -142,9 +142,9 @@ export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
 // @ts-ignore
 import { capabilities as helperCapabilities, setHelperManager } from '@ember/helper';
 
-import { CURRENT } from './function-based/types';
+import { CURRENT } from '../core/function-based/types';
 
-import type { GlintRenderable, Reactive } from './function-based/types';
+import type { GlintRenderable, Reactive } from '../core/function-based/types';
 
 class CellManager {
   capabilities = helperCapabilities('3.23', {
