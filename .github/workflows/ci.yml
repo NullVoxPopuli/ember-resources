@@ -101,6 +101,7 @@ jobs:
         with:
           no-lockfile: true
       - uses: ./.github/actions/download-built-package
+      - run: pnpm i -f
       - run: pnpm --filter test-app test:ember
 
 
