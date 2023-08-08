@@ -8,7 +8,7 @@ import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { ReadonlyCell } from '../util/cell';
+import { ReadonlyCell } from './cell';
 import { INTERNAL } from './function-based/types';
 import { normalizeThunk } from './utils';
 

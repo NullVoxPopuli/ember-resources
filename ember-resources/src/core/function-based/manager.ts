@@ -8,7 +8,7 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { ReadonlyCell } from '../../util/cell';
+import { ReadonlyCell } from '../cell';
 import { CURRENT, INTERNAL } from './types';
 
 import type {

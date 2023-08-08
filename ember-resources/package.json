@@ -16,7 +16,7 @@
     "./service": "./dist/service.js",
     "./modifier": "./dist/modifier/index.js",
     "./util": "./dist/util/index.js",
-    "./util/cell": "./dist/util/cell.js",
+    "./util/cell": "./dist/core/cell.js",
     "./util/keep-latest": "./dist/util/keep-latest.js",
     "./util/fps": "./dist/util/fps.js",
     "./util/map": "./dist/util/map.js",

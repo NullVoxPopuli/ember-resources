@@ -22,6 +22,7 @@ const config = {
       nest: [
         'core/class-based/index.js',
         'core/function-based/index.js',
+        'core/cell.js',
         'core/use.js',
       ]
     },
