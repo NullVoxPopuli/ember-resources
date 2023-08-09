@@ -5,15 +5,14 @@
   "compilerOptions": {
     "noEmitOnError": false
   },
-  "entryPoints": [
-    "../ember-resources/src"
-  ],
+  "entryPoints": ["../ember-resources/src"],
   "navigationLinks": {
     "Tutorial": "https://tutorial.glimdown.com",
     "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
   },
   "sidebarLinks": {
     "link": "/functions/link.link.html",
+    "modifier": "/functions/modifier.modifier.html",
     "service": "/functions/service.service.html",
     "RemoteData": "/functions/util_remote_data.RemoteData.html",
     "UpdateFrequency": "/functions/util_fps.UpdateFrequency.html",
