@@ -59,7 +59,7 @@
     "@glint/environment-ember-template-imports": "^1.0.2",
     "@glint/template": "^1.0.2",
     "@nullvoxpopuli/eslint-configs": "^3.2.0",
-    "@tsconfig/ember": "^2.0.0",
+    "@tsconfig/ember": "^3.0.0",
     "@types/ember": "^4.0.3",
     "@types/ember__application": "^4.0.5",
     "@types/ember__array": "^4.0.3",
