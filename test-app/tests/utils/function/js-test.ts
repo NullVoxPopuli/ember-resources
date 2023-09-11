@@ -117,4 +117,29 @@ module('Utils | trackedFunction | js', function (hooks) {
 
     assert.strictEqual(foo.data.value, 12);
   });
+
+  test('value will be accessible and resolved when isLoading becomes false', async function (assert) {
+    class Test {
+      @tracked count = 1;
+
+      data = trackedFunction(this, async () => {
+        let count = this.count;
+
+        // Pretend we're doing async work
+        await Promise.resolve();
+
+        return count * 2;
+      });
+    }
+
+    let foo = new Test();
+
+    assert.true(foo.data.isLoading);
+
+    await settled();
+
+    assert.false(foo.data.isLoading);
+    assert.strictEqual(foo.data.value, 2);
+
+  });
 });
