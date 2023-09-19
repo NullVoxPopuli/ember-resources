@@ -3,14 +3,11 @@ import { assert } from '@ember/debug';
 import { setModifierManager } from '@ember/modifier';
 
 import { resourceFactory } from '../index';
-import FunctionBasedModifierManager from './manager';
+import { MANAGER } from './manager';
 
 import type { resource } from '../index';
 import type { ArgsFor, ElementFor, EmptyObject } from '[core-types]';
 import type { ModifierLike } from '@glint/template';
-
-// Provide a singleton manager.
-const MANAGER = new FunctionBasedModifierManager();
 
 type PositionalArgs<S> = S extends { Args?: object } ? ArgsFor<S['Args']>['Positional'] : [];
 type NamedArgs<S> = S extends { Args?: object }

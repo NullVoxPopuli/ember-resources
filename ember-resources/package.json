@@ -12,6 +12,7 @@
     "./core": "./dist/core/index.js",
     "./core/class-based": "./dist/core/class-based/index.js",
     "./core/function-based": "./dist/core/function-based/index.js",
+    "./override-default-managers": "./dist/override-default-managers.js",
     "./link": "./dist/link.js",
     "./service": "./dist/service.js",
     "./modifier": "./dist/modifier/index.js",
@@ -37,6 +38,9 @@
       ],
       "link": [
         "dist/link.d.ts"
+      ],
+      "override-default-managers": [
+        "dist/override-default-managers.d.ts"
       ],
       "service": [
         "dist/service.d.ts"
