@@ -134,6 +134,32 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     assert.notEqual(first, second);
   });
 
+  test('every depth has the correct owner', async function (assert) {
+    const Inner = resource(({ owner }) => {
+      assert.step(`Inner: ${Boolean(owner)}`);
+
+      return 'hi';
+    });
+
+    const Middle = resource(({ owner, use }) => {
+      assert.step(`Middle: ${Boolean(owner)}`);
+
+      return use(Inner);
+    });
+
+    const Outer = resource(({ owner, use }) => {
+      assert.step(`Outer: ${Boolean(owner)}`);
+
+      return use(Middle);
+    });
+
+    await render(<template>{{Outer}}</template>);
+
+    assert.dom().hasText('hi', 'baseline rendering still works');
+
+    assert.verifySteps(['Outer: true', 'Middle: true', 'Inner: true']);
+  });
+
   test('lifecycle timing is appropriate', async function (assert) {
     class State {
       @tracked outerValue = 0;
