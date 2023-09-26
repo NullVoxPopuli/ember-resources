@@ -175,6 +175,27 @@ export class Resource<Args = unknown> {
   declare [Invoke]: ResourceHelperLike<Args, this>[typeof Invoke];
 
   /**
+   * For use in the body of a class, without reactive arguments.
+   *
+   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller.
+   *
+   * ```js
+   * import { Resource } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = SomeResource.from(this);
+   * }
+   * ```
+   */
+  static from<SomeResource extends Resource<any>>(
+    this: Constructor<SomeResource>,
+    context: unknown
+  ): SomeResource;
+
+  /**
    * For use in the body of a class.
    *
    * `from` is what allows resources to be used in JS, they hide the reactivity APIs

@@ -141,6 +141,7 @@ module('Core | (class) Resource | js', function (hooks) {
     }
 
     class Test {
+      data = TestResource.from(this);
       dataArray = TestResource.from(this, () => []);
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       dataVoid = TestResource.from(this, () => {});
@@ -150,6 +151,7 @@ module('Core | (class) Resource | js', function (hooks) {
 
     let foo = new Test();
 
+    assert.strictEqual(foo.data.foo, 3);
     assert.strictEqual(foo.dataArray.foo, 3);
     assert.strictEqual(foo.dataVoid.foo, 3);
     assert.strictEqual(foo.dataOmitted.foo, 3);
