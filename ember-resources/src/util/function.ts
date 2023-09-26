@@ -25,16 +25,21 @@ import { resource } from '../core/function-based';
  * ```js
  * import Component from '@glimmer/component';
  * import { tracked } from '@glimmer/tracking';
- * import { resourceFactory, use } from 'ember-resources';
+ * import { resourceFactory, resource, use } from 'ember-resources';
  * import { trackedFunction }  from 'ember-resources/util/function';
+ * import { on } from '@ember/modifier';
  *
  * const Request = resourceFactory((idFn) => {
- *   return trackedFunction(this, async () => {
- *     let id = idFn();
- *     let response = await fetch(`https://swapi.dev/api/people/${id}`);
- *     let data = await response.json();
+ *   return resource(({use}) => {
+ *     let trackedRequest = use(trackedFunction(async () => {
+ *       let id = idFn();
+ *       let response = await fetch(`https://swapi.dev/api/people/${id}`);
+ *       let data = await response.json();
  *
- *     return data; // { name: 'Luke Skywalker', ... }
+ *       return data; // { name: 'Luke Skywalker', ... }
+ *     }));
+ *
+ *     return trackedRequest;
  *   });
  * });
  *
