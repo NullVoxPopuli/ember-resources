@@ -37,7 +37,7 @@ import { resource } from '../core/function-based';
  *       let data = await response.json();
  *
  *       return data; // { name: 'Luke Skywalker', ... }
- *     }));  
+ *     }));
  *
  *     return trackedRequest;
  *   });
