@@ -69,7 +69,7 @@ export function use<Prototype, Key>(
  * const Clock = resource( ... );
  *
  * class Demo {
- *   time = use(this, Clock);
+ *   data = use(this, Clock);
  * }
  *
  * (new Demo()).data.current === 2
