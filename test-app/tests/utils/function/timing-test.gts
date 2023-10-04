@@ -1,17 +1,11 @@
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { tracked } from '@glimmer/tracking';
-import { click, render, settled } from '@ember/test-helpers';
-// @ts-ignore
-import { on } from '@ember/modifier';
+import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { setOwner } from '@ember/application';
 
-import { cell, use, resource, resourceFactory } from 'ember-resources';
+import { cell, resource, resourceFactory } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
-
-const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module('Utils | trackedFunction | timing', function (hooks) {
   setupRenderingTest(hooks);
@@ -21,7 +15,7 @@ module('Utils | trackedFunction | timing', function (hooks) {
 
     let state = cell(0);
 
-    async function fn(value) {
+    async function fn(value: number) {
       step(`fn:begin:${value}`);
       await Promise.resolve();
       step(`fn:end:${value}`);
@@ -29,7 +23,11 @@ module('Utils | trackedFunction | timing', function (hooks) {
     }
 
     const WithArgument = resourceFactory(num => resource(({ use }) => {
-      return use(trackedFunction(() => fn(num)));
+      let reactive = use(trackedFunction(() => fn(num)));
+
+      // TODO: the types should allow us to directly return the use,
+      // but they don't currently
+      return () => reactive.current;
     }));
 
     await render(
