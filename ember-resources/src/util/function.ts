@@ -272,7 +272,12 @@ export class State<Value> {
   retry = async () => {
     if (isDestroyed(this) || isDestroying(this)) return;
 
-    this.data = null;
+    // We've previously had data, but we're about to run-again.
+    // we need to do this again so `isLoading` goes back to `true` when re-running.
+    if (this.data) {
+      this.data = null;
+    }
+
     // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
     this.promise = this.#fn();
 
