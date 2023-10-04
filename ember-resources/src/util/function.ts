@@ -272,6 +272,7 @@ export class State<Value> {
   retry = async () => {
     if (isDestroyed(this) || isDestroying(this)) return;
 
+    this.data = null;
     // We need to invoke this before going async so that tracked properties are consumed (entangled with) synchronously
     this.promise = this.#fn();
 
