@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { setOwner } from '@ember/application';
 
-import { use, resource, resourceFactory } from 'ember-resources';
+import { cell, use, resource, resourceFactory } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 
 const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
