@@ -1,5 +1,13 @@
 # ember-resources
 
+## 6.4.1
+
+### Patch Changes
+
+- [#1011](https://github.com/NullVoxPopuli/ember-resources/pull/1011) [`606ba4b`](https://github.com/NullVoxPopuli/ember-resources/commit/606ba4b892037469fa85fe636f93aa988b5d5ab2) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - `trackedFunction`: Fix timing issue where updating tracked data consumed in `trackedFunction` would not re-cause the `isLoading` state to become `true` again.
+
+  Resolves #1010
+
 ## 6.4.0
 
 ### Minor Changes
