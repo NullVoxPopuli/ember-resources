@@ -3,9 +3,7 @@ import * as QUnit from 'qunit';
 import { rest, setupWorker } from 'msw';
 import ENV from 'test-app/config/environment';
 
-import type { SetupWorkerApi } from 'msw';
-
-let worker: SetupWorkerApi;
+let worker: ReturnType<typeof setupWorker>;
 
 /**
  * Setup worker before any test begins so that we don't introduce
