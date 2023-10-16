@@ -469,8 +469,8 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
       msw:
-        specifier: ^0.49.0
-        version: 0.49.3(typescript@4.9.5)
+        specifier: ^1.3.2
+        version: 1.3.2(typescript@4.9.5)
       pnpm-sync-dependencies-meta-injected:
         specifier: ^0.0.8
         version: 0.0.8
@@ -746,7 +746,7 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
       msw:
-        specifier: ^1.0.0
+        specifier: ^1.3.2
         version: 1.3.2(typescript@5.0.4)
       prettier:
         specifier: ^2.8.4
@@ -1017,7 +1017,7 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
       msw:
-        specifier: ^1.0.0
+        specifier: ^1.3.2
         version: 1.3.2(typescript@5.0.4)
       prettier:
         specifier: ^2.8.4
@@ -3404,7 +3404,7 @@ packages:
       '@types/ember__object': 4.0.8(@babel/core@7.22.10)
       '@types/ember__routing': 4.0.16(@babel/core@7.22.10)
       ember-cli-htmlbars: 6.3.0
-      ember-modifier: 4.1.0(ember-source@4.11.0)
+      ember-modifier: 4.1.0(ember-source@5.2.0)
     dev: true
 
   /@glint/environment-ember-template-imports@1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@3.4.2):
@@ -4564,6 +4564,12 @@ packages:
     dependencies:
       undici-types: 5.25.3
 
+  /@types/node@20.8.6:
+    resolution: {integrity: sha512-eWO4K2Ji70QzKUqRy6oyJWUeB7+g2cRagT3T/nxYibYcT4y2BDL8lqolRXjTHmkZCdJfIPaY73KbJAZmcryxTQ==}
+    dependencies:
+      undici-types: 5.25.3
+    dev: true
+
   /@types/normalize-package-data@2.4.2:
     resolution: {integrity: sha512-lqa4UEhhv/2sjjIQgjX8B+RBjj47eo0mzGasklVJ78UKGQY1r0VpB9XHDaZZO9qzEFDdy4MrXLuEaSmPrPSe/A==}
     dev: true
@@ -4622,7 +4628,7 @@ packages:
   /@types/set-cookie-parser@2.4.4:
     resolution: {integrity: sha512-xCfTC/eL/GmvMC24b42qJpYSTdCIBwWcfskDF80ztXtnU6pKXyvuZP2EConb2K9ps0s7gMhCa0P1foy7wiItMA==}
     dependencies:
-      '@types/node': 20.8.4
+      '@types/node': 20.8.6
     dev: true
 
   /@types/ssri@7.1.2:
@@ -6880,14 +6886,6 @@ packages:
       ansi-styles: 3.2.1
       escape-string-regexp: 1.0.5
       supports-color: 5.5.0
-
-  /chalk@4.1.1:
-    resolution: {integrity: sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==}
-    engines: {node: '>=10'}
-    dependencies:
-      ansi-styles: 4.3.0
-      supports-color: 7.2.0
-    dev: true
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -11032,10 +11030,6 @@ packages:
     resolution: {integrity: sha512-tUCGvt191vNSQgttSyJoibR+VO+I6+iCHIUdhzEMJKE+EAL8BwCN7fUOZlY4ofOelNHsK+gEjxB/B+9N3EWtdA==}
     dev: true
 
-  /headers-polyfill@3.3.0:
-    resolution: {integrity: sha512-5e57etwBpNcDc0b6KCVWEh/Ro063OxPvzVimUdM0/tsYM/T7Hfy3kknIGj78SFTOhNd8AZY41U8mOHoO4LzmIQ==}
-    dev: true
-
   /heimdalljs-fs-monitor@1.1.1:
     resolution: {integrity: sha512-BHB8oOXLRlrIaON0MqJSEjGVPDyqt2Y6gu+w2PaEZjrCxeVtZG7etEZp7M4ZQ80HNvnr66KIQ2lot2qdeG8HgQ==}
     dependencies:
@@ -12637,8 +12631,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /msw@0.49.3(typescript@4.9.5):
-    resolution: {integrity: sha512-kRCbDNbNnRq5LC1H/NUceZlrPAvSrMH6Or0mirIuH69NY84xwDruPn/hkXTovIK1KwDwbk+ZdoSyJlpiekLxEA==}
+  /msw@1.3.2(typescript@4.9.5):
+    resolution: {integrity: sha512-wKLhFPR+NitYTkQl5047pia0reNGgf0P6a1eTnA5aNlripmiz0sabMvvHcicE8kQ3/gZcI0YiPFWmYfowfm3lA==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
@@ -12653,11 +12647,11 @@ packages:
       '@open-draft/until': 1.0.3
       '@types/cookie': 0.4.1
       '@types/js-levenshtein': 1.1.1
-      chalk: 4.1.1
+      chalk: 4.1.2
       chokidar: 3.5.3
       cookie: 0.4.2
       graphql: 16.8.1
-      headers-polyfill: 3.3.0
+      headers-polyfill: 3.2.5
       inquirer: 8.2.6
       is-node-process: 1.2.0
       js-levenshtein: 1.1.6
