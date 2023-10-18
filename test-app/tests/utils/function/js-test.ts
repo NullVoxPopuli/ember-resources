@@ -4,6 +4,7 @@ import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
+import { resource, resourceFactory, use } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 
 module('Utils | trackedFunction | js', function (hooks) {
@@ -116,5 +117,61 @@ module('Utils | trackedFunction | js', function (hooks) {
     await settled();
 
     assert.strictEqual(foo.data.value, 12);
+  });
+
+  test('value will be accessible and resolved when isLoading becomes false', async function (assert) {
+    class Test {
+      @tracked count = 1;
+
+      data = trackedFunction(this, async () => {
+        let count = this.count;
+
+        // Pretend we're doing async work
+        await Promise.resolve();
+
+        return count * 2;
+      });
+    }
+
+    let foo = new Test();
+
+    assert.true(foo.data.isLoading);
+
+    await settled();
+
+    assert.false(foo.data.isLoading);
+    assert.strictEqual(foo.data.value, 2);
+  });
+
+  test('used resources can receive the the same state', async function (assert) {
+    const Custom = resourceFactory(() => {
+      return resource(({ use }) => {
+        let reactive = use(
+          trackedFunction(async () => {
+            // Pretend we're doing async work
+            await Promise.resolve();
+
+            return 2;
+          })
+        );
+
+        return () => reactive.current;
+      });
+    });
+
+    class Test {
+      @tracked count = 1;
+
+      @use data = Custom();
+    }
+
+    let foo = new Test();
+
+    assert.true(foo.data.isLoading);
+
+    await settled();
+
+    assert.false(foo.data.isLoading);
+    assert.strictEqual(foo.data.value, 2);
   });
 });
