@@ -83,3 +83,7 @@ export default class FunctionBasedModifierManager<S> {
     }
   }
 }
+
+// Provide a singleton manager.
+export const MANAGER = new FunctionBasedModifierManager();
+

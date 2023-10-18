@@ -43,11 +43,19 @@ class ResourceInvokerManager {
     /**
      * This cache is for args passed to the ResourceInvoker/Factory
      *
-     * We want to cache the helper result, and only re-inoke when the args
+     * We want to cache the helper result, and only re-invoke when the args
      * change.
      */
     let cache = createCache(() => {
-      let resource = fn(...args.positional) as object;
+      let argsForFn = [];
+
+      if (Object.keys(args.named).length > 0 ) {
+        argsForFn = [...args.positional, args.named];
+      } else {
+        argsForFn = [...args.positional];
+      }
+
+      let resource = fn(...argsForFn) as object;
 
       setOwner(resource, this.owner);
 
@@ -178,4 +186,5 @@ type ResourceBlueprint<Value, Args> =
 // semicolon
 
 // Provide a singleton manager.
-const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);
+export const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);
+
