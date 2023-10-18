@@ -42,6 +42,8 @@ type ResourceHelperLike<T, R> = InstanceType<
 
 declare const __ResourceArgs__: unique symbol;
 
+type Context = object;
+
 /**
  * The 'Resource' base class has only one lifecycle hook, `modify`, which is called during
  * instantiation of the resource as well as on every update of any of any consumed args.
@@ -196,6 +198,27 @@ export class Resource<Args = unknown> {
   ): SomeResource;
 
   /**
+   * For use in the body of a class, without reactive arguments.
+   *
+   * `from` is what allows resources to be used in JS, they hide the reactivity APIs
+   * from the consumer so that the surface API is smaller.
+   *
+   * ```js
+   * import { Resource } from 'ember-resources';
+   *
+   * class SomeResource extends Resource {}
+   *
+   * class MyClass {
+   *   data = SomeResource.from(this);
+   * }
+   * ```
+   */
+  static from<SomeResource extends Resource<any>, _C extends Context>(
+    this: Constructor<SomeResource>,
+    contextOrThunk: _C extends Thunk ? AsThunk<ArgsFrom<SomeResource>> : _C
+  ): SomeResource;
+
+  /**
    * For use in the body of a class.
    *
    * `from` is what allows resources to be used in JS, they hide the reactivity APIs
@@ -240,13 +263,13 @@ export class Resource<Args = unknown> {
    */
   static from<SomeResource extends Resource<any>>(
     this: Constructor<SomeResource>,
-    context: unknown,
+    context: Context,
     thunk: AsThunk<ArgsFrom<SomeResource>>
   ): SomeResource;
 
   static from<SomeResource extends Resource<any>>(
     this: Constructor<SomeResource>,
-    contextOrThunk: unknown | AsThunk<ArgsFrom<SomeResource>>,
+    contextOrThunk: Context | AsThunk<ArgsFrom<SomeResource>>,
     thunkOrUndefined?: undefined | AsThunk<ArgsFrom<SomeResource>>
   ): SomeResource {
     /**
@@ -336,7 +359,7 @@ export class Resource<Args = unknown> {
 }
 
 function resourceOf<SomeResource extends Resource<unknown>>(
-  context: unknown,
+  context: Context,
   klass: Constructor<SomeResource>,
   thunk?: Thunk
 ): SomeResource {
