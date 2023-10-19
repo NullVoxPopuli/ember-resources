@@ -69,7 +69,7 @@ interface Options<T = unknown> {
  */
 export function keepLatest<Return = unknown>({ when, value: valueFn }: Options<Return>) {
   return resource(() => {
-    let previous: Return | undefined;
+    let previous: Return;
 
     return () => {
       let value = valueFn();
