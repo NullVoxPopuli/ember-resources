@@ -6,7 +6,7 @@ const foo: boolean = true;
 
 const value = keepLatest({
   value: () => foo,
-  when: () => true
+  when: () => true,
 });
 
 expectTypeOf(value).toMatchTypeOf<boolean>();
