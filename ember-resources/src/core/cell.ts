@@ -10,7 +10,7 @@ export class ReadonlyCell<Value> implements Reactive<Value> {
 
   toHTML(): string {
     assert(
-      'Not a valid API. Please access either .current or .read() if the value of this Cell is needed'
+      'Not a valid API. Please access either .current or .read() if the value of this Cell is needed',
     );
   }
 
@@ -32,7 +32,7 @@ export class Cell<Value = unknown> implements Reactive<Value> {
 
   toHTML(): string {
     assert(
-      'Not a valid API. Please access either .current or .read() if the value of this Cell is needed'
+      'Not a valid API. Please access either .current or .read() if the value of this Cell is needed',
     );
   }
 
@@ -51,7 +51,7 @@ export class Cell<Value = unknown> implements Reactive<Value> {
   toggle = () => {
     assert(
       `toggle can only be used when 'current' is a boolean type`,
-      typeof this.current === 'boolean' || this.current === undefined
+      typeof this.current === 'boolean' || this.current === undefined,
     );
 
     (this.current as boolean) = !this.current;

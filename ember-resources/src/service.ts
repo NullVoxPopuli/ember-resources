@@ -121,7 +121,7 @@ export function service(resource: unknown) {
   return function legacyServiceDecorator(
     _prototype: object,
     key: string,
-    descriptor?: Stage1DecoratorDescriptor
+    descriptor?: Stage1DecoratorDescriptor,
   ) {
     if (!descriptor) return;
 
@@ -130,12 +130,12 @@ export function service(resource: unknown) {
     assert(
       `@service(...) may not be used with an initializer. For example, ` +
         `\`@service(MyService) property;\``,
-      !descriptor.initializer
+      !descriptor.initializer,
     );
 
     assert(
       `Expected passed resource to be a valid resource definition.`,
-      typeof resource === 'function' || (typeof resource === 'object' && resource !== null)
+      typeof resource === 'function' || (typeof resource === 'object' && resource !== null),
     );
 
     return {
@@ -146,7 +146,7 @@ export function service(resource: unknown) {
           `owner was not found on instance of ${this.constructor.name}. ` +
             `Has it been linked up correctly with setOwner?` +
             `If this error has occured in a framework-controlled class, something has gone wrong.`,
-          owner
+          owner,
         );
 
         assert(`Resource definition is invalid`, isResourceType(resource));
@@ -171,7 +171,7 @@ export function service(resource: unknown) {
             assert(
               `When using resources with @service(...), do not call .from() on class-based resources. ` +
                 `Resources used as services may not take arguments.`,
-              resource.type === 'function-based'
+              resource.type === 'function-based',
             );
 
             cache = invokeHelper(owner, resource);
@@ -180,7 +180,7 @@ export function service(resource: unknown) {
           } else if ((resource as any).prototype instanceof Resource) {
             assert(
               `The .from() method on a type of Resource has been removed or altered. This is not allowed.`,
-              'from' in resource && resource.from === Resource.from
+              'from' in resource && resource.from === Resource.from,
             );
 
             /**
@@ -188,7 +188,7 @@ export function service(resource: unknown) {
              * But it does mean that we have to cast in our own code.
              */
             let { definition } = (resource as typeof Resource).from(
-              () => []
+              () => [],
             ) as unknown as ClassResourceConfig;
 
             cache = invokeHelper(owner, definition);
@@ -238,7 +238,7 @@ interface RegisterOptions {
 export function serviceOverride(owner: Owner, { original, replacement }: RegisterOptions) {
   if (macroCondition(!isTesting() && !isDevelopingApp())) {
     throw new Error(
-      '@service is experimental and `serviceOverride` is not available in production builds.'
+      '@service is experimental and `serviceOverride` is not available in production builds.',
     );
   }
 

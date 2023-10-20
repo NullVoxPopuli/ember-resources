@@ -184,7 +184,7 @@ export function map<Elements extends readonly unknown[], MapTo = unknown>(
      * - if not iterating, map will only be called for the elements observed.
      */
     map: (element: Elements[number]) => MapTo;
-  }
+  },
 ) {
   let { data, map } = options;
 
@@ -247,7 +247,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
   modify([data]: Positional<Args<Element, MappedTo>>, { map }: Named<Args<Element, MappedTo>>) {
     assert(
       `Every entry in the data passed to \`map\` must be an object.`,
-      data.every((datum) => typeof datum === 'object')
+      data.every((datum) => typeof datum === 'object'),
     );
     this._records = data as Array<Element & object>;
     this._map = map;
@@ -294,7 +294,7 @@ export class TrackedArrayMap<Element = unknown, MappedTo = unknown>
         `The array item is expected to exist, because the map utility resource lazily iterates along the indices of the original array passed as data. ` +
         `This error could happen if the data array passed to map has been mutated while iterating. ` +
         `To resolve this error, do not mutate arrays while iteration occurs.`,
-      record
+      record,
     );
 
     let value = this.#map.get(record);

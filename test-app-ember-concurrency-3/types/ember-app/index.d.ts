@@ -56,7 +56,7 @@ declare module '@ember/component' {
   export function setComponentTemplate<
     Klass extends abstract new (owner: Owner, args: any) => Instance,
     Instance = InstanceType<Klass>,
-    S = InferSignature<Instance>
+    S = InferSignature<Instance>,
   >(template: abstract new () => HasContext<ComponentContext<Instance, S>>, klass: Klass): Klass;
 
   export function capabilities(
@@ -65,6 +65,6 @@ declare module '@ember/component' {
       destructor?: boolean;
       asyncLifecycleCallbacks?: boolean;
       updateHook?: boolean;
-    }
+    },
   ): any;
 }

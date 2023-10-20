@@ -64,7 +64,7 @@ type ArgsForFn<S> = S extends { Args?: object }
  *
  */
 export function modifier<El extends Element, Args extends unknown[] = unknown[]>(
-  fn: (element: El, ...args: Args) => void
+  fn: (element: El, ...args: Args) => void,
 ): ModifierLike<{
   Element: El;
   Args: {
@@ -112,7 +112,7 @@ export function modifier<El extends Element, Args extends unknown[] = unknown[]>
  *
  */
 export function modifier<S extends { Element?: Element }>(
-  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>,
 ): ModifierLike<S>;
 /**
  * A resource-based API for building modifiers.
@@ -153,7 +153,7 @@ export function modifier<S extends { Element?: Element }>(
  *
  */
 export function modifier<S extends { Args?: object }>(
-  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>,
 ): ModifierLike<S>;
 /**
  * A resource-based API for building modifiers.
@@ -194,7 +194,7 @@ export function modifier<S extends { Args?: object }>(
  *
  */
 export function modifier<S extends { Element?: Element; Args?: object }>(
-  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>
+  fn: (element: ElementFor<S>, ...args: ArgsForFn<S>) => ReturnType<typeof resource>,
 ): ModifierLike<S>;
 
 export function modifier(fn: (element: Element, ...args: unknown[]) => void): ModifierLike<{
@@ -223,5 +223,5 @@ export function modifier(fn: (element: Element, ...args: unknown[]) => void): Mo
 export type FunctionBasedModifierDefinition<S> = (
   element: ElementFor<S>,
   positional: PositionalArgs<S>,
-  named: NamedArgs<S>
+  named: NamedArgs<S>,
 ) => void;

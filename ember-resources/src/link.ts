@@ -140,7 +140,7 @@ function linkDecorator(
   _prototype: object,
   key: string | Symbol,
   descriptor: Stage1DecoratorDescriptor | undefined,
-  explicitChild?: Class<unknown>
+  explicitChild?: Class<unknown>,
 ): void {
   assert(`@link is a stage 1 decorator, and requires a descriptor`, descriptor);
   assert(`@link can only be used with string-keys`, typeof key === 'string');
@@ -150,7 +150,7 @@ function linkDecorator(
   assert(
     `@link requires an initializer or be used as a decorator factory (\`@link(...))\`). For example, ` +
       `\`@link foo = new MyClass();\` or \`@link(MyClass) foo;\``,
-    initializer || explicitChild
+    initializer || explicitChild,
   );
 
   let caches = new WeakMap<object, any>();
