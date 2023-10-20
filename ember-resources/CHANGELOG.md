@@ -1,5 +1,15 @@
 # ember-resources
 
+## 6.4.2
+
+### Patch Changes
+
+- [#1019](https://github.com/NullVoxPopuli/ember-resources/pull/1019) [`d63d7b7`](https://github.com/NullVoxPopuli/ember-resources/commit/d63d7b7d72702babc195fe70142741d3d083e290) Thanks [@wagenet](https://github.com/wagenet)! - The `keepLatest` utility previously incorrectly had a `| undefined` type for the return value.
+  That's been removed.
+
+  `| undefined` is still a valid type if the passed value is possibly `| undefined`.
+  This made the `| undefined` on `keepLatest` redundant.
+
 ## 6.4.1
 
 ### Patch Changes
@@ -26,7 +36,7 @@
           let id = typeof maybeIdFn === "function" ? maybeIdFn() : maybeIdFn;
           let response = await fetch(`https://api.github.com/users/${id}`);
           return response.json();
-        })
+        }),
       );
 
       // `use` returns a ReadonlyCell where `.current`
@@ -96,7 +106,7 @@
       let num = numFn();
 
       return Math.sqrt(num);
-    })
+    }),
   );
 
   const Squared = resourceFactory((numFn: NumberThunk) =>
@@ -104,7 +114,7 @@
       let num = numFn();
 
       return Math.pow(num, 2);
-    })
+    }),
   );
 
   const Hypotenuse = resourceFactory((aFn: NumberThunk, bFn: NumberThunk) => {
@@ -114,7 +124,7 @@
       const c = use(
         Sqrt(() => {
           return (aSquared.current.value ?? 0) + (bSquared.current.value ?? 0);
-        })
+        }),
       );
 
       // We use the function return because we want this property chain
@@ -314,7 +324,7 @@
 
     data = use(
       this,
-      Clock(() => this.locale)
+      Clock(() => this.locale),
     );
   }
   ```
