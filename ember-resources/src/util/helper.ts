@@ -64,7 +64,7 @@ type Get<T, K, Otherwise = unknown> = K extends keyof T ? T[K] : Otherwise;
 export function helper<T = unknown, S = InferSignature<T>, Return = Get<S, 'Return'>>(
   context: object,
   helper: T,
-  thunk: Thunk = DEFAULT_THUNK
+  thunk: Thunk = DEFAULT_THUNK,
 ): { value: Return } {
   let resource: Cache<unknown>;
 

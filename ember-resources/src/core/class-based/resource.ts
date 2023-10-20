@@ -192,7 +192,7 @@ export class Resource<Args = unknown> {
    */
   static from<SomeResource extends Resource<any>>(
     this: Constructor<SomeResource>,
-    thunk: AsThunk<ArgsFrom<SomeResource>>
+    thunk: AsThunk<ArgsFrom<SomeResource>>,
   ): SomeResource;
 
   /**
@@ -241,13 +241,13 @@ export class Resource<Args = unknown> {
   static from<SomeResource extends Resource<any>>(
     this: Constructor<SomeResource>,
     context: unknown,
-    thunk: AsThunk<ArgsFrom<SomeResource>>
+    thunk: AsThunk<ArgsFrom<SomeResource>>,
   ): SomeResource;
 
   static from<SomeResource extends Resource<any>>(
     this: Constructor<SomeResource>,
     contextOrThunk: unknown | AsThunk<ArgsFrom<SomeResource>>,
-    thunkOrUndefined?: undefined | AsThunk<ArgsFrom<SomeResource>>
+    thunkOrUndefined?: undefined | AsThunk<ArgsFrom<SomeResource>>,
   ): SomeResource {
     /**
      * This first branch is for
@@ -338,12 +338,12 @@ export class Resource<Args = unknown> {
 function resourceOf<SomeResource extends Resource<unknown>>(
   context: unknown,
   klass: Constructor<SomeResource>,
-  thunk?: Thunk
+  thunk?: Thunk,
 ): SomeResource {
   assert(
     `Expected second argument, klass, to be a Resource. ` +
       `Instead, received some ${typeof klass}, ${klass.name}`,
-    klass.prototype instanceof Resource
+    klass.prototype instanceof Resource,
   );
 
   let cache: Cache<SomeResource>;

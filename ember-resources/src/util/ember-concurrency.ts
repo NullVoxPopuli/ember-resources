@@ -68,7 +68,7 @@ import type { Cache } from '../core/types';
 export function task<
   Return = unknown,
   Args extends unknown[] = unknown[],
-  LocalTask extends TaskIsh<Args, Return> = TaskIsh<Args, Return>
+  LocalTask extends TaskIsh<Args, Return> = TaskIsh<Args, Return>,
 >(context: object, task: LocalTask, thunk?: () => Args) {
   assert(`Task does not have a perform method. Is it actually a task?`, 'perform' in task);
 
@@ -85,7 +85,7 @@ const TASK_CACHE = new WeakMap<object, any>();
 function buildUnproxiedTaskResource<
   ArgsList extends any[],
   Return,
-  LocalTask extends TaskIsh<ArgsList, Return> = TaskIsh<ArgsList, Return>
+  LocalTask extends TaskIsh<ArgsList, Return> = TaskIsh<ArgsList, Return>,
 >(context: object, task: LocalTask, thunk: () => ArgsList) {
   type LocalResource = TaskResource<ArgsList, Return, LocalTask>;
   type Klass = new (...args: unknown[]) => LocalResource;
@@ -128,7 +128,7 @@ export function proxyClass<
     ArgsList,
     Return,
     LocalTask
-  >
+  >,
 >(target: { value: Instance }) {
   /*
    * This proxy defaults to returning the underlying data on
@@ -216,7 +216,7 @@ export const TASK = Symbol('TASK');
 export class TaskResource<
   Args extends any[],
   Return,
-  LocalTask extends TaskIsh<Args, Return>
+  LocalTask extends TaskIsh<Args, Return>,
 > extends Resource<{
   positional: Args;
 }> {

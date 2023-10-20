@@ -125,7 +125,7 @@ export class State<T = unknown> {
 export function remoteData<T = unknown>(
   { on }: ResourceAPI,
   url: string,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
 ): State<T> {
   let state = new State<T>();
   let controller = new AbortController();
@@ -150,7 +150,7 @@ export function remoteData<T = unknown>(
       .catch((error) => {
         state.isRejected = true;
         state.error = error;
-      })
+      }),
   );
 
   return state;
@@ -258,7 +258,7 @@ export function RemoteData<T = unknown>(options: () => { url: string } & FetchOp
  */
 export function RemoteData<T = unknown>(
   url: string | (() => string) | (() => { url: string } & FetchOptions),
-  opts?: FetchOptions
+  opts?: FetchOptions,
 ) {
   return resource((hooks) => {
     let result = typeof url === 'string' ? url : url();

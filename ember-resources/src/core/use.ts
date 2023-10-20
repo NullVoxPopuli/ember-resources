@@ -54,7 +54,7 @@ export function use<Value>(definition: Value | (() => Value)): PropertyDecorator
 export function use<Prototype, Key>(
   prototype: NonInstanceType<Prototype>,
   key: DecoratorKey<Key>,
-  descriptor?: Stage1DecoratorDescriptor
+  descriptor?: Stage1DecoratorDescriptor,
 ): void;
 
 /**
@@ -78,7 +78,7 @@ export function use<Prototype, Key>(
 export function use<Value>(
   parent: object,
   definition: Value | (() => Value),
-  _?: never
+  _?: never,
 ): Reactive<Value extends Reactive<any> ? Value['current'] : Value>;
 
 export function use(
@@ -117,7 +117,7 @@ function getCurrentValue<Value>(value: Value | Reactive<Value>): Value {
 
 function classContextLink<Value>(
   context: object,
-  definition: Value | (() => Value)
+  definition: Value | (() => Value),
 ): Reactive<Value> {
   let cache: ReturnType<typeof invokeHelper>;
 
@@ -138,7 +138,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
   return (
     _prototype: object,
     key: string | symbol,
-    descriptor?: Stage1DecoratorDescriptor
+    descriptor?: Stage1DecoratorDescriptor,
   ): void => {
     // TS's types for decorators use the Stage2 implementation, even though Babel uses Stage 1
     if (!descriptor) return;
@@ -148,7 +148,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
     assert(
       `When @use(...) is passed a resource, an initialized value is not allowed. ` +
         `\`@use(Clock) time;`,
-      !descriptor.initializer
+      !descriptor.initializer,
     );
 
     let newDescriptor = descriptorGetter(definition);
@@ -171,7 +171,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 
         assert(
           `Expected initialized value under @use to have used either the \`resource\` wrapper function, or a \`Resource.from\` call`,
-          INTERNAL in config
+          INTERNAL in config,
         );
 
         if (config.type === 'function-based') {
@@ -199,7 +199,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 function initializerDecorator(
   _prototype: object,
   key: string | symbol,
-  descriptor?: Stage1DecoratorDescriptor
+  descriptor?: Stage1DecoratorDescriptor,
 ): void {
   // TS's types for decorators use the Stage2 implementation, even though Babel uses Stage 1
   if (!descriptor) return;
@@ -212,7 +212,7 @@ function initializerDecorator(
     `@use may only be used on initialized properties. For example, ` +
       `\`@use foo = resource(() => { ... })\` or ` +
       `\`@use foo = SomeResource.from(() => { ... });\``,
-    initializer
+    initializer,
   );
 
   return descriptorGetter(initializer) as unknown as void /* Thanks, TS and Stage 2 Decorators */;

@@ -16,7 +16,7 @@ import type { InternalFunctionResourceConfig } from './types';
  */
 export function wrapForPlainUsage<Value>(
   context: object,
-  setup: InternalFunctionResourceConfig<Value>
+  setup: InternalFunctionResourceConfig<Value>,
 ) {
   let cache: Cache;
 

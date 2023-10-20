@@ -79,15 +79,15 @@ class FunctionResourceManager {
       const use: ResourceAPI['use'] = (usable) => {
         assert(
           `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
-          typeof usable === 'object'
+          typeof usable === 'object',
         );
         assert(
           `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${usable}.`,
-          usable
+          usable,
         );
         assert(
           `Expected the resource's \`use(...)\` utility to have been passed another resource, but something else was passed.`,
-          INTERNAL in usable
+          INTERNAL in usable,
         );
 
         let previousCache = usableCache.get(usable);

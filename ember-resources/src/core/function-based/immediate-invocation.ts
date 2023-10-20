@@ -130,7 +130,7 @@ class ResourceInvokerManager {
  *  ```
  */
 export function resourceFactory<Value = unknown, Args extends any[] = any[]>(
-  wrapperFn: (...args: Args) => ReturnType<typeof resource<Value>>
+  wrapperFn: (...args: Args) => ReturnType<typeof resource<Value>>,
   /**
    * This is a bonkers return type.
    * Here are the scenarios:

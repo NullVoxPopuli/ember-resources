@@ -166,14 +166,14 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
  */
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
-  setup?: ResourceFunction<Value>
+  setup?: ResourceFunction<Value>,
 ): Value | InternalFunctionResourceConfig<Value> | ResourceFn<Value> {
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
         `the first argument to \`resource\` must be a function. ` +
         `Instead, a ${typeof context} was received.`,
-      typeof context === 'function'
+      typeof context === 'function',
     );
 
     let internalConfig: InternalFunctionResourceConfig<Value> = {
@@ -204,12 +204,12 @@ export function resource<Value>(
     `Mismatched argument types passed to \`resource\`. ` +
       `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
       `Received ${typeof context} instead.`,
-    typeof context === 'object'
+    typeof context === 'object',
   );
   assert(
     `Mismatched argument type passed to \`resource\`. ` +
       `Expected the second arg to be a function but instead received ${typeof setup}.`,
-    typeof setup === 'function'
+    typeof setup === 'function',
   );
 
   let internalConfig: InternalFunctionResourceConfig<Value> = {
