@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: wyvox/action-setup-pnpm@v3
 
   typecheck:
     name: '${{ matrix.typescript-scenario }}'
@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: wyvox/action-setup-pnpm@v2
+      - uses: wyvox/action-setup-pnpm@v3
       - run: pnpm build
       - run: pnpm i -f # just in case
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
