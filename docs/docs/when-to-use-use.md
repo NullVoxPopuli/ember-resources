@@ -172,3 +172,61 @@ class Demo extends Component {
 
 
 ## `resource(({ use }) => { /* ... */ })`
+
+This type of `use` is only available _within_ resources, and is meant for composing other resources.
+
+For example: 
+```js 
+const Clock = resource( /* ... */ );
+
+function LocalizedClock(locale) {
+    return resource(({ use }) => {
+        const clock = use(Clock);
+
+        /* ... format defined in here ... */
+
+        return () => {
+            return format(clock.current);
+        }
+    });
+}
+```
+
+Like the non-decorator version of `@use`, above, we access the _current_ value via `.current`.
+
+And just the same as before, when we have a function that returns resources (a resource factory):
+
+
+```js 
+const Clock = resource( /* ... */ );
+
+function LocalizedClock(locale) {
+    return resource(({ use }) => {
+        const clock = use(Clock);
+
+        /* ... format defined in here ... */
+
+        return () => {
+            return format(clock.current);
+        }
+    });
+}
+
+const SoManyClocks = resource(({ use }) => {
+    let enUS = use(LocalizedClock('en-US'));
+    let esPR = use(LocalizedClock('es-PR'));
+    let koKR = use(LocalizedClock('ko-KR'));
+
+    return {
+        get enUS() {
+            return enUS.current;
+        },
+        get esPR() {
+            return esPR.current;
+        },
+        get koKR() {
+            return koKR.current;
+        }
+    };
+});
+```
