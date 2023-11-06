@@ -2,11 +2,19 @@
 
 `use` connects resources to _JavaScript_ contexts.
 
+<details><summay>Why do we need to connect anything?</summay>
+    
+Any non-standand JavaScript pattern needs an abstraction to use. With components, we use `<AngleBracket />` syntax within a rendering system (which then, in turn, gives us a bunch of other convinient things). With resources in JavaScript `use` is an abstraction over the implementation details that ultimately don't matter to users. 
+
+Imagine why you need [`@service`](https://api.emberjs.com/ember/5.4/functions/@ember%2Fservice/service) for [dependency injection](https://nullvoxpopuli.com/2020-08-08-how-does-di-work) -- it's the glue to hide the details of what would otherwise by very verbose to use without the abstraction.
+
+</details>
+
 Note that all of these examples use a `Component` class, but they could just as well be any native vanilla JavaScript class. See [link](https://ember-resources.pages.dev/funcs/link.link) for more on that.
 
 ## `import { use } from 'ember-resources';`
 
-This type of use is for connecting a resource to a JS class.
+This type of use is for connecting a resource to a JavaScript class.
 
 It has a couple different overloads so that the community can provide feedback on the ergonomics of each over time.
 
@@ -65,7 +73,7 @@ class Demo extends Component {
     @use data = Clock;
 
     <template>
-        {{this.time}} prints 2
+        {{this.data}} prints 2
     </template>
 }
 ```
