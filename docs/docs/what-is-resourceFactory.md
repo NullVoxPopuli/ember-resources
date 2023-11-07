@@ -4,6 +4,38 @@
 
 `resourceFactory` provides a compatibility with the design goal of resources given the current limitations of public APIs in Ember. The idea is that we'd eventually get rid of it, and even right now, it's basically a no-op.
 
+<details><summary>What will removing resourceFactory look like?</summary>
+
+This will be automated via codemod in the future, so its best to not worry about the details here, but for the curious:
+
+Since `resourceFactory` is almost no-op function, you would delete it, like this:
+```diff
+  function LocalizedClock(locale) {
+      return resource(() => {
+          /* ... */
+          return 'theValue';
+      });
+  }
+
+- resourceFactory(LocalizedClock);
+```
+
+Or if you have code that more aggressively wrapped the function with `resourceFactory`, your change would look like this:
+
+```diff
+- const LocalizedClock = resourceFactory((locale) => {
++ function LocalizedClock(locale) {
+      return resource(() => {
+          /* ... */
+          return 'theValue';
+      });
+- });
++ }
+```
+
+
+</details>
+
 The behavior that we _want_ when we define a resource like this:
 ```js 
 function LocalizedClock(locale) {
