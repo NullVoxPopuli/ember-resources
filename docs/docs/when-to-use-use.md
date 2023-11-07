@@ -133,9 +133,9 @@ const Clock = resource( ... );
 class Demo extends Component {}
 
 let decorator = use(Clock);
-Object.defineProperty(Demo.prototype, {
+Object.defineProperty(Demo.prototype, 'time', {
     get() {
-        return decorator(this, 'data', /* ... */);
+        return decorator(this, 'time', /* ... */);
     }
 }
 ```
