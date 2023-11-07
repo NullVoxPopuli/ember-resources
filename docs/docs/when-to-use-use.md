@@ -2,7 +2,7 @@
 
 `use` connects resources to _JavaScript_ contexts.
 
-<details><summay>Why do we need to connect anything?</summay>
+<details><summary>Why do we need to connect anything?</summary>
     
 Any non-standand JavaScript pattern needs an abstraction to use. With components, we use `<AngleBracket />` syntax within a rendering system (which then, in turn, gives us a bunch of other convinient things). With resources in JavaScript `use` is an abstraction over the implementation details that ultimately don't matter to users. 
 
