@@ -16,7 +16,7 @@ In templates, a resource is created / initially invoked when rendered.
 
 ## When is a resource destroyed?
 
-In JavaScript, a resource is destroyed when the parent / containing object is destroyed. This could be when a component is no longer needed, when or when a service is destroyed, such as what would happen at the end of a test.
+In JavaScript, a resource is destroyed when the parent / containing object is destroyed. This could be when a component is no longer needed, or when a service is destroyed, such as what would happen at the end of a test.
 
 In templates, a resource is destroyed when it is no longer rendered.
 
