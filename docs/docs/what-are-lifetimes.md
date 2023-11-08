@@ -32,3 +32,32 @@ In this example, the `LocalizedClock` will be created when `condition` is true, 
 
 
 When a resource is destroyed, its `on.cleanup()` (set of) function(s) runs.
+
+
+### When arguments change
+
+When the argument-reference changes, the resource will be destroyed, and will be re-created.
+
+For example:
+
+```js
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { on } from '@ember/modifier';
+
+import { LocalizedClock } from './clock';
+
+export default Demo extends Component {
+    <template>
+        {{LocalizedClock this.locale}}
+
+        <button {{on 'click' this.changeLocale}}>Update</button>
+    </template>
+
+    @tracked locale = 'en-US';
+
+    changeLocale = (newLocal) => this.locale = newLocal;
+}
+```
+
+Once `this.locale` changes, `LocalizedClock` will be destroyed, and is created again with the new `this.locale` value.
