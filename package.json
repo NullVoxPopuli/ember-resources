@@ -32,9 +32,9 @@
   },
   "volta": {
     "node": "20.9.0",
-    "pnpm": "8.10.2"
+    "pnpm": "8.11.0"
   },
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@8.11.0",
   "pnpm": {
     "overrides": {
       "@types/eslint": "7.29.0",
