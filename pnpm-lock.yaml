@@ -201,8 +201,8 @@ importers:
         specifier: 5.4.0
         version: 5.4.0(@babel/core@7.22.10)(@glimmer/component@1.1.2)(@glint/template@1.2.1)(rsvp@4.8.5)(webpack@5.88.2)
       ember-template-lint:
-        specifier: 5.11.2
-        version: 5.11.2
+        specifier: 5.13.0
+        version: 5.13.0
       eslint:
         specifier: ^8.35.0
         version: 8.51.0
@@ -9493,6 +9493,33 @@ packages:
 
   /ember-template-lint@5.11.2:
     resolution: {integrity: sha512-G8KXmFCYLKM9ifMb+rluL8CNIawUl45i4z4VrK+Nn5ciWSo+Vx2jUp+sS6wKCdBqGYoiqjUgn/hmGnCVOId+yQ==}
+    engines: {node: ^14.18.0 || ^16.0.0 || >= 18.0.0}
+    hasBin: true
+    dependencies:
+      '@lint-todo/utils': 13.1.1
+      aria-query: 5.3.0
+      chalk: 5.3.0
+      ci-info: 3.9.0
+      date-fns: 2.30.0
+      ember-template-imports: 3.4.2
+      ember-template-recast: 6.1.4
+      eslint-formatter-kakoune: 1.0.0
+      find-up: 6.3.0
+      fuse.js: 6.6.2
+      get-stdin: 9.0.0
+      globby: 13.2.2
+      is-glob: 4.0.3
+      language-tags: 1.0.9
+      micromatch: 4.0.5
+      resolve: 1.22.8
+      v8-compile-cache: 2.4.0
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /ember-template-lint@5.13.0:
+    resolution: {integrity: sha512-AYxz9S9fVZfHPmTsymc7NwsD7FVmDUZyfC+KYpxDlK0wic7JSQx2FNQNqQSBFRLOuzn7VQ0/+1pX6DGqKDGswg==}
     engines: {node: ^14.18.0 || ^16.0.0 || >= 18.0.0}
     hasBin: true
     dependencies:
