@@ -112,7 +112,7 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 18.18.1
-          pnpm-args: '--no-lockfile' 
+          args: '--no-lockfile' 
       - uses: ./.github/actions/download-built-package
       - run: pnpm i -f
       - run: pnpm --filter test-app test:ember
