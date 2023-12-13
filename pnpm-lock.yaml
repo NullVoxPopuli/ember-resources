@@ -567,7 +567,7 @@ importers:
         version: 1.2.1(@glimmer/component@1.1.2)(@glint/template@1.2.1)(@types/ember__array@4.0.6)(@types/ember__component@4.0.18)(@types/ember__controller@4.0.8)(@types/ember__object@4.0.8)(@types/ember__routing@4.0.16)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.1.0)
       '@glint/environment-ember-template-imports':
         specifier: ^1.0.2
-        version: 1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@3.4.2)
+        version: 1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@4.0.0)
       '@glint/template':
         specifier: ^1.0.2
         version: 1.2.1
@@ -710,8 +710,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-template-imports:
-        specifier: ^3.0.0
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.0.0
       ember-template-lint:
         specifier: ^5.6.0
         version: 5.11.2
@@ -838,7 +838,7 @@ importers:
         version: 1.2.1(@glimmer/component@1.1.2)(@glint/template@1.2.1)(@types/ember__array@4.0.6)(@types/ember__component@4.0.18)(@types/ember__controller@4.0.8)(@types/ember__object@4.0.8)(@types/ember__routing@4.0.16)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.1.0)
       '@glint/environment-ember-template-imports':
         specifier: ^1.0.2
-        version: 1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@3.4.2)
+        version: 1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@4.0.0)
       '@glint/template':
         specifier: ^1.0.2
         version: 1.2.1
@@ -981,8 +981,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-template-imports:
-        specifier: ^3.0.0
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.0.0
       ember-template-lint:
         specifier: ^5.6.0
         version: 5.11.2
@@ -3420,6 +3420,34 @@ packages:
       '@types/ember__helper': 4.0.3(@babel/core@7.22.10)
       '@types/ember__routing': 4.0.16(@babel/core@7.22.10)
       ember-template-imports: 3.4.2
+    dev: true
+
+  /@glint/environment-ember-template-imports@1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(@types/ember__component@4.0.18)(@types/ember__helper@4.0.3)(@types/ember__routing@4.0.16)(ember-template-imports@4.0.0):
+    resolution: {integrity: sha512-yTuF8oQyvVKmU3fCuYtg8Gf02VghQYI36x5/eob6yaMx2M+p3MFO+E6X7ANz/1bYRXphEPTWQMgdDjM4C6Ql4A==}
+    peerDependencies:
+      '@glint/environment-ember-loose': ^1.2.1
+      '@glint/template': ^1.2.1
+      '@types/ember__component': ^4.0.10
+      '@types/ember__helper': ^4.0.1
+      '@types/ember__modifier': ^4.0.3
+      '@types/ember__routing': ^4.0.12
+      ember-template-imports: ^3.0.0
+    peerDependenciesMeta:
+      '@types/ember__component':
+        optional: true
+      '@types/ember__helper':
+        optional: true
+      '@types/ember__modifier':
+        optional: true
+      '@types/ember__routing':
+        optional: true
+    dependencies:
+      '@glint/environment-ember-loose': 1.2.1(@glimmer/component@1.1.2)(@glint/template@1.2.1)(@types/ember__array@4.0.6)(@types/ember__component@4.0.18)(@types/ember__controller@4.0.8)(@types/ember__object@4.0.8)(@types/ember__routing@4.0.16)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.1.0)
+      '@glint/template': 1.2.1
+      '@types/ember__component': 4.0.18(@babel/core@7.22.10)
+      '@types/ember__helper': 4.0.3(@babel/core@7.22.10)
+      '@types/ember__routing': 4.0.16(@babel/core@7.22.10)
+      ember-template-imports: 4.0.0
     dev: true
 
   /@glint/template@1.2.1:
@@ -9499,6 +9527,17 @@ packages:
       parse-static-imports: 1.1.0
       string.prototype.matchall: 4.0.10
       validate-peer-dependencies: 1.2.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /ember-template-imports@4.0.0:
+    resolution: {integrity: sha512-Kw1FnFX3MrBesfsjJDFvVgOf1mANOvMprAH1ngDd5SvdlkltNWCF2UKI9WXKQV3lw5noQC1+n6S80L9Q03D3Hw==}
+    engines: {node: 16.* || >= 18}
+    dependencies:
+      broccoli-stew: 3.0.0
+      content-tag: 1.1.2
+      ember-cli-version-checker: 5.1.2
     transitivePeerDependencies:
       - supports-color
     dev: true
