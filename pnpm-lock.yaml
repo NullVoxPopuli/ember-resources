@@ -207,8 +207,8 @@ importers:
         specifier: ^8.35.0
         version: 8.51.0
       expect-type:
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.17.0
+        version: 0.17.3
       prettier:
         specifier: ^3.0.0
         version: 3.0.3
@@ -740,8 +740,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.1(eslint@8.51.0)
       expect-type:
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.17.0
+        version: 0.17.3
       loader.js:
         specifier: ^4.7.0
         version: 4.7.0
@@ -1011,8 +1011,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.1(eslint@8.51.0)
       expect-type:
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.17.0
+        version: 0.17.3
       loader.js:
         specifier: ^4.7.0
         version: 4.7.0
@@ -10631,8 +10631,8 @@ packages:
     resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
     dev: true
 
-  /expect-type@0.16.0:
-    resolution: {integrity: sha512-wCpFeVBiAPGiYkQZzaqvGuuBnNCHbtnowMOBpBGY8a27XbG8VAit3lklWph1r8VmgsH61mOZqI3NuGm8bZnUlw==}
+  /expect-type@0.17.3:
+    resolution: {integrity: sha512-K0ZdZJ97jiAtaOwhEHHz/f0N6Xbj5reRz5g6+5BO7+OvqQ7PMQz0/c8bFSJs1zPotNJL5HJaC6t6lGPEAtGyOw==}
     engines: {node: '>=12.0.0'}
     dev: true
 
