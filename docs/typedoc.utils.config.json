@@ -24,10 +24,10 @@
   },
   "sidebarLinks": {
     "Resource": "/classes/Resource.html",
-    "resource": "/functions/resource-1.html",
-    "use": "/functions/use.html",
-    "resourceFactory": "/functions/resourceFactory.html",
-    "cell": "/functions/cell.html"
+    "resource": "/funcs/resource-1.html",
+    "use": "/funcs/use.html",
+    "resourceFactory": "/funcs/resourceFactory.html",
+    "cell": "/funcs/cell.html"
   },
   "entryPointStrategy": "resolve",
   "readme": "none",
