@@ -11,17 +11,17 @@
     "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
   },
   "sidebarLinks": {
-    "link": "/functions/link.link.html",
-    "modifier": "/functions/modifier.modifier.html",
-    "service": "/functions/service.service.html",
-    "RemoteData": "/functions/util_remote_data.RemoteData.html",
-    "UpdateFrequency": "/functions/util_fps.UpdateFrequency.html",
-    "keepLatest": "/functions/util_keep_latest.keepLatest.html",
-    "debounce": "/functions/util_debounce.debounce.html",
-    "map": "/functions/util_map.map.html",
-    "trackedFunction": "/functions/util_function.trackedFunction.html",
-    "trackedTask": "/functions/util_ember_concurrency.trackedTask.html",
-    "helper": "/functions/util_helper.helper.html"
+    "link": "/funcs/link.link.html",
+    "modifier": "/funcs/modifier.modifier.html",
+    "service": "/funcs/service.service.html",
+    "RemoteData": "/funcs/util_remote_data.RemoteData.html",
+    "UpdateFrequency": "/funcs/util_fps.UpdateFrequency.html",
+    "keepLatest": "/funcs/util_keep_latest.keepLatest.html",
+    "debounce": "/funcs/util_debounce.debounce.html",
+    "map": "/funcs/util_map.map.html",
+    "trackedFunction": "/funcs/util_function.trackedFunction.html",
+    "trackedTask": "/funcs/util_ember_concurrency.trackedTask.html",
+    "helper": "/funcs/util_helper.helper.html"
   },
   "entryPointStrategy": "resolve",
   "readme": "../README.md",
