@@ -1,4 +1,4 @@
-# ember-resources
+# Changelog
 
 ## 6.4.2
 
