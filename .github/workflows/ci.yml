@@ -174,41 +174,6 @@ jobs:
         run: pnpm test:ember
         working-directory: ${{ matrix.concurrencyVersion }} 
 
-
-  # https://github.com/changesets/action
-  release:
-    name: Release
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs:
-      - default_tests
-      - floating_tests
-      - typecheck
-      - try_scenarios
-      - test-ember-concurrency
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: wyvox/action-setup-pnpm@v3
-        with:
-          node-version: 18.18.1
-      - uses: ./.github/actions/download-built-package
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
-          title: "Release Preview"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-
-
   MeasureAssetSizes:
     name: Measure Asset Sizes
     runs-on: ubuntu-latest
