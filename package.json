@@ -4,16 +4,16 @@
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
-    "release": "changeset publish",
-    "dev": "concurrently 'npm:dev:*' --prefix-colors cyan,white,yellow --restart-tries -1",
-    "dev:ember": "pnpm run --filter test-app start",
-    "dev:addon": "pnpm run --filter ember-resources start --no-watch.clearScreen",
-    "dev:docs": "pnpm run --filter docs docs:watch --preserveWatchOutput",
-    "ci:update": "npx ember-ci-update",
     "build": "pnpm run --filter ember-resources build",
     "build:docs": "pnpm run --filter docs docs:collect",
+    "ci:update": "npx ember-ci-update",
+    "dev": "concurrently 'npm:dev:*' --prefix-colors cyan,white,yellow --restart-tries -1",
+    "dev:addon": "pnpm run --filter ember-resources start --no-watch.clearScreen",
+    "dev:docs": "pnpm run --filter docs docs:watch --preserveWatchOutput",
+    "dev:ember": "pnpm run --filter test-app start",
     "lint": "pnpm run --filter '*' lint",
-    "lint:fix": "pnpm run --filter '*' lint:fix"
+    "lint:fix": "pnpm run --filter '*' lint:fix",
+    "release": "changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
@@ -23,18 +23,19 @@
     "eslint": "^8.35.0",
     "loader.js": "^4.7.0",
     "prettier": "^3.0.0",
+    "release-plan": "^0.6.0",
     "typescript": "^5.0.0"
   },
+  "packageManager": "pnpm@8.12.1",
   "engines": {
     "node": ">= 18.*",
-    "yarn": "use pnpm",
-    "npm": "use pnpm"
+    "npm": "use pnpm",
+    "yarn": "use pnpm"
   },
   "volta": {
     "node": "20.10.0",
     "pnpm": "8.12.1"
   },
-  "packageManager": "pnpm@8.12.1",
   "pnpm": {
     "overrides": {
       "@types/eslint": "7.29.0",
