@@ -59,7 +59,6 @@ import type { Cache } from '../core/types';
  *  {{this.last.value}}
  *  {{this.last.isFinished}}
  *  {{this.last.isRunning}}
- *  {{this.last.value}}
  * ```
  *  (and all other properties on a [TaskInstance](https://ember-concurrency.com/api/TaskInstance.html))
  *
