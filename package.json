@@ -35,6 +35,8 @@
   },
   "pnpm": {
     "overrides": {
+      "ember-eslint-parser": "0.2.5",
+      "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master",
       "@types/eslint": "7.29.0",
       "mustache": "^4.2.0"
     },
