@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { setOwner } from '@ember/application';
-// @ts-ignore
+// @ts-ignore @ember/modifier does not provide types :(
 import { on } from '@ember/modifier';
 import { click, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';

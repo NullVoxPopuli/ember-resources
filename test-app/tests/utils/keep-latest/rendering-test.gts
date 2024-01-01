@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-// @ts-ignore
+// @ts-ignore @ember/helper does not provide types :(
 import { fn, hash } from '@ember/helper';
 import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';

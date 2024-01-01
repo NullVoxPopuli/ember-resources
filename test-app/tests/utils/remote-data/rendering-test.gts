@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-// @ts-ignore
+// @ts-ignore @ember/modifier does not provide types :(
 import { on } from '@ember/modifier';
 import { click, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
