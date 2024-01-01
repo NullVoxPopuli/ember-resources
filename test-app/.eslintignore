@@ -1,7 +1,3 @@
-# Waiting on upstream fixes
-*.gjs
-*.gts
-
 # unconventional js
 /blueprints/*/files/
 /vendor/

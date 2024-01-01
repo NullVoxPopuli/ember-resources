@@ -3,7 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { get } from '@ember/helper';
 
 import { resource, use } from 'ember-resources';
-import { Calculator, Doubler, overInvalidatingClock, clock } from './-resources';
+
+import { Calculator, clock,Doubler, overInvalidatingClock } from './-resources';
 
 const SomeClocks = <template>
   {{!-- direct invocation --}}

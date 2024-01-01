@@ -2,7 +2,7 @@ import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, cell } from 'ember-resources';
+import { cell,resource } from 'ember-resources';
 import { modifier } from 'ember-resources/modifier';
 
 module('modifier | rendering', function (hooks) {

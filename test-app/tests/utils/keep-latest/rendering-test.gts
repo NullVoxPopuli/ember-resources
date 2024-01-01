@@ -1,8 +1,8 @@
 import { tracked } from '@glimmer/tracking';
 // @ts-ignore
 import { fn, hash } from '@ember/helper';
-import { module, test } from 'qunit';
 import { render, settled } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { trackedFunction } from 'ember-resources/util/function';
