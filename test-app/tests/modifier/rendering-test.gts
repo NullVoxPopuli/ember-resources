@@ -2,7 +2,7 @@ import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, cell } from 'ember-resources';
+import { cell,resource } from 'ember-resources';
 import { modifier } from 'ember-resources/modifier';
 
 module('modifier | rendering', function (hooks) {
@@ -10,7 +10,7 @@ module('modifier | rendering', function (hooks) {
 
   test('throws an error if no argument is passed', async function (assert) {
     assert.throws(() => {
-      // @ts-expect-error
+      // @ts-expect-error - deliberately testing an error here
       modifier();
     }, /modifier\(\) must be invoked with a function/);
   });

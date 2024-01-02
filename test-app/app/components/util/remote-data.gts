@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import { use, resource } from 'ember-resources';
-import { remoteData, RemoteData } from 'ember-resources/util/remote-data';
+import { resource,use } from 'ember-resources';
+import { RemoteData,remoteData } from 'ember-resources/util/remote-data';
 
 const formatError = (error: unknown) => {
   return `Hey!, ${error}`;

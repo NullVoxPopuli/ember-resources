@@ -1,13 +1,13 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { click, render, settled } from '@ember/test-helpers';
-// @ts-ignore
+import { setOwner } from '@ember/application';
+// @ts-ignore @ember/modifier does not provide types :(
 import { on } from '@ember/modifier';
+import { click, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { setOwner } from '@ember/application';
 
-import { cell, use, resource, resourceFactory } from 'ember-resources';
+import { cell, resource, resourceFactory,use } from 'ember-resources';
 import { trackedFunction } from 'ember-resources/util/function';
 
 const timeout = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

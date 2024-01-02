@@ -1,17 +1,16 @@
 import Component from '@glimmer/component';
+import { find,render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { render, find } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { cell, Resource, resource } from 'ember-resources';
 import { service, serviceOverride } from 'ember-resources/service';
-
-import type Owner from '@ember/owner';
-
 // This export is marked as @internal, so it is not present in
 // the built d.ts files.
-// @ts-expect-error
+// @ts-expect-error - types are deliberately not exported
 import { __secret_service_cache__ } from 'ember-resources/service';
+
+import type Owner from '@ember/owner';
 
 const CACHE = __secret_service_cache__ as WeakMap<Owner, Map<object, any>>;
 

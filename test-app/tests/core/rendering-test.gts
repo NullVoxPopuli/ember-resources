@@ -1,12 +1,11 @@
 import { tracked } from '@glimmer/tracking';
+// @ts-ignore @ember/modifier does not provide types :(
+import { on } from '@ember/modifier';
 import { click, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-// @ts-ignore
-import { on } from '@ember/modifier';
-
-import { Resource, resourceFactory, resource, cell, use } from 'ember-resources';
+import { cell, Resource, resource, resourceFactory, use } from 'ember-resources';
 
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -95,6 +94,7 @@ module('Core | Resource | rendering', function (hooks) {
         return resource(({ on }) => {
           assert.step(`setup: ${id}`);
           on.cleanup(() => assert.step(`cleanup: ${id}`));
+
           return id;
         });
       });

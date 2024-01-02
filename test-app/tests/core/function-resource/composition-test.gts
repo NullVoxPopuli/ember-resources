@@ -1,9 +1,9 @@
-import { render, rerender, clearRender, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
+import { clearRender, render, rerender, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, cell, resourceFactory } from 'ember-resources';
+import { cell, resource, resourceFactory } from 'ember-resources';
 
 // Will need to be a class for .current flattening / auto-rendering
 interface Reactive<Value> {
@@ -44,11 +44,13 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     await render(<template><time>{{Stopwatch}}</time></template>);
 
     let first = formatter.format(Date.now());
+
     assert.dom('time').hasText(first);
 
     await wait(1010);
 
     let second = formatter.format(Date.now());
+
     assert.dom('time').hasText(second);
     assert.notEqual(first, second);
   });
@@ -125,11 +127,13 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     await render(<template><time>{{Stopwatch 250}}</time></template>);
 
     let first = formatter.format(Date.now());
+
     assert.dom('time').hasText(first);
 
     await wait(1010);
 
     let second = formatter.format(Date.now());
+
     assert.dom('time').hasText(second);
     assert.notEqual(first, second);
   });
@@ -171,6 +175,7 @@ module('Core | (function) resource | use | rendering', function (hooks) {
 
     const Outer = resource(({ on }) => {
       let outerValue = state.outerValue;
+
       assert.step(`Outer:setup ${outerValue}`);
 
       on.cleanup(() => {
@@ -179,12 +184,14 @@ module('Core | (function) resource | use | rendering', function (hooks) {
 
       return () => {
         assert.step(`Outer:value:${state.value}`);
+
         return state.value;
       };
     });
 
     const Inner = resource(({ on, use }) => {
       let innerValue = state.innerValue;
+
       assert.step(`Inner:setup ${innerValue}`);
 
       let result = use(Outer);
@@ -195,6 +202,7 @@ module('Core | (function) resource | use | rendering', function (hooks) {
 
       return () => {
         assert.step(`Inner:value:${result.current}`);
+
         return result.current;
       };
     });

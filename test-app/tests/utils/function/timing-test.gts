@@ -19,6 +19,7 @@ module('Utils | trackedFunction | timing', function (hooks) {
       step(`fn:begin:${value}`);
       await Promise.resolve();
       step(`fn:end:${value}`);
+
       return `yay:${value}`;
     }
 
@@ -66,9 +67,11 @@ module('Utils | trackedFunction | timing', function (hooks) {
     class Example extends Component<{ Args: { value: unknown } }> {
       request = trackedFunction(this, async () => {
         let value = this.args.value;
+
         step(`fn:begin:${value}`);
         await Promise.resolve();
         step(`fn:end:${value}`);
+
         return `yay:${value}`;
       });
 

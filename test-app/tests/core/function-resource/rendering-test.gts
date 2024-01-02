@@ -6,7 +6,7 @@ import { clearRender, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { resource, use, cell } from 'ember-resources';
+import { cell,resource, use } from 'ember-resources';
 
 module('Utils | (function) resource | rendering', function (hooks) {
   setupRenderingTest(hooks);

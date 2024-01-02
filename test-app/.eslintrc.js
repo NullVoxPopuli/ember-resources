@@ -9,7 +9,21 @@ module.exports = {
   overrides: [
     ...config.overrides,
     {
-      files: ['**/*.ts'],
+      files: ['**/*.gts'],
+      plugins: ['ember'],
+      parser: 'ember-eslint-parser',
+      globals: {
+        // used in testing as a shorthand for <output>
+        out: true,
+      },
+    },
+    {
+      files: ['**/*.gjs'],
+      plugins: ['ember'],
+      parser: 'ember-eslint-parser',
+    },
+    {
+      files: ['**/*.{ts,gts}'],
       rules: {
         /**
          * This one is incorrectly parsed for now, because

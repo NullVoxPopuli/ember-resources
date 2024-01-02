@@ -1,12 +1,12 @@
 import { tracked } from '@glimmer/tracking';
-import { click, render, settled } from '@ember/test-helpers';
-// @ts-ignore
+// @ts-ignore @ember/modifier does not provide types :(
 import { on } from '@ember/modifier';
+import { click, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { setupMSW } from 'test-app/tests/msw';
 import { RemoteData } from 'ember-resources/util/remote-data';
+import { setupMSW } from 'test-app/tests/msw';
 
 let data = [
   { id: '1', type: 'blogs', attributes: { name: `name:1` } },

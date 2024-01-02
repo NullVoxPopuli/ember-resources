@@ -1,6 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 import { destroy } from '@ember/destroyable';
-// @ts-ignore
+// @ts-ignore @ember/helper does not provide types :(
 import { hash } from '@ember/helper';
 import { clearRender, find, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
