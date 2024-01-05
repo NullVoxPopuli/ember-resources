@@ -70,12 +70,31 @@ interface Options<T = unknown> {
 export function keepLatest<Return = unknown>({ when, value: valueFn }: Options<Return>) {
   return resource(() => {
     let previous: Return;
+    let initial = true;
 
     return () => {
       let value = valueFn();
 
+
       if (when()) {
-        return (previous = isEmpty(value) && !isEmpty(previous) ? previous : value);
+        /**
+          * Initially, if we may as well return the value instead
+          * of the "previous" value is there is no previous yet.
+          *
+          * We check against undefined, because that's what
+          * `previous` is "initialized" to.
+          *
+          * And then we never enter this block again, because
+          * we will have previous values in future invocations of this
+          * Formula.
+          */
+        if (previous === undefined && initial) {
+          initial = false;
+
+          return value;
+        }
+
+        return (previous = isEmpty(value) ? previous : value);
       }
 
       return (previous = value);
