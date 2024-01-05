@@ -1,10 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 // @ts-ignore @ember/helper does not provide types :(
 import { fn, hash } from '@ember/helper';
-// @ts-ignore there is no @types/* package for this
-// import { renderSettled } from '@ember/renderer';
-// @ts-ignore @ember/renderer doesn't exist in old Ember
-export { renderSettled } from '@ember/-internals/glimmer';
 import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -92,20 +88,20 @@ module('Utils | keepLatest | rendering', function (hooks) {
     assert.dom().hasText('[1]');
 
     instance.x = [];
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[1]');
     await settled();
     assert.dom().hasText('[]');
 
     instance.x = 0;
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[]');
 
     await settled();
     assert.dom().hasText('0');
 
     instance.x = [1];
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('0');
 
     await settled();
@@ -113,7 +109,7 @@ module('Utils | keepLatest | rendering', function (hooks) {
 
     instance.x = [1, 2];
     assert.dom().hasText('[1]');
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[1]');
 
     await settled();
@@ -147,7 +143,7 @@ module('Utils | keepLatest | rendering', function (hooks) {
 
     render(<template>{{JSON.stringify instance.data}}</template>);
 
-    await renderSettled();
+    await timeout(8);
     /**
       * Initially, a `trackedFunction` returns null.
       * we could craft a resource that returns something other than null,
@@ -162,20 +158,20 @@ module('Utils | keepLatest | rendering', function (hooks) {
     assert.dom().hasText('[1]', 'non-empty value exists and set explicitly');
 
     instance.x = [];
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[1]', 'retains previous value of [1]');
     await settled();
     assert.dom().hasText('[]', 'value resolved to empty []');
 
     instance.x = null;
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[]', 'retains previous value of []');
 
     await settled();
     assert.dom().hasText('"default"', 'empty value set, falling back to default');
 
     instance.x = [1];
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('"default"', 'not yet resolved, previous value used');
 
     await settled();
@@ -183,7 +179,7 @@ module('Utils | keepLatest | rendering', function (hooks) {
 
     instance.x = [1, 2];
     assert.dom().hasText('[1]', 'retains previous non-empty value');
-    await renderSettled();
+    await timeout(8);
     assert.dom().hasText('[1]', 'retains previous non-empty value');
 
     await settled();
