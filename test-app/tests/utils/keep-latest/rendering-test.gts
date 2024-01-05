@@ -2,7 +2,9 @@ import { tracked } from '@glimmer/tracking';
 // @ts-ignore @ember/helper does not provide types :(
 import { fn, hash } from '@ember/helper';
 // @ts-ignore there is no @types/* package for this
-import { renderSettled } from '@ember/renderer';
+// import { renderSettled } from '@ember/renderer';
+// @ts-ignore @ember/renderer doesn't exist in old Ember
+export { renderSettled } from '@ember/-internals/glimmer';
 import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
