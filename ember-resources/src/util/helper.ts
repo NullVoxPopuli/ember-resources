@@ -16,7 +16,7 @@ deprecate(
     `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
     `\`pnpm add reactiveweb\` and then \` import { helper } from 'reactiveweb/helper';\`. ` +
     `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
-  true,
+  false,
   {
     id: `ember-resources.util.fps`,
     until: `7.0.0`,

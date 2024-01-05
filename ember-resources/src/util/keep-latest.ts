@@ -7,7 +7,7 @@ deprecate(
     `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
     `\`pnpm add reactiveweb\` and then \` import { keepLatest } from 'reactiveweb/keep-latest';\`. ` +
     `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
-  true,
+  false,
   {
     id: `ember-resources.util.keepLatest`,
     until: `7.0.0`,

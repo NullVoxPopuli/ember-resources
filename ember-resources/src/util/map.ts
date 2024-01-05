@@ -11,7 +11,7 @@ deprecate(
     `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
     `\`pnpm add reactiveweb\` and then \` import { map } from 'reactiveweb/map';\`. ` +
     `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
-  true,
+  false,
   {
     id: `ember-resources.util.map`,
     until: `7.0.0`,

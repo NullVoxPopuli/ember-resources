@@ -13,7 +13,7 @@ deprecate(
     `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
     `\`pnpm add reactiveweb\` and then \` import { RemoteData } from 'reactiveweb/remote-data';\`. ` +
     `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
-  true,
+  false,
   {
     id: `ember-resources.util.remoteData`,
     until: `7.0.0`,

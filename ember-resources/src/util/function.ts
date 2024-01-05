@@ -12,7 +12,7 @@ deprecate(
     `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
     `\`pnpm add reactiveweb\` and then \` import { trackedFunction } from 'reactiveweb/function';\`. ` +
     `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
-  true,
+  false,
   {
     id: `ember-resources.util.function`,
     until: `7.0.0`,
