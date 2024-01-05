@@ -32,7 +32,7 @@ module('Utils | keepLatest | js', function (hooks) {
 
     let instance = new Test();
 
-    assert.strictEqual(instance.data, undefined);
+    assert.strictEqual(instance.data, null);
 
     await timeout(100);
 
