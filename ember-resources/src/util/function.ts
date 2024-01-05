@@ -1,10 +1,26 @@
 import { tracked } from '@glimmer/tracking';
+import { deprecate } from '@ember/debug';
 import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from '@ember/destroyable';
 
 import { TrackedAsyncData } from 'ember-async-data';
 
 import { resource } from '../core/function-based';
+
+deprecate(
+  `importing from 'ember-resources/util/function' is deprecated and will be removed in ember-resources@v7. `
+  + `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. `
+  + `\`pnpm add reactiveweb\` and then \` import { trackedFunction } from 'reactiveweb/function';\`. `
+  + `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`, true, {
+  id: `ember-resources.util.function`,
+  until: `7.0.0`,
+  for: `ember-resources`,
+  url: `https://reactive.nullvoxpopuli.com/functions/function.trackedFunction.html`,
+  since: {
+    available: '6.4.4',
+    enabled: '6.4.4',
+  }
+});
 
 /**
  * <div class="callout note">

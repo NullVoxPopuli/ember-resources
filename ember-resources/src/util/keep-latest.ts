@@ -6,12 +6,15 @@ deprecate(
   `importing from 'ember-resources/util/keep-latest' is deprecated and will be removed in ember-resources@v7. `
   + `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. `
   + `\`pnpm add reactiveweb\` and then \` import { keepLatest } from 'reactiveweb/keep-latest';\`. `
-  + `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`, {
+  + `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`, true, {
   id: `ember-resources.util.keepLatest`,
   until: `7.0.0`,
   for: `ember-resources`,
   url: `https://reactive.nullvoxpopuli.com/functions/keep_latest.keepLatest.html`,
-  since: 'enabled',
+  since: {
+    available: '6.4.4',
+    enabled: '6.4.4',
+  }
 });
 
 const isEmpty = (x: undefined | unknown | unknown[]) => {
