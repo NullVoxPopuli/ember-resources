@@ -1,6 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 // @ts-ignore @ember/helper does not provide types :(
 import { fn, hash } from '@ember/helper';
+// @ts-ignore there is no @types/* package for this
 import { renderSettled } from '@ember/renderer';
 import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
