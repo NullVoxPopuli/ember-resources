@@ -18,21 +18,23 @@ import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
 import type { Cache } from '../core/types';
 
-
 deprecate(
-  `importing from 'ember-resources/util/ember-concurrency' is deprecated and will be removed in ember-resources@v7. `
-  + `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. `
-  + `\`pnpm add reactiveweb\` and then \` import { task, trackedTask } from 'reactiveweb/ember-concurrency';\`. `
-  + `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`, true, {
-  id: `ember-resources.util.trackedTask`,
-  until: `7.0.0`,
-  for: `ember-resources`,
-  url: `https://reactive.nullvoxpopuli.com/functions/ember_concurrency.task.html`,
-  since: {
-    available: '6.4.4',
-    enabled: '6.4.4',
-  }
-});
+  `importing from 'ember-resources/util/ember-concurrency' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { task, trackedTask } from 'reactiveweb/ember-concurrency';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  true,
+  {
+    id: `ember-resources.util.trackedTask`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/ember_concurrency.task.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 /**
  * <div class="callout note">
