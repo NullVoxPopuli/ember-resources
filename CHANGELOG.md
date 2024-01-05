@@ -1,4 +1,25 @@
 # Changelog
+## Release (2024-01-05)
+
+ember-resources 6.4.3 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`, `test-app`
+  * [#1051](https://github.com/NullVoxPopuli/ember-resources/pull/1051) Fix issue with keepLatest and empty values ([@wagenet](https://github.com/wagenet))
+* `ember-resources`
+  * [#1067](https://github.com/NullVoxPopuli/ember-resources/pull/1067) chore: fix ember-concurrency doc ([@Yelinz](https://github.com/Yelinz))
+
+#### :house: Internal
+* `test-app`
+  * [#1069](https://github.com/NullVoxPopuli/ember-resources/pull/1069)  Eslint plugin ember alpha v12 testing ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* Other
+  * [#1062](https://github.com/NullVoxPopuli/ember-resources/pull/1062) Setup release plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 4
+- Peter Wagenet ([@wagenet](https://github.com/wagenet))
+- Yelin Zhang ([@Yelinz](https://github.com/Yelinz))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@johanrd](https://github.com/johanrd)
 
 ## 6.4.2
 

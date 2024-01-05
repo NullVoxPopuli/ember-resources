@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "ember-resources": {
+      "impact": "patch",
+      "oldVersion": "6.4.2",
+      "newVersion": "6.4.3",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./ember-resources/package.json"
+    }
+  },
+  "description": "## Release (2024-01-05)\n\nember-resources 6.4.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`, `test-app`\n  * [#1051](https://github.com/NullVoxPopuli/ember-resources/pull/1051) Fix issue with keepLatest and empty values ([@wagenet](https://github.com/wagenet))\n* `ember-resources`\n  * [#1067](https://github.com/NullVoxPopuli/ember-resources/pull/1067) chore: fix ember-concurrency doc ([@Yelinz](https://github.com/Yelinz))\n\n#### :house: Internal\n* `test-app`\n  * [#1069](https://github.com/NullVoxPopuli/ember-resources/pull/1069)  Eslint plugin ember alpha v12 testing ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* Other\n  * [#1062](https://github.com/NullVoxPopuli/ember-resources/pull/1062) Setup release plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 4\n- Peter Wagenet ([@wagenet](https://github.com/wagenet))\n- Yelin Zhang ([@Yelinz](https://github.com/Yelinz))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n- [@johanrd](https://github.com/johanrd)\n"
+}
