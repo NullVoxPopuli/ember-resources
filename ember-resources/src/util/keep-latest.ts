@@ -1,4 +1,18 @@
+import { deprecate } from '@ember/debug';
+
 import { resource, resourceFactory } from '../core/function-based';
+
+deprecate(
+  `importing from 'ember-resources/util/keep-latest' is deprecated and will be removed in ember-resources@v7. `
+  + `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. `
+  + `\`pnpm add reactiveweb\` and then \` import { keepLatest } from 'reactiveweb/keep-latest';\`. `
+  + `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`, {
+  id: `ember-resources.util.keepLatest`,
+  until: `7.0.0`,
+  for: `ember-resources`,
+  url: `https://reactive.nullvoxpopuli.com/functions/keep_latest.keepLatest.html`,
+  since: 'enabled',
+});
 
 const isEmpty = (x: undefined | unknown | unknown[]) => {
   if (Array.isArray(x)) {
@@ -76,22 +90,22 @@ export function keepLatest<Return = unknown>({ when, value: valueFn }: Options<R
       let value = valueFn();
 
       if (when()) {
-        /**
-         * Initially, if we may as well return the value instead
-         * of the "previous" value is there is no previous yet.
+/**
+ * Initially, if we may as well return the value instead
+ * of the "previous" value is there is no previous yet.
+ *
+ * We check against undefined, because that's what
+   `previous` is "initialized" to.
          *
-         * We check against undefined, because that's what
-         * `previous` is "initialized" to.
-         *
-         * And then we never enter this block again, because
-         * we will have previous values in future invocations of this
+   And then we never enter this block again, because
+ * we will have previous values in future invocations of this
          * Formula.
-         */
-        if (previous === undefined && initial) {
+ */
+  if (previous === undefined && initial) {
           initial = false;
 
-          return value;
-        }
+      return value;
+      }
 
         return (previous = isEmpty(value) ? previous : value);
       }
