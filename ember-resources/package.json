@@ -15,16 +15,6 @@
     "./link": "./dist/link.js",
     "./service": "./dist/service.js",
     "./modifier": "./dist/modifier/index.js",
-    "./util": "./dist/util/index.js",
-    "./util/cell": "./dist/core/cell.js",
-    "./util/keep-latest": "./dist/util/keep-latest.js",
-    "./util/fps": "./dist/util/fps.js",
-    "./util/map": "./dist/util/map.js",
-    "./util/helper": "./dist/util/helper.js",
-    "./util/remote-data": "./dist/util/remote-data.js",
-    "./util/debounce": "./dist/util/debounce.js",
-    "./util/function": "./dist/util/function.js",
-    "./util/ember-concurrency": "./dist/util/ember-concurrency.js",
     "./addon-main.js": "./addon-main.cjs"
   },
   "typesVersions": {
@@ -43,36 +33,6 @@
       ],
       "modifier": [
         "dist/modifier/index.d.ts"
-      ],
-      "util": [
-        "dist/util/index.d.ts"
-      ],
-      "util/cell": [
-        "dist/util/cell.d.ts"
-      ],
-      "util/keep-latest": [
-        "dist/util/keep-latest.d.ts"
-      ],
-      "util/function": [
-        "dist/util/function.d.ts"
-      ],
-      "util/fps": [
-        "dist/util/fps.d.ts"
-      ],
-      "util/map": [
-        "dist/util/map.d.ts"
-      ],
-      "util/helper": [
-        "dist/util/helper.d.ts"
-      ],
-      "util/debounce": [
-        "dist/util/debounce.d.ts"
-      ],
-      "util/remote-data": [
-        "dist/util/remote-data.d.ts"
-      ],
-      "util/ember-concurrency": [
-        "dist/util/ember-concurrency.d.ts"
       ]
     }
   },
