@@ -22,9 +22,9 @@ import type Owner from '@ember/owner';
 
 deprecate(
   `importing from 'ember-resources/service' is deprecated and will be removed in ember-resources@v7. ` +
-  `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
-  `\`pnpm add reactiveweb\` and then \` import { service } from 'reactiveweb/resource/service';\`. ` +
-  `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { service } from 'reactiveweb/resource/service';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
   false,
   {
     id: `ember-resources.service`,
@@ -148,7 +148,7 @@ export function service(resource: unknown) {
 
     assert(
       `@service(...) may not be used with an initializer. For example, ` +
-      `\`@service(MyService) property;\``,
+        `\`@service(MyService) property;\``,
       !descriptor.initializer,
     );
 
@@ -163,8 +163,8 @@ export function service(resource: unknown) {
 
         assert(
           `owner was not found on instance of ${this.constructor.name}. ` +
-          `Has it been linked up correctly with setOwner?` +
-          `If this error has occured in a framework-controlled class, something has gone wrong.`,
+            `Has it been linked up correctly with setOwner?` +
+            `If this error has occured in a framework-controlled class, something has gone wrong.`,
           owner,
         );
 
@@ -189,7 +189,7 @@ export function service(resource: unknown) {
           if (INTERNAL in resource && 'type' in resource) {
             assert(
               `When using resources with @service(...), do not call .from() on class-based resources. ` +
-              `Resources used as services may not take arguments.`,
+                `Resources used as services may not take arguments.`,
               resource.type === 'function-based',
             );
 
