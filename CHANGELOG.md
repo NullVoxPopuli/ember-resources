@@ -1,4 +1,24 @@
 # Changelog
+## Release (2024-01-08)
+
+ember-resources 6.5.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-resources`
+  * [#1076](https://github.com/NullVoxPopuli/ember-resources/pull/1076) Deprecate and move service and modifier to reactiveweb ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1077](https://github.com/NullVoxPopuli/ember-resources/pull/1077) Deprecate the class-based Resource, moved to ember-modify-based-class-resource ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1070](https://github.com/NullVoxPopuli/ember-resources/pull/1070) [v6]: Deprecate util/* imports ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* `ember-resources`
+  * [#1078](https://github.com/NullVoxPopuli/ember-resources/pull/1078) Update deprecation links ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* `test-app`
+  * [#1074](https://github.com/NullVoxPopuli/ember-resources/pull/1074) [v6]: Ensure that the available API for v7 does not throw deprecations ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2024-01-05)
 
 ember-resources 6.4.3 (patch)
