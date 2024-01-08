@@ -20,7 +20,7 @@ deprecate(
     id: `ember-resources.modifier`,
     until: `7.0.0`,
     for: `ember-resources`,
-    url: `https://reactive.nullvoxpopuli.com/functions/link.link.html`,
+    url: `https://reactive.nullvoxpopuli.com/functions/resource_modifier.modifier.html`,
     since: {
       available: '6.4.4',
       enabled: '6.4.4',
