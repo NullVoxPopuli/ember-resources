@@ -1,4 +1,5 @@
 import { tracked } from '@glimmer/tracking';
+import { deprecate } from '@ember/debug';
 import { waitForPromise } from '@ember/test-waiters';
 
 import { resource, resourceFactory } from '../core/function-based';
@@ -6,6 +7,24 @@ import { resource, resourceFactory } from '../core/function-based';
 import type { ResourceAPI } from '../core/function-based';
 
 type FetchOptions = Parameters<typeof fetch>[1];
+
+deprecate(
+  `importing from 'ember-resources/util/remote-data' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { RemoteData } from 'reactiveweb/remote-data';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.util.remoteData`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/remote_data.remoteData-1.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 /**
  * @protected

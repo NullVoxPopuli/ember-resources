@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable ember/no-get */
-
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
+import { deprecate } from '@ember/debug';
 import { assert } from '@ember/debug';
 // typed-ember has not publihsed types for this yet
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -17,6 +17,24 @@ import { Resource } from '../core/class-based';
 import { DEFAULT_THUNK, normalizeThunk } from '../core/utils';
 
 import type { Cache } from '../core/types';
+
+deprecate(
+  `importing from 'ember-resources/util/ember-concurrency' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { task, trackedTask } from 'reactiveweb/ember-concurrency';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.util.trackedTask`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/ember_concurrency.task.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 /**
  * <div class="callout note">

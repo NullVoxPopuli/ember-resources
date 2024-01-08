@@ -1,5 +1,6 @@
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
+import { deprecate } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
@@ -9,6 +10,24 @@ import type { Cache, Thunk } from '../core/types';
 import type ClassBasedHelper from '@ember/component/helper';
 import type { FunctionBasedHelper } from '@ember/component/helper';
 import type { HelperLike } from '@glint/template';
+
+deprecate(
+  `importing from 'ember-resources/util/helper' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { helper } from 'reactiveweb/helper';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.util.fps`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/helper.helper.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 type Get<T, K, Otherwise = unknown> = K extends keyof T ? T[K] : Otherwise;
 

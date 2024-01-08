@@ -1,6 +1,25 @@
 import { tracked } from '@glimmer/tracking';
+import { deprecate } from '@ember/debug';
 
 import { resource } from '../core';
+
+deprecate(
+  `importing from 'ember-resources/util/debounce' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { debounce } from 'reactiveweb/debounce';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.util.debounce`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/debounce.debounce.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 class TrackedValue<T> {
   @tracked value: T | undefined;

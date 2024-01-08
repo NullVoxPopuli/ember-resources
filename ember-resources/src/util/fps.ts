@@ -1,4 +1,24 @@
+import { deprecate } from '@ember/debug';
+
 import { cell, resource, resourceFactory } from '../index';
+
+deprecate(
+  `importing from 'ember-resources/util/fps' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { FrameRate, UpdateFrequency } from 'reactiveweb/fps';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.util.fps`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/modules/fps.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 /**
  * <div class="callout note">
