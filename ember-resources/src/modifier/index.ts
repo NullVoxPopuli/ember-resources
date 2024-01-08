@@ -1,4 +1,5 @@
 import { assert } from '@ember/debug';
+import { deprecate } from '@ember/debug';
 // @ts-expect-error
 import { setModifierManager } from '@ember/modifier';
 
@@ -9,20 +10,38 @@ import type { resource } from '../index';
 import type { ArgsFor, ElementFor, EmptyObject } from '[core-types]';
 import type { ModifierLike } from '@glint/template';
 
+deprecate(
+  `importing from 'ember-resources/modifier' is deprecated and will be removed in ember-resources@v7. ` +
+  `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+  `\`pnpm add reactiveweb\` and then \` import { service } from 'reactiveweb/resource/modifier';\`. ` +
+  `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.modifier`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/link.link.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
+
 // Provide a singleton manager.
 const MANAGER = new FunctionBasedModifierManager();
 
 type PositionalArgs<S> = S extends { Args?: object } ? ArgsFor<S['Args']>['Positional'] : [];
 type NamedArgs<S> = S extends { Args?: object }
   ? ArgsFor<S['Args']>['Named'] extends object
-    ? ArgsFor<S['Args']>['Named']
-    : EmptyObject
+  ? ArgsFor<S['Args']>['Named']
+  : EmptyObject
   : EmptyObject;
 
 type ArgsForFn<S> = S extends { Args?: object }
   ? ArgsFor<S['Args']>['Named'] extends EmptyObject
-    ? [...PositionalArgs<S>]
-    : [...PositionalArgs<S>, NamedArgs<S>]
+  ? [...PositionalArgs<S>]
+  : [...PositionalArgs<S>, NamedArgs<S>]
   : [];
 
 /**
