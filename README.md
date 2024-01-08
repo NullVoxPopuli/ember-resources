@@ -19,6 +19,8 @@ _An_ implementation of the _Resource_ pattern in Ember.JS.
 [gh-ember-source]: https://github.com/emberjs/ember.js/
 [gh-typescript]: https://github.com/Microsoft/TypeScript/releases
 
+For `ember-resources@v6.x`, see [the v6 branch](https://github.com/NullVoxPopuli/ember-resources/tree/v6)
+
 ## Installation
 
 ```bash
