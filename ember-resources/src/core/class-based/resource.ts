@@ -1,6 +1,7 @@
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
 import { setOwner } from '@ember/application';
+import { deprecate } from '@ember/debug';
 import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
@@ -15,6 +16,8 @@ import type { HelperLike } from '@glint/template';
 // babel doesn't use decorator metadata
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import type { Invoke } from '@glint/template/-private/integration';
+
+let loggedDeprecation = false;
 
 /**
  * @private utility type
@@ -300,6 +303,27 @@ export class Resource<Args = unknown> {
   // break existing code
   constructor(owner: Owner | unknown) {
     setOwner(this, owner as Owner);
+
+    if (!loggedDeprecation) {
+      deprecate(
+        `This implementation of class-based resources is deprecated.and will be removed in ember-resources@v7. ` +
+          `The exact same code and support is available at https://github.com/NullVoxPopuli/ember-modify-based-class-resource. ` +
+          `\`pnpm add ember-modify-based-class-resource\` and then \` import { Resource } from 'ember-modify-based-class-resource';\`. ` +
+          `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1056`,
+        false,
+        {
+          id: `ember-resources.class-based`,
+          until: `7.0.0`,
+          for: `ember-resources`,
+          url: `https://github.com/NullVoxPopuli/ember-modify-based-class-resource`,
+          since: {
+            available: '6.4.4',
+            enabled: '6.4.4',
+          },
+        },
+      );
+      loggedDeprecation = true;
+    }
   }
 
   /**
