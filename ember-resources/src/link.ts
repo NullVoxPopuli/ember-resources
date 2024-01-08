@@ -1,8 +1,27 @@
 import { getOwner, setOwner } from '@ember/application';
+import { deprecate } from '@ember/debug';
 import { assert } from '@ember/debug';
 import { associateDestroyableChild } from '@ember/destroyable';
 
 import type { Class, Stage1Decorator, Stage1DecoratorDescriptor } from '[core-types]';
+
+deprecate(
+  `importing from 'ember-resources/link' is deprecated and will be removed in ember-resources@v7. ` +
+    `The exact same code and support is available at https://github.com/universal-ember/reactiveweb. ` +
+    `\`pnpm add reactiveweb\` and then \` import { link } from 'reactiveweb/link';\`. ` +
+    `See also: https://github.com/NullVoxPopuli/ember-resources/issues/1061`,
+  false,
+  {
+    id: `ember-resources.link`,
+    until: `7.0.0`,
+    for: `ember-resources`,
+    url: `https://reactive.nullvoxpopuli.com/functions/link.link.html`,
+    since: {
+      available: '6.4.4',
+      enabled: '6.4.4',
+    },
+  },
+);
 
 type NonKey<K> = K extends string ? never : K extends symbol ? never : K;
 
