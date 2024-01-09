@@ -9,14 +9,6 @@
     "../ember-resources/src/link.ts",
     "../ember-resources/src/service.ts",
     "../ember-resources/src/modifier/index.ts",
-    "../ember-resources/src/util/debounce.ts",
-    "../ember-resources/src/util/ember-concurrency.ts",
-    "../ember-resources/src/util/fps.ts",
-    "../ember-resources/src/util/function.ts",
-    "../ember-resources/src/util/helper.ts",
-    "../ember-resources/src/util/keep-latest.ts",
-    "../ember-resources/src/util/map.ts",
-    "../ember-resources/src/util/remote-data.ts"
   ],
   "navigationLinks": {
     "Tutorial": "https://tutorial.glimdown.com",
