@@ -1,12 +1,19 @@
 import { assert } from '@ember/debug';
 // @ts-ignore
-import { setHelperManager } from '@ember/helper';
+import { invokeHelper, setHelperManager } from '@ember/helper';
 
+import { registerUsable } from '../use';
 import { ResourceManagerFactory } from './manager';
 import { INTERNAL } from './types';
 import { wrapForPlainUsage } from './utils';
 
 import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
+
+const TYPE = 'function-based';
+
+registerUsable(TYPE, (context: object, config: InternalFunctionResourceConfig) => {
+  return invokeHelper(context, config);
+});
 
 /**
  * `resource` provides a single reactive read-only value with lifetime and may have cleanup.
@@ -214,7 +221,7 @@ export function resource<Value>(
 
   let internalConfig: InternalFunctionResourceConfig<Value> = {
     definition: setup as ResourceFunction<Value>,
-    type: 'function-based',
+    type: TYPE,
     [INTERNAL]: true,
   };
 

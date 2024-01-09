@@ -19,17 +19,7 @@ const config = {
   bundles: {
     "index.js": {
       alias: ".",
-      nest: [
-        "core/class-based/index.js",
-        "core/function-based/index.js",
-        "core/cell.js",
-        "core/use.js",
-      ],
     },
-    "core/use.js": {},
-    "core/class-based/index.js": {},
-    "core/function-based/index.js": {},
-    "link.js": {},
   },
 };
 /**

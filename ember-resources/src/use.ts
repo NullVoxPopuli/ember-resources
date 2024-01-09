@@ -9,17 +9,17 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { invokeHelper } from '@ember/helper';
 
 import { ReadonlyCell } from './cell';
-import { INTERNAL } from './function-based/types';
-import { normalizeThunk } from './utils';
 
+import type { INTERNAL } from './function-based/types';
 import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
-import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
+import type { Stage1DecoratorDescriptor } from '[core-types]';
 
-type Config = ClassResourceConfig | InternalFunctionResourceConfig;
+type Config =
+  | { [INTERNAL]: true; type: string; definition: unknown }
+  | InternalFunctionResourceConfig;
 
 type NonInstanceType<K> = K extends InstanceType<any> ? object : K;
 type DecoratorKey<K> = K extends string | symbol ? K : never;
-type NonDecoratorKey<K> = K extends string | symbol ? never : ThisType<K>;
 
 /**
  * The `@use(...)` decorator can be used to use a Resource in javascript classes
@@ -157,6 +157,47 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
   };
 }
 
+interface UsableConfig {
+  type: string;
+  definition: unknown;
+}
+
+export type UsableFn<Usable extends UsableConfig> = (
+  context: object,
+  config: Usable,
+) => ReturnType<typeof invokeHelper>;
+
+const USABLES = new Map<string, UsableFn<any>>();
+
+/**
+ * Register with the usable system.
+ * This is only needed for for the `@use` decorator, as use(this, Helper) is a concise wrapper
+ * around the helper-manager system.
+ *
+ * The return type must be a "Cache" returned from `invokeHelper` so that `@use`'s usage of `getValue` gets the value (as determined by the helper manager you wrote for your usable).
+ */
+export function registerUsable<Usable extends UsableConfig>(
+  /**
+   * The key to register the usable under.
+   *
+   * All usables must have a `type`.
+   *
+   * Any usable matching the registered type will used the passed function to
+   *   create its Cache -- this is typically the return result of `invokeHelper`,
+   *
+   * Any usables must have a `type` property matching this string
+   */
+  type: string,
+  /**
+   * Receives the the parent context and object passed to the `@use` decorator.
+   */
+  useFn: UsableFn<Usable>,
+) {
+  assert(`type may not overlap with an existing usable`, !USABLES.has(type));
+
+  USABLES.set(type, useFn);
+}
+
 function descriptorGetter(initializer: unknown | (() => unknown)) {
   let caches = new WeakMap<object, any>();
 
@@ -169,24 +210,21 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
           typeof initializer === 'function' ? initializer.call(this) : initializer
         ) as Config;
 
+        let usable = USABLES.get(config.type);
+
         assert(
-          `Expected initialized value under @use to have used either the \`resource\` wrapper function, or a \`Resource.from\` call`,
-          INTERNAL in config,
+          `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[
+            ...USABLES.keys(),
+          ]}`,
+          usable,
         );
 
-        if (config.type === 'function-based') {
-          cache = invokeHelper(this, config);
-          caches.set(this as object, cache);
-          associateDestroyableChild(this, cache);
-        } else if (config.type === 'class-based') {
-          let { definition, thunk } = config;
+        cache = usable(this, config);
 
-          cache = invokeHelper(this, definition, () => normalizeThunk(thunk));
-          caches.set(this as object, cache);
-          associateDestroyableChild(this, cache);
-        }
+        assert(`Failed to create cache for usable: ${config.type}`, cache);
 
-        assert(`Failed to create cache for internal resource configuration object`, cache);
+        caches.set(this as object, cache);
+        associateDestroyableChild(this, cache);
       }
 
       let value = getValue(cache);

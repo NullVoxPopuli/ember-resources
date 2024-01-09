@@ -11,14 +11,6 @@ export interface Class<Instance> {
 }
 
 /**
- * @private utility type
- */
-export type NoArgs = {
-  named: EmptyObject;
-  positional: [];
-};
-
-/**
  * This is a utility interface that represents the resulting args structure after
  * the thunk is normalized.
  */
