@@ -160,7 +160,7 @@ interface UsableConfig {
   definition: unknown;
 }
 
-export type UsableFn<Usable extends UsableConfig> = (config: Usable) => ReturnType<typeof invokeHelper>;
+export type UsableFn<Usable extends UsableConfig> = (context: object, config: Usable) => ReturnType<typeof invokeHelper>;
 
 const USABLES = new Map<string, UsableFn<any>>();
 
@@ -190,7 +190,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
           usable,
         );
 
-        cache = usable(config);
+        cache = usable(this, config);
 
         assert(`Failed to create cache for usable: ${config.type}`, cache);
 
