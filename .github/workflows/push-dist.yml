@@ -3,8 +3,7 @@ name: Push dist
 on:
   push:
     branches:
-      - main
-      - master
+      - v6
 
 jobs:
   push-dist:
@@ -15,6 +14,6 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
       - uses: kategengler/put-built-npm-package-contents-on-branch@v2.0.0
         with:
-          branch: dist
+          branch: dist-v6
           token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ember-resources
