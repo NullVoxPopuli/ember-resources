@@ -133,6 +133,7 @@ jobs:
           - ember-4.4
           - ember-4.8
           - ember-4.12
+          - ember-5.4
           - ember-release
           - ember-beta
           - ember-canary
