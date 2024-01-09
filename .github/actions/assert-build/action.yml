@@ -13,7 +13,6 @@ runs:
           cwd: ./ember-resources
         expect: |
           core/index.js
-          core/class-based/index.js
           core/function-based/index.js
           index.js
           index.js.map

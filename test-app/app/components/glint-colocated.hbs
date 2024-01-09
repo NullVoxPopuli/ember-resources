@@ -4,26 +4,6 @@ NOTE: Glint does not support plain-functions yet (in loose mode)
 {{this.clock}}
 {{this.overInvalidatingClock}}
 
-{{get (this.Calculator) "prop"}}
-{{#let (this.Calculator) as |calc|}}
-  {{calc.prop}}
-  {{!--
-  {{calc.double this.input}}
-  --}}
-{{/let}}
-
-{{#let (this.Doubler this.input) as |doubler|}}
-  {{doubler.value}}
-{{/let}}
-
-{{! class-based resource }}
-
-{{this.calculator.prop}}
-{{!--
-{{this.calculator.double 4}}
---}}
-{{this.doubler.value}}
-
 {{!--
 {{#let (this.calculator.double 5) as |ten|}}
   {{ten}}
