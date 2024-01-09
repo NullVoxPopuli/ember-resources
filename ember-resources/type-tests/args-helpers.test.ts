@@ -1,8 +1,5 @@
 import { expectTypeOf } from 'expect-type';
 
-import { Resource } from '../src/core/class-based';
-
-import type { ArgsFrom } from '../src/core/class-based/resource';
 import type { EmptyObject, Named, Positional } from '[core-types]';
 
 // -----------------------------------------------------------
@@ -41,39 +38,3 @@ expectTypeOf<Positional<{ Named: { foo: number }; positional: [number] }>>().toE
   [number]
 >();
 
-/**
- * -----------------------------------------------------------
- * ArgsFrom
- * -----------------------------------------------------------
- */
-class Foo {
-  foo = 'foo';
-}
-class Bar extends Resource {
-  bar = 'bar';
-}
-class Baz extends Resource<{ Named: { baz: string } }> {
-  baz = 'baz';
-}
-class Bax extends Resource<{ Positional: [string] }> {
-  bax = 'bax';
-}
-// {} does not extend Resource
-// @ts-expect-error
-expectTypeOf<ArgsFrom<{}>>().toEqualTypeOf<never>();
-// unknown does not extend Resource
-// @ts-expect-error
-expectTypeOf<ArgsFrom<unknown>>().toEqualTypeOf<never>();
-// number does not extend Resource
-// @ts-expect-error
-expectTypeOf<ArgsFrom<2>>().toEqualTypeOf<never>();
-// string does not extend Resource
-// @ts-expect-error
-expectTypeOf<ArgsFrom<'string'>>().toEqualTypeOf<never>();
-// Foo does not extend Resource
-// @ts-expect-error
-expectTypeOf<ArgsFrom<Foo>>().toEqualTypeOf<never>();
-
-expectTypeOf<ArgsFrom<Bar>>().toEqualTypeOf<unknown>();
-expectTypeOf<ArgsFrom<Baz>>().toEqualTypeOf<{ Named: { baz: string } }>();
-expectTypeOf<ArgsFrom<Bax>>().toEqualTypeOf<{ Positional: [string] }>();
