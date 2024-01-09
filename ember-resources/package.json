@@ -10,9 +10,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./core": "./dist/core/index.js",
-    "./core/class-based": "./dist/core/class-based/index.js",
     "./core/function-based": "./dist/core/function-based/index.js",
-    "./link": "./dist/link.js",
     "./modifier": "./dist/modifier/index.js",
     "./addon-main.js": "./addon-main.cjs"
   },
@@ -23,12 +21,6 @@
       ],
       "core": [
         "dist/core/index.d.ts"
-      ],
-      "link": [
-        "dist/link.d.ts"
-      ],
-      "service": [
-        "dist/service.d.ts"
       ],
       "modifier": [
         "dist/modifier/index.d.ts"
