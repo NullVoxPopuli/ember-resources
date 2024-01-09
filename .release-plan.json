@@ -1,21 +1,17 @@
 {
   "solution": {
     "ember-resources": {
-      "impact": "minor",
-      "oldVersion": "6.4.3",
-      "newVersion": "6.5.0",
+      "impact": "patch",
+      "oldVersion": "6.5.0",
+      "newVersion": "6.5.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2024-01-08)\n\nember-resources 6.5.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-resources`\n  * [#1076](https://github.com/NullVoxPopuli/ember-resources/pull/1076) Deprecate and move service and modifier to reactiveweb ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1077](https://github.com/NullVoxPopuli/ember-resources/pull/1077) Deprecate the class-based Resource, moved to ember-modify-based-class-resource ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1070](https://github.com/NullVoxPopuli/ember-resources/pull/1070) [v6]: Deprecate util/* imports ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :memo: Documentation\n* `ember-resources`\n  * [#1078](https://github.com/NullVoxPopuli/ember-resources/pull/1078) Update deprecation links ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* `test-app`\n  * [#1074](https://github.com/NullVoxPopuli/ember-resources/pull/1074) [v6]: Ensure that the available API for v7 does not throw deprecations ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-01-09)\n\nember-resources 6.5.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1094](https://github.com/NullVoxPopuli/ember-resources/pull/1094) Fix declaration output ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* [#1092](https://github.com/NullVoxPopuli/ember-resources/pull/1092) Setup release automation for v6 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
