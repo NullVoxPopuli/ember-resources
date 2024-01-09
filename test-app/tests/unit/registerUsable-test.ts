@@ -1,8 +1,7 @@
 import { assert as debugAssert } from '@ember/debug';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { capabilities,invokeHelper, setHelperManager } from '@ember/helper';
-import { render } from '@ember/test-helpers';
+import { capabilities, invokeHelper, setHelperManager } from '@ember/helper';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -16,7 +15,7 @@ interface Usable {
 module('API | registerUsable', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('rando, non-usable errors', async function(assert) {
+  test('rando, non-usable errors', async function (assert) {
     assert.expect(1);
 
     class Demo {
@@ -25,15 +24,21 @@ module('API | registerUsable', function (hooks) {
 
     let instance = new Demo();
 
-const expectedMessage = `@use to have been a registerd "usable". Available usables are:`;
+    const expectedMessage = `@use to have been a registerd "usable". Available usables are:`;
 
     try {
       instance.foo;
       assert.notOk(true, 'Should not get here');
     } catch (e) {
-      debugAssert('Expected error to have a message property', typeof e === 'object' && e !== null && 'message' in e && typeof e.message === 'string');
+      debugAssert(
+        'Expected error to have a message property',
+        typeof e === 'object' && e !== null && 'message' in e && typeof e.message === 'string'
+      );
 
-       assert.ok(e.message.match(new RegExp(expectedMessage)), `Expected '${e.message}' to include '${expectedMessage}'`);
+      assert.ok(
+        e.message.match(new RegExp(expectedMessage)),
+        `Expected '${e.message}' to include '${expectedMessage}'`
+      );
     }
   });
 
@@ -51,16 +56,15 @@ const expectedMessage = `@use to have been a registerd "usable". Available usabl
       }
     }
 
-
     function returnANumber(fn: () => any) {
       const helper = {
-         type: 'my-custom-usable',
-         definition: fn,
+        type: 'my-custom-usable',
+        definition: fn,
       };
 
       setHelperManager(() => new ReturnANumberManager(), helper);
 
-       return helper as unknown as number;
+      return helper as unknown as number;
     }
 
     registerUsable('my-custom-usable', (context, config) => {
@@ -75,4 +79,4 @@ const expectedMessage = `@use to have been a registerd "usable". Available usabl
 
     assert.strictEqual(instance.foo, 12);
   });
-})
+});

@@ -12,7 +12,7 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
 const TYPE = 'function-based';
 
 registerUsable(TYPE, (context: object, config: InternalFunctionResourceConfig) => {
-  return invokeHelper(parent, config);
+  return invokeHelper(context, config);
 });
 
 /**
