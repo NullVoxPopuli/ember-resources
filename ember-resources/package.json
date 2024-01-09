@@ -48,25 +48,16 @@
   "dependencies": {
     "@babel/runtime": "^7.17.8",
     "@embroider/addon-shim": "^1.2.0",
-    "@embroider/macros": "^1.12.3",
-    "ember-async-data": "^1.0.1"
+    "@embroider/macros": "^1.12.3"
   },
   "peerDependencies": {
-    "@ember/test-waiters": "^3.0.0",
-    "@glimmer/component": "^1.1.2",
-    "@glimmer/tracking": "^1.1.2",
-    "@glint/template": "^1.0.0-beta.3 || ^1.0.0",
-    "ember-concurrency": "^2.0.0 || ^3.0.0",
-    "ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0"
+    "@glimmer/component": ">= 1.1.2",
+    "@glimmer/tracking": ">= 1.1.2",
+    "@glint/template": ">= 1.0.0",
+    "ember-source": "^3.28.0 || ^4.0.0 || >= 5.0.0"
   },
   "peerDependenciesMeta": {
     "@glimmer/component": {
-      "optional": true
-    },
-    "ember-concurrency": {
-      "optional": true
-    },
-    "@ember/test-waiters": {
       "optional": true
     }
   },
@@ -79,7 +70,6 @@
     "@babel/plugin-transform-runtime": "^7.18.5",
     "@babel/plugin-transform-typescript": "^7.18.4",
     "@babel/preset-typescript": "^7.17.12",
-    "@ember/test-waiters": "^3.0.0",
     "@embroider/addon-dev": "^4.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
