@@ -14,8 +14,7 @@
     // Lazy import settings, affects build time only
     // because these aliases are only used for type imports
     "paths": {
-      "[core-types]": ["./src/core/types"],
-      "[deprecated-types]": ["./src/deprecated-in-v4/types"]
+      "[core-types]": ["./src/types"]
     }
   }
 }

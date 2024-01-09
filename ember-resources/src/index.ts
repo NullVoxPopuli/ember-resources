@@ -1,11 +1,11 @@
 // Public API -- base classes
-export { resource, resourceFactory } from './core/function-based';
-export { use } from './core/use';
+export { resource, resourceFactory } from './function-based';
+export { use } from './use';
 
 // Public API -- Utilities
-export { cell } from './core/cell';
+export { cell } from './cell';
 
 // Public Type Utilities
-export type { ResourceAPI } from './core/function-based';
-export type { Reactive } from './core/function-based/types';
-export type { ArgsWrapper, ExpandArgs, Thunk } from './core/types';
+export type { ResourceAPI } from './function-based';
+export type { Reactive } from './function-based/types';
+export type { ArgsWrapper, ExpandArgs, Thunk } from './types';

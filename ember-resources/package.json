@@ -9,17 +9,12 @@
   "license": "MIT",
   "exports": {
     ".": "./dist/index.js",
-    "./core": "./dist/core/index.js",
-    "./core/function-based": "./dist/core/function-based/index.js",
     "./addon-main.js": "./addon-main.cjs"
   },
   "typesVersions": {
     ">=4.0.0": {
       "*": [
         "dist/*"
-      ],
-      "core": [
-        "dist/core/index.d.ts"
       ]
     }
   },

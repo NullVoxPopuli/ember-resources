@@ -12,8 +12,6 @@ runs:
           run: pnpm build
           cwd: ./ember-resources
         expect: |
-          core/index.js
-          core/function-based/index.js
           index.js
           index.js.map
           index.d.ts
