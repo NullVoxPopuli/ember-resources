@@ -1,6 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 
-import { Resource, resource } from 'ember-resources';
+import { resource } from 'ember-resources';
 
 class Cell<T> {
   @tracked declare current: T;
@@ -12,22 +12,6 @@ function cell<T>(initialValue?: T) {
   if (initialValue) instance.current = initialValue;
 
   return instance;
-}
-
-export class Calculator extends Resource {
-  prop = 3;
-
-  double(num: number) {
-    return num * 2;
-  }
-}
-
-export class Doubler extends Resource<{ positional: [number] }> {
-  @tracked value?: number;
-
-  modify([input]: [number]) {
-    this.value = input * 2;
-  }
 }
 
 export const overInvalidatingClock = resource(({ on }) => {

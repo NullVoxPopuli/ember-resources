@@ -1,5 +1,4 @@
 // Public API -- base classes
-export { Resource } from './core/class-based';
 export { resource, resourceFactory } from './core/function-based';
 export { use } from './core/use';
 
