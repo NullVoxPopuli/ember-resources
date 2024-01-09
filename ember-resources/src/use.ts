@@ -14,7 +14,9 @@ import type { INTERNAL } from './function-based/types';
 import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
 import type { Stage1DecoratorDescriptor } from '[core-types]';
 
-type Config = { [INTERNAL]: true, type: string, definition: unknown } | InternalFunctionResourceConfig;
+type Config =
+  | { [INTERNAL]: true; type: string; definition: unknown }
+  | InternalFunctionResourceConfig;
 
 type NonInstanceType<K> = K extends InstanceType<any> ? object : K;
 type DecoratorKey<K> = K extends string | symbol ? K : never;
@@ -145,7 +147,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
 
     assert(
       `When @use(...) is passed a resource, an initialized value is not allowed. ` +
-      `\`@use(Clock) time;`,
+        `\`@use(Clock) time;`,
       !descriptor.initializer,
     );
 
@@ -160,7 +162,10 @@ interface UsableConfig {
   definition: unknown;
 }
 
-export type UsableFn<Usable extends UsableConfig> = (context: object, config: Usable) => ReturnType<typeof invokeHelper>;
+export type UsableFn<Usable extends UsableConfig> = (
+  context: object,
+  config: Usable,
+) => ReturnType<typeof invokeHelper>;
 
 const USABLES = new Map<string, UsableFn<any>>();
 
@@ -186,7 +191,8 @@ export function registerUsable<Usable extends UsableConfig>(
   /**
    * Receives the the parent context and object passed to the `@use` decorator.
    */
-  useFn: UsableFn<Usable>) {
+  useFn: UsableFn<Usable>,
+) {
   assert(`type may not overlap with an existing usable`, !USABLES.has(type));
 
   USABLES.set(type, useFn);
@@ -206,9 +212,10 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 
         let usable = USABLES.get(config.type);
 
-
         assert(
-          `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[...USABLES.keys()]}`,
+          `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[
+            ...USABLES.keys(),
+          ]}`,
           usable,
         );
 
@@ -241,8 +248,8 @@ function initializerDecorator(
 
   assert(
     `@use may only be used on initialized properties. For example, ` +
-    `\`@use foo = resource(() => { ... })\` or ` +
-    `\`@use foo = SomeResource.from(() => { ... });\``,
+      `\`@use foo = resource(() => { ... })\` or ` +
+      `\`@use foo = SomeResource.from(() => { ... });\``,
     initializer,
   );
 

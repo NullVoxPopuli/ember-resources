@@ -11,7 +11,6 @@ import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } fro
 
 const TYPE = 'function-based';
 
-
 registerUsable(TYPE, (context: object, config: InternalFunctionResourceConfig) => {
   return invokeHelper(parent, config);
 });
@@ -179,8 +178,8 @@ export function resource<Value>(
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
-      `the first argument to \`resource\` must be a function. ` +
-      `Instead, a ${typeof context} was received.`,
+        `the first argument to \`resource\` must be a function. ` +
+        `Instead, a ${typeof context} was received.`,
       typeof context === 'function',
     );
 
@@ -210,13 +209,13 @@ export function resource<Value>(
 
   assert(
     `Mismatched argument types passed to \`resource\`. ` +
-    `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
-    `Received ${typeof context} instead.`,
+      `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
+      `Received ${typeof context} instead.`,
     typeof context === 'object',
   );
   assert(
     `Mismatched argument type passed to \`resource\`. ` +
-    `Expected the second arg to be a function but instead received ${typeof setup}.`,
+      `Expected the second arg to be a function but instead received ${typeof setup}.`,
     typeof setup === 'function',
   );
 
@@ -230,4 +229,3 @@ export function resource<Value>(
 
   return wrapForPlainUsage(context, internalConfig);
 }
-

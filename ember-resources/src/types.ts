@@ -18,4 +18,3 @@ export type Stage1Decorator = (
   key: string | symbol,
   descriptor?: Stage1DecoratorDescriptor,
 ) => any;
-
