@@ -151,29 +151,6 @@ jobs:
           node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
           --skip-cleanup
 
-  test-ember-concurrency:
-    name: "w/ ${{ matrix.concurrencyVersion }}"
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    needs: [default_tests]
-
-    strategy:
-      fail-fast: false
-      matrix:
-        concurrencyVersion:
-          - "test-app-ember-concurrency-2"
-          - "test-app-ember-concurrency-3"
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: wyvox/action-setup-pnpm@v3
-        with:
-          node-version: 18.18.1
-      - uses: ./.github/actions/download-built-package
-      - name: Run Tests
-        run: pnpm test:ember
-        working-directory: ${{ matrix.concurrencyVersion }} 
-
   MeasureAssetSizes:
     name: Measure Asset Sizes
     runs-on: ubuntu-latest

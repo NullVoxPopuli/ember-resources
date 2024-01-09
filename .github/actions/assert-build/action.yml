@@ -15,11 +15,6 @@ runs:
           core/index.js
           core/class-based/index.js
           core/function-based/index.js
-          util/map.js
-          util/helper.js
-          util/debounce.js
-          util/function.js
-          util/ember-concurrency.js
           index.js
           index.js.map
           index.d.ts
