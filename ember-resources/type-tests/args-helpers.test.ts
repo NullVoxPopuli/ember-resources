@@ -37,4 +37,3 @@ expectTypeOf<Positional<{ Named: { foo: number }; Positional: [number] }>>().toE
 expectTypeOf<Positional<{ Named: { foo: number }; positional: [number] }>>().toEqualTypeOf<
   [number]
 >();
-
