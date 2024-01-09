@@ -7,7 +7,6 @@
   },
   "entryPoints": [
     "../ember-resources/src/link.ts",
-    "../ember-resources/src/service.ts",
     "../ember-resources/src/modifier/index.ts",
   ],
   "navigationLinks": {

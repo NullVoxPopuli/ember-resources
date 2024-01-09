@@ -13,7 +13,6 @@
     "./core/class-based": "./dist/core/class-based/index.js",
     "./core/function-based": "./dist/core/function-based/index.js",
     "./link": "./dist/link.js",
-    "./service": "./dist/service.js",
     "./modifier": "./dist/modifier/index.js",
     "./addon-main.js": "./addon-main.cjs"
   },
