@@ -30,14 +30,20 @@ module('API | registerUsable', function (hooks) {
       instance.foo;
       assert.notOk(true, 'Should not get here');
     } catch (e) {
+      // Not until TS 4.9 is the default "e" an `unknown` type
+      let error = e as any;
+
       debugAssert(
         'Expected error to have a message property',
-        typeof e === 'object' && e !== null && 'message' in e && typeof e.message === 'string'
+        typeof error === 'object' &&
+          error !== null &&
+          'message' in error &&
+          typeof error.message === 'string'
       );
 
       assert.ok(
-        e.message.match(new RegExp(expectedMessage)),
-        `Expected '${e.message}' to include '${expectedMessage}'`
+        error.message.match(new RegExp(expectedMessage)),
+        `Expected '${error.message}' to include '${expectedMessage}'`
       );
     }
   });
