@@ -89,7 +89,7 @@
   ],
   "scripts": {
     "start": "rollup -c ./rollup.config.mjs --watch",
-    "build": "rollup -c ./rollup.config.mjs",
+    "build": "rollup -c ./rollup.config.mjs && pnpm fix-bad-declaration-output './dist/**/*.d.ts'",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
     "lint:types": "tsc --noEmit",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
@@ -160,6 +160,7 @@
     "ember-template-lint": "5.13.0",
     "eslint": "^8.35.0",
     "expect-type": "^0.16.0",
+    "fix-bad-declaration-output": "^1.0.0",
     "prettier": "^3.0.0",
     "prettier-plugin-ember-template-tag": "^1.0.0",
     "rollup": "4.8.0",
