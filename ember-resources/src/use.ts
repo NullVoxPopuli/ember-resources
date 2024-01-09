@@ -164,8 +164,30 @@ export type UsableFn<Usable extends UsableConfig> = (context: object, config: Us
 
 const USABLES = new Map<string, UsableFn<any>>();
 
-export function registerUsable<Usable extends UsableConfig>(type: string, useFn: UsableFn<Usable>) {
-  assert(`type may not overlap with an existing usable`, USABLES.has(type));
+/**
+ * Register with the usable system.
+ * This is only needed for for the `@use` decorator, as use(this, Helper) is a concise wrapper
+ * around the helper-manager system.
+ *
+ * The return type must be a "Cache" returned from `invokeHelper` so that `@use`'s usage of `getValue` gets the value (as determined by the helper manager you wrote for your usable).
+ */
+export function registerUsable<Usable extends UsableConfig>(
+  /**
+   * The key to register the usable under.
+   *
+   * All usables must have a `type`.
+   *
+   * Any usable matching the registered type will used the passed function to
+   *   create its Cache -- this is typically the return result of `invokeHelper`,
+   *
+   * Any usables must have a `type` property matching this string
+   */
+  type: string,
+  /**
+   * Receives the the parent context and object passed to the `@use` decorator.
+   */
+  useFn: UsableFn<Usable>) {
+  assert(`type may not overlap with an existing usable`, !USABLES.has(type));
 
   USABLES.set(type, useFn);
 }
@@ -186,7 +208,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 
 
         assert(
-          `Expected initialized value under @use to have been a registerd "usable". Available usables are: ${[...USABLES.keys()]}`,
+          `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[...USABLES.keys()]}`,
           usable,
         );
 
