@@ -1,12 +1,20 @@
 import { assert } from '@ember/debug';
 // @ts-ignore
-import { setHelperManager } from '@ember/helper';
+import { invokeHelper, setHelperManager } from '@ember/helper';
 
+import { registerUsable } from '../use';
 import { ResourceManagerFactory } from './manager';
 import { INTERNAL } from './types';
 import { wrapForPlainUsage } from './utils';
 
 import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
+
+const TYPE = 'function-based';
+
+
+registerUsable(TYPE, (config: InternalFunctionResourceConfig) => {
+  return invokeHelper(this, config);
+});
 
 /**
  * `resource` provides a single reactive read-only value with lifetime and may have cleanup.
@@ -171,8 +179,8 @@ export function resource<Value>(
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
-        `the first argument to \`resource\` must be a function. ` +
-        `Instead, a ${typeof context} was received.`,
+      `the first argument to \`resource\` must be a function. ` +
+      `Instead, a ${typeof context} was received.`,
       typeof context === 'function',
     );
 
@@ -202,19 +210,19 @@ export function resource<Value>(
 
   assert(
     `Mismatched argument types passed to \`resource\`. ` +
-      `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
-      `Received ${typeof context} instead.`,
+    `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
+    `Received ${typeof context} instead.`,
     typeof context === 'object',
   );
   assert(
     `Mismatched argument type passed to \`resource\`. ` +
-      `Expected the second arg to be a function but instead received ${typeof setup}.`,
+    `Expected the second arg to be a function but instead received ${typeof setup}.`,
     typeof setup === 'function',
   );
 
   let internalConfig: InternalFunctionResourceConfig<Value> = {
     definition: setup as ResourceFunction<Value>,
-    type: 'function-based',
+    type: TYPE,
     [INTERNAL]: true,
   };
 
@@ -222,3 +230,4 @@ export function resource<Value>(
 
   return wrapForPlainUsage(context, internalConfig);
 }
+

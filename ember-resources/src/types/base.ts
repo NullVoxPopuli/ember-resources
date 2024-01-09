@@ -7,16 +7,8 @@ export type Fn = (...args: any[]) => any;
 
 export type Constructor<Instance> = abstract new (...args: any) => Instance;
 export interface Class<Instance> {
-  new (...args: unknown[]): Instance;
+  new(...args: unknown[]): Instance;
 }
-
-/**
- * @private utility type
- */
-export type NoArgs = {
-  named: EmptyObject;
-  positional: [];
-};
 
 /**
  * This is a utility interface that represents the resulting args structure after

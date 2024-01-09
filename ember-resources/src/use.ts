@@ -9,17 +9,15 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { invokeHelper } from '@ember/helper';
 
 import { ReadonlyCell } from './cell';
-import { INTERNAL } from './function-based/types';
-import { normalizeThunk } from './utils';
 
+import type { INTERNAL } from './function-based/types';
 import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
-import type { ClassResourceConfig, Stage1DecoratorDescriptor } from '[core-types]';
+import type { Stage1DecoratorDescriptor } from '[core-types]';
 
-type Config = ClassResourceConfig | InternalFunctionResourceConfig;
+type Config = { [INTERNAL]: true, type: string, definition: unknown } | InternalFunctionResourceConfig;
 
 type NonInstanceType<K> = K extends InstanceType<any> ? object : K;
 type DecoratorKey<K> = K extends string | symbol ? K : never;
-type NonDecoratorKey<K> = K extends string | symbol ? never : ThisType<K>;
 
 /**
  * The `@use(...)` decorator can be used to use a Resource in javascript classes
@@ -147,7 +145,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
 
     assert(
       `When @use(...) is passed a resource, an initialized value is not allowed. ` +
-        `\`@use(Clock) time;`,
+      `\`@use(Clock) time;`,
       !descriptor.initializer,
     );
 
@@ -155,6 +153,21 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
 
     return newDescriptor as unknown as void /* Thanks, TS and Stage 2 Decorators */;
   };
+}
+
+interface UsableConfig {
+  type: string;
+  definition: unknown;
+}
+
+export type UsableFn<Usable extends UsableConfig> = (config: Usable) => ReturnType<typeof invokeHelper>;
+
+const USABLES = new Map<string, UsableFn<any>>();
+
+export function registerUsable<Usable extends UsableConfig>(type: string, useFn: UsableFn<Usable>) {
+  assert(`type may not overlap with an existing usable`, USABLES.has(type));
+
+  USABLES.set(type, useFn);
 }
 
 function descriptorGetter(initializer: unknown | (() => unknown)) {
@@ -169,24 +182,20 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
           typeof initializer === 'function' ? initializer.call(this) : initializer
         ) as Config;
 
+        let usable = USABLES.get(config.type);
+
+
         assert(
-          `Expected initialized value under @use to have used either the \`resource\` wrapper function, or a \`Resource.from\` call`,
-          INTERNAL in config,
+          `Expected initialized value under @use to have been a registerd "usable". Available usables are: ${[...USABLES.keys()]}`,
+          usable,
         );
 
-        if (config.type === 'function-based') {
-          cache = invokeHelper(this, config);
-          caches.set(this as object, cache);
-          associateDestroyableChild(this, cache);
-        } else if (config.type === 'class-based') {
-          let { definition, thunk } = config;
+        cache = usable(config);
 
-          cache = invokeHelper(this, definition, () => normalizeThunk(thunk));
-          caches.set(this as object, cache);
-          associateDestroyableChild(this, cache);
-        }
+        assert(`Failed to create cache for usable: ${config.type}`, cache);
 
-        assert(`Failed to create cache for internal resource configuration object`, cache);
+        caches.set(this as object, cache);
+        associateDestroyableChild(this, cache);
       }
 
       let value = getValue(cache);
@@ -210,8 +219,8 @@ function initializerDecorator(
 
   assert(
     `@use may only be used on initialized properties. For example, ` +
-      `\`@use foo = resource(() => { ... })\` or ` +
-      `\`@use foo = SomeResource.from(() => { ... });\``,
+    `\`@use foo = resource(() => { ... })\` or ` +
+    `\`@use foo = SomeResource.from(() => { ... });\``,
     initializer,
   );
 
