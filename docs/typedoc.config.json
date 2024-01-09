@@ -10,19 +10,6 @@
     "Tutorial": "https://tutorial.glimdown.com",
     "GitHub": "https://github.com/NullVoxPopuli/ember-resources"
   },
-  "sidebarLinks": {
-    "link": "/funcs/link.link.html",
-    "modifier": "/funcs/modifier.modifier.html",
-    "service": "/funcs/service.service.html",
-    "RemoteData": "/funcs/util_remote_data.RemoteData.html",
-    "UpdateFrequency": "/funcs/util_fps.UpdateFrequency.html",
-    "keepLatest": "/funcs/util_keep_latest.keepLatest.html",
-    "debounce": "/funcs/util_debounce.debounce.html",
-    "map": "/funcs/util_map.map.html",
-    "trackedFunction": "/funcs/util_function.trackedFunction.html",
-    "trackedTask": "/funcs/util_ember_concurrency.trackedTask.html",
-    "helper": "/funcs/util_helper.helper.html"
-  },
   "entryPointStrategy": "resolve",
   "readme": "../README.md",
   "exclude": [],
