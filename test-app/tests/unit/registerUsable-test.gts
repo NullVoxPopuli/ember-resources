@@ -1,3 +1,6 @@
+import { assert as debugAssert } from '@ember/debug';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { capabilities,invokeHelper, setHelperManager } from '@ember/helper';
 import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -28,6 +31,8 @@ const expectedMessage = `@use to have been a registerd "usable". Available usabl
       instance.foo;
       assert.notOk(true, 'Should not get here');
     } catch (e) {
+      debugAssert('Expected error to have a message property', typeof e === 'object' && e !== null && 'message' in e && typeof e.message === 'string');
+
        assert.ok(e.message.match(new RegExp(expectedMessage)), `Expected '${e.message}' to include '${expectedMessage}'`);
     }
   });
@@ -55,7 +60,7 @@ const expectedMessage = `@use to have been a registerd "usable". Available usabl
 
       setHelperManager(() => new ReturnANumberManager(), helper);
 
-       return helper
+       return helper as unknown as number;
     }
 
     registerUsable('my-custom-usable', (context, config) => {
