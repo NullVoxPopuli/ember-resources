@@ -1,4 +1,17 @@
 # Changelog
+## Release (2024-01-09)
+
+ember-resources 6.5.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1094](https://github.com/NullVoxPopuli/ember-resources/pull/1094) Fix declaration output ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#1092](https://github.com/NullVoxPopuli/ember-resources/pull/1092) Setup release automation for v6 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2024-01-08)
 
 ember-resources 6.5.0 (minor)
