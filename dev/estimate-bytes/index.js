@@ -30,7 +30,6 @@ const config = {
     "core/class-based/index.js": {},
     "core/function-based/index.js": {},
     "link.js": {},
-    "util/*.js": {},
   },
 };
 /**
