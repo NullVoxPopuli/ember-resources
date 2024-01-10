@@ -8,3 +8,4 @@ declarations/
 src/**/*.d.ts
 src/**/*.d.ts.map
 src/**/*.js
+vite.config.mjs.timestamp*

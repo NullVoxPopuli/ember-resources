@@ -1,5 +1,5 @@
 import type Owner from '@ember/owner';
-import type { Invoke } from '@glint/template/-private/integration.ts';
+import type { Invoke } from '@glint/template/-private/integration';
 
 export const INTERMEDIATE_VALUE = '__Intermediate_Value__';
 export const INTERNAL = '__INTERNAL__';

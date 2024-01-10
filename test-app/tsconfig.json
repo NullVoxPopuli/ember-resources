@@ -5,6 +5,7 @@
   },
   "include": ["app/**/*", "tests/**/*", "type-tests/**/*", "types/**/*"],
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "paths": {
       "test-app/tests/*": ["tests/*"],

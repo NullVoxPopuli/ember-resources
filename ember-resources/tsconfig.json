@@ -1,13 +1,21 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
-  "include": ["src/**/*", "unpublished-development-types/**/*", "type-tests/**/*"],
+  "include": ["src/**/*", "unpublished-development-types/**/*"],
+  "glint": {
+    "environment": []
+  },
   "compilerOptions": {
+    // Override defaults from @tsconfig/ember
+    // so that we generate declarations instead of
+    // "just typecheck"
     "allowJs": true,
+    "noEmit": false,
     "declarationDir": "declarations",
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": true,
 
-      /**
+    /**
       https://www.typescriptlang.org/tsconfig#rootDir
       "Default: The longest common path of all non-declaration input files."
 
@@ -40,10 +48,13 @@
     // otherwise the types are wrong
     // "module": "Node16",
     // "moduleResolution": "Node16",
+
     // https://www.typescriptlang.org/tsconfig#stripInternal
     "stripInternal": true,
+
     // Build settings
     "noEmitOnError": false,
+    // Just a good thing to do
     "isolatedModules": true
   }
 }

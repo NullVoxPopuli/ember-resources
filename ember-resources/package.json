@@ -10,7 +10,7 @@
   "exports": {
     ".": {
       "types": "./declarations/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./dist/index.mjs"
     },
     "./addon-main.js": "./addon-main.cjs"
   },
@@ -35,8 +35,8 @@
     "README.md"
   ],
   "scripts": {
-    "start": "concurrently 'npm:start:*'",
-    "build": "concurrently 'npm:build:*'",
+    "start": "pnpm vite build --watch",
+    "build": "pnpm vite build && pnpm fix-bad-declaration-output './declarations/'",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
     "lint:types": "tsc --noEmit",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
@@ -45,12 +45,7 @@
     "lint:prettier:fix": "prettier --write '**/*.{js,ts}'",
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js:fix": "eslint . --fix",
-    "test": "echo 'Addon does not have tests, run tests in test-app'",
-    "prepack": "pnpm run build",
-    "start:types": "tsc --emitDeclarationOnly --noEmit false --watch",
-    "start:js": "rollup --config --watch --no-watch.clearScreen",
-    "build:types": "tsc --emitDeclarationOnly --noEmit false && pnpm fix-bad-declaration-output './declarations/**/*.d.ts'",
-    "build:js": "rollup --config"
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.2.0",
@@ -78,13 +73,11 @@
     "@babel/plugin-transform-runtime": "^7.18.5",
     "@babel/plugin-transform-typescript": "^7.18.4",
     "@babel/preset-typescript": "^7.17.12",
-    "@embroider/addon-dev": "^4.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/core": "^1.2.2",
     "@glint/template": "^1.2.2",
     "@nullvoxpopuli/eslint-configs": "^3.2.0",
-    "@rollup/plugin-babel": "^6.0.4",
     "@tsconfig/ember": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
@@ -96,9 +89,9 @@
     "fix-bad-declaration-output": "^1.0.0",
     "prettier": "^3.1.1",
     "prettier-plugin-ember-template-tag": "^1.0.0",
-    "rollup": "4.8.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "typescript": "~5.3.0"
+    "typescript": "~5.3.0",
+    "vite-plugin-dts": "^3.7.0",
+    "vite": "^5.0.11"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -115,8 +108,5 @@
   "packageManager": "pnpm@8.12.1",
   "volta": {
     "extends": "../package.json"
-  },
-  "imports": {
-    "#types": "./src/types.ts"
   }
 }
