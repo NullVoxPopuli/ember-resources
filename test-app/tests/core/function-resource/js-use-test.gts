@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { tracked } from '@glimmer/tracking';
 import { destroy, isDestroyed, registerDestructor } from '@ember/destroyable';
+import { setOwner } from '@ember/owner';
 import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -33,6 +34,8 @@ module('Core | (function) resource + use | js', function (hooks) {
 
     let foo = new Test();
 
+    setOwner(foo, this.owner);
+
     assert.strictEqual(foo.data, 4);
   });
 
@@ -55,6 +58,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     assert.strictEqual(foo.data.current, 0);
 
@@ -85,6 +90,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     // destruction only occurs if the resource is constructor, which would be upon access
     foo.data.current;
@@ -126,6 +133,8 @@ module('Core | (function) resource + use | js', function (hooks) {
 
     let foo = new Test();
 
+    setOwner(foo, this.owner);
+
     foo.data.current;
     foo.count = 4;
     foo.data.current;
@@ -152,6 +161,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     assert.strictEqual(foo.data1, 'hello');
     assert.strictEqual(foo.data2.current, 'hello');

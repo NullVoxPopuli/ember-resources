@@ -2,6 +2,7 @@ import { tracked } from '@glimmer/tracking';
 import { destroy } from '@ember/destroyable';
 // @ts-ignore @ember/helper does not provide types :(
 import { hash } from '@ember/helper';
+import { setOwner } from '@ember/owner';
 import { clearRender, find, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
@@ -57,6 +58,8 @@ module('Examples | resource | Clock', function (hooks) {
       }
 
       let foo = new Test();
+
+      setOwner(foo, this.owner);
 
       let timeA = foo.now;
 

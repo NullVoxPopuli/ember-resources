@@ -27,6 +27,9 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
+
         // reminder that destruction is async
         let steps: string[] = [];
         let step = (msg: string) => {
@@ -71,6 +74,9 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
+
         // reminder that destruction is async
         let steps: string[] = [];
         let step = (msg: string) => {
@@ -120,6 +126,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         let inc = 0;
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         let theResource = resource(({ on }) => {
           let i = inc;
 
@@ -166,6 +174,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         let theResource = resource(({ on }) => {
           let i = foo.num;
 
@@ -211,6 +221,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
 
         let theResource = (_num: number) =>
           resource(({ on }) => {
@@ -278,6 +290,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         await render(<template><out>{{foo.theResource}}</out></template>);
 
         assert.dom('out').containsText('0');
@@ -320,6 +334,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
 
         await render(<template>
           {{#if foo.show}}
@@ -377,6 +393,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         await render(<template>
           {{#if foo.show}}
             <out>{{foo.theResource}}</out>
@@ -425,6 +443,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
       }
 
       let foo = new Test();
+
+    setOwner(foo, this.owner);
 
       await render(<template>
         {{#let (Wrapper foo.num) as |state|}}
@@ -482,6 +502,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
       const testService = this.owner.lookup('service:test') as TestService;
 
       let testData = new Test();
+
+    setOwner(testData, this.owner);
 
       setOwner(testData, this.owner);
 
