@@ -45,9 +45,9 @@
     "lint:js:fix": "eslint . --fix",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
     "prepack": "pnpm run build",
-    "start:types": "tsc --watch",
+    "start:types": "tsc --emitDeclarationOnly --noEmit false --watch",
     "start:js": "rollup --config --watch --no-watch.clearScreen",
-    "build:types": "tsc && pnpm fix-bad-declaration-output './declarations/**/*.d.ts'",
+    "build:types": "tsc --emitDeclarationOnly --noEmit false && pnpm fix-bad-declaration-output './declarations/**/*.d.ts'",
     "build:js": "rollup --config"
   },
   "dependencies": {
