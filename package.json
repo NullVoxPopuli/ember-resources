@@ -46,7 +46,6 @@
     },
     "peerDependencyRules": {
       "ignoreMissing": [
-        "msw",
         "webpack"
       ],
       "allowAny": [
