@@ -10,6 +10,16 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   build: {
     outDir: 'dist',
+    // These targets are not "support".
+    // A consuming app or library should compile further if they need to support
+    // old browsers.
+    target: ['esnext', 'firefox121'],
+    // In case folks debug without sourcemaps
+    //
+    // TODO: do a dual build, split for development + production
+    // where production is optimized for CDN loading via
+    // https://limber.glimdown.com
+    minify: false,
     sourcemap: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points
