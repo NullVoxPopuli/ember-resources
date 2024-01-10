@@ -46,7 +46,7 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) {}
+  constructor(protected owner: Owner) { }
 
   /**
    * Resources do not take args.
@@ -150,4 +150,8 @@ function isReactive<Value>(maybe: unknown): maybe is Reactive<Value> {
   return typeof maybe === 'object' && maybe !== null && CURRENT in maybe;
 }
 
-export const ResourceManagerFactory = (owner: Owner) => new FunctionResourceManager(owner);
+export const ResourceManagerFactory = (owner: Owner | undefined) => {
+  assert(`Cannot create resource without an owner`, owner);
+
+  return new FunctionResourceManager(owner);
+};

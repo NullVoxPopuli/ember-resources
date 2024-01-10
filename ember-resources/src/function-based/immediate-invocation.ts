@@ -1,5 +1,6 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
+import { assert } from '@ember/debug';
 import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
@@ -37,7 +38,7 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) {}
+  constructor(protected owner: Owner) { }
 
   createHelper(fn: ResourceFactory, args: any): State {
     /**
@@ -178,4 +179,8 @@ type ResourceBlueprint<Value, Args> =
 // semicolon
 
 // Provide a singleton manager.
-const ResourceInvokerFactory = (owner: Owner) => new ResourceInvokerManager(owner);
+const ResourceInvokerFactory = (owner: Owner | undefined) => {
+  assert(`Cannot create resource without an owner`, owner);
+
+  return new ResourceInvokerManager(owner);
+};
