@@ -1,6 +1,3 @@
-export * from './types/base';
-export * from './types/signature-args';
-
 // typed-ember should provide this from
 //   @glimmer/tracking/primitives/cache
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
