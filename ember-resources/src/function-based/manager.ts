@@ -46,7 +46,7 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) { }
+  constructor(protected owner: Owner) {}
 
   /**
    * Resources do not take args.
