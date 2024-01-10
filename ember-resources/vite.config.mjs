@@ -1,6 +1,11 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
+import url from 'node:url';
+
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { execaCommand } from 'execa';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   build: {
@@ -30,5 +35,29 @@ export default defineConfig({
       ],
     },
   },
-  plugins: [dts({ rollupTypes: true, outDir: 'declarations' })],
+  plugins: [
+    dts({
+      rollupTypes: true,
+      outDir: 'declarations',
+    }),
+    {
+      /**
+       * Related issues
+       * - https://github.com/embroider-build/embroider/issues/1672
+       * - https://github.com/embroider-build/embroider/pull/1572
+       * - https://github.com/embroider-build/embroider/issues/1675
+       *
+       * Fixed in embroider@4 and especially @embroider/vite
+       */
+      name: 'use-weird-non-ESM-ember-convention',
+      closeBundle: async () => {
+        await execaCommand('cp dist/index.mjs dist/index.js', { stdio: 'inherit' });
+        console.log('⚠️ Incorrectly (but neededly) renamed MJS module to JS in a CJS package');
+        await execaCommand(`pnpm fix-bad-declaration-output declarations/`, {
+          stdio: 'inherit',
+        });
+        console.log('⚠️ Dangerously (but neededly) fixed bad declaration output from typescript');
+      },
+    },
+  ],
 });
