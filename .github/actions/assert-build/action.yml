@@ -7,14 +7,16 @@ runs:
     shell: bash
     run: |-
       echo '
-        target: ${{ env.dist }}
+        target: ember-resources/
         setup:
           run: pnpm build
           cwd: ./ember-resources
         expect: |
-          index.js
-          index.js.map
-          index.d.ts
+          dist/index.js
+          dist/index.js.map
+          declarations/index.d.ts
+          declarations/index.d.ts.map
+
           
       ' >> assert-contents.config.yml
       npx assert-folder-contents
