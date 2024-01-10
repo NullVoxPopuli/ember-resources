@@ -38,7 +38,6 @@
     "start": "pnpm vite build --watch",
     "build": "pnpm vite build",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
-    "lint:types": "tsc --noEmit",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
     "lint:js": "eslint . --cache",
     "lint:prettier": "prettier --check '**/*.{js,ts}'",

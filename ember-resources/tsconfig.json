@@ -12,7 +12,6 @@
     "declarationDir": "declarations",
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": true,
 
     /**
       https://www.typescriptlang.org/tsconfig#rootDir
