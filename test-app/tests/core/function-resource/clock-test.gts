@@ -2,12 +2,26 @@ import { tracked } from '@glimmer/tracking';
 import { destroy } from '@ember/destroyable';
 // @ts-ignore @ember/helper does not provide types :(
 import { hash } from '@ember/helper';
-import { setOwner } from '@ember/owner';
 import { clearRender, find, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { cell, resource, resourceFactory, use } from 'ember-resources';
+
+import type Owner from '@ember/owner';
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
+}
 
 module('Examples | resource | Clock', function (hooks) {
   let wait = (ms = 1_100) => new Promise((resolve) => setTimeout(resolve, ms));

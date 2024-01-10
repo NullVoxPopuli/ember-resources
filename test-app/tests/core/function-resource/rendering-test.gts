@@ -1,12 +1,26 @@
 import { tracked } from '@glimmer/tracking';
-import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
 import Service from '@ember/service';
 import { clearRender, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { cell,resource, use } from 'ember-resources';
+
+import type Owner from '@ember/owner';
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
+}
 
 module('Utils | (function) resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
