@@ -119,6 +119,23 @@
     "typescript": "^4.8.0",
     "webpack": "^5.88.2"
   },
+  "pnpm": {
+    "overrides": {
+      "@glimmer/manager": ">= 0.87.1",
+      "@glimmer/validator": ">= 0.87.1",
+      "ember-eslint-parser": "0.2.5",
+      "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "webpack"
+      ],
+      "allowAny": [
+        "ember-source",
+        "typescript"
+      ]
+    }
+  },
   "engines": {
     "node": "12.* || 14.* || >= 16"
   },
