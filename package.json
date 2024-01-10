@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
-    "reroll-lockfile": "git rm '**/pnpm-lock.yaml'; pnpm i",
+    "reroll-lockfile": "git rm -f '**/pnpm-lock.yaml'; pnpm i",
     "build": "pnpm run --filter ember-resources build",
     "build:docs": "pnpm run --filter docs docs:collect",
     "ci:update": "npx ember-ci-update",

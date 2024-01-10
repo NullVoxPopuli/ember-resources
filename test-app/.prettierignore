@@ -2,9 +2,9 @@
 /blueprints/*/files/
 /vendor/
 /public/
-.yaml
-.md
-.yml
+*.yaml
+*.md
+*.yml
 
 # compiled output
 /dist/

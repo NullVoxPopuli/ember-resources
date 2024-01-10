@@ -1,6 +1,6 @@
 dist/
 declarations/
 node_modules/
-.yaml
-.md
-.yml
+*.yaml
+*.md
+*.yml
