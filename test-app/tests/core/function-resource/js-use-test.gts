@@ -4,10 +4,23 @@ import { destroy, isDestroyed, registerDestructor } from '@ember/destroyable';
 import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { resource, resourceFactory, use } from 'ember-resources';
 
 import type Owner from '@ember/owner';
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
+}
 
 // not testing in template, because that's the easy part
 module('Core | (function) resource + use | js', function (hooks) {
@@ -33,6 +46,8 @@ module('Core | (function) resource + use | js', function (hooks) {
 
     let foo = new Test();
 
+    setOwner(foo, this.owner);
+
     assert.strictEqual(foo.data, 4);
   });
 
@@ -55,6 +70,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     assert.strictEqual(foo.data.current, 0);
 
@@ -85,6 +102,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     // destruction only occurs if the resource is constructor, which would be upon access
     foo.data.current;
@@ -126,6 +145,8 @@ module('Core | (function) resource + use | js', function (hooks) {
 
     let foo = new Test();
 
+    setOwner(foo, this.owner);
+
     foo.data.current;
     foo.count = 4;
     foo.data.current;
@@ -152,6 +173,8 @@ module('Core | (function) resource + use | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     assert.strictEqual(foo.data1, 'hello');
     assert.strictEqual(foo.data2.current, 'hello');

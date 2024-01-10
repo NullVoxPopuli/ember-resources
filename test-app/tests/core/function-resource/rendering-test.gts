@@ -1,12 +1,26 @@
 import { tracked } from '@glimmer/tracking';
-import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
 import Service from '@ember/service';
 import { clearRender, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { cell,resource, use } from 'ember-resources';
+
+import type Owner from '@ember/owner';
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
+}
 
 module('Utils | (function) resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
@@ -27,6 +41,9 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
+
         // reminder that destruction is async
         let steps: string[] = [];
         let step = (msg: string) => {
@@ -71,6 +88,9 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
+
         // reminder that destruction is async
         let steps: string[] = [];
         let step = (msg: string) => {
@@ -120,6 +140,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         let inc = 0;
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         let theResource = resource(({ on }) => {
           let i = inc;
 
@@ -166,6 +188,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         let theResource = resource(({ on }) => {
           let i = foo.num;
 
@@ -211,6 +235,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
 
         let theResource = (_num: number) =>
           resource(({ on }) => {
@@ -278,6 +304,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         await render(<template><out>{{foo.theResource}}</out></template>);
 
         assert.dom('out').containsText('0');
@@ -320,6 +348,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
         }
 
         let foo = new Test();
+
+    setOwner(foo, this.owner);
 
         await render(<template>
           {{#if foo.show}}
@@ -377,6 +407,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
+    setOwner(foo, this.owner);
+
         await render(<template>
           {{#if foo.show}}
             <out>{{foo.theResource}}</out>
@@ -425,6 +457,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
       }
 
       let foo = new Test();
+
+    setOwner(foo, this.owner);
 
       await render(<template>
         {{#let (Wrapper foo.num) as |state|}}
@@ -482,6 +516,8 @@ module('Utils | (function) resource | rendering', function (hooks) {
       const testService = this.owner.lookup('service:test') as TestService;
 
       let testData = new Test();
+
+    setOwner(testData, this.owner);
 
       setOwner(testData, this.owner);
 

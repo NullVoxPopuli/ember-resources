@@ -1,14 +1,27 @@
 import { tracked } from '@glimmer/tracking';
-import { setOwner } from '@ember/application';
 import { destroy } from '@ember/destroyable';
 import Service from '@ember/service';
 import { settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { cell, resource, use } from 'ember-resources';
 
+import type Owner from '@ember/owner';
 import type QUnit from 'qunit';
+
+let setOwner: (context: unknown, owner: Owner) => void;
+
+if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+  // In no version of ember where `@ember/owner` tried to be imported did it exist
+  // if (macroCondition(false)) {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/owner') as any).setOwner;
+} else {
+  // Using 'any' here because importSync can't lookup types correctly
+  setOwner = (importSync('@ember/application') as any).setOwner;
+}
 
 module('Utils | (function) resource | js', function (hooks) {
   setupTest(hooks);
@@ -30,6 +43,8 @@ module('Utils | (function) resource | js', function (hooks) {
     }
 
     let foo = new Test();
+
+    setOwner(foo, this.owner);
 
     assert.strictEqual(foo.data, 0);
     await settled();
@@ -66,6 +81,8 @@ module('Utils | (function) resource | js', function (hooks) {
     test('basics', async function (assert) {
       let foo = new Test(assert);
 
+      setOwner(foo, this.owner);
+
       assert.strictEqual(foo.data, 1);
 
       destroy(foo);
@@ -76,6 +93,8 @@ module('Utils | (function) resource | js', function (hooks) {
 
     test('reactivity', async function (assert) {
       let foo = new Test(assert);
+
+      setOwner(foo, this.owner);
 
       assert.strictEqual(foo.data, 1);
 
@@ -109,6 +128,8 @@ module('Utils | (function) resource | js', function (hooks) {
 
     test('async reactivity', async function (assert) {
       let foo = new Test(assert);
+
+      setOwner(foo, this.owner);
 
       assert.strictEqual(foo.data, 1);
 
@@ -174,6 +195,8 @@ module('Utils | (function) resource | js', function (hooks) {
 
       let foo = new Test(assert);
 
+      setOwner(foo, this.owner);
+
       assert.strictEqual(foo.data, 1);
 
       foo.count = 2;
@@ -235,6 +258,8 @@ module('Utils | (function) resource | js', function (hooks) {
     test('basics', async function (assert) {
       let foo = new Test(assert);
 
+      setOwner(foo, this.owner);
+
       assert.strictEqual(foo.data, 1);
 
       destroy(foo);
@@ -245,6 +270,8 @@ module('Utils | (function) resource | js', function (hooks) {
 
     test('reactivity', async function (assert) {
       let foo = new Test(assert);
+
+      setOwner(foo, this.owner);
 
       assert.strictEqual(foo.data, 1);
 
@@ -264,6 +291,8 @@ module('Utils | (function) resource | js', function (hooks) {
 
     test('async reactivity', async function (assert) {
       let foo = new Test(assert);
+
+      setOwner(foo, this.owner);
 
       assert.strictEqual(foo.data, 1);
 
@@ -307,6 +336,8 @@ module('Utils | (function) resource | js', function (hooks) {
       const testService = this.owner.lookup('service:test') as TestService;
 
       let test = new Test();
+
+      setOwner(test, this.owner);
 
       setOwner(test, this.owner);
 
