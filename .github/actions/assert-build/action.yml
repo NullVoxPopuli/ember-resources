@@ -12,10 +12,9 @@ runs:
           run: pnpm build
           cwd: ./ember-resources
         expect: |
-          dist/index.js
-          dist/index.js.map
+          dist/index.mjs
+          dist/index.mjs.map
           declarations/index.d.ts
-          declarations/index.d.ts.map
 
           
       ' >> assert-contents.config.yml

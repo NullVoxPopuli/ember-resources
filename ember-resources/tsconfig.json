@@ -9,7 +9,6 @@
     // so that we generate declarations instead of
     // "just typecheck"
     "allowJs": true,
-    "noEmit": false,
     "declarationDir": "declarations",
     "declaration": true,
     "declarationMap": true,
@@ -43,11 +42,9 @@
     */
     "allowImportingTsExtensions": true,
 
-    // Other settings
-    // we can't enable these until ember-source is type=module
-    // otherwise the types are wrong
-    // "module": "Node16",
-    // "moduleResolution": "Node16",
+    // require extensions
+    "module": "Node16",
+    "moduleResolution": "Node16",
 
     // https://www.typescriptlang.org/tsconfig#stripInternal
     "stripInternal": true,
