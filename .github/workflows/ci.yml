@@ -91,30 +91,31 @@ jobs:
           pnpm --filter "test-app*" exec glint --version;
 
       - name: 'Type checking (built in types)'
-        run: pnpm --filter "test-app*" exec glint;
+        run: pnpm --filter "test-app" exec glint;
 
       - name: 'Type checking (DefinitelyTyped types)'
-        run: |
-          library="$PWD/ember-resources"
-          separate_app="/tmp/dt-types-test-app"
-          # Be *very* sure we have a fresh directory
-          rm -rf $separate_app 
-          mkdir -p $separate_app 
-          # Remove node_modules so that copying goes faster
-          rm -rf test-app/node_modules
-          # Remove the import of the built-in-types
-          rm test-app/types/index.d.ts
-          # Copy the test app to the new location
-          cp test-app $separate_app/ -r
-          # Set up the test-app
-          cd $separate_app/test-app
-          pnpm remove ember-resources
-          pnpm add $library
-          # verify we added the correct thing
-          cat package.json | grep ember-resources
-          pnpm add --save-dev @types/ember @types/ember__helper @types/ember__modifier @types/ember__owner @types/ember__application @types/ember__debug @types/ember__destroyable @types/ember__object @types/ember__runloop @types/ember__service @types/ember__routing 
-          pnpm i -f
-          pnpm exec glint
+        run: pnpm --filter "test-app-definitely-typed" exec glint;
+        # run: |
+        #   library="$PWD/ember-resources"
+        #   separate_app="/tmp/dt-types-test-app"
+        #   # Be *very* sure we have a fresh directory
+        #   rm -rf $separate_app 
+        #   mkdir -p $separate_app 
+        #   # Remove node_modules so that copying goes faster
+        #   rm -rf test-app/node_modules
+        #   # Remove the import of the built-in-types
+        #   rm test-app/types/index.d.ts
+        #   # Copy the test app to the new location
+        #   cp test-app $separate_app/ -r
+        #   # Set up the test-app
+        #   cd $separate_app/test-app
+        #   pnpm remove ember-resources
+        #   pnpm add $library
+        #   # verify we added the correct thing
+        #   cat package.json | grep ember-resources
+        #   pnpm add --save-dev @types/ember @types/ember__helper @types/ember__modifier @types/ember__owner @types/ember__application @types/ember__debug @types/ember__destroyable @types/ember__object @types/ember__runloop @types/ember__service @types/ember__routing 
+        #   pnpm i -f
+        #   pnpm exec glint
 
 
 
