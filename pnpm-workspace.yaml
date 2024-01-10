@@ -2,5 +2,4 @@ packages:
   - "ember-resources"
   - "docs"
   - "test-app"
-  - "test-app-definitely-typed"
   - "dev/*"
