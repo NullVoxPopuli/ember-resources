@@ -113,7 +113,6 @@
   "volta": {
     "extends": "../package.json"
   },
-  "type": "module",
   "imports": {
     "#types": "./src/types.ts"
   }
