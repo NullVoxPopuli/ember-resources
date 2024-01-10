@@ -8,11 +8,11 @@ import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { ReadonlyCell } from './cell';
+import { ReadonlyCell } from './cell.ts';
 
-import type { INTERNAL } from './function-based/types';
-import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
-import type { Stage1DecoratorDescriptor } from '[core-types]';
+import type { INTERNAL } from './function-based/types.ts';
+import type { InternalFunctionResourceConfig, Reactive } from './function-based/types.ts';
+import type { Stage1DecoratorDescriptor } from '#types';
 
 type Config =
   | { [INTERNAL]: true; type: string; definition: unknown }
@@ -147,7 +147,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
 
     assert(
       `When @use(...) is passed a resource, an initialized value is not allowed. ` +
-        `\`@use(Clock) time;`,
+      `\`@use(Clock) time;`,
       !descriptor.initializer,
     );
 
@@ -248,8 +248,8 @@ function initializerDecorator(
 
   assert(
     `@use may only be used on initialized properties. For example, ` +
-      `\`@use foo = resource(() => { ... })\` or ` +
-      `\`@use foo = SomeResource.from(() => { ... });\``,
+    `\`@use foo = resource(() => { ... })\` or ` +
+    `\`@use foo = SomeResource.from(() => { ... });\``,
     initializer,
   );
 

@@ -3,9 +3,9 @@ import { getValue } from '@glimmer/tracking/primitives/cache';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { INTERMEDIATE_VALUE } from './types';
+import { INTERMEDIATE_VALUE } from './types.ts';
 
-import type { InternalFunctionResourceConfig } from './types';
+import type { InternalFunctionResourceConfig } from './types.ts';
 
 /**
  * This is what allows resource to be used withotu @use.

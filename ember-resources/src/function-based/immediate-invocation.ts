@@ -6,8 +6,8 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import type { resource } from './resource';
-import type { Cache } from './types';
+import type { resource } from './resource.ts';
+import type { Cache } from './types.ts';
 import type Owner from '@ember/owner';
 
 type SpreadFor<T> = T extends Array<any> ? T : [T];
@@ -38,7 +38,7 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) {}
+  constructor(protected owner: Owner) { }
 
   createHelper(fn: ResourceFactory, args: any): State {
     /**

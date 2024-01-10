@@ -1,6 +1,6 @@
 import { expectTypeOf } from 'expect-type';
 
-import { cell } from '../src/index';
+import { cell } from '../index.ts';
 
 import type { ContentValue } from '@glint/template';
 

@@ -2,12 +2,12 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper, setHelperManager } from '@ember/helper';
 
-import { registerUsable } from '../use';
-import { ResourceManagerFactory } from './manager';
-import { INTERNAL } from './types';
-import { wrapForPlainUsage } from './utils';
+import { registerUsable } from '../use.ts';
+import { ResourceManagerFactory } from './manager.ts';
+import { INTERNAL } from './types.ts';
+import { wrapForPlainUsage } from './utils.ts';
 
-import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
+import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types.ts';
 
 const TYPE = 'function-based';
 
@@ -178,8 +178,8 @@ export function resource<Value>(
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
-        `the first argument to \`resource\` must be a function. ` +
-        `Instead, a ${typeof context} was received.`,
+      `the first argument to \`resource\` must be a function. ` +
+      `Instead, a ${typeof context} was received.`,
       typeof context === 'function',
     );
 
@@ -209,13 +209,13 @@ export function resource<Value>(
 
   assert(
     `Mismatched argument types passed to \`resource\`. ` +
-      `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
-      `Received ${typeof context} instead.`,
+    `Expected the first arg, the context, to be a type of object. This is usually the \`this\`. ` +
+    `Received ${typeof context} instead.`,
     typeof context === 'object',
   );
   assert(
     `Mismatched argument type passed to \`resource\`. ` +
-      `Expected the second arg to be a function but instead received ${typeof setup}.`,
+    `Expected the second arg to be a function but instead received ${typeof setup}.`,
     typeof setup === 'function',
   );
 

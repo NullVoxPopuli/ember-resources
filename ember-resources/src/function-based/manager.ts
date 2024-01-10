@@ -8,8 +8,8 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { ReadonlyCell } from '../cell';
-import { CURRENT, INTERNAL } from './types';
+import { ReadonlyCell } from '../cell.ts';
+import { CURRENT, INTERNAL } from './types.ts';
 
 import type {
   Cache,
@@ -17,8 +17,8 @@ import type {
   InternalFunctionResourceConfig,
   Reactive,
   ResourceFunction,
-} from './types';
-import type { ResourceAPI } from './types';
+} from './types.ts';
+import type { ResourceAPI } from './types.ts';
 import type Owner from '@ember/owner';
 
 let getOwner: (context: unknown) => Owner | undefined;
@@ -46,7 +46,7 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) {}
+  constructor(protected owner: Owner) { }
 
   /**
    * Resources do not take args.
