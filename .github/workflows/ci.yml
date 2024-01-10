@@ -117,6 +117,7 @@ jobs:
           cat package.json | grep ember-resources
           pnpm add --save-dev @types/ember @types/ember__helper @types/ember__modifier @types/ember__owner @types/ember__application @types/ember__debug @types/ember__destroyable @types/ember__object @types/ember__runloop @types/ember__service @types/ember__routing 
           pnpm i -f
+          pnpm tsc --noEmit --traceResolution
           pnpm exec glint
 
 
