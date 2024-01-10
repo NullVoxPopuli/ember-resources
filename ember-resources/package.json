@@ -52,7 +52,6 @@
     "build:js": "rollup --config"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.8",
     "@embroider/addon-shim": "^1.2.0",
     "@embroider/macros": "^1.12.3",
     "decorator-transforms": "^1.0.3"
@@ -94,7 +93,6 @@
     "prettier-plugin-ember-template-tag": "^1.0.0",
     "rollup": "4.8.0",
     "rollup-plugin-copy": "^3.4.0",
-    "tslib": "^2.5.0",
     "typescript": "~5.3.0",
     "fix-bad-declaration-output": "^1.0.0",
     "@rollup/plugin-babel": "^6.0.4",
