@@ -165,7 +165,9 @@ interface UsableConfig {
 export type UsableFn<Usable extends UsableConfig> = (
   context: object,
   config: Usable,
-) => ReturnType<typeof invokeHelper>;
+  // This return type *would be* ReturnType<typeof invokeHelper>
+  // But the DT types for @ember/helper don't have *any* of the helper-manager things.
+) => unknown;
 
 const USABLES = new Map<string, UsableFn<any>>();
 
