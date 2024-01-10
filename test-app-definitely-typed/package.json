@@ -106,7 +106,19 @@
   "volta": {
     "extends": "../package.json"
   },
-  "msw": {
-    "workerDirectory": "public"
+  "pnpm": {
+    "overrides": {
+      "@glimmer/manager": ">= 0.87.1",
+      "@glimmer/validator": ">= 0.87.1"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "webpack"
+      ],
+      "allowAny": [
+        "ember-source",
+        "typescript"
+      ]
+    }
   }
 }
