@@ -81,8 +81,11 @@ jobs:
         working-directory: ./test-app
       - name: 'Type checking'
 
+        # This has been really annoying
+        # due to injected dependencies :(
         run: |
           pnpm --filter "test-app" run _syncPnpm;
+          pnpm i -f;
           pnpm --filter "test-app*" exec tsc -v;
           pnpm --filter "test-app*" exec glint --version;
           pnpm --filter "test-app*" exec glint;
