@@ -6,15 +6,14 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import type { resource } from './resource';
-import type { Cache } from './types';
+import type { resource } from './resource.ts';
 import type Owner from '@ember/owner';
 
 type SpreadFor<T> = T extends Array<any> ? T : [T];
 type ResourceFactory<Value = any, Args = any> = (...args: SpreadFor<Args>) => Value;
 
 interface State {
-  cache: Cache;
+  cache: ReturnType<typeof invokeHelper>;
   fn: any;
   args: any;
   _?: any;
@@ -47,7 +46,7 @@ class ResourceInvokerManager {
      * We want to cache the helper result, and only re-inoke when the args
      * change.
      */
-    let cache = createCache(() => {
+    const cache: State['cache'] = createCache(() => {
       let resource = fn(...args.positional) as object;
 
       setOwner(resource, this.owner);
@@ -64,7 +63,8 @@ class ResourceInvokerManager {
    * getValue is re-called when args change
    */
   getValue({ cache }: State) {
-    let resource = getValue(cache);
+    // SAFETY: we have a nested cache here
+    let resource = getValue(cache) as ReturnType<typeof invokeHelper>;
 
     associateDestroyableChild(cache, resource);
 

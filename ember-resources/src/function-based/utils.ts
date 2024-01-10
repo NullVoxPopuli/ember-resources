@@ -1,11 +1,12 @@
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
+import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { INTERMEDIATE_VALUE } from './types';
+import { INTERMEDIATE_VALUE } from './types.ts';
 
-import type { InternalFunctionResourceConfig } from './types';
+import type { InternalFunctionResourceConfig } from './types.ts';
 
 /**
  * This is what allows resource to be used withotu @use.
@@ -18,7 +19,7 @@ export function wrapForPlainUsage<Value>(
   context: object,
   setup: InternalFunctionResourceConfig<Value>,
 ) {
-  let cache: Cache;
+  let cache: ReturnType<typeof invokeHelper>;
 
   /*
    * Having an object that we use invokeHelper + getValue on
@@ -32,7 +33,9 @@ export function wrapForPlainUsage<Value>(
         cache = invokeHelper(context, setup);
       }
 
-      return getValue<Value>(cache);
+      // SAFETY: the types for the helper manager APIs aren't fully defined to infer
+      //         nor allow passing the value.
+      return getValue<Value>(cache as any);
     },
   };
 
@@ -47,17 +50,23 @@ export function wrapForPlainUsage<Value>(
     get(target, key): unknown {
       const state = target[INTERMEDIATE_VALUE];
 
+      assert('[BUG]: it should not have been possible for this to be undefined', state);
+
       return Reflect.get(state, key, state);
     },
 
     ownKeys(target): (string | symbol)[] {
       const value = target[INTERMEDIATE_VALUE];
 
+      assert('[BUG]: it should not have been possible for this to be undefined', value);
+
       return Reflect.ownKeys(value);
     },
 
     getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
       const value = target[INTERMEDIATE_VALUE];
+
+      assert('[BUG]: it should not have been possible for this to be undefined', value);
 
       return Reflect.getOwnPropertyDescriptor(value, key);
     },

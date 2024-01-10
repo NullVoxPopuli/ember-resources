@@ -8,11 +8,11 @@ import { associateDestroyableChild } from '@ember/destroyable';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 
-import { ReadonlyCell } from './cell';
+import { ReadonlyCell } from './cell.ts';
 
-import type { INTERNAL } from './function-based/types';
-import type { InternalFunctionResourceConfig, Reactive } from './function-based/types';
-import type { Stage1DecoratorDescriptor } from '[core-types]';
+import type { INTERNAL } from './function-based/types.ts';
+import type { InternalFunctionResourceConfig, Reactive } from './function-based/types.ts';
+import type { Stage1DecoratorDescriptor } from './types.ts';
 
 type Config =
   | { [INTERNAL]: true; type: string; definition: unknown }
@@ -123,14 +123,14 @@ function classContextLink<Value>(
 
   return new ReadonlyCell<Value>(() => {
     if (!cache) {
-      cache = invokeHelper(context, definition);
+      cache = invokeHelper(context, definition as object);
 
       associateDestroyableChild(context, cache);
     }
 
     let value = getValue(cache);
 
-    return getCurrentValue(value);
+    return getCurrentValue(value) as Value;
   });
 }
 
@@ -165,7 +165,9 @@ interface UsableConfig {
 export type UsableFn<Usable extends UsableConfig> = (
   context: object,
   config: Usable,
-) => ReturnType<typeof invokeHelper>;
+  // This return type *would be* ReturnType<typeof invokeHelper>
+  // But the DT types for @ember/helper don't have *any* of the helper-manager things.
+) => unknown;
 
 const USABLES = new Map<string, UsableFn<any>>();
 

@@ -2,12 +2,12 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper, setHelperManager } from '@ember/helper';
 
-import { registerUsable } from '../use';
-import { ResourceManagerFactory } from './manager';
-import { INTERNAL } from './types';
-import { wrapForPlainUsage } from './utils';
+import { registerUsable } from '../use.ts';
+import { ResourceManagerFactory } from './manager.ts';
+import { INTERNAL } from './types.ts';
+import { wrapForPlainUsage } from './utils.ts';
 
-import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types';
+import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types.ts';
 
 const TYPE = 'function-based';
 

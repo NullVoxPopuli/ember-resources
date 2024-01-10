@@ -1,3 +1,2 @@
-// ember-concurrency is not compatible with these....
-// import 'ember-source/types';
+import 'ember-source/types';
 // import 'ember-source/types/preview';

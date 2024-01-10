@@ -8,17 +8,15 @@ import { invokeHelper } from '@ember/helper';
 import { capabilities as helperCapabilities } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { ReadonlyCell } from '../cell';
-import { CURRENT, INTERNAL } from './types';
+import { ReadonlyCell } from '../cell.ts';
+import { CURRENT, INTERNAL } from './types.ts';
 
 import type {
-  Cache,
   Destructor,
   InternalFunctionResourceConfig,
   Reactive,
   ResourceFunction,
-} from './types';
-import type { ResourceAPI } from './types';
+} from './types.ts';
 import type Owner from '@ember/owner';
 
 let getOwner: (context: unknown) => Owner | undefined;
@@ -41,7 +39,7 @@ if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
  *    We have to build that manually in this helper manager
  */
 class FunctionResourceManager {
-  capabilities = helperCapabilities('3.23', {
+  capabilities: ReturnType<typeof helperCapabilities> = helperCapabilities('3.23', {
     hasValue: true,
     hasDestroyable: true,
   });
@@ -52,7 +50,10 @@ class FunctionResourceManager {
    * Resources do not take args.
    * However, they can access tracked data
    */
-  createHelper(config: InternalFunctionResourceConfig) {
+  createHelper(config: InternalFunctionResourceConfig): {
+    fn: InternalFunctionResourceConfig['definition'];
+    cache: ReturnType<typeof invokeHelper>;
+  } {
     let { definition: fn } = config;
     /**
      * We have to copy the `fn` in case there are multiple
@@ -63,7 +64,7 @@ class FunctionResourceManager {
      */
     let thisFn = fn.bind(null);
     let previousFn: object;
-    let usableCache = new WeakMap<object, unknown>();
+    let usableCache = new WeakMap<object, ReturnType<typeof invokeHelper>>();
     let owner = this.owner;
 
     let cache = createCache(() => {
@@ -76,46 +77,46 @@ class FunctionResourceManager {
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
-      const use: ResourceAPI['use'] = (usable) => {
-        assert(
-          `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
-          typeof usable === 'object',
-        );
-        assert(
-          `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${usable}.`,
-          usable,
-        );
-        assert(
-          `Expected the resource's \`use(...)\` utility to have been passed another resource, but something else was passed.`,
-          INTERNAL in usable,
-        );
-
-        let previousCache = usableCache.get(usable);
-
-        if (previousCache) {
-          destroy(previousCache);
-        }
-
-        let nestedCache = invokeHelper(cache, usable);
-
-        associateDestroyableChild(currentFn, nestedCache as object);
-
-        usableCache.set(usable, nestedCache);
-
-        return new ReadonlyCell(() => {
-          let cache = usableCache.get(usable);
-
-          return getValue(cache);
-        });
-      };
-
       let maybeValue = currentFn({
         on: {
           cleanup: (destroyer: Destructor) => {
             registerDestructor(currentFn, destroyer);
           },
         },
-        use,
+        use: (usable) => {
+          assert(
+            `Expected the resource's \`use(...)\` utility to have been passed an object, but a \`${typeof usable}\` was passed.`,
+            typeof usable === 'object',
+          );
+          assert(
+            `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${usable}.`,
+            usable,
+          );
+          assert(
+            `Expected the resource's \`use(...)\` utility to have been passed another resource, but something else was passed.`,
+            INTERNAL in usable,
+          );
+
+          let previousCache = usableCache.get(usable);
+
+          if (previousCache) {
+            destroy(previousCache);
+          }
+
+          let nestedCache = invokeHelper(cache, usable);
+
+          associateDestroyableChild(currentFn, nestedCache as object);
+
+          usableCache.set(usable, nestedCache);
+
+          return new ReadonlyCell<any>(() => {
+            let cache = usableCache.get(usable);
+
+            assert(`Cache went missing while evaluating the result of a resource.`, cache);
+
+            return getValue(cache);
+          });
+        },
         owner: this.owner,
       });
 
@@ -127,7 +128,7 @@ class FunctionResourceManager {
     return { fn: thisFn, cache };
   }
 
-  getValue({ cache }: { fn: ResourceFunction; cache: Cache }) {
+  getValue({ cache }: { fn: ResourceFunction; cache: ReturnType<typeof invokeHelper> }) {
     let maybeValue = getValue(cache);
 
     if (typeof maybeValue === 'function') {

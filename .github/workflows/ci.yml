@@ -75,20 +75,26 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 18.18.1
-      - uses: ./.github/actions/download-built-package
+      - name: 'Build'
+        run: pnpm build
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
         working-directory: ./test-app
-      - name: 'Type checking'
 
+      # This has been really annoying
+      # due to injected dependencies :(
+      - name: 'Re-sync injected dependencies'
+        run: pnpm i -f
+      - name: 'Print Versions'
         run: |
           pnpm --filter "test-app*" exec tsc -v;
           pnpm --filter "test-app*" exec glint --version;
-          pnpm --filter "test-app*" exec glint;
 
+      - name: 'Type checking (built in types)'
+        run: pnpm --filter "test-app" exec glint;
 
-
-
+      - name: 'Type checking (DefinitelyTyped types)'
+        run: pnpm --filter "test-app-definitely-typed" exec glint;
 
   default_tests:
     name: Default Tests
