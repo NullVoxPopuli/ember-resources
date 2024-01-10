@@ -36,8 +36,10 @@
     "allowImportingTsExtensions": true,
 
     // Other settings
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    // we can't enable these until ember-source is type=module
+    // otherwise the types are wrong
+    // "module": "Node16",
+    // "moduleResolution": "Node16",
     // https://www.typescriptlang.org/tsconfig#stripInternal
     "stripInternal": true,
     // Build settings

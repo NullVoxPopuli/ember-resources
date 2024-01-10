@@ -123,14 +123,14 @@ function classContextLink<Value>(
 
   return new ReadonlyCell<Value>(() => {
     if (!cache) {
-      cache = invokeHelper(context, definition);
+      cache = invokeHelper(context, definition as object);
 
       associateDestroyableChild(context, cache);
     }
 
     let value = getValue(cache);
 
-    return getCurrentValue(value);
+    return getCurrentValue(value) as Value;
   });
 }
 

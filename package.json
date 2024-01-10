@@ -37,7 +37,9 @@
     "overrides": {
       "ember-eslint-parser": "0.2.5",
       "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master",
-      "mustache": "^4.2.0"
+      "mustache": "^4.2.0",
+      "@glimmer/validator": ">= 0.87.1",
+      "@glimmer/manager": ">= 0.87.1"
     },
     "overrides-notes": {
       "mustache": "ember-cli -> testem -> consolidate -> mustache is ancient"
