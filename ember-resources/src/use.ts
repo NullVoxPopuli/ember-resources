@@ -147,7 +147,7 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
 
     assert(
       `When @use(...) is passed a resource, an initialized value is not allowed. ` +
-      `\`@use(Clock) time;`,
+        `\`@use(Clock) time;`,
       !descriptor.initializer,
     );
 
@@ -248,8 +248,8 @@ function initializerDecorator(
 
   assert(
     `@use may only be used on initialized properties. For example, ` +
-    `\`@use foo = resource(() => { ... })\` or ` +
-    `\`@use foo = SomeResource.from(() => { ... });\``,
+      `\`@use foo = resource(() => { ... })\` or ` +
+      `\`@use foo = SomeResource.from(() => { ... });\``,
     initializer,
   );
 

@@ -37,7 +37,7 @@ class ResourceInvokerManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) { }
+  constructor(protected owner: Owner) {}
 
   createHelper(fn: ResourceFactory, args: any): State {
     /**

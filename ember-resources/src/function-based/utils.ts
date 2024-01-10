@@ -1,6 +1,6 @@
-import { assert } from '@ember/debug';
 // @ts-ignore
 import { getValue } from '@glimmer/tracking/primitives/cache';
+import { assert } from '@ember/debug';
 // @ts-ignore
 import { invokeHelper } from '@ember/helper';
 

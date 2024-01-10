@@ -44,13 +44,16 @@ class FunctionResourceManager {
     hasDestroyable: true,
   });
 
-  constructor(protected owner: Owner) { }
+  constructor(protected owner: Owner) {}
 
   /**
    * Resources do not take args.
    * However, they can access tracked data
    */
-  createHelper(config: InternalFunctionResourceConfig): { fn: InternalFunctionResourceConfig['definition'], cache: ReturnType<typeof invokeHelper> } {
+  createHelper(config: InternalFunctionResourceConfig): {
+    fn: InternalFunctionResourceConfig['definition'];
+    cache: ReturnType<typeof invokeHelper>;
+  } {
     let { definition: fn } = config;
     /**
      * We have to copy the `fn` in case there are multiple
