@@ -238,7 +238,7 @@ Lastly, to support reactively changing the locale, we need to wrap the `resource
 ```js
 import { resource, resourceFactory, use } from 'ember-resources';
 
-const Clock = resourceFactory((locale = 'en-US') => {
+function Clock(locale = 'en-US') {
   return resource(({ on }) => {
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
@@ -249,7 +249,9 @@ const Clock = resourceFactory((locale = 'en-US') => {
 
     return () => formatter.format(time.current);
   });
-});
+}
+
+resourceFactory(Clock);
 ```
 
 <details><summary>using &lt;template&gt;</summary>
@@ -258,7 +260,7 @@ const Clock = resourceFactory((locale = 'en-US') => {
 // NOTE: this snippet has bugs and is incomplete, don't copy this (explained later)
 import { resource, resourceFactory, use } from 'ember-resources';
 
-const Clock = resourceFactory((locale = 'en-US') => {
+function Clock(locale = 'en-US') {
   return resource(({ on }) => {
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
@@ -269,7 +271,9 @@ const Clock = resourceFactory((locale = 'en-US') => {
 
     return () => formatter.format(time.current);
   });
-});
+}
+
+resourceFactory(Clock);
 
 <template>
   <time>{{Clock}}</time>
@@ -306,7 +310,7 @@ Supporting reactive argument changes from JS would require an arrow function to 
 ```js
 import { resource, resourceFactory, use } from 'ember-resources';
 
-const Clock = resourceFactory((locale = 'en-US') => {
+function Clock(locale = 'en-US') {
   return resource(({ on }) => {
     let currentLocale = locale;
 
@@ -323,7 +327,8 @@ if (typeof locale === 'function') {
 
     return () => formatter.format(time.current);
   });
-});
+}
+resourceFactory(Clock):
 ```
 
 and then usage in a class would look like:

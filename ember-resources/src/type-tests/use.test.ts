@@ -13,7 +13,7 @@ const Clock = resource(({ on }) => {
   return now;
 });
 
-const ParameterizedClock = resourceFactory((locale = 'en-US') => {
+function ParameterizedClock(locale = 'en-US') {
   return resource(({ use }) => {
     let now = use(Clock);
     let formatter = new Intl.DateTimeFormat(locale);
@@ -22,7 +22,9 @@ const ParameterizedClock = resourceFactory((locale = 'en-US') => {
       return formatter.format(now.current);
     };
   });
-});
+}
+
+resourceFactory(ParameterizedClock);
 
 class DemoA {
   @use stuck = StuckClock;
