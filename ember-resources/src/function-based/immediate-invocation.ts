@@ -89,7 +89,7 @@ class ResourceInvokerManager {
  *  ```js
  *  import { resource, resourceFactory } from 'ember-resources';
  *
- *  const RemoteData = resourceFactory((url) => {
+ *  function RemoteData(url) {
  *    return resource(({ on }) => {
  *      let state = new TrackedObject({});
  *      let controller = new AbortController();
@@ -107,7 +107,9 @@ class ResourceInvokerManager {
  *
  *      return state;
  *    })
- * });
+ * }
+ *
+ * resourceFactory(RemoteData);
  *
  *  <template>
  *    {{#let (RemoteData "http://....") as |state|}}
