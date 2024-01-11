@@ -29,9 +29,11 @@ const Clock = resource(/* ... */);
 And then if your resource takes arguments:
 
 ```gjs
-const Clock = resourceFactory((locale) => {
+function Clock(locale) {
   return resource(/* ... */);
-});
+}
+
+resourceFactory(Clock)
 
 <template>
   {{Clock 'en-US'}}
@@ -203,7 +205,7 @@ So when authoring a `Clock` that receives these types of function arguments, but
 ```js
 import { resourceFactory } from 'ember-resources';
 
-export const Clock = resourceFactory(( args ) => {
+export function Clock(args) {
   return resource(() => {
     let { locale, timeZone } = args;
 
@@ -214,7 +216,9 @@ export const Clock = resourceFactory(( args ) => {
 
     // ...
   });
-});
+}
+
+resourceFactory(Clock);
 ```
 
 <details><summary>using functions for fine-grained reactivity</summary>
@@ -353,13 +357,13 @@ Here is how the overloads for `Compiled`, the resource that represents a dynamic
 
 ```ts
 // Additional types and APIs omitted for brevity
-export function buildCompiler(markdownText: Input | (() => Input)): State;
-export function buildCompiler(markdownText: Input | (() => Input), options?: Format): State;
-export function buildCompiler(markdownText: Input | (() => Input), options?: () => Format): State;
-export function buildCompiler(markdownText: Input | (() => Input), options?: ExtraOptions): State;
-export function buildCompiler(markdownText: Input | (() => Input), options?: () => ExtraOptions): State;
+export function Compiled(markdownText: Input | (() => Input)): State;
+export function Compiled(markdownText: Input | (() => Input), options?: Format): State;
+export function Compiled(markdownText: Input | (() => Input), options?: () => Format): State;
+export function Compiled(markdownText: Input | (() => Input), options?: ExtraOptions): State;
+export function Compiled(markdownText: Input | (() => Input), options?: () => ExtraOptions): State;
 
-export function buildCompiler(
+export function Compiled(
   markdownText: Input | (() => Input),
   maybeOptions?: Format | (() => Format) | ExtraOptions | (() => ExtraOptions)
 ): State {
@@ -383,7 +387,7 @@ export function buildCompiler(
   });
 }
 
-export const Compiled = resourceFactory(buildCompiler) as typeof buildCompiler;
+resourceFactory(Compiled)
 ```
 
 When defining `Compiled` this way, we can be type-safe in a variety of situations.
