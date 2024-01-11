@@ -7,7 +7,7 @@ settings:
 overrides:
   '@glimmer/manager': '>= 0.87.1'
   '@glimmer/validator': '>= 0.87.1'
-  '@ef4/lerna-changelog': github:NullVoxPopuli/lerna-changelog#rdp-dist-PR-8
+  release-plan: github:embroider-build/release-plan#tmp-manypkg-dist
   ember-eslint-parser: 0.2.5
   eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#master
 
@@ -28,8 +28,8 @@ devDependencies:
     specifier: ^3.1.1
     version: 3.1.1
   release-plan:
-    specifier: ^0.6.0
-    version: 0.6.0
+    specifier: github:embroider-build/release-plan#tmp-manypkg-dist
+    version: github.com/embroider-build/release-plan/dfe4e03c7aea105a84d9ad704787a05dc401a794
   typescript:
     specifier: ^5.0.0
     version: 5.3.3
@@ -369,6 +369,25 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@ef4/lerna-changelog@2.1.0:
+    resolution: {integrity: sha512-c6301SsWdOBrTGEkQmDTK5dDJUX2+03kN6UYZhewkqih3vy3HZxp1G1eJPVPd5EQpaLRptxFsMtgDcsabPZmRg==}
+    engines: {node: 12.* || 14.* || >= 16}
+    hasBin: true
+    dependencies:
+      '@manypkg/get-packages': 2.2.0
+      chalk: 4.1.2
+      cli-highlight: 2.1.11
+      execa: 5.1.1
+      hosted-git-info: 4.1.0
+      make-fetch-happen: 9.1.0
+      p-map: 3.0.0
+      progress: 2.0.3
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - bluebird
+      - supports-color
     dev: true
 
   /@ember-data/rfc395-data@0.0.4:
@@ -3810,33 +3829,6 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-plan@0.6.0:
-    resolution: {integrity: sha512-5c4JdHXPtVDEbC/aNCaTAr+NrVm1NST3rCFSVkdGInXfJ8KLPFWBZ9/AtIniTRb+E6vjJwy33N9DTnuW76iRpQ==}
-    hasBin: true
-    dependencies:
-      '@ef4/lerna-changelog': github.com/NullVoxPopuli/lerna-changelog/a6c95da450714dd29484239ac29ebd205ffe8a02
-      '@npmcli/package-json': 5.0.0
-      '@octokit/rest': 19.0.13
-      '@types/fs-extra': 9.0.13
-      '@types/js-yaml': 4.0.9
-      '@types/semver': 7.5.6
-      '@types/yargs': 17.0.32
-      assert-never: 1.2.1
-      chalk: 4.1.2
-      cli-highlight: 2.1.11
-      execa: 4.1.0
-      fs-extra: 10.1.0
-      js-yaml: 4.1.0
-      latest-version: 5.1.0
-      parse-github-repo-url: 1.4.1
-      semver: 7.5.4
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - bluebird
-      - encoding
-      - supports-color
-    dev: true
-
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -4688,23 +4680,34 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/NullVoxPopuli/lerna-changelog/a6c95da450714dd29484239ac29ebd205ffe8a02:
-    resolution: {tarball: https://codeload.github.com/NullVoxPopuli/lerna-changelog/tar.gz/a6c95da450714dd29484239ac29ebd205ffe8a02}
-    name: '@ef4/lerna-changelog'
-    version: 2.0.0
-    engines: {node: 12.* || 14.* || >= 16}
+  github.com/embroider-build/release-plan/dfe4e03c7aea105a84d9ad704787a05dc401a794:
+    resolution: {tarball: https://codeload.github.com/embroider-build/release-plan/tar.gz/dfe4e03c7aea105a84d9ad704787a05dc401a794}
+    name: release-plan
+    version: 0.6.0
     hasBin: true
+    prepare: true
+    requiresBuild: true
     dependencies:
+      '@ef4/lerna-changelog': 2.1.0
       '@manypkg/get-packages': 2.2.0
+      '@npmcli/package-json': 5.0.0
+      '@octokit/rest': 19.0.13
+      '@types/fs-extra': 9.0.13
+      '@types/js-yaml': 4.0.9
+      '@types/semver': 7.5.6
+      '@types/yargs': 17.0.32
+      assert-never: 1.2.1
       chalk: 4.1.2
       cli-highlight: 2.1.11
-      execa: 5.1.1
-      hosted-git-info: 4.1.0
-      make-fetch-happen: 9.1.0
-      p-map: 3.0.0
-      progress: 2.0.3
+      execa: 4.1.0
+      fs-extra: 10.1.0
+      js-yaml: 4.1.0
+      latest-version: 5.1.0
+      parse-github-repo-url: 1.4.1
+      semver: 7.5.4
       yargs: 17.7.2
     transitivePeerDependencies:
       - bluebird
+      - encoding
       - supports-color
     dev: true
