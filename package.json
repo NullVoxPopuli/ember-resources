@@ -24,7 +24,7 @@
     "release-plan": "^0.6.0",
     "typescript": "^5.0.0"
   },
-  "packageManager": "pnpm@8.12.1",
+  "packageManager": "pnpm@8.14.1",
   "engines": {
     "node": ">= 18.*",
     "npm": "use pnpm",
