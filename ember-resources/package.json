@@ -2,9 +2,15 @@
   "name": "ember-resources",
   "version": "7.0.0",
   "keywords": [
-    "ember-addon"
+    "ember",
+    "resources",
+    "reactivity",
+    "signals",
+    "addon",
+    "async"
   ],
-  "description": "An implementation of Resources with some helpful utilities",
+  "type": "module",
+  "description": "An implementation of Resources",
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "exports": {
