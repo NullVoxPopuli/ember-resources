@@ -2,17 +2,22 @@
   "name": "ember-resources",
   "version": "7.0.0",
   "keywords": [
-    "ember-addon"
+    "ember",
+    "resources",
+    "reactivity",
+    "signals",
+    "addon",
+    "async"
   ],
-  "description": "An implementation of Resources with some helpful utilities",
+  "type": "module",
+  "description": "An implementation of Resources",
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "license": "MIT",
   "exports": {
     ".": {
       "types": "./declarations/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./addon-main.js": "./addon-main.cjs"
+    }
   },
   "types": "./declarations/index.d.ts",
   "typesVersions": {
@@ -54,10 +59,14 @@
     "@glimmer/component": ">= 1.1.2",
     "@glimmer/tracking": ">= 1.1.2",
     "@glint/template": ">= 1.0.0",
+    "@ember/debug": "*",
     "ember-source": "^3.28.0 || ^4.0.0 || >= 5.0.0"
   },
   "peerDependenciesMeta": {
     "@glimmer/component": {
+      "optional": true
+    },
+    "@ember/debug": {
       "optional": true
     }
   },
@@ -113,15 +122,6 @@
         "typescript"
       ]
     }
-  },
-  "ember": {
-    "edition": "octane"
-  },
-  "ember-addon": {
-    "version": 2,
-    "type": "addon",
-    "main": "addon-main.cjs",
-    "app-js": {}
   },
   "packageManager": "pnpm@8.12.1",
   "volta": {
