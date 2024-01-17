@@ -17,8 +17,7 @@
     ".": {
       "types": "./declarations/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./addon-main.js": "./addon-main.cjs"
+    }
   },
   "types": "./declarations/index.d.ts",
   "typesVersions": {
@@ -123,15 +122,6 @@
         "typescript"
       ]
     }
-  },
-  "ember": {
-    "edition": "octane"
-  },
-  "ember-addon": {
-    "version": 2,
-    "type": "addon",
-    "main": "addon-main.cjs",
-    "app-js": {}
   },
   "packageManager": "pnpm@8.12.1",
   "volta": {
