@@ -55,5 +55,20 @@ export default defineConfig({
       outDir: 'declarations',
     }),
     addon.glint('declarations/**/*.d.ts'),
+    {
+      name: 'use-weird-non-ESM-ember-convention',
+      closeBundle: async () => {
+        /**
+         * Related issues
+         * - https://github.com/embroider-build/embroider/issues/1672
+         * - https://github.com/embroider-build/embroider/pull/1572
+         * - https://github.com/embroider-build/embroider/issues/1675
+         *
+         * Fixed in embroider@4 and especially @embroider/vite
+         */
+        await execaCommand('cp dist/index.mjs dist/index.js', { stdio: 'inherit' });
+        console.log('⚠️ Incorrectly (but neededly) renamed MJS module to JS in a CJS package');
+      },
+    },
   ],
 });
