@@ -1,9 +1,13 @@
 import { resolve } from 'node:path';
 import url from 'node:url';
 
+import { Addon } from '@embroider/addon-dev/rollup';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { execaCommand } from 'execa';
+import { fixBadDeclarationOutput } from 'fix-bad-declaration-output';
+
+const addon = new Addon();
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -50,6 +54,7 @@ export default defineConfig({
       rollupTypes: true,
       outDir: 'declarations',
     }),
+    addon.glint('declarations/**/*.d.ts'),
     {
       name: 'use-weird-non-ESM-ember-convention',
       closeBundle: async () => {
@@ -63,15 +68,6 @@ export default defineConfig({
          */
         await execaCommand('cp dist/index.mjs dist/index.js', { stdio: 'inherit' });
         console.log('⚠️ Incorrectly (but neededly) renamed MJS module to JS in a CJS package');
-
-        /**
-         * https://github.com/microsoft/TypeScript/issues/56571#
-         * README: https://github.com/NullVoxPopuli/fix-bad-declaration-output
-         */
-        await execaCommand(`pnpm fix-bad-declaration-output declarations/`, {
-          stdio: 'inherit',
-        });
-        console.log('⚠️ Dangerously (but neededly) fixed bad declaration output from typescript');
       },
     },
   ],
