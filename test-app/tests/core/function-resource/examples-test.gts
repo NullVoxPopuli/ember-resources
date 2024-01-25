@@ -11,7 +11,7 @@ module('resource | example', function (hooks) {
 
   module('Custom lifecycle can be managed', function() {
     test('destruction works as expected with delayed-accessed-args', async function(assert) {
-      function Wrapper(argsFn: () => Record<string, unknown>) {
+      function Wrapper(parent: object, argsFn: () => Record<string, unknown>) {
         assert.step('create:Wrapper');
 
         let obj = {};
@@ -22,7 +22,7 @@ module('resource | example', function (hooks) {
           return argsFn()[ 'foo' ];
         });
 
-        associateDestroyableChild(destroyable as object, obj);
+        associateDestroyableChild(parent, obj);
         registerDestructor(obj, () => assert.step('destroy:obj'));
 
         return destroyable;
@@ -31,7 +31,7 @@ module('resource | example', function (hooks) {
       const isVisible = cell(true);
 
       class Demo extends Component {
-        @use data = Wrapper(() => this.args) as string;
+        @use data = Wrapper(this, () => this.args) as string;
 
         <template>
           {{this.data}}
@@ -50,7 +50,7 @@ module('resource | example', function (hooks) {
         await settled();
 
 
-      assert.verifySteps(['destroy:resource', 'destroy:obj'])
+      assert.verifySteps(['destroy:obj', 'destroy:resource'])
 
     });
   });
