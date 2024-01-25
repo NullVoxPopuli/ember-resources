@@ -1,5 +1,9 @@
 # Migrations
 
+
+
+
+-[7.0](#7.0)
 - [5.0](#5.0)
   - [tl;dr](#tldr)
   - [Overview](#overview)
@@ -17,6 +21,18 @@
     - [useResource](#useresource);
   - [References](#references)
 
+## 7.0
+
+
+- Class-based resource implementation moved to [ember-modify-based-class-resource](https://github.com/NullVoxPopuli/ember-modify-based-class-resource/) 
+- Other utilities moved to [https://reactive.nullvoxpopuli.com/](https://reactive.nullvoxpopuli.com/)
+    - everything under `ember-resources/util`
+    - `ember-resources/modifier`
+    - `ember-resources/service`
+    - `ember-resources/link`
+
+
+Code is pretty much the same, so the migration is find and replace.
 
 ## 5.0
 
