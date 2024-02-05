@@ -1,4 +1,13 @@
 # Changelog
+## Release (2024-02-05)
+
+
+
+#### :memo: Documentation
+* [#1115](https://github.com/NullVoxPopuli/ember-resources/pull/1115) Update migrations for 7.0 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2024-01-11)
 
 ember-resources 7.0.0 (major)
