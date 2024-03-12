@@ -7,7 +7,7 @@ import type TimeFormat from 'test-app/helpers/time-format';
 
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry {
-    'clock': typeof Clock;
+    clock: typeof Clock;
     'time-format': typeof TimeFormat;
     // Examples
     // state: HelperLike<{ Args: {}, Return: State }>;

@@ -1,4 +1,4 @@
-import { find,render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -15,7 +15,7 @@ module('Loose mode', function (hooks) {
 
     let initialText = find('time')?.innerText?.trim();
 
-    await new Promise(resolve => setTimeout(resolve, 1100));
+    await new Promise((resolve) => setTimeout(resolve, 1100));
 
     assert.ok(initialText);
     assert.notStrictEqual(find('time')?.innerText?.trim(), initialText);
@@ -30,7 +30,7 @@ module('Loose mode', function (hooks) {
 
     let initialText = find('time')?.innerText?.trim();
 
-    await new Promise(resolve => setTimeout(resolve, 1100));
+    await new Promise((resolve) => setTimeout(resolve, 1100));
 
     assert.ok(initialText);
     assert.notStrictEqual(find('time')?.innerText?.trim(), initialText);

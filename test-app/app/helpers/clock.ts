@@ -4,7 +4,7 @@ export function Clock() {
   let time = cell(new Date());
 
   return resource(({ on }) => {
-    let interval = setInterval(() => time.current = new Date(), 1000);
+    let interval = setInterval(() => (time.current = new Date()), 1000);
 
     on.cleanup(() => clearInterval(interval));
 
