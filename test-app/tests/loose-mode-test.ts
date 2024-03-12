@@ -8,6 +8,7 @@ module('Loose mode', function (hooks) {
 
   test('it works', async function (assert) {
     await render(hbs`
+      {{! template-lint-disable no-curly-component-invocation }}
       <time>{{ clock }}</time>
     `);
 
