@@ -12,7 +12,7 @@ export function Clock() {
     // return time;
 
     // The above is a shorthand for this
-    // (but with a cast to string to appease Glint's restructive ContentValue type
+    // (but with a cast to string to appease Glint's restrictive ContentValue type)
     // (Date is a renderable value, but Glint doesn't think so)
     return () => time.current.toString();
   });
