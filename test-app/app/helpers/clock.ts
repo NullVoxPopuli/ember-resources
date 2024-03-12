@@ -8,7 +8,13 @@ export function Clock() {
 
     on.cleanup(() => clearInterval(interval));
 
-    return time;
+    // this works at runtime but TS/Glint can't figure it out
+    // return time;
+
+    // The above is a shorthand for this
+    // (but with a cast to string to appease Glint's restructive ContentValue type
+    // (Date is a renderable value, but Glint doesn't think so)
+    return () => time.current.toString();
   });
 }
 

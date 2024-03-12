@@ -6,6 +6,6 @@ const formatter = new Intl.DateTimeFormat(locale, {
   hour12: false,
 });
 
-export default function timeFormat(input: string) {
+export default function timeFormat(input: Date) {
   return formatter.format(input);
 }

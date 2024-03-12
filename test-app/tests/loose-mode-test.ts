@@ -8,7 +8,6 @@ module('Loose mode', function (hooks) {
 
   test('it works', async function (assert) {
     await render(hbs`
-      {{! @glint-nocheck }}
       <time>{{ clock }}</time>
     `);
 
@@ -24,7 +23,6 @@ module('Loose mode', function (hooks) {
 
   test('can be passed to a helper', async function (assert) {
     await render(hbs`
-      {{! @glint-nocheck }}
       <time>{{time-format (clock) }}</time>
     `);
 
