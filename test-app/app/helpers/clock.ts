@@ -1,13 +1,5 @@
 import { cell, resource, resourceFactory } from 'ember-resources';
 
-const locale = 'en-US';
-const formatter = new Intl.DateTimeFormat(locale, {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  hour12: false,
-});
-
 export function Clock() {
   let time = cell(new Date());
 
@@ -16,7 +8,7 @@ export function Clock() {
 
     on.cleanup(() => clearInterval(interval));
 
-    return () => formatter.format(time.current);
+    return time;
   });
 }
 
