@@ -32,32 +32,41 @@ const Clock = resource(() => {
 });
 
 
+// use (the function) exposes a .current property, like a Cell
 class Refresher extends Component<Signature> {
-  // use (the function) exposes a .current property, like a Cell
   clock = use(this, Clock);
 
   <template>{{yield this.clock.current}}</template>
 }
 
+// with use (the decorator) the .current access is absorbed in an underlying getter
 class Refresher2 extends Component<Signature> {
-  // with use (the decorator) the .current access is absorbed in an underlying getter
   @use clock = Clock;
 
   <template>{{yield this.clock}}</template>
 }
 
+const keys = (o: Record<string, unknown>) => Object.keys(o).join(',');
+
 module('issues/1128', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it works', async function () {
+  test('it works', async function (assert) {
     await render(<template>
       <Refresher as |r|>
-        {{log r.percentage.current}}
+        <output id="one-keys">{{keys r}}</output>
+        <output id="one">{{r.percentage.current}}</output>
       </Refresher>
       <Refresher2 as |r|>
-        {{log r.percentage.current}}
+        <output id="two-keys">{{keys r}}</output>
+        <output id="two">{{r.percentage.current}}</output>
       </Refresher2>
     </template>);
+
+    assert.dom('#one-keys').hasText('percentage,counter');
+    assert.dom('#two-keys').hasText('percentage,counter');
+    assert.dom('#one').hasText('0');
+    assert.dom('#two').hasText('0');
   });
 
 });
