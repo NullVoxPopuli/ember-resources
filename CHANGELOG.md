@@ -1,4 +1,21 @@
 # Changelog
+
+## Release (2024-05-03)
+
+ember-resources 7.0.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`, `test-app`
+  * [#1129](https://github.com/NullVoxPopuli/ember-resources/pull/1129) Fix use types ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* [#1115](https://github.com/NullVoxPopuli/ember-resources/pull/1115) Update migrations for 7.0 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#1130](https://github.com/NullVoxPopuli/ember-resources/pull/1130) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2024-01-11)
 
 ember-resources 7.0.0 (major)
