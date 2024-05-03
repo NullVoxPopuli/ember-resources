@@ -1,33 +1,17 @@
 {
   "solution": {
     "ember-resources": {
-      "impact": "major",
-      "oldVersion": "6.5.0",
-      "newVersion": "7.0.0",
+      "impact": "patch",
+      "oldVersion": "7.0.0",
+      "newVersion": "7.0.1",
       "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2024-01-11)\n\nember-resources 7.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-resources`, `test-app`\n  * [#1101](https://github.com/NullVoxPopuli/ember-resources/pull/1101) Require an owner to exist to be wired through to the resource. ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1087](https://github.com/NullVoxPopuli/ember-resources/pull/1087) Remove modifier ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1085](https://github.com/NullVoxPopuli/ember-resources/pull/1085) Remove link ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1082](https://github.com/NullVoxPopuli/ember-resources/pull/1082) Remove class-based Resource ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `test-app`\n  * [#1100](https://github.com/NullVoxPopuli/ember-resources/pull/1100) Require ember-cli-app-consumers have at least ember-cli-babel 8.2 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources`\n  * [#1090](https://github.com/NullVoxPopuli/ember-resources/pull/1090) Remove the 'core' import, only allowing importing from 'ember-resources' ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `@nullvoxpopuli/estimate-bytes`, `docs`, `ember-resources`, `test-app`\n  * [#1083](https://github.com/NullVoxPopuli/ember-resources/pull/1083) Remove service ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `docs`, `ember-resources`, `test-app`\n  * [#1080](https://github.com/NullVoxPopuli/ember-resources/pull/1080) Drop all of the util imports ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :rocket: Enhancement\n* `@nullvoxpopuli/estimate-bytes`, `docs`, `ember-resources`, `test-app`\n  * [#1097](https://github.com/NullVoxPopuli/ember-resources/pull/1097) Infra modernization, support both built in types from ember-source, as well as the types from DefinitelyTyped ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* Other\n  * [#1099](https://github.com/NullVoxPopuli/ember-resources/pull/1099) Test against (and add support for) TypeScript 5.3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources`\n  * [#1096](https://github.com/NullVoxPopuli/ember-resources/pull/1096) Drop unused dependencies and widen peers further ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `test-app`\n  * [#1095](https://github.com/NullVoxPopuli/ember-resources/pull/1095) Support ember-source 5.4 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1089](https://github.com/NullVoxPopuli/ember-resources/pull/1089) Ensure every supported version of Ember has no deprecations triggered from ember-resources' usage. ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `@nullvoxpopuli/estimate-bytes`, `ember-resources`, `test-app`\n  * [#1091](https://github.com/NullVoxPopuli/ember-resources/pull/1091) Implement custom usables, `regusterUsable` ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :bug: Bug Fix\n* `ember-resources`, `test-app`\n  * [#1101](https://github.com/NullVoxPopuli/ember-resources/pull/1101) Require an owner to exist to be wired through to the resource. ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :memo: Documentation\n* `docs`, `ember-resources`\n  * [#1107](https://github.com/NullVoxPopuli/ember-resources/pull/1107) Move recommendation of resourceFactory to better align with how TypeScript works ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* Other\n  * [#1103](https://github.com/NullVoxPopuli/ember-resources/pull/1103) Remove class-based resource documentation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1102](https://github.com/NullVoxPopuli/ember-resources/pull/1102) Fix API Reference docs by moving from Cloudflare to Vercel ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1079](https://github.com/NullVoxPopuli/ember-resources/pull/1079) Add link to the v6 branch ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `docs`\n  * [#1086](https://github.com/NullVoxPopuli/ember-resources/pull/1086) Remove API Reference docs' sidebar ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `@nullvoxpopuli/estimate-bytes`, `docs`\n  * [#1084](https://github.com/NullVoxPopuli/ember-resources/pull/1084) Remove utils from API Reference docs (typedoc) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* Other\n  * [#1106](https://github.com/NullVoxPopuli/ember-resources/pull/1106) Use fix for release-plan from: https://github.com/ef4/lerna-changelog/pull/8 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1099](https://github.com/NullVoxPopuli/ember-resources/pull/1099) Test against (and add support for) TypeScript 5.3 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `test-app`\n  * [#1104](https://github.com/NullVoxPopuli/ember-resources/pull/1104) Remove MSW ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1088](https://github.com/NullVoxPopuli/ember-resources/pull/1088) Remove deprecation testing app that was added in v6 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources`\n  * [#1098](https://github.com/NullVoxPopuli/ember-resources/pull/1098) Remove unused type utils ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-05-03)\n\nember-resources 7.0.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`, `test-app`\n  * [#1129](https://github.com/NullVoxPopuli/ember-resources/pull/1129) Fix use types ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :memo: Documentation\n* [#1115](https://github.com/NullVoxPopuli/ember-resources/pull/1115) Update migrations for 7.0 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* [#1130](https://github.com/NullVoxPopuli/ember-resources/pull/1130) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
