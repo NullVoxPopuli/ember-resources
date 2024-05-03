@@ -10,7 +10,7 @@ export interface InternalFunctionResourceConfig<Value = unknown> {
   [INTERNAL]: true;
 }
 
-export const CURRENT = Symbol('ember-resources::CURRENT');
+export const CURRENT = Symbol('ember-resources::CURRENT') as unknown as 'CURRENT';
 
 export interface GlintRenderable {
   /**
