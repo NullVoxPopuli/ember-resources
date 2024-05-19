@@ -24,7 +24,7 @@
     "release-plan": "^0.9.0",
     "typescript": "^5.0.0"
   },
-  "packageManager": "pnpm@8.14.1",
+  "packageManager": "pnpm@8.15.8",
   "engines": {
     "node": ">= 18.*",
     "npm": "use pnpm",
@@ -32,7 +32,7 @@
   },
   "volta": {
     "node": "20.13.1",
-    "pnpm": "8.14.1"
+    "pnpm": "8.15.8"
   },
   "pnpm": {
     "peerDependencyRules": {
