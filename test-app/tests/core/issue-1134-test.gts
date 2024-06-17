@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { clearRender,render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -26,7 +26,14 @@ module('issues/1134', function(hooks) {
 
     await render(<template>{{Wrapper value.current}}</template>);
 
-    assert.verifySteps([]);
+    assert.verifySteps(['wrapper: 0', 'setup: 0']);
+
+    value.current = 1;
+    await settled();
+    assert.verifySteps(['cleanup: 0', 'wrapper: 1', 'setup: 1']);
+
+    await clearRender();
+    assert.verifySteps([`cleanup: ${value.current}`]);
   });
 
 });
