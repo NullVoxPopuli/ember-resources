@@ -55,8 +55,18 @@ class ResourceInvokerManager {
     });
 
     setOwner(cache, this.owner);
+    associateDestroyableChild(fn, cache);
 
-    return { fn, args, cache, _: getValue(cache) };
+    /**
+     *  This ensures that we re-create everything
+     *  when args change?
+     *  TODO: verify this because I forgot to leave a comment
+     *        (though, there is a hint above)
+     */
+    let _ = getValue(cache);
+
+
+    return { fn, args, cache, _ };
   }
 
   /**
@@ -71,8 +81,8 @@ class ResourceInvokerManager {
     return getValue(resource);
   }
 
-  getDestroyable({ cache }: State) {
-    return cache;
+  getDestroyable({ fn }: State) {
+    return fn;
   }
 }
 
