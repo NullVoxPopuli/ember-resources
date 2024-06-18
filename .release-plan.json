@@ -2,8 +2,8 @@
   "solution": {
     "ember-resources": {
       "impact": "patch",
-      "oldVersion": "7.0.0",
-      "newVersion": "7.0.1",
+      "oldVersion": "7.0.1",
+      "newVersion": "7.0.2",
       "constraints": [
         {
           "impact": "patch",
@@ -13,5 +13,5 @@
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2024-05-03)\n\nember-resources 7.0.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`, `test-app`\n  * [#1129](https://github.com/NullVoxPopuli/ember-resources/pull/1129) Fix use types ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :memo: Documentation\n* [#1115](https://github.com/NullVoxPopuli/ember-resources/pull/1115) Update migrations for 7.0 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* [#1130](https://github.com/NullVoxPopuli/ember-resources/pull/1130) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-06-18)\n\nember-resources 7.0.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`, `test-app`\n  * [#1135](https://github.com/NullVoxPopuli/ember-resources/pull/1135) Fix issue where, in some situations, the immediate-invoker helper manager (used when you use `resourceFactory`) was not correctly destroying the previous instance of a resource (such as when args change)) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }

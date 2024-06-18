@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-06-18)
+
+ember-resources 7.0.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`, `test-app`
+  * [#1135](https://github.com/NullVoxPopuli/ember-resources/pull/1135) Fix issue where, in some situations, the immediate-invoker helper manager (used when you use `resourceFactory`) was not correctly destroying the previous instance of a resource (such as when args change)) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-05-03)
 
 ember-resources 7.0.1 (patch)
