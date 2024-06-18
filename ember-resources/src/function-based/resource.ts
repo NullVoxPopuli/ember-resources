@@ -186,6 +186,7 @@ export function resource<Value>(
     let internalConfig: InternalFunctionResourceConfig<Value> = {
       definition: context as ResourceFunction<Value>,
       type: 'function-based',
+      name: 'Resource',
       [INTERNAL]: true,
     };
 
@@ -222,10 +223,19 @@ export function resource<Value>(
   let internalConfig: InternalFunctionResourceConfig<Value> = {
     definition: setup as ResourceFunction<Value>,
     type: TYPE,
+    name: getDebugName(setup),
     [INTERNAL]: true,
   };
 
   setHelperManager(ResourceManagerFactory, internalConfig);
 
   return wrapForPlainUsage(context, internalConfig);
+}
+
+function getDebugName(obj: object) {
+  if ('name' in obj) {
+    return `Resource Function: ${obj.name}`;
+  }
+
+  return `Resource Function`;
 }

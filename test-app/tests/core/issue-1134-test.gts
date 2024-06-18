@@ -55,7 +55,7 @@ module('issues/1134', function(hooks) {
 
     value.current = 1;
     await settled();
-    assert.verifySteps(['cleanup: 0', 'wrapper: 1', 'setup: 1']);
+    assert.verifySteps(['wrapper: 1', 'setup: 1', 'cleanup: 0']);
 
     await clearRender();
     assert.verifySteps([`cleanup: ${value.current}`]);

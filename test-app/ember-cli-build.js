@@ -1,11 +1,16 @@
 'use strict';
 
+const path = require('path');
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 const packageJson = require('./package');
 
 module.exports = function (defaults) {
+  const sideWatch = require('@embroider/broccoli-side-watch');
   let app = new EmberApp(defaults, {
+    trees: {
+      app: sideWatch('app', { watching: [path.join(__dirname, '../ember-resources')] }),
+    },
     // Add options here
     autoImport: {
       watchDependencies: Object.keys(packageJson.dependencies),

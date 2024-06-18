@@ -7,6 +7,7 @@ export const INTERNAL = '__INTERNAL__';
 export interface InternalFunctionResourceConfig<Value = unknown> {
   definition: ResourceFunction<Value>;
   type: 'function-based';
+  name: string;
   [INTERNAL]: true;
 }
 
