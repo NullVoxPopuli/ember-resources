@@ -1,7 +1,7 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-import { associateDestroyableChild, destroy, isDestroyed, isDestroying } from '@ember/destroyable';
+import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
