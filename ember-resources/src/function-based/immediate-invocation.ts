@@ -1,7 +1,7 @@
 // @ts-ignore
 import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-import { associateDestroyableChild } from '@ember/destroyable';
+import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
@@ -14,9 +14,6 @@ type ResourceFactory<Value = any, Args = any> = (...args: SpreadFor<Args>) => Va
 
 interface State {
   cache: ReturnType<typeof invokeHelper>;
-  fn: any;
-  args: any;
-  _?: any;
 }
 
 let setOwner: (context: unknown, owner: Owner) => void;
@@ -40,6 +37,7 @@ class ResourceInvokerManager {
   constructor(protected owner: Owner) {}
 
   createHelper(fn: ResourceFactory, args: any): State {
+    let previous: object | undefined;
     /**
      * This cache is for args passed to the ResourceInvoker/Factory
      *
@@ -51,12 +49,20 @@ class ResourceInvokerManager {
 
       setOwner(resource, this.owner);
 
-      return invokeHelper(cache, resource);
+      let result = invokeHelper(cache, resource);
+
+      if (previous) {
+        destroy(previous);
+      }
+
+      previous = result;
+
+      return result;
     });
 
     setOwner(cache, this.owner);
 
-    return { fn, args, cache, _: getValue(cache) };
+    return { cache };
   }
 
   /**
@@ -72,6 +78,9 @@ class ResourceInvokerManager {
   }
 
   getDestroyable({ cache }: State) {
+    /**
+     * This is the parent cache, from `createHelper`
+     */
     return cache;
   }
 }

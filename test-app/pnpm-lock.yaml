@@ -49,6 +49,9 @@ devDependencies:
   '@ember/test-helpers':
     specifier: ^3.2.1
     version: 3.2.1(@glint/template@1.2.2)(ember-source@5.5.0)(webpack@5.89.0)
+  '@embroider/broccoli-side-watch':
+    specifier: 0.0.2-unstable.ba9fd29
+    version: 0.0.2-unstable.ba9fd29
   '@embroider/compat':
     specifier: ^3.1.5
     version: 3.4.3(@embroider/core@3.4.3)(@glint/template@1.2.2)
@@ -1519,6 +1522,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - webpack
+    dev: true
+
+  /@embroider/broccoli-side-watch@0.0.2-unstable.ba9fd29:
+    resolution: {integrity: sha512-jxMe47Rc2fUAwtKGsPy9x7gtYJpglTlbeRG5bgzs8njYZHbOiXRyhpNMcfJnn7f6Aoc4Xv4qXvTHeyye/6SyZw==}
+    dependencies:
+      broccoli-merge-trees: 4.2.0
+      broccoli-plugin: 4.0.7
+      broccoli-source: 3.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@embroider/compat@3.4.3(@embroider/core@3.4.3)(@glint/template@1.2.2):
@@ -3246,9 +3259,6 @@ packages:
 
   /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependenciesMeta:
-      ajv:
-        optional: true
     dependencies:
       ajv: 8.12.0
 
