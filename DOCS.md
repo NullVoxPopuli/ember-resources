@@ -54,8 +54,8 @@ const ArgUsingResource = (someArg) => {
 
 #### Reactivity
 
-function-based resources are _implicitly_ reactive,
-in that there is no ceramony required by the consumer to make them reactive
+Function-based resources are _implicitly_ reactive,
+in that there is no ceremony required by the consumer to make them reactive
 or update in response to changes in reactive source-data.
 
 For example, consider a resource that doubles a number (this is over engineered, and you wouldn't want a resource for doubling a number)
@@ -188,7 +188,7 @@ But this is not feature-complete! We still need to handle cleanup to prevent mem
 -   setInterval(() => (time.current = new Date()), 1_000);
 +   let interval = setInterval(() => (time.current = new Date()), 1_000);
 +
-+   on.cleanup(() => clearInteral(interval))
++   on.cleanup(() => clearInterval(interval))
 
     return time.current;
 ```
@@ -197,7 +197,7 @@ Now when the `resource` updates or is torn down, won't leave a bunch of `setInte
 
 Lastly, adding in locale-aware formatting with [`Intl.DateTimeFormat`][mdn-DateTimeFormat].
 ```diff
-    on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInterval(interval))
 
 -   return time.current;
 +   return new Intl.DateTimeFormat('en-US', {
@@ -210,7 +210,7 @@ Lastly, adding in locale-aware formatting with [`Intl.DateTimeFormat`][mdn-DateT
 
 
 However, there is a goofy behavior with this implementation.
-By accessing `time.current`, we end up consuming tracaked data within the `resource`
+By accessing `time.current`, we end up consuming tracked data within the `resource`
 callback function. When `setInterval` updates `time.current`, the reactivity system
 detects that "tracked data that was consumed in the `resource` callback has changed,
 and must re-evaluate".
@@ -223,7 +223,7 @@ To solve this, we need to enclose access to the tracked data via an arrow functi
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
 
-    on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInterval(interval))
 
 -   return new Intl.DateTimeFormat('en-US', { /* ... ✂️ ...*/ });
 +   let formatter = new Intl.DateTimeFormat('en-US', { /* ... ✂️ ...*/ });
@@ -243,7 +243,7 @@ function Clock(locale = 'en-US') {
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
 
-    on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInterval(interval))
 
     let formatter = new Intl.DateTimeFormat(locale, { /* ... ✂️ ...*/ });
 
@@ -265,7 +265,7 @@ function Clock(locale = 'en-US') {
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
 
-    on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInterval(interval))
 
     let formatter = new Intl.DateTimeFormat(locale, { /* ... ✂️ ...*/ });
 
@@ -283,7 +283,7 @@ resourceFactory(Clock);
 </details>
 
 Up until now, all we've needed in the template for these clocks to work is to have `{{clock}}` in our template.
-But becasue we now need to pass data to a function, we need to invoke that function. The `resourceFactory` utility handles some framework-wiring so that the `Clock` function can immediately invoke the `resource` function.
+But because we now need to pass data to a function, we need to invoke that function. The `resourceFactory` utility handles some framework-wiring so that the `Clock` function can immediately invoke the `resource` function.
 
 ```hbs
 {{ (Clock 'en-GB') }}
@@ -321,7 +321,7 @@ if (typeof locale === 'function') {
     let time = new TrackedObject({ current: new Date() });
     let interval = setInterval(() => (time.current = new Date()), 1_000);
 
-    on.cleanup(() => clearInteral(interval))
+    on.cleanup(() => clearInterval(interval))
 
     let formatter = new Intl.DateTimeFormat(currentLocale, { /* ... ✂️ ...*/ });
 
@@ -355,4 +355,3 @@ class {
 [🔝 back to top](#authoring-resources)
 
 See: Cookbook entry, [`fetch` with `AbortController`](https://github.com/NullVoxPopuli/ember-resources/blob/main/docs/docs/cookbook/fetch-with-AbortController.md#using-resource-1)
-
