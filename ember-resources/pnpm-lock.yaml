@@ -7,7 +7,7 @@ settings:
 overrides:
   '@glimmer/manager': '>= 0.87.1'
   '@glimmer/validator': '>= 0.87.1'
-  ember-eslint-parser: 0.2.5
+  ember-eslint-parser: 0.4.3
   eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#master
 
 dependencies:
@@ -84,7 +84,7 @@ devDependencies:
     version: 8.57.0
   eslint-plugin-ember:
     specifier: github:ember-cli/eslint-plugin-ember#master
-    version: github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
+    version: github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
   eslint-plugin-qunit:
     specifier: ^8.0.0
     version: 8.1.1(eslint@8.57.0)
@@ -206,6 +206,20 @@ packages:
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@babel/eslint-parser@7.23.10(@babel/core@7.22.10)(eslint@8.57.0):
+    resolution: {integrity: sha512-3wSYDPZVnhseRnxRJH6ZVTNknBz76AEnyC+AYYhasjP3Yy23qz0ERR7Fcd2SHmYuSFJ2kY9gaaDd3vyqU09eSw==}
+    engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
+    peerDependencies:
+      '@babel/core': ^7.11.0
+      eslint: ^7.5.0 || ^8.0.0
+    dependencies:
+      '@babel/core': 7.22.10
+      '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
+      eslint: 8.57.0
+      eslint-visitor-keys: 2.1.0
+      semver: 6.3.1
     dev: true
 
   /@babel/eslint-parser@7.24.6(@babel/core@7.22.10)(eslint@8.57.0):
@@ -2021,12 +2035,6 @@ packages:
       '@simple-dom/interface': 1.4.0
     dev: true
 
-  /@glimmer/interfaces@0.85.13:
-    resolution: {integrity: sha512-qOEdvFgCQX1g+Gfi/nA2zbKYPmEkEbhFgzZ5esgmlQNOSQx4j8nyGiBvnG/vepHrh4wUzTvIynrCQpfr3SiKXg==}
-    dependencies:
-      '@simple-dom/interface': 1.4.0
-    dev: true
-
   /@glimmer/interfaces@0.87.1:
     resolution: {integrity: sha512-2lbwLY4Bt9i2SvwT4hhY0TgEYKhOMQBgYvRiraq2BYHwO8iLKh3lC8iO3d+rQ3VgDtQ9i/sP6HG848VNRyVHxA==}
     dependencies:
@@ -2152,22 +2160,22 @@ packages:
       simple-html-tokenizer: 0.5.11
     dev: true
 
-  /@glimmer/syntax@0.85.13:
-    resolution: {integrity: sha512-zMGkJh6JcHdCTx1emmBbhBrGO04gqD6CS5khmDwSJCIpVHnGH0Ejxp9rpnSMc5IW71/hFoQY6RlMgVYF2hrHhA==}
-    dependencies:
-      '@glimmer/interfaces': 0.85.13
-      '@glimmer/util': 0.85.13
-      '@glimmer/wire-format': 0.85.13
-      '@handlebars/parser': 2.0.0
-      simple-html-tokenizer: 0.5.11
-    dev: true
-
   /@glimmer/syntax@0.87.1:
     resolution: {integrity: sha512-zYzZT6LgpSF0iv5iuxmMV5Pf52aE8dukNC2KfrHC6gXJfM4eLZMZcyk76NW5m+SEetZSOXX6AWv/KwLnoxiMfQ==}
     dependencies:
       '@glimmer/interfaces': 0.87.1
       '@glimmer/util': 0.87.1
       '@glimmer/wire-format': 0.87.1
+      '@handlebars/parser': 2.0.0
+      simple-html-tokenizer: 0.5.11
+    dev: true
+
+  /@glimmer/syntax@0.92.0:
+    resolution: {integrity: sha512-h8pYBC2cCnEyjbZBip2Yw4qi8S8sjNCYAb57iHek3AIhyFKMM13aTN+/aajFOM4FUTMCVE2B/iAAmO41WRCX4A==}
+    dependencies:
+      '@glimmer/interfaces': 0.92.0
+      '@glimmer/util': 0.92.0
+      '@glimmer/wire-format': 0.92.0
       '@handlebars/parser': 2.0.0
       simple-html-tokenizer: 0.5.11
     dev: true
@@ -2189,13 +2197,6 @@ packages:
       '@glimmer/env': 0.1.7
       '@glimmer/interfaces': 0.84.3
       '@simple-dom/interface': 1.4.0
-    dev: true
-
-  /@glimmer/util@0.85.13:
-    resolution: {integrity: sha512-ogj65iukNKEPPqQ2bOD6CLsqxsFwmiGvTQbAsg1eh1MoPjxhNZMpLsT5CdQ10XE7yUALHGJ71SwxBSpAOGDmxg==}
-    dependencies:
-      '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.85.13
     dev: true
 
   /@glimmer/util@0.87.1:
@@ -2244,18 +2245,18 @@ packages:
       '@glimmer/util': 0.92.0
     dev: true
 
-  /@glimmer/wire-format@0.85.13:
-    resolution: {integrity: sha512-q6bHPfjSYE9jH27L75lUzyhSpBA+iONzsJVXewdwO4GdYYCC4s+pfUaJg7ZYNFDcHDuVKUcLhBb/NICDzMA5Uw==}
-    dependencies:
-      '@glimmer/interfaces': 0.85.13
-      '@glimmer/util': 0.85.13
-    dev: true
-
   /@glimmer/wire-format@0.87.1:
     resolution: {integrity: sha512-O3W1HDfRGX7wHZqvP8UzI/nWyZ2GIMFolU7l6WcLGU9HIdzqfxsc7ae2Icob/fq2kV9meHti4yDEdTMlBVK9AQ==}
     dependencies:
       '@glimmer/interfaces': 0.87.1
       '@glimmer/util': 0.87.1
+    dev: true
+
+  /@glimmer/wire-format@0.92.0:
+    resolution: {integrity: sha512-yKhfU7b3PN86iqbfKksB+F9PB/RqbVkZlcRpZWRpEL3HnZ0bJUKC9bsOJynOg77PDXuYQXkbDMfL8ngTuxk+rg==}
+    dependencies:
+      '@glimmer/interfaces': 0.92.0
+      '@glimmer/util': 0.92.0
     dev: true
 
   /@glint/core@1.4.0(typescript@5.3.3):
@@ -2450,7 +2451,7 @@ packages:
       eslint: 8.57.0
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.21.0)(eslint-plugin-import@2.29.1)(eslint@8.57.0)
       eslint-plugin-decorator-position: 5.0.2(@babel/eslint-parser@7.24.6)(eslint@8.57.0)
-      eslint-plugin-ember: github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
+      eslint-plugin-ember: github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-json: 3.1.0
       eslint-plugin-n: 16.6.2(eslint@8.57.0)
@@ -4281,23 +4282,23 @@ packages:
       - supports-color
     dev: true
 
-  /ember-eslint-parser@0.2.5(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-ht3kkY6h+kWb6yW2OrqFG9TpC4pgdiTflDYMmJtHgZbbrIPD8fCeo8jVPBYCIO5HCHqxVwmT1H0rNlRRhWfUJg==}
+  /ember-eslint-parser@0.4.3(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0):
+    resolution: {integrity: sha512-wMPoaaA+i/F/tPPxURRON9XXJH5MRUOZ5x/9CVJTSpL+0n4EWphyztb20gR+ZJeShnOACQpAdFy6YSS1/JSHKw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@babel/core': ^7.23.6
-      '@typescript-eslint/parser': ^6.15.0
-      typescript: '*'
+      '@typescript-eslint/parser': '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
     dependencies:
       '@babel/core': 7.22.10
-      '@babel/eslint-parser': 7.24.6(@babel/core@7.22.10)(eslint@8.57.0)
-      '@glimmer/syntax': 0.85.13
+      '@babel/eslint-parser': 7.23.10(@babel/core@7.22.10)(eslint@8.57.0)
+      '@glimmer/syntax': 0.92.0
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
-      '@typescript-eslint/scope-manager': 6.21.0
       content-tag: 1.2.2
       eslint-scope: 7.2.2
       html-tags: 3.3.1
-      typescript: 5.3.3
     transitivePeerDependencies:
       - eslint
     dev: true
@@ -8026,7 +8027,7 @@ packages:
       commander: 9.5.0
     dev: true
 
-  github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3):
+  github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0):
     resolution: {tarball: https://codeload.github.com/ember-cli/eslint-plugin-ember/tar.gz/be098219222402e06c9e04f2d2b683baec1faa67}
     id: github.com/ember-cli/eslint-plugin-ember/be098219222402e06c9e04f2d2b683baec1faa67
     name: eslint-plugin-ember
@@ -8042,7 +8043,7 @@ packages:
       '@ember-data/rfc395-data': 0.0.4
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
       css-tree: 2.3.1
-      ember-eslint-parser: 0.2.5(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
+      ember-eslint-parser: 0.4.3(@babel/core@7.22.10)(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
       ember-rfc176-data: 0.3.18
       eslint: 8.57.0
       eslint-utils: 3.0.0(eslint@8.57.0)
@@ -8053,5 +8054,4 @@ packages:
       snake-case: 3.0.4
     transitivePeerDependencies:
       - '@babel/core'
-      - typescript
     dev: true

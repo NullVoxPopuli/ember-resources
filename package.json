@@ -47,7 +47,7 @@
     "overrides": {
       "@glimmer/manager": ">= 0.87.1",
       "@glimmer/validator": ">= 0.87.1",
-      "ember-eslint-parser": "0.2.5",
+      "ember-eslint-parser": "0.4.3",
       "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master"
     }
   }
