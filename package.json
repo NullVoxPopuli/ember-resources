@@ -1,0 +1,129 @@
+{
+  "name": "ember-resources",
+  "version": "7.0.2",
+  "keywords": [
+    "ember-addon"
+  ],
+  "description": "An implementation of Resources with some helpful utilities",
+  "repository": "https://github.com/NullVoxPopuli/ember-resources",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "types": "./declarations/index.d.ts",
+  "typesVersions": {
+    ">=4.0.0": {
+      "index.d.ts": [
+        "declarations/index.d.ts"
+      ]
+    }
+  },
+  "author": "NullVoxPopuli",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "files": [
+    "addon-main.cjs",
+    "dist",
+    "declarations",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "pnpm vite build --watch",
+    "build": "pnpm vite build",
+    "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
+    "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
+    "lint:js": "eslint . --cache",
+    "lint:prettier": "prettier --check '**/*.{js,ts}'",
+    "lint:prettier:fix": "prettier --write '**/*.{js,ts}'",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
+    "lint:js:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.2.0",
+    "@embroider/macros": "^1.12.3"
+  },
+  "peerDependencies": {
+    "@glimmer/component": ">= 1.1.2",
+    "@glimmer/tracking": ">= 1.1.2",
+    "@glint/template": ">= 1.0.0",
+    "ember-source": "^3.28.0 || ^4.0.0 || >= 5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@glimmer/component": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.13.5",
+    "@babel/core": "7.22.10",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/plugin-proposal-decorators": "7.22.10",
+    "@babel/plugin-syntax-decorators": "7.22.10",
+    "@babel/plugin-transform-runtime": "^7.18.5",
+    "@babel/plugin-transform-typescript": "^7.18.4",
+    "@babel/preset-typescript": "^7.17.12",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "@glint/core": "^1.2.2",
+    "@glint/template": "^1.2.2",
+    "@nullvoxpopuli/eslint-configs": "^3.2.0",
+    "@tsconfig/ember": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.0.0",
+    "ember-source": "^5.5.0",
+    "ember-template-lint": "5.13.0",
+    "eslint": "^8.35.0",
+    "execa": "^8.0.0",
+    "expect-type": "^0.16.0",
+    "fix-bad-declaration-output": "^1.0.1",
+    "prettier": "^3.1.1",
+    "prettier-plugin-ember-template-tag": "^2.0.0",
+    "typescript": "~5.3.0",
+    "vite": "^5.0.11",
+    "eslint-plugin-ember": "^12.0.0",
+    "eslint-plugin-qunit": "^8.0.0",
+    "vite-plugin-dts": "^3.7.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "pnpm": {
+    "overrides": {
+      "@glimmer/manager": ">= 0.87.1",
+      "@glimmer/validator": ">= 0.87.1",
+      "ember-eslint-parser": "0.2.5",
+      "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "webpack"
+      ],
+      "allowAny": [
+        "ember-source",
+        "typescript"
+      ]
+    }
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {}
+  },
+  "packageManager": "pnpm@8.15.8",
+  "volta": {
+    "extends": "../package.json"
+  }
+}
