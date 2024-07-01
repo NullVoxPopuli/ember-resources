@@ -15,7 +15,7 @@ dependencies:
 devDependencies:
   typedoc:
     specifier: ^0.25.0
-    version: 0.25.13(typescript@5.4.5)
+    version: 0.25.13(typescript@5.5.2)
   typedoc-github-wiki-theme:
     specifier: ^1.0.1
     version: 1.1.0(typedoc-plugin-markdown@3.17.1)(typedoc@0.25.13)
@@ -30,10 +30,10 @@ devDependencies:
     version: 0.3.0
   typedoc-plugin-mdn-links:
     specifier: ^3.0.3
-    version: 3.1.27(typedoc@0.25.13)
+    version: 3.2.2(typedoc@0.25.13)
   typescript:
     specifier: ^5.0.0
-    version: 5.4.5
+    version: 5.5.2
 
 packages:
 
@@ -103,7 +103,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.17.4
+      uglify-js: 3.18.0
     dev: true
 
   /human-signals@5.0.0:
@@ -120,8 +120,8 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: false
 
-  /jsonc-parser@3.2.1:
-    resolution: {integrity: sha512-AilxAyFOAcK5wA1+LeaySVBrHsGQvUFCDWXKpZjzaL0PqW+xfBOttn8GNtWKFWqneyMZj41MWF9Kl6iPWLwgOA==}
+  /jsonc-parser@3.3.1:
+    resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
     dev: true
 
   /jsonfile@6.1.0:
@@ -151,8 +151,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /minimatch@9.0.4:
-    resolution: {integrity: sha512-KqWh+VchfxcMNRAJjj2tnsSJdNbHsVgnkBhTNrW7AjVo6OvLtxw8zfT9oLw1JSohlFzJ8jCoTgaoXvJ+kHt6fw==}
+  /minimatch@9.0.5:
+    resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
@@ -206,7 +206,7 @@ packages:
     resolution: {integrity: sha512-dNPAPrxSc87ua2sKJ3H5dQ/6ZaY8RNnaAqK+t0eG7p0Soi2ydiqbGOTaZCqaYvA/uZYfS1LJnemt3Q+mSfcPCg==}
     dependencies:
       ansi-sequence-parser: 1.1.1
-      jsonc-parser: 3.2.1
+      jsonc-parser: 3.3.1
       vscode-oniguruma: 1.7.0
       vscode-textmate: 8.0.0
     dev: true
@@ -232,7 +232,7 @@ packages:
       typedoc: '>=0.24.0'
       typedoc-plugin-markdown: '>=3.15.0'
     dependencies:
-      typedoc: 0.25.13(typescript@5.4.5)
+      typedoc: 0.25.13(typescript@5.5.2)
       typedoc-plugin-markdown: 3.17.1(typedoc@0.25.13)
     dev: true
 
@@ -242,7 +242,7 @@ packages:
       typedoc: '>=0.24.0'
       typedoc-plugin-markdown: '>=3.15.0'
     dependencies:
-      typedoc: 0.25.13(typescript@5.4.5)
+      typedoc: 0.25.13(typescript@5.5.2)
       typedoc-plugin-markdown: 3.17.1(typedoc@0.25.13)
     dev: true
 
@@ -256,18 +256,18 @@ packages:
       typedoc: '>=0.24.0'
     dependencies:
       handlebars: 4.7.8
-      typedoc: 0.25.13(typescript@5.4.5)
+      typedoc: 0.25.13(typescript@5.5.2)
     dev: true
 
-  /typedoc-plugin-mdn-links@3.1.27(typedoc@0.25.13):
-    resolution: {integrity: sha512-fpAAvu0LrYc9JPMaab0YcmToaF2NsGCkFhSsNPB1O82VEqwk8MHIytUxQXrY6cn+bgyr2xRqA1Fo2D9mA60Gyw==}
+  /typedoc-plugin-mdn-links@3.2.2(typedoc@0.25.13):
+    resolution: {integrity: sha512-3xlxS32c29Mey5SxqgCEF1lYYceQyoILhJM0Ewh2ISW8Ql3NzhC3SGpuvft4YtzpZIdB+YR7aIMkhlDquA0M+Q==}
     peerDependencies:
-      typedoc: '>= 0.23.14 || 0.24.x || 0.25.x'
+      typedoc: '>= 0.23.14 || 0.24.x || 0.25.x || 0.26.x'
     dependencies:
-      typedoc: 0.25.13(typescript@5.4.5)
+      typedoc: 0.25.13(typescript@5.5.2)
     dev: true
 
-  /typedoc@0.25.13(typescript@5.4.5):
+  /typedoc@0.25.13(typescript@5.5.2):
     resolution: {integrity: sha512-pQqiwiJ+Z4pigfOnnysObszLiU3mVLWAExSPf+Mu06G/qsc3wzbuM56SZQvONhHLncLUhYzOVkjFFpFfL5AzhQ==}
     engines: {node: '>= 16'}
     hasBin: true
@@ -276,19 +276,19 @@ packages:
     dependencies:
       lunr: 2.3.9
       marked: 4.3.0
-      minimatch: 9.0.4
+      minimatch: 9.0.5
       shiki: 0.14.7
-      typescript: 5.4.5
+      typescript: 5.5.2
     dev: true
 
-  /typescript@5.4.5:
-    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
+  /typescript@5.5.2:
+    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
 
-  /uglify-js@3.17.4:
-    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
+  /uglify-js@3.18.0:
+    resolution: {integrity: sha512-SyVVbcNBCk0dzr9XL/R/ySrmYf0s372K6/hFklzgcp2lBFyXtw4I7BOdDjlLhE1aVqaI/SHWXWmYdlZxuyF38A==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
