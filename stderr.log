@@ -1,2 +1,8 @@
 Warning: unknown package "test-app"
 Warning: unknown package "test-app"
+# Unlabeled Changes
+
+* [#1136](https://github.com/NullVoxPopuli/ember-resources/pull/1136) docs: Fixes a few typos in DOCS.md ([@ozywuli](https://github.com/ozywuli))
+
+
+*Cannot plan release until the above changes are labeled*.
