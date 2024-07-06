@@ -13,7 +13,7 @@ overrides:
 devDependencies:
   '@nullvoxpopuli/eslint-configs':
     specifier: ^3.2.0
-    version: 3.2.2(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2)
+    version: 3.2.2(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.3)
   concurrently:
     specifier: ^8.0.0
     version: 8.2.2
@@ -31,7 +31,7 @@ devDependencies:
     version: 0.9.0
   typescript:
     specifier: ^5.0.0
-    version: 5.5.2
+    version: 5.5.3
 
 packages:
 
@@ -592,7 +592,7 @@ packages:
       which: 4.0.0
     dev: true
 
-  /@nullvoxpopuli/eslint-configs@3.2.2(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2):
+  /@nullvoxpopuli/eslint-configs@3.2.2(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.3):
     resolution: {integrity: sha512-Qm7TR7K+kb5emAoddPsoznmAgUptL7YWUOdtaBq2T4pgkEyr7JTS1v4TPg07LusfYi2He2nKJBdTcD++hrsNdw==}
     engines: {node: '>= v16.0.0'}
     peerDependencies:
@@ -620,7 +620,7 @@ packages:
       prettier:
         optional: true
     dependencies:
-      cosmiconfig: 8.3.6(typescript@5.5.2)
+      cosmiconfig: 8.3.6(typescript@5.5.3)
       eslint: 8.57.0
       eslint-import-resolver-typescript: 3.6.1(eslint-plugin-import@2.29.1)(eslint@8.57.0)
       eslint-plugin-decorator-position: 5.0.2(eslint@8.57.0)
@@ -1510,7 +1510,7 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
 
-  /cosmiconfig@8.3.6(typescript@5.5.2):
+  /cosmiconfig@8.3.6(typescript@5.5.3):
     resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1523,7 +1523,7 @@ packages:
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
-      typescript: 5.5.2
+      typescript: 5.5.3
     dev: true
 
   /cross-spawn@7.0.3:
@@ -4517,8 +4517,8 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: true
 
-  /typescript@5.5.2:
-    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
+  /typescript@5.5.3:
+    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
