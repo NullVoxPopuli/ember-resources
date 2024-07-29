@@ -1,5 +1,15 @@
 # Changelog
 
+## Release (2024-07-29)
+
+
+
+#### :memo: Documentation
+* [#1136](https://github.com/NullVoxPopuli/ember-resources/pull/1136) docs: Fixes a few typos in DOCS.md ([@ozywuli](https://github.com/ozywuli))
+
+#### Committers: 1
+- Ozy Wu-Li ([@ozywuli](https://github.com/ozywuli))
+
 ## Release (2024-06-18)
 
 ember-resources 7.0.2 (patch)
