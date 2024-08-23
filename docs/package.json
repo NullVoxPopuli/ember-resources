@@ -5,7 +5,7 @@
   "scripts": {
     "start": "pnpm docs:watch",
     "debug": "npx html-pages ./dist --no-cache",
-    "docs:collect": "node ./build.mjs",
+    "docs:collect": "bash ./build.sh",
     "docs:watch": "typedoc --options ./typedoc.config.json --watch"
   },
   "devDependencies": {
