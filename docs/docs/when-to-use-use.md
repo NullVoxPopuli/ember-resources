@@ -10,7 +10,7 @@ Imagine why you need [`@service`](https://api.emberjs.com/ember/5.4/functions/@e
 
 </details>
 
-Note that all of these examples use a `Component` class, but they could just as well be any native vanilla JavaScript class. See [link](https://ember-resources.pages.dev/funcs/link.link) for more on that.
+Note that all of these examples use a `Component` class, but they could just as well be any native vanilla JavaScript class. See [link](https://reactive.nullvoxpopuli.com/functions/link.link.html) for more on that.
 
 ## `import { use } from 'ember-resources';`
 
