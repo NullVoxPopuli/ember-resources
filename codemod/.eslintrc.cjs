@@ -14,5 +14,11 @@ module.exports = {
         'n/no-process-exit': 'off',
       },
     },
+    {
+      files: ['**/*.test.ts'],
+      rules: {
+        'n/no-unpublished-import': 'off',
+      },
+    },
   ],
 };

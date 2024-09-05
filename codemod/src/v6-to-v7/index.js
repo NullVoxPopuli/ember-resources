@@ -4,6 +4,8 @@ import semver from 'semver';
 
 import { assert } from '../logging.js';
 import { nearestPackageJsonPath } from '../nearest-package-json.js';
+import { changeImportPaths, changeNamedImport } from './imports.js';
+import { emberModifyBasedClassResource, moves, reactiveWeb } from './replacements.js';
 
 /**
  * @type {Record<string, string>}
@@ -26,35 +28,6 @@ const MINIMUM_REQUIREMENTS_IF_PRESENT = {
   '@embroider/compat': '3.2.1',
 };
 
-const reactiveWeb = {
-  'ember-resources/link': 'reactiveweb/link',
-  'ember-resources/modifier': 'reactiveweb/resource/modifier',
-  'ember-resources/service': 'reactiveweb/resource/service',
-  'ember-resources/util/debounce': 'reactiveweb/debounce',
-  'ember-resources/util/ember-concurrency': 'reactiveweb/ember-concurrency',
-  'ember-resources/util/fps': 'reactiveweb/fps',
-  'ember-resources/util/function': 'reactiveweb/function',
-  'ember-resources/util/helper': 'reactiveweb/helper',
-  'ember-resources/util/keep-latest': 'reactiveweb/keep-latest',
-  'ember-resources/util/map': 'reactiveweb/map',
-  'ember-resources/util/remote-data': 'reactiveweb/remote-data',
-};
-
-const emberModifyBasedClassResource = {
-  'ember-resources/core/class-based': 'ember-modify-based-class-resource',
-};
-
-const moves = {
-  'ember-resources/util/cell': 'ember-resources',
-  'ember-resources/core': 'ember-resources',
-  'ember-resources/core/function-based': 'ember-resources',
-  // ember-resources/util/index was broken, didn't exist
-};
-
-const reactiveWebReplacements = Object.entries(reactiveWeb);
-const internalReplacements = Object.entries(moves);
-const emberModifyBasedClassResourceReplacements = Object.entries(emberModifyBasedClassResource);
-
 /**
  * @param {string[]} paths
  */
@@ -66,11 +39,7 @@ export default async function migrateV6ToV7(paths) {
    * @param {string} str
    */
   function checkReactiveWeb(str) {
-    let result = str;
-
-    for (let [v6, v7] of reactiveWebReplacements) {
-      result = result.replaceAll(v6, v7);
-    }
+    let result = changeImportPaths(str, reactiveWeb);
 
     if (str !== result) {
       needsReactiveWeb = true;
@@ -83,11 +52,7 @@ export default async function migrateV6ToV7(paths) {
    * @param {string} str
    */
   function checkInternal(str) {
-    let result = str;
-
-    for (let [v6, v7] of internalReplacements) {
-      result = result.replaceAll(v6, v7);
-    }
+    let result = changeImportPaths(str, moves);
 
     return result;
   }
@@ -96,11 +61,20 @@ export default async function migrateV6ToV7(paths) {
    * @param {string} str
    */
   function checkModifyBasedResource(str) {
-    let result = str;
+    let result = changeImportPaths(str, emberModifyBasedClassResource);
 
-    for (let [v6, v7] of emberModifyBasedClassResourceReplacements) {
-      result = result.replaceAll(v6, v7);
-    }
+    /**
+     * Examples
+     *   import { Resource } from 'ember-resources';
+     *   import { resource, Resource } from 'ember-resources';
+     *   import { Resource, use } from 'ember-resources';
+     */
+    result = changeNamedImport(
+      result,
+      'Resource',
+      emberResources,
+      'ember-modify-based-class-resource',
+    );
 
     if (str !== result) {
       needsEmberModifyBasedClassResource = true;
