@@ -119,8 +119,8 @@ export default async function migrateV6ToV7(paths) {
      */
     let modified = checkReactiveWeb(contents);
 
-    modified = checkModifyBasedResource(modified);
     modified = checkInternal(modified);
+    modified = checkModifyBasedResource(modified);
 
     /**
      * Queue up changes to the package.json(s)
