@@ -39,6 +39,13 @@ export function info(msg) {
 /**
  * @param {string} msg
  */
+export function success(msg) {
+  console.info(styleText('green', msg));
+}
+
+/**
+ * @param {string} msg
+ */
 export function warn(msg) {
   console.info(styleText('yellow', msg));
 }

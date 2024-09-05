@@ -207,13 +207,15 @@ async function updatePackages(manifestChanges) {
     let isAddonProbably = json.keywords?.includes('ember-addon') || json['ember-addon'];
     let isV2Addon = json['ember-addon']?.version >= 2;
     let mayNeedBuildUpdates = !isAddonProbably || !isV2Addon;
-    let devDeps = Object.keys(json.devDependencies || {});
-    let deps = Object.keys(json.dependencies || {});
-    let peers = Object.keys(json.peerDependencies || {});
+    let listOf = {
+      devDeps: Object.keys(json.devDependencies || {}),
+      deps: Object.keys(json.dependencies || {}),
+      peers: Object.keys(json.peerDependencies || {}),
+    };
 
     if (mayNeedBuildUpdates) {
       for (let [requiredIfPresent, minVersion] of Object.entries(MINIMUM_REQUIREMENTS_IF_PRESENT)) {
-        if (deps.includes(requiredIfPresent)) {
+        if (listOf.deps.includes(requiredIfPresent)) {
           let currentVersion = json.dependencies[requiredIfPresent];
           let parsed = semver.coerce(currentVersion);
 
@@ -226,7 +228,7 @@ async function updatePackages(manifestChanges) {
           }
         }
 
-        if (devDeps.includes(requiredIfPresent)) {
+        if (listOf.devDeps.includes(requiredIfPresent)) {
           let currentVersion = json.devDependencies[requiredIfPresent];
           let parsed = semver.coerce(currentVersion);
 
@@ -241,16 +243,16 @@ async function updatePackages(manifestChanges) {
       }
     }
 
-    if (peers.includes(emberResources)) {
+    if (listOf.peers.includes(emberResources)) {
       json.peerDependencies[emberResources] =
         `${json.peerDependencies[emberResources]} || '>= 7.0.2'`;
     }
 
-    if (devDeps.includes(emberResources)) {
+    if (listOf.devDeps.includes(emberResources)) {
       json.devDependencies[emberResources] = `^7.0.2`;
     }
 
-    if (deps.includes(emberResources)) {
+    if (listOf.deps.includes(emberResources)) {
       json.dependencies[emberResources] = `^7.0.2`;
     }
 
