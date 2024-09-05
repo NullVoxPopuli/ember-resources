@@ -23,6 +23,15 @@
 
 ## 7.0
 
+Run the migrator to automate this upgrade -- there are no breaking changes, no API changes, only changes in where imports occur.
+
+```bash
+npx ember-resources-codemod
+```
+
+This codemod runs on all js, ts, gjs, and gts files from within the invoked current working directory.
+
+
 
 - Class-based resource implementation moved to [ember-modify-based-class-resource](https://github.com/NullVoxPopuli/ember-modify-based-class-resource/) 
 - Other utilities moved to [https://reactive.nullvoxpopuli.com/](https://reactive.nullvoxpopuli.com/)

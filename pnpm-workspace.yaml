@@ -1,5 +1,6 @@
 packages:
   - "ember-resources"
+  - "codemod"
   - "docs"
   - "test-app"
   - "test-app-definitely-typed"

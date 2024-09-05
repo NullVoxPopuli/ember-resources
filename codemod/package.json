@@ -1,0 +1,38 @@
+{
+  "name": "ember-resorces-codemod",
+  "version": "0.0.0",
+  "bin": "./bin.mjs",
+  "type": "module",
+  "files": [
+    "bin.mjs",
+    "src"
+  ],
+  "scripts": {
+    "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
+    "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
+    "lint:js": "eslint . --cache",
+    "lint:prettier": "prettier --check '**/*.{js,ts}'",
+    "lint:prettier:fix": "prettier --write '**/*.{js,ts}'",
+    "lint:js:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/eslint-parser": "^7.19.1",
+    "@nullvoxpopuli/eslint-configs": "^3.2.0",
+    "@tsconfig/node22": "^22.0.0",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^22.5.4",
+    "@types/semver": "^7.5.8",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.35.0",
+    "prettier": "^3.1.1",
+    "typescript": "~5.5.0"
+  },
+  "dependencies": {
+    "find-up": "^7.0.0",
+    "globby": "^14.0.0",
+    "semver": "^7.6.3"
+  }
+}
