@@ -68,7 +68,7 @@ async function gatherFiles() {
   );
   sep();
   warn(
-    `If you have ember-resources usage in packages that have not declared ember-resources as a dependencies, devDependencies, or peerDependencies, you'll want to fix that before running this codemod.`,
+    `If you have ember-resources usage in packages that have not declared ember-resources as a (dependencies, devDependencies, or peerDependencies) entry, you'll want to fix that before running this codemod.`,
   );
 
   return relevantPaths;

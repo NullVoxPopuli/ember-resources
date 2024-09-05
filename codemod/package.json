@@ -1,6 +1,6 @@
 {
   "name": "ember-resources-codemod",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": "./bin.mjs",
   "type": "module",
   "files": [
