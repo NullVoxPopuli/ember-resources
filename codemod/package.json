@@ -1,5 +1,5 @@
 {
-  "name": "ember-resorces-codemod",
+  "name": "ember-resources-codemod",
   "version": "0.0.0",
   "bin": "./bin.mjs",
   "type": "module",
