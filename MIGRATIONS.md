@@ -31,6 +31,8 @@ npx ember-resources-codemod
 
 This codemod runs on all js, ts, gjs, and gts files from within the invoked current working directory.
 
+The source for the codemod is [here](https://github.com/NullVoxPopuli/ember-resources/tree/main/codemod) and if anyone runs in to any problems, please open an issue <3
+
 
 
 - Class-based resource implementation moved to [ember-modify-based-class-resource](https://github.com/NullVoxPopuli/ember-modify-based-class-resource/) 
