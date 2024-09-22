@@ -33,7 +33,7 @@
     "yarn": "use pnpm"
   },
   "volta": {
-    "node": "20.16.0",
+    "node": "20.17.0",
     "pnpm": "8.15.9"
   },
   "pnpm": {
