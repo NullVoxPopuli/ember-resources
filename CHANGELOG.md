@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2024-09-30)
+
+ember-resources-codemod 0.1.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-resources-codemod`, `test-app`
+  * [#1147](https://github.com/NullVoxPopuli/ember-resources/pull/1147) Add v6 to v7 codemod ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :memo: Documentation
+* [#1136](https://github.com/NullVoxPopuli/ember-resources/pull/1136) docs: Fixes a few typos in DOCS.md ([@ozywuli](https://github.com/ozywuli))
+
+#### Committers: 2
+- Ozy Wu-Li ([@ozywuli](https://github.com/ozywuli))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-06-18)
 
 ember-resources 7.0.2 (patch)
