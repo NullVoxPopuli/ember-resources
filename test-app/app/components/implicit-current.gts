@@ -17,5 +17,6 @@ export const Now = resource(({ on }) => {
 
 <template>
   It is: <time>{{Now}}</time>
+
   It is: <time>{{Now.current}}</time>
 </template>
