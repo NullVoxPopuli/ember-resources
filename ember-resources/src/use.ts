@@ -10,9 +10,12 @@ import { invokeHelper } from '@ember/helper';
 
 import { ReadonlyCell } from './cell.ts';
 
-import type { INTERNAL } from './function-based/types.ts';
-import type { InternalFunctionResourceConfig, Reactive } from './function-based/types.ts';
-import type { Stage1DecoratorDescriptor } from './types.ts';
+import type {
+  INTERNAL,
+  InternalFunctionResourceConfig,
+  Reactive,
+  Stage1DecoratorDescriptor,
+} from './types.ts';
 
 type Config =
   | { [INTERNAL]: true; type: string; definition: unknown }

@@ -1,8 +1,8 @@
 // Public API
 export { cell } from './cell.ts';
-export { resource, resourceFactory } from './function-based/index.ts';
+export { resourceFactory } from './immediate-invocation-manager.ts';
+export { resource } from './resource.ts';
 export { registerUsable, use } from './use.ts';
 
 // Public Type Utilities
-export type { ResourceAPI } from './function-based/index.ts';
-export type { Reactive } from './function-based/types.ts';
+export type { Reactive, ResourceAPI } from './types.ts';
