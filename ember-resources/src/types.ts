@@ -143,7 +143,7 @@ export type ResourceFunction<Value = unknown> = (hooks: ResourceAPI) => Value | 
  */
 export type ResourceFn<Value = unknown> = (hooks: ResourceAPI) => Value;
 
-export type Resource<Value = unknown> = Value & Reactive<Value>;
+export type Resource<Value = unknown> = Value | Reactive<Value>;
 
 export type Destructor = () => void;
 export type Cache = object;
