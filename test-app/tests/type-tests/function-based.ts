@@ -1,4 +1,4 @@
-import { resource } from 'ember-resources';
+import { type Resource, resource } from 'ember-resources';
 import { expectTypeOf } from 'expect-type';
 import { expectType } from 'ts-expect';
 

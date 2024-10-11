@@ -7,7 +7,7 @@ import { INTERNAL } from './types.ts';
 import { registerUsable } from './use.ts';
 import { wrapForPlainUsage } from './utils.ts';
 
-import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types.ts';
+import type { InternalFunctionResourceConfig, Resource, ResourceFunction } from './types.ts';
 
 const TYPE = 'function-based';
 
@@ -111,7 +111,7 @@ registerUsable(TYPE, (context: object, config: InternalFunctionResourceConfig) =
  *  </template>
  *  ```
  */
-export function resource<Value>(setup: ResourceFunction<Value>): Value;
+export function resource<Value>(setup: ResourceFunction<Value>): Resource<Value>;
 
 /**
  * `resource` is an alternative API to the class-based `Resource`.
@@ -167,14 +167,14 @@ export function resource<Value>(setup: ResourceFunction<Value>): Value;
  *  }
  *  ```
  */
-export function resource<Value>(context: object, setup: ResourceFunction<Value>): Value;
+export function resource<Value>(context: object, setup: ResourceFunction<Value>): Resource<Value>;
 
 /**
  */
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
   setup?: ResourceFunction<Value>,
-): Value | InternalFunctionResourceConfig<Value> | ResourceFn<Value> {
+): Value | InternalFunctionResourceConfig<Value> | Resource<Value> {
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
@@ -205,7 +205,7 @@ export function resource<Value>(
      * using vanilla functions as resources without the resource wrapper
      *
      */
-    return internalConfig as unknown as ResourceFn<Value>;
+    return internalConfig as unknown as Resource<Value>;
   }
 
   assert(
