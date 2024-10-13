@@ -7,7 +7,7 @@ settings:
 overrides:
   '@glimmer/manager': '>= 0.87.1'
   '@glimmer/validator': '>= 0.87.1'
-  ember-eslint-parser: 0.5.0
+  ember-eslint-parser: 0.5.2
   eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#master
 
 dependencies:
@@ -184,20 +184,6 @@ packages:
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
-
-  /@babel/eslint-parser@7.23.10(@babel/core@7.24.7)(eslint@8.57.1):
-    resolution: {integrity: sha512-3wSYDPZVnhseRnxRJH6ZVTNknBz76AEnyC+AYYhasjP3Yy23qz0ERR7Fcd2SHmYuSFJ2kY9gaaDd3vyqU09eSw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
-    peerDependencies:
-      '@babel/core': ^7.11.0
-      eslint: ^7.5.0 || ^8.0.0
-    dependencies:
-      '@babel/core': 7.24.7
-      '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
-      eslint: 8.57.1
-      eslint-visitor-keys: 2.1.0
-      semver: 6.3.1
-    dev: true
 
   /@babel/eslint-parser@7.25.1(@babel/core@7.24.7)(eslint@8.57.1):
     resolution: {integrity: sha512-Y956ghgTT4j7rKesabkh5WeqgSFZVFwaPR0IWFm7KFHFmmJ4afbG49SmfW4S+GyRPx0Dy5jxEWA5t0rpxfElWg==}
@@ -1816,7 +1802,7 @@ packages:
     engines: {node: '>= 16.0.0'}
     dependencies:
       '@glimmer/interfaces': 0.92.0
-      '@glimmer/syntax': 0.92.0
+      '@glimmer/syntax': 0.92.3
       '@glimmer/util': 0.92.0
       '@glimmer/vm': 0.92.0
       '@glimmer/wire-format': 0.92.3
@@ -4207,8 +4193,8 @@ packages:
       - supports-color
     dev: true
 
-  /ember-eslint-parser@0.5.0(@babel/core@7.24.7)(@typescript-eslint/parser@6.21.0)(eslint@8.57.1):
-    resolution: {integrity: sha512-6zLZwa6t9lhEgSkhwhoG/xsjif9FR00aOMXfj/DGuYbncyeeNrU+0ZNvg1FDRec8Zs/1Ow9CVMPwmiwlu6rOQQ==}
+  /ember-eslint-parser@0.5.2(@babel/core@7.24.7)(@typescript-eslint/parser@6.21.0)(eslint@8.57.1):
+    resolution: {integrity: sha512-289KjJ08QxK1Ytf+aq04QMoQ8WvhXCInJixcGuS5SWBFNlVuEs9yAZ06VXzVSuZ9zMAqX24MTMvD7ICVFN7QSg==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@babel/core': ^7.23.6
@@ -4218,7 +4204,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.24.7
-      '@babel/eslint-parser': 7.23.10(@babel/core@7.24.7)(eslint@8.57.1)
+      '@babel/eslint-parser': 7.25.1(@babel/core@7.24.7)(eslint@8.57.1)
       '@glimmer/syntax': 0.92.3
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.5.4)
       content-tag: 2.0.2
@@ -8041,7 +8027,7 @@ packages:
       '@ember-data/rfc395-data': 0.0.4
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.5.4)
       css-tree: 2.3.1
-      ember-eslint-parser: 0.5.0(@babel/core@7.24.7)(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)
+      ember-eslint-parser: 0.5.2(@babel/core@7.24.7)(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)
       ember-rfc176-data: 0.3.18
       eslint: 8.57.1
       eslint-utils: 3.0.0(eslint@8.57.1)
