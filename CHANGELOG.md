@@ -1,5 +1,30 @@
 # Changelog
 
+## Release (2024-11-02)
+
+ember-resources-codemod 0.1.0 (minor)
+ember-resources 7.0.3 (patch)
+
+#### :rocket: Enhancement
+* `ember-resources-codemod`, `test-app`
+  * [#1147](https://github.com/NullVoxPopuli/ember-resources/pull/1147) Add v6 to v7 codemod ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1161](https://github.com/NullVoxPopuli/ember-resources/pull/1161) Widen peer range of @glimmer/component ([@johanrd](https://github.com/johanrd))
+
+#### :memo: Documentation
+* [#1136](https://github.com/NullVoxPopuli/ember-resources/pull/1136) docs: Fixes a few typos in DOCS.md ([@ozywuli](https://github.com/ozywuli))
+
+#### :house: Internal
+* `ember-resources`, `test-app-definitely-typed`, `test-app`
+  * [#1158](https://github.com/NullVoxPopuli/ember-resources/pull/1158) Cleaning ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 3
+- Ozy Wu-Li ([@ozywuli](https://github.com/ozywuli))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@johanrd](https://github.com/johanrd)
+
 ## Release (2024-06-18)
 
 ember-resources 7.0.2 (patch)
