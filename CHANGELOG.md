@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2024-11-02)
 
 ember-resources-codemod 0.1.0 (minor)
