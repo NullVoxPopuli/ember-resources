@@ -5,4 +5,4 @@ export { resource } from './resource.ts';
 export { registerUsable, use } from './use.ts';
 
 // Public Type Utilities
-export type { Reactive, ResourceAPI } from './types.ts';
+export type { Reactive, Resource, ResourceAPI } from './types.ts';
