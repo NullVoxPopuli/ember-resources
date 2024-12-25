@@ -1,25 +1,50 @@
 // @ts-ignore
-import { getValue } from '@glimmer/tracking/primitives/cache';
+import { type createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
-// @ts-ignore
-import { invokeHelper } from '@ember/helper';
 
-import { INTERMEDIATE_VALUE } from './types.ts';
+import { CURRENT, INTERMEDIATE_VALUE, type Reactive } from './types.ts';
 
-import type { InternalFunctionResourceConfig } from './types.ts';
+import type { Builder, Resource } from './intermediate-representation.ts';
+import type Owner from '@ember/owner';
+
+export function shallowFlat<Value>(cache: ReturnType<typeof createCache>): Value {
+  let maybeValue = getValue(cache);
+
+  if (typeof maybeValue === 'function') {
+    return maybeValue();
+  }
+
+  if (isReactive(maybeValue)) {
+    return maybeValue[CURRENT] as Value;
+  }
+
+  return maybeValue as Value;
+}
+
+export function isReactive<Value>(maybe: unknown): maybe is Reactive<Value> {
+  return typeof maybe === 'object' && maybe !== null && CURRENT in maybe;
+}
+
+export function getCurrentValue<Value>(value: Value | Reactive<Value>): Value {
+  /**
+   * If we are working with a cell, forward the '.current' call to it.
+   */
+  if (typeof value === 'object' && value !== null && 'current' in value) {
+    return value.current;
+  }
+
+  return value;
+}
 
 /**
- * This is what allows resource to be used withotu @use.
+ * This is what allows resource to be used without @use.
  * The caveat though is that a property must be accessed
  * on the return object.
  *
  * A resource not using use *must* be an object.
  */
-export function wrapForPlainUsage<Value>(
-  context: object,
-  setup: InternalFunctionResourceConfig<Value>,
-) {
-  let cache: ReturnType<typeof invokeHelper>;
+export function wrapForPlainUsage<Value>(context: object, builder: Builder<Value>) {
+  let cache: Resource<Value>;
 
   /*
    * Having an object that we use invokeHelper + getValue on
@@ -30,12 +55,12 @@ export function wrapForPlainUsage<Value>(
   const target = {
     get [INTERMEDIATE_VALUE]() {
       if (!cache) {
-        cache = invokeHelper(context, setup);
+        cache = builder.create(context as Owner);
       }
 
       // SAFETY: the types for the helper manager APIs aren't fully defined to infer
       //         nor allow passing the value.
-      return getValue<Value>(cache as any);
+      return cache.current;
     },
   };
 

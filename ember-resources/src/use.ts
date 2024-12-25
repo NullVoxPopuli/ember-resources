@@ -9,6 +9,7 @@ import { associateDestroyableChild } from '@ember/destroyable';
 import { invokeHelper } from '@ember/helper';
 
 import { ReadonlyCell } from './cell.ts';
+import { getCurrentValue, shallowFlat } from './utils.ts';
 
 import type {
   INTERNAL,
@@ -107,17 +108,6 @@ export function use(
   assert(`Unknown arity for \`use\`. Received ${args.length} arguments`, false);
 }
 
-function getCurrentValue<Value>(value: Value | Reactive<Value>): Value {
-  /**
-   * If we are working with a cell, forward the '.current' call to it.
-   */
-  if (typeof value === 'object' && value !== null && 'current' in value) {
-    return value.current;
-  }
-
-  return value;
-}
-
 function classContextLink<Value>(
   context: object,
   definition: Value | (() => Value),
@@ -160,17 +150,14 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
   };
 }
 
-interface UsableConfig {
-  type: string;
-  definition: unknown;
-}
-
-export type UsableFn<Usable extends UsableConfig> = (
+export type UsableFn<Usable extends object> = (
   context: object,
   config: Usable,
   // This return type *would be* ReturnType<typeof invokeHelper>
   // But the DT types for @ember/helper don't have *any* of the helper-manager things.
 ) => unknown;
+
+export const TYPE_KEY = Symbol.for(`__RESOURCE_TYPE__`);
 
 const USABLES = new Map<string, UsableFn<any>>();
 
@@ -181,7 +168,7 @@ const USABLES = new Map<string, UsableFn<any>>();
  *
  * The return type must be a "Cache" returned from `invokeHelper` so that `@use`'s usage of `getValue` gets the value (as determined by the helper manager you wrote for your usable).
  */
-export function registerUsable<Usable extends UsableConfig>(
+export function registerUsable<Usable extends object>(
   /**
    * The key to register the usable under.
    *
@@ -215,7 +202,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
           typeof initializer === 'function' ? initializer.call(this) : initializer
         ) as Config;
 
-        let usable = USABLES.get(config.type);
+        let usable = USABLES.get(config.type) || USABLES.get(config[TYPE_KEY]);
 
         assert(
           `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[
@@ -232,9 +219,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
         associateDestroyableChild(this, cache);
       }
 
-      let value = getValue(cache);
-
-      return getCurrentValue(value);
+      return shallowFlat(cache);
     },
   };
 }
