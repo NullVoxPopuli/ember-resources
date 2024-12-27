@@ -11,6 +11,8 @@ module.exports = async function () {
         name: 'ember-3.28',
         npm: {
           devDependencies: {
+            // Max ember-cli
+            'ember-cli': '~4.12.0',
             'ember-source': '~3.28.0',
           },
         },
