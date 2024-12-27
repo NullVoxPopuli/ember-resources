@@ -96,9 +96,6 @@
     "typescript": "^5.0.0",
     "webpack": "^5.88.2"
   },
-  "engines": {
-    "node": "12.* || 14.* || >= 16"
-  },
   "ember": {
     "edition": "octane"
   },
