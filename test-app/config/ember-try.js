@@ -23,6 +23,9 @@ module.exports = async function () {
 
   const ember6Deps = {
     ...ember5Deps,
+    '@ember/string': '^4.0.0',
+    '@ember/test-waiters': '^4.0.0',
+    '@ember/test-helpers': '^4.0.4',
     'ember-cli': '^6.0.0',
     'ember-resolver': '^13.1.0',
     typescript: '^5.7.0',
