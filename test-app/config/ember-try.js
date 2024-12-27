@@ -4,6 +4,15 @@ const getChannelURL = require('ember-source-channel-url');
 const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
+  const ember5Deps = {
+    '@ember/string': '^3.1.1',
+    'ember-resolver': '^11.0.0',
+    'ember-auto-import': '^2.3.0',
+    'ember-cli': '^5.1.0',
+    'ember-maybe-import-regenerator': null,
+    'ember-cli-dependency-checker': null,
+  };
+
   return {
     usePnpm: true,
     scenarios: [
@@ -53,6 +62,7 @@ module.exports = async function () {
         name: 'ember-5.4',
         npm: {
           devDependencies: {
+            ...ember5Deps,
             'ember-source': '~5.4.0',
           },
         },
