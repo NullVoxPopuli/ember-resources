@@ -53,7 +53,7 @@ devDependencies:
     specifier: ^1.1.2
     version: 1.1.2
   '@glint/core':
-    specifier: ^1.2.2
+    specifier: ^1.5.0
     version: 1.5.0(typescript@5.5.4)
   '@glint/template':
     specifier: ^1.2.2
