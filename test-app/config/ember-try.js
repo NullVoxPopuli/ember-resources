@@ -27,6 +27,8 @@ module.exports = async function () {
     '@ember/test-waiters': '^4.0.0',
     '@ember/test-helpers': '^4.0.4',
     'ember-cli': '^6.1.0',
+    'ember-load-initializers': '^3.0.1',
+    'ember-qunit': '^9.0.1',
     'ember-resolver': '^13.1.0',
     typescript: '^5.7.0',
   };
