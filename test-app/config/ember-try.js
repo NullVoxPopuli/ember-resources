@@ -6,6 +6,7 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 module.exports = async function () {
   const ember4Deps = {
     'ember-cli': '~4.12.0',
+    'ember-qunit': '^9.0.1',
     'ember-maybe-import-regenerator': '^1.0.0',
   };
 
@@ -28,7 +29,6 @@ module.exports = async function () {
     '@ember/test-helpers': '^4.0.4',
     'ember-cli': '^6.1.0',
     'ember-load-initializers': '^3.0.1',
-    'ember-qunit': '^9.0.1',
     'ember-resolver': '^13.1.0',
     typescript: '^5.7.0',
   };
