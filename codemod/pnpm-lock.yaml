@@ -54,6 +54,9 @@ importers:
       prettier:
         specifier: ^3.1.1
         version: 3.4.2
+      prettier-plugin-ember-template-tag:
+        specifier: ^2.0.4
+        version: 2.0.4(prettier@3.4.2)
       typescript:
         specifier: ~5.5.0
         version: 5.5.4
@@ -912,6 +915,9 @@ packages:
     resolution: {integrity: sha512-1dP4gpXFhei8IOtlXRE/T/4H88ElHgTiUzh71YUmtjTEHMSRS2Z/fgOxHSxxusGHogsRfxNq1vyAwxSC+EVyDg==}
     engines: {node: ^14.13.0 || >=16.0.0}
     hasBin: true
+
+  content-tag@2.0.3:
+    resolution: {integrity: sha512-htLIdtfhhKW2fHlFLnZH7GFzHSdSpHhDLrWVswkNiiPMZ5uXq5JfrGboQKFhNQuAAFF8VNB2EYUj3MsdJrKKpg==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1875,6 +1881,12 @@ packages:
   prettier-plugin-ember-template-tag@1.1.0:
     resolution: {integrity: sha512-zJTC+NhEU0kHNnVh7OtcvMmkJmYTgFTist76FP9q07m9+WCvcaunR1sTFIOlGE9TH/5UGm6rlF86Umt9ouorAg==}
     engines: {node: 16.* || 18.* || >= 20}
+    peerDependencies:
+      prettier: '>= 3.0.0'
+
+  prettier-plugin-ember-template-tag@2.0.4:
+    resolution: {integrity: sha512-Ude3MJyPBMr/Er5aSS9Y0dsnHWX3prpJB+Jj/BKKUT/EvG2ftnIMBsZXmRu68RJA62JJB8MdKBloYmCu2pTRNg==}
+    engines: {node: 18.* || >= 20}
     peerDependencies:
       prettier: '>= 3.0.0'
 
@@ -3353,6 +3365,8 @@ snapshots:
       tree-kill: 1.2.2
       yargs: 17.7.2
 
+  content-tag@2.0.3: {}
+
   convert-source-map@2.0.0: {}
 
   cosmiconfig@8.3.6(typescript@5.5.4):
@@ -4490,6 +4504,14 @@ snapshots:
       '@glimmer/syntax': 0.84.3
       ember-cli-htmlbars: 6.3.0
       ember-template-imports: 3.4.2
+      prettier: 3.4.2
+    transitivePeerDependencies:
+      - supports-color
+
+  prettier-plugin-ember-template-tag@2.0.4(prettier@3.4.2):
+    dependencies:
+      '@babel/core': 7.26.0
+      content-tag: 2.0.3
       prettier: 3.4.2
     transitivePeerDependencies:
       - supports-color
