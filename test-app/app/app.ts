@@ -8,7 +8,7 @@ import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 
 setupDeprecationWorkflow({
   throwOnUnhandled: true,
-  workflows: [],
+  workflow: [],
 });
 
 export default class App extends Application {
