@@ -125,8 +125,8 @@ importers:
         specifier: ^3.2.0
         version: 3.3.2(ember-cli@6.1.0(handlebars@4.7.8)(underscore@1.13.7))
       ember-cli-deprecation-workflow:
-        specifier: ^2.1.0
-        version: 2.2.0
+        specifier: ^3.1.0
+        version: 3.1.0(ember-source@5.5.0(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)(rsvp@4.8.5)(webpack@5.89.0))
       ember-cli-htmlbars:
         specifier: ^6.2.0
         version: 6.3.0
@@ -3578,9 +3578,11 @@ packages:
     peerDependencies:
       ember-cli: ^3.2.0 || >=4.0.0
 
-  ember-cli-deprecation-workflow@2.2.0:
-    resolution: {integrity: sha512-23bXZqZJBJSKBTfT0LK7qzSJX861TgafL6RVdMfn/iubpLnoZIWergYwEdgs24CNTUbuehVbHy2Q71o8jYfwfw==}
-    engines: {node: 12.* || 14.* || >= 16}
+  ember-cli-deprecation-workflow@3.1.0:
+    resolution: {integrity: sha512-tbN5YbEcyFEnOXN5J/TtTNAe2Qcr6bQQZgzHSLoPykiKsQ3Quq+P6BHKGzDEBK9G6YVIHFMWMmprENj+IXQTLQ==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      ember-source: '>= 4.0.0'
 
   ember-cli-get-component-path-option@1.0.0:
     resolution: {integrity: sha512-k47TDwcJ2zPideBCZE8sCiShSxQSpebY2BHcX2DdipMmBox5gsfyVrbKJWIHeSTTKyEUgmBIvQkqTOozEziCZA==}
@@ -11665,12 +11667,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-deprecation-workflow@2.2.0:
+  ember-cli-deprecation-workflow@3.1.0(ember-source@5.5.0(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)(rsvp@4.8.5)(webpack@5.89.0)):
     dependencies:
-      '@ember/string': 3.1.1
-      broccoli-funnel: 3.0.8
-      broccoli-merge-trees: 4.2.0
-      broccoli-plugin: 4.0.7
+      '@babel/core': 7.23.7(supports-color@8.1.1)
+      ember-cli-babel: 8.2.0(@babel/core@7.23.7)
+      ember-source: 5.5.0(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)(rsvp@4.8.5)(webpack@5.89.0)
     transitivePeerDependencies:
       - supports-color
 
