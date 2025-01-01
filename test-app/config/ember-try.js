@@ -22,7 +22,7 @@ module.exports = async function () {
     ...ember3Deps,
     '@ember/test-waiters': '^3.0.0',
     '@ember/test-helpers': '^3.0.0',
-    'ember-qunit': '^9.0.1',
+    'ember-qunit': '^8.0.0',
     'ember-resolver': '^10.0.0',
     // not needed
     'ember-maybe-import-regenerator': null,
