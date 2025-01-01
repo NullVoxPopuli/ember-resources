@@ -4,13 +4,27 @@ const getChannelURL = require('ember-source-channel-url');
 const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
-  const ember4Deps = {
-    'ember-cli': '~4.12.0',
-    'ember-qunit': '^9.0.1',
+  const ember3Deps = {
     'ember-maybe-import-regenerator': '^1.0.0',
+    'ember-qunit': '^5.1.5',
+    '@ember/test-waiters': '^2.4.5',
+    '@ember/test-helpers': '^2.6.0',
+    'ember-resolver': '^8.0.3',
+    // Compat Upgrades
+    'ember-cli': '~4.12.0',
+    'ember-auto-import': '^2.10.0',
+    // Not needed
+    'ember-fetch': null,
+    'ember-cli-app-version': null,
+  };
+
+  const ember4Deps = {
+    ...ember3Deps,
+    'ember-qunit': '^9.0.1',
   };
 
   const ember5Deps = {
+    ...ember4Deps,
     '@glimmer/component': '^1.1.2',
     '@ember/string': '^3.1.1',
     'ember-resolver': '^11.0.0',
