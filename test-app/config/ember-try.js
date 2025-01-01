@@ -20,7 +20,10 @@ module.exports = async function () {
 
   const ember4Deps = {
     ...ember3Deps,
+    '@ember/test-waiters': '^3.0.0',
+    '@ember/test-helpers': '^3.0.0',
     'ember-qunit': '^9.0.1',
+    'ember-resolver': '^10.0.0',
   };
 
   const ember5Deps = {
