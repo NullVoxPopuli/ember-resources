@@ -91,6 +91,8 @@ jobs:
           pnpm --filter "test-app*" exec glint --version;
 
       - name: 'Type checking (built in types)'
+        # Types of newer versions are not compatible with TS < v5
+        run: pnpm add --save-dev "@ember/test-helpers@^3.0.0"
         run: pnpm --filter "test-app" exec glint;
 
       - name: 'Type checking (DefinitelyTyped types)'
