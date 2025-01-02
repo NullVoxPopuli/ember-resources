@@ -1,6 +1,7 @@
 import Application from '@ember/application';
 
-// @ts-ignore
+// CI isn't finding the types for this
+// @ts-ignore bah
 import setupDeprecationWorkflow from 'ember-cli-deprecation-workflow';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from 'ember-resolver';
