@@ -20,13 +20,7 @@ module.exports = async function () {
 
   const ember4Deps = {
     ...ember3Deps,
-    '@ember/test-waiters': '^3.0.0',
-    '@ember/test-helpers': '^3.0.0',
-    'ember-qunit': '^8.0.0',
-    'ember-resolver': '^10.0.0',
-    // not needed
-    'ember-maybe-import-regenerator': null,
-    'ember-cli-dependency-checker': null,
+    'ember-qunit': '^9.0.1',
   };
 
   const ember5Deps = {
@@ -34,8 +28,11 @@ module.exports = async function () {
     '@glimmer/component': '^1.1.2',
     '@ember/string': '^3.1.1',
     'ember-resolver': '^11.0.0',
+    'ember-auto-import': '^2.3.0',
     'ember-template-lint': '^6.0.0',
     'ember-cli': '^5.12.0',
+    'ember-maybe-import-regenerator': null,
+    'ember-cli-dependency-checker': null,
     'qunit-dom': '^3.4.0',
   };
 
@@ -57,7 +54,7 @@ module.exports = async function () {
         name: 'ember-3.28',
         npm: {
           devDependencies: {
-            ...ember3Deps,
+            ...ember4Deps, // close enough, really
             'ember-source': '~3.28.0',
           },
         },

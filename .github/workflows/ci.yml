@@ -53,7 +53,7 @@ jobs:
       - uses: ./.github/actions/assert-build
 
 
-  typecheck:
+  typecheck_legacy:
     name: '${{ matrix.typescript-scenario }}'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -66,9 +66,50 @@ jobs:
           - typescript@4.8
           - typescript@4.9
           - typescript@5.0
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wyvox/action-setup-pnpm@v3
+        with:
+          node-version: 18.18.1
+      - name: 'Build'
+        run: pnpm build
+      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
+        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+        working-directory: ./test-app
+
+      # This has been really annoying
+      # due to injected dependencies :(
+      - name: 'Re-sync injected dependencies'
+        run: pnpm i -f
+      - name: 'Print Versions'
+        run: |
+          pnpm --filter "test-app*" exec tsc -v;
+          pnpm --filter "test-app*" exec glint --version;
+
+      - name: 'Type checking (built in types)'
+        run: pnpm --filter "test-app-old-ts" exec glint;
+
+      # - name: 'Type checking (DefinitelyTyped types)'
+      #   run: pnpm --filter "test-app-definitely-typed" exec glint;
+
+  typecheck:
+    name: '${{ matrix.typescript-scenario }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [build]
+    continue-on-error: true
+    strategy:
+      fail-fast: true
+      matrix:
+        typescript-scenario:
           - typescript@5.1
           - typescript@5.2
           - typescript@5.3
+          - typescript@5.4
+          - typescript@5.5
+          - typescript@5.6
+          - typescript@5.7
 
     steps:
       - uses: actions/checkout@v4

@@ -3,5 +3,6 @@ packages:
   - "codemod"
   - "docs"
   - "test-app"
+  - "test-app-old-ts"
   - "test-app-definitely-typed"
   - "dev/*"
