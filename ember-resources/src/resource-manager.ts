@@ -6,9 +6,9 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { invokeHelper } from '@ember/helper';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
-import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { ReadonlyCell } from './cell.ts';
+import { compatOwner } from './ember-compat.ts';
 import { CURRENT, INTERNAL } from './types.ts';
 
 import type {
@@ -19,20 +19,7 @@ import type {
 } from './types.ts';
 import type Owner from '@ember/owner';
 
-let getOwner: (context: unknown) => Owner | undefined;
-let setOwner: (context: unknown, owner: Owner) => void;
-
-if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
-  // In no version of ember where `@ember/owner` tried to be imported did it exist
-  // if (macroCondition(false)) {
-  // Using 'any' here because importSync can't lookup types correctly
-  getOwner = (importSync('@ember/owner') as any).getOwner;
-  setOwner = (importSync('@ember/owner') as any).setOwner;
-} else {
-  // Using 'any' here because importSync can't lookup types correctly
-  getOwner = (importSync('@ember/application') as any).getOwner;
-  setOwner = (importSync('@ember/application') as any).setOwner;
-}
+const setOwner = compatOwner.setOwner;
 
 /**
  * Note, a function-resource receives on object, hooks.

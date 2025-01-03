@@ -4,7 +4,6 @@ import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
-import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import type { resource } from './resource.ts';
 import type Owner from '@ember/owner';
@@ -16,17 +15,9 @@ interface State {
   cache: ReturnType<typeof invokeHelper>;
 }
 
-let setOwner: (context: unknown, owner: Owner) => void;
+import { compatOwner } from './ember-compat.ts';
 
-if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
-  // In no version of ember where `@ember/owner` tried to be imported did it exist
-  // if (macroCondition(false)) {
-  // Using 'any' here because importSync can't lookup types correctly
-  setOwner = (importSync('@ember/owner') as any).setOwner;
-} else {
-  // Using 'any' here because importSync can't lookup types correctly
-  setOwner = (importSync('@ember/application') as any).setOwner;
-}
+const setOwner = compatOwner.setOwner;
 
 class ResourceInvokerManager {
   capabilities = helperCapabilities('3.23', {
