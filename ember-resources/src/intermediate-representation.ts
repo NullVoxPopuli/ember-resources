@@ -18,7 +18,7 @@ export const CREATE_KEY = Symbol.for('__configured-resource-key__');
 export const DEBUG_NAME = Symbol.for('DEBUG_NAME');
 export const RESOURCE_CACHE = Symbol.for('__resource_cache__');
 
-import { compatOwner } from './owner.ts';
+import { compatOwner } from './ember-compat.ts';
 
 const getOwner = compatOwner.getOwner;
 const setOwner = compatOwner.setOwner;

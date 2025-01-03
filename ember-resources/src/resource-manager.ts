@@ -2,7 +2,7 @@ import { assert } from '@ember/debug';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
 
-import { compatOwner } from './owner.ts';
+import { compatOwner } from './ember-compat.ts';
 
 import type { Builder, Resource } from './intermediate-representation.ts';
 import type Owner from '@ember/owner';
