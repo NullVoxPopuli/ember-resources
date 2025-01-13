@@ -1,19 +1,9 @@
 import { assert } from '@ember/debug';
-// @ts-ignore
-import { invokeHelper, setHelperManager } from '@ember/helper';
 
-import { ResourceManagerFactory } from './resource-manager.ts';
-import { INTERNAL } from './types.ts';
-import { registerUsable } from './use.ts';
+import { Builder, CREATE_KEY } from './intermediate-representation.ts';
 import { wrapForPlainUsage } from './utils.ts';
 
-import type { InternalFunctionResourceConfig, ResourceFn, ResourceFunction } from './types.ts';
-
-const TYPE = 'function-based';
-
-registerUsable(TYPE, (context: object, config: InternalFunctionResourceConfig) => {
-  return invokeHelper(context, config);
-});
+import type { ResourceFn, ResourceFunction } from './types.ts';
 
 /**
  * `resource` provides a single reactive read-only value with lifetime and may have cleanup.
@@ -174,7 +164,7 @@ export function resource<Value>(context: object, setup: ResourceFunction<Value>)
 export function resource<Value>(
   context: object | ResourceFunction<Value>,
   setup?: ResourceFunction<Value>,
-): Value | InternalFunctionResourceConfig<Value> | ResourceFn<Value> {
+): Value | Builder<Value> | ResourceFn<Value> {
   if (!setup) {
     assert(
       `When using \`resource\` with @use, ` +
@@ -182,20 +172,6 @@ export function resource<Value>(
         `Instead, a ${typeof context} was received.`,
       typeof context === 'function',
     );
-
-    let internalConfig: InternalFunctionResourceConfig<Value> = {
-      definition: context as ResourceFunction<Value>,
-      type: 'function-based',
-      name: 'Resource',
-      [INTERNAL]: true,
-    };
-
-    /**
-     * Functions have a different identity every time they are defined.
-     * The primary purpose of the `resource` wrapper is to individually
-     * register each function with our helper manager.
-     */
-    setHelperManager(ResourceManagerFactory, internalConfig);
 
     /**
      * With only one argument, we have to do a bunch of lying to
@@ -205,7 +181,10 @@ export function resource<Value>(
      * using vanilla functions as resources without the resource wrapper
      *
      */
-    return internalConfig as unknown as ResourceFn<Value>;
+    return new Builder(
+      context as ResourceFunction<Value>,
+      CREATE_KEY,
+    ) as unknown as ResourceFn<Value>;
   }
 
   assert(
@@ -220,22 +199,7 @@ export function resource<Value>(
     typeof setup === 'function',
   );
 
-  let internalConfig: InternalFunctionResourceConfig<Value> = {
-    definition: setup as ResourceFunction<Value>,
-    type: TYPE,
-    name: getDebugName(setup),
-    [INTERNAL]: true,
-  };
+  let configured = new Builder(setup, CREATE_KEY);
 
-  setHelperManager(ResourceManagerFactory, internalConfig);
-
-  return wrapForPlainUsage(context, internalConfig);
-}
-
-function getDebugName(obj: object) {
-  if ('name' in obj) {
-    return `Resource Function: ${obj.name}`;
-  }
-
-  return `Resource Function`;
+  return wrapForPlainUsage(context, configured);
 }
