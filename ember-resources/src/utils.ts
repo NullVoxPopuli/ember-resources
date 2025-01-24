@@ -55,7 +55,8 @@ export function wrapForPlainUsage<Value>(context: object, builder: Builder<Value
   const target = {
     get [INTERMEDIATE_VALUE]() {
       if (!cache) {
-        cache = builder.create(context as Owner);
+        cache = builder.create();
+        cache.link(context);
       }
 
       // SAFETY: the types for the helper manager APIs aren't fully defined to infer

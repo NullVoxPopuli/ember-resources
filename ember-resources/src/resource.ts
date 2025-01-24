@@ -201,5 +201,7 @@ export function resource<Value>(
 
   let configured = new Builder(setup, CREATE_KEY);
 
+  return configured;
+
   return wrapForPlainUsage(context, configured);
 }

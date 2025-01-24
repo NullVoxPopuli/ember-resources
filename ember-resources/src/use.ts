@@ -202,7 +202,7 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
           typeof initializer === 'function' ? initializer.call(this) : initializer
         ) as Config;
 
-        let usable = USABLES.get(config.type) || USABLES.get(config[TYPE_KEY]);
+        let usable = USABLES.get(config.type) || USABLES.get((config as any)[TYPE_KEY]);
 
         assert(
           `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[
