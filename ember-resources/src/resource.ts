@@ -1,7 +1,6 @@
 import { assert } from '@ember/debug';
 
 import { Builder, CREATE_KEY } from './intermediate-representation.ts';
-import { wrapForPlainUsage } from './utils.ts';
 
 import type { ResourceFn, ResourceFunction } from './types.ts';
 
