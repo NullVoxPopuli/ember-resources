@@ -1,4 +1,4 @@
-/** eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore - I don't want to deal with DT/native type compatibility here
 import { cached, tracked } from '@glimmer/tracking';
 import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
@@ -17,7 +17,7 @@ module('RAW', function (hooks) {
 
     compatOwner.setOwner(parent, this.owner);
 
-    // @ts-expect-error
+    // @ts-expect-error - types are a lie due to decorators
     let instance = thing.create();
 
     instance.link(parent);
@@ -28,7 +28,7 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
-      // @ts-expect-error
+      // @ts-expect-error - types are a lie due to decorators
       let instance = thing.create();
 
       instance.current;
@@ -39,7 +39,7 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
-      // @ts-expect-error
+      // @ts-expect-error - types are a lie due to decorators
       let instance = thing.create();
 
       instance.link({});
@@ -60,7 +60,7 @@ module('RAW Rendering', function (hooks) {
 
       @cached
       get thing() {
-        // @ts-expect-error
+        // @ts-expect-error - types are a lie due to decorators
         let instance = this.#thing.create();
 
         instance.link(this);
