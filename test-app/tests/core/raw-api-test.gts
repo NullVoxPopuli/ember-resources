@@ -5,7 +5,7 @@ import { click, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 
-import { cell, resource, resourceFactory } from 'ember-resources';
+import { resource } from 'ember-resources';
 
 module('RAW', function (hooks) {
   setupTest(hooks);
