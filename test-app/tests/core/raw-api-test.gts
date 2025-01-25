@@ -1,11 +1,9 @@
-// @ts-ignore @ember/modifier does not provide types :(
-import { on } from '@ember/modifier';
-import { setOwner } from '@ember/owner';
-import { click, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { setupRenderingTest, setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-qunit';
 
 import { resource } from 'ember-resources';
+
+import { compatOwner } from '../helpers';
 
 module('RAW', function (hooks) {
   setupTest(hooks);
@@ -14,8 +12,9 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
     let parent = {};
 
-    setOwner(parent, this.owner);
+    compatOwner.setOwner(parent, this.owner);
 
+    // @ts-expect-error - not sure what to bo about the type discrepency atm
     let instance = thing.create();
 
     instance.link(parent);
@@ -26,6 +25,7 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
+      // @ts-expect-error - not sure what to bo about the type discrepency atm
       let instance = thing.create();
 
       instance.current;
@@ -36,6 +36,7 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
+      // @ts-expect-error - not sure what to bo about the type discrepency atm
       let instance = thing.create();
 
       instance.link({});
