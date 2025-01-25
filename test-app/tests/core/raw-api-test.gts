@@ -1,5 +1,8 @@
+/** eslint-disable @typescript-eslint/ban-ts-comment */
+import { cached, tracked } from '@glimmer/tracking';
+import { render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupRenderingTest, setupTest } from 'ember-qunit';
 
 import { resource } from 'ember-resources';
 
@@ -14,7 +17,7 @@ module('RAW', function (hooks) {
 
     compatOwner.setOwner(parent, this.owner);
 
-    // @ts-expect-error - not sure what to bo about the type discrepency atm
+    // @ts-expect-error
     let instance = thing.create();
 
     instance.link(parent);
@@ -25,7 +28,7 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
-      // @ts-expect-error - not sure what to bo about the type discrepency atm
+      // @ts-expect-error
       let instance = thing.create();
 
       instance.current;
@@ -36,12 +39,47 @@ module('RAW', function (hooks) {
     let thing = resource(() => 2);
 
     assert.throws(() => {
-      // @ts-expect-error - not sure what to bo about the type discrepency atm
+      // @ts-expect-error
       let instance = thing.create();
 
       instance.link({});
 
       instance.current;
     }, /Cannot link without an owner/);
+  });
+});
+
+module('RAW Rendering', function (hooks) {
+  setupRenderingTest(hooks);
+
+  test('is reactive', async function (assert) {
+    class Context {
+      @tracked count = 0;
+
+      #thing = resource(() => this.count);
+
+      @cached
+      get thing() {
+        // @ts-expect-error
+        let instance = this.#thing.create();
+
+        instance.link(this);
+
+        return instance;
+      }
+    }
+
+    let ctx = new Context();
+
+    compatOwner.setOwner(ctx, this.owner);
+
+    await render(<template>{{ctx.thing.current}}</template>);
+
+    assert.dom().hasText('0');
+
+    ctx.count++;
+    await settled();
+
+    assert.dom().hasText('1');
   });
 });
