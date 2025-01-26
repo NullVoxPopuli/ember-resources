@@ -56,12 +56,12 @@ module('RAW Rendering', function (hooks) {
     class Context {
       @tracked count = 0;
 
-      #thing = resource(() => this.count);
+      _thing = resource(() => this.count);
 
       @cached
       get thing() {
         // @ts-expect-error - types are a lie due to decorators
-        let instance = this.#thing.create();
+        let instance = this._thing.create();
 
         instance.link(this);
 
