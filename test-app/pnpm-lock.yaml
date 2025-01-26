@@ -31,6 +31,9 @@ importers:
       '@glimmer/tracking':
         specifier: ^1.1.2
         version: 1.1.2
+      decorator-transforms:
+        specifier: ^2.3.0
+        version: 2.3.0(@babel/core@7.23.7)
       ember-functions-as-helper-polyfill:
         specifier: ^2.0.1
         version: 2.1.2(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)(rsvp@4.8.5)(webpack@5.89.0))
@@ -3383,6 +3386,9 @@ packages:
   decompress-response@3.3.0:
     resolution: {integrity: sha512-BzRPQuY1ip+qDonAOz42gRm/pg9F768C+npV/4JOsxRC2sq+Rlk+Q4ZCAsOhnIaMrgarILY+RMUIvMmmX1qAEA==}
     engines: {node: '>=4'}
+
+  decorator-transforms@2.3.0:
+    resolution: {integrity: sha512-jo8c1ss9yFPudHuYYcrJ9jpkDZIoi+lOGvt+Uyp9B+dz32i50icRMx9Bfa8hEt7TnX1FyKWKkjV+cUdT/ep2kA==}
 
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
@@ -12415,6 +12421,13 @@ snapshots:
   decompress-response@3.3.0:
     dependencies:
       mimic-response: 1.0.1
+
+  decorator-transforms@2.3.0(@babel/core@7.23.7):
+    dependencies:
+      '@babel/plugin-syntax-decorators': 7.25.9(@babel/core@7.23.7)
+      babel-import-util: 3.0.0
+    transitivePeerDependencies:
+      - '@babel/core'
 
   deep-extend@0.6.0: {}
 
