@@ -1,3 +1,5 @@
+import 'decorator-transforms/globals';
+
 import Application from '@ember/application';
 
 // CI isn't finding the types for this
