@@ -1,4 +1,14 @@
 # Changelog
+## Release (2025-04-08)
+
+ember-resources 6.5.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1186](https://github.com/NullVoxPopuli/ember-resources/pull/1186) Widen peer ranges ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
 ## Release (2024-01-09)
 
 ember-resources 6.5.1 (patch)

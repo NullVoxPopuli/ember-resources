@@ -2,8 +2,8 @@
   "solution": {
     "ember-resources": {
       "impact": "patch",
-      "oldVersion": "6.5.0",
-      "newVersion": "6.5.1",
+      "oldVersion": "6.5.1",
+      "newVersion": "6.5.2",
       "constraints": [
         {
           "impact": "patch",
@@ -13,5 +13,5 @@
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2024-01-09)\n\nember-resources 6.5.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1094](https://github.com/NullVoxPopuli/ember-resources/pull/1094) Fix declaration output ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* [#1092](https://github.com/NullVoxPopuli/ember-resources/pull/1092) Setup release automation for v6 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-04-08)\n\nember-resources 6.5.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1186](https://github.com/NullVoxPopuli/ember-resources/pull/1186) Widen peer ranges ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
