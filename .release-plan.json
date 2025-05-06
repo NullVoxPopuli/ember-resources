@@ -1,21 +1,23 @@
 {
   "solution": {
     "ember-resources-codemod": {
-      "impact": "minor",
-      "oldVersion": "0.0.3",
-      "newVersion": "0.1.0",
+      "impact": "patch",
+      "oldVersion": "0.1.0",
+      "newVersion": "0.1.1",
+      "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./codemod/package.json"
     },
     "ember-resources": {
       "impact": "patch",
-      "oldVersion": "7.0.2",
-      "newVersion": "7.0.3",
+      "oldVersion": "7.0.3",
+      "newVersion": "7.0.4",
+      "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
@@ -29,5 +31,5 @@
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2024-11-02)\n\nember-resources-codemod 0.1.0 (minor)\nember-resources 7.0.3 (patch)\n\n#### :rocket: Enhancement\n* `ember-resources-codemod`, `test-app`\n  * [#1147](https://github.com/NullVoxPopuli/ember-resources/pull/1147) Add v6 to v7 codemod ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1161](https://github.com/NullVoxPopuli/ember-resources/pull/1161) Widen peer range of @glimmer/component ([@johanrd](https://github.com/johanrd))\n\n#### :memo: Documentation\n* [#1136](https://github.com/NullVoxPopuli/ember-resources/pull/1136) docs: Fixes a few typos in DOCS.md ([@ozywuli](https://github.com/ozywuli))\n\n#### :house: Internal\n* `ember-resources`, `test-app-definitely-typed`, `test-app`\n  * [#1158](https://github.com/NullVoxPopuli/ember-resources/pull/1158) Cleaning ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 3\n- Ozy Wu-Li ([@ozywuli](https://github.com/ozywuli))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n- [@johanrd](https://github.com/johanrd)\n"
+  "description": "## Release (2025-05-06)\n\n* ember-resources-codemod 0.1.1 (patch)\n* ember-resources 7.0.4 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1189](https://github.com/NullVoxPopuli/ember-resources/pull/1189) Remove ember-source virtualDeps from peerDeps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* Other\n  * [#1191](https://github.com/NullVoxPopuli/ember-resources/pull/1191) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1190](https://github.com/NullVoxPopuli/ember-resources/pull/1190) Test against 6.4 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1173](https://github.com/NullVoxPopuli/ember-resources/pull/1173) Update ember-try config (support unchanged) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1170](https://github.com/NullVoxPopuli/ember-resources/pull/1170) Add testing for ember-source 5.8 and 5.12 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1169](https://github.com/NullVoxPopuli/ember-resources/pull/1169) Fix 3.28 testing -- max ember-cli is 4.12 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources`\n  * [#1167](https://github.com/NullVoxPopuli/ember-resources/pull/1167) Extract ember-compat stuff to a central location ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#1168](https://github.com/NullVoxPopuli/ember-resources/pull/1168) Upgrade auto-import and embroider related deps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources-codemod`, `ember-resources`\n  * [#1172](https://github.com/NullVoxPopuli/ember-resources/pull/1172) Upgrade pnpm ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }

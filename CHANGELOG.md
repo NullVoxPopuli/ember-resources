@@ -1,5 +1,30 @@
 # Changelog
 
+## Release (2025-05-06)
+
+* ember-resources-codemod 0.1.1 (patch)
+* ember-resources 7.0.4 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1189](https://github.com/NullVoxPopuli/ember-resources/pull/1189) Remove ember-source virtualDeps from peerDeps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* Other
+  * [#1191](https://github.com/NullVoxPopuli/ember-resources/pull/1191) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1190](https://github.com/NullVoxPopuli/ember-resources/pull/1190) Test against 6.4 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1173](https://github.com/NullVoxPopuli/ember-resources/pull/1173) Update ember-try config (support unchanged) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1170](https://github.com/NullVoxPopuli/ember-resources/pull/1170) Add testing for ember-source 5.8 and 5.12 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1169](https://github.com/NullVoxPopuli/ember-resources/pull/1169) Fix 3.28 testing -- max ember-cli is 4.12 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* `ember-resources`
+  * [#1167](https://github.com/NullVoxPopuli/ember-resources/pull/1167) Extract ember-compat stuff to a central location ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1168](https://github.com/NullVoxPopuli/ember-resources/pull/1168) Upgrade auto-import and embroider related deps ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* `ember-resources-codemod`, `ember-resources`
+  * [#1172](https://github.com/NullVoxPopuli/ember-resources/pull/1172) Upgrade pnpm ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2024-11-02)
 
 ember-resources-codemod 0.1.0 (minor)
