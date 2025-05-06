@@ -52,9 +52,7 @@
   },
   "peerDependencies": {
     "@glimmer/component": ">= 1.1.2 || >= 2.0.0",
-    "@glimmer/tracking": ">= 1.1.2",
-    "@glint/template": ">= 1.0.0",
-    "ember-source": "^3.28.0 || ^4.0.0 || >= 5.0.0"
+    "@glint/template": ">= 1.0.0"
   },
   "peerDependenciesMeta": {
     "@glimmer/component": {
