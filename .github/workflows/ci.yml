@@ -195,6 +195,7 @@ jobs:
           - ember-5.4
           - ember-5.8
           - ember-5.12
+          - ember-6.4
           - ember-release
           - ember-beta
           - ember-canary
