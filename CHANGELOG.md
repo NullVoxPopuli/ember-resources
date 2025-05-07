@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-05-07)
+
+* ember-resources-codemod 0.1.2 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources-codemod`
+  * [#1192](https://github.com/NullVoxPopuli/ember-resources/pull/1192) Add repository field to codemod ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-05-06)
 
 * ember-resources-codemod 0.1.1 (patch)
