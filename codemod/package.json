@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "bin": "./bin.mjs",
   "type": "module",
+  "repository": "https://github.com/NullVoxPopuli/ember-resources",
   "files": [
     "bin.mjs",
     "src"
