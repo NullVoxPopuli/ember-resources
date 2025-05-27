@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-05-27)
+
+* ember-resources 7.0.5 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1166](https://github.com/NullVoxPopuli/ember-resources/pull/1166) de-mystify resource internals ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-05-07)
 
 * ember-resources-codemod 0.1.2 (patch)
