@@ -1,9 +1,12 @@
 {
   "solution": {
     "ember-resources-codemod": {
+      "oldVersion": "0.1.2"
+    },
+    "ember-resources": {
       "impact": "patch",
-      "oldVersion": "0.1.1",
-      "newVersion": "0.1.2",
+      "oldVersion": "7.0.4",
+      "newVersion": "7.0.5",
       "tagName": "latest",
       "constraints": [
         {
@@ -11,11 +14,8 @@
           "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
-      "pkgJSONPath": "./codemod/package.json"
-    },
-    "ember-resources": {
-      "oldVersion": "7.0.4"
+      "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2025-05-07)\n\n* ember-resources-codemod 0.1.2 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources-codemod`\n  * [#1192](https://github.com/NullVoxPopuli/ember-resources/pull/1192) Add repository field to codemod ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-05-27)\n\n* ember-resources 7.0.5 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1166](https://github.com/NullVoxPopuli/ember-resources/pull/1166) de-mystify resource internals ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
