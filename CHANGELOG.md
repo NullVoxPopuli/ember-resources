@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2025-06-18)
+
+* ember-resources-codemod 0.1.3 (patch)
+* ember-resources 7.0.5 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources-codemod`
+  * [#1196](https://github.com/NullVoxPopuli/ember-resources/pull/1196) Add missing semicolon for kept imports ([@backspace](https://github.com/backspace))
+* `ember-resources`
+  * [#1166](https://github.com/NullVoxPopuli/ember-resources/pull/1166) de-mystify resource internals ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- Buck Doyle ([@backspace](https://github.com/backspace))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-05-07)
 
 * ember-resources-codemod 0.1.2 (patch)
