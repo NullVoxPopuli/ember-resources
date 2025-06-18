@@ -102,7 +102,7 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
       }
 
       if (toKeep.length > 0) {
-        newLines.push(`import { ${toKeep.join(', ')} } from '${importPath}'`);
+        newLines.push(`import { ${toKeep.join(', ')} } from '${importPath}';`);
       }
 
       continue;

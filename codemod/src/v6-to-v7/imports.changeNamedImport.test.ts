@@ -81,7 +81,7 @@ describe('Resource', () => {
     expect(result).toMatchInlineSnapshot(`
       "
       import { Resource } from 'ember-modify-based-class-resource';
-      import { type use } from 'ember-resources'
+      import { type use } from 'ember-resources';
           "
     `);
   });
@@ -165,7 +165,7 @@ describe('Resource', () => {
     expect(result).toMatchInlineSnapshot(`
       "
       import { Resource } from 'ember-modify-based-class-resource';
-      import { resource, use } from 'ember-resources'
+      import { resource, use } from 'ember-resources';
           "
     `);
   });
