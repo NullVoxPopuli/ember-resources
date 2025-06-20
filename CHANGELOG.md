@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-06-20)
+
+* ember-resources-codemod 0.1.4 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources-codemod`
+  * [#1197](https://github.com/NullVoxPopuli/ember-resources/pull/1197) Fix codemod stripping unrelated imports after newline ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-06-18)
 
 * ember-resources-codemod 0.1.3 (patch)

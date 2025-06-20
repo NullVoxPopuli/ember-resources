@@ -2,8 +2,8 @@
   "solution": {
     "ember-resources-codemod": {
       "impact": "patch",
-      "oldVersion": "0.1.2",
-      "newVersion": "0.1.3",
+      "oldVersion": "0.1.3",
+      "newVersion": "0.1.4",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,18 +14,8 @@
       "pkgJSONPath": "./codemod/package.json"
     },
     "ember-resources": {
-      "impact": "patch",
-      "oldVersion": "7.0.4",
-      "newVersion": "7.0.5",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./ember-resources/package.json"
+      "oldVersion": "7.0.5"
     }
   },
-  "description": "## Release (2025-06-18)\n\n* ember-resources-codemod 0.1.3 (patch)\n* ember-resources 7.0.5 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources-codemod`\n  * [#1196](https://github.com/NullVoxPopuli/ember-resources/pull/1196) Add missing semicolon for kept imports ([@backspace](https://github.com/backspace))\n* `ember-resources`\n  * [#1166](https://github.com/NullVoxPopuli/ember-resources/pull/1166) de-mystify resource internals ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 2\n- Buck Doyle ([@backspace](https://github.com/backspace))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-06-20)\n\n* ember-resources-codemod 0.1.4 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources-codemod`\n  * [#1197](https://github.com/NullVoxPopuli/ember-resources/pull/1197) Fix codemod stripping unrelated imports after newline ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
