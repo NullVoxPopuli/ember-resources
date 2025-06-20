@@ -4,6 +4,7 @@
 dist/
 tmp/
 tsconfig.tsbuildinfo
+.log/
 
 # dependencies
 node_modules/

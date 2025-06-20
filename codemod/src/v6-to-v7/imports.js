@@ -35,9 +35,25 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
   let newLines = [];
 
   for (let line of lines) {
+    // empty line
+    if (line.trim().length === 0) {
+      newLines.push(line);
+      continue;
+    }
+
     let foundImport = suffixTest.test(line);
 
     if (!foundImport) {
+      newLines.push(line);
+      continue;
+    }
+
+    /**
+     * ignore `import *`
+     *
+     * Our imports we're migrating from don't use `*` anyway
+     */
+    if (line.includes('import *')) {
       newLines.push(line);
       continue;
     }
@@ -69,7 +85,7 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
       while (newLines.length > 0) {
         let last = newLines.pop();
 
-        if (!last) break;
+        if (last === undefined) break;
 
         lines.unshift(last);
 
