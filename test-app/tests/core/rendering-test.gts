@@ -9,29 +9,29 @@ import { cell, resource, resourceFactory } from 'ember-resources';
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('cleanup with wrapping factory/blueprint', function () {
+  module('cleanup with wrapping factory/blueprint', function() {
     test('a generated interval can be cleared', async function (assert) {
       const id = cell(0);
       const condition = cell(true);
 
-      const poll = (id: number) => {
+      const poll = resourceFactory((id: number) => {
         return resource(({ on }) => {
           assert.step(`setup: ${id}`);
           on.cleanup(() => assert.step(`cleanup: ${id}`));
 
           return id;
         });
-      };
+      });
 
-      resourceFactory(poll);
+      await render(
+        <template>
+          <button type="button" {{on 'click' condition.toggle}}>Toggle</button><br />
 
-      await render(<template>
-        <button type="button" {{on "click" condition.toggle}}>Toggle</button><br />
-
-        {{#if condition.current}}
-          {{poll id.current}}
-        {{/if}}
-      </template>);
+          {{#if condition.current}}
+            {{poll id.current}}
+          {{/if}}
+        </template>
+      );
 
       assert.verifySteps(['setup: 0']);
 
