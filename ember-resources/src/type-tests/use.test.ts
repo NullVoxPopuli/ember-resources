@@ -1,6 +1,8 @@
 import { expectTypeOf } from 'expect-type';
 
-import { cell, type Reactive, resource, resourceFactory, use } from '../index.ts';
+import { cell, resource, resourceFactory, use } from '../index.ts';
+
+import type { Reactive } from '../index.ts';
 
 const StuckClock = resource(() => 2);
 
@@ -36,6 +38,7 @@ class DemoA {
 let demoA = new DemoA();
 
 expectTypeOf<typeof demoA.stuck>().toMatchTypeOf<number>();
+expectTypeOf(demoA.clock).toMatchTypeOf<Reactive<number>>();
 expectTypeOf<typeof demoA.clock>().toMatchTypeOf<Reactive<number>>();
 expectTypeOf<typeof demoA.paramClock>().toMatchTypeOf<string>();
 expectTypeOf<typeof demoA.paramClock2>().toMatchTypeOf<string>();
