@@ -159,6 +159,12 @@ export class Resource<Value> {
   link(context: object) {
     let owner = getOwner(context);
 
+    if (!owner) {
+      if ('lookup' in context) {
+        owner = context as Owner;
+      }
+    }
+
     assert(`Cannot link without an owner`, owner);
 
     this.#owner = owner;
