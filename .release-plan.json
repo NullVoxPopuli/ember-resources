@@ -5,8 +5,8 @@
     },
     "ember-resources": {
       "impact": "patch",
-      "oldVersion": "7.0.5",
-      "newVersion": "7.0.6",
+      "oldVersion": "7.0.6",
+      "newVersion": "7.0.7",
       "tagName": "latest",
       "constraints": [
         {
@@ -17,5 +17,5 @@
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2025-06-22)\n\n* ember-resources 7.0.6 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1199](https://github.com/NullVoxPopuli/ember-resources/pull/1199) Revert \"de-mystify resource internals\" ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2025-08-23)\n\n* ember-resources 7.0.7 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1204](https://github.com/NullVoxPopuli/ember-resources/pull/1204) Support named args for `resourceFactory()` ([@gossi](https://github.com/gossi))\n\n#### Committers: 1\n- Thomas Gossmann ([@gossi](https://github.com/gossi))\n"
 }

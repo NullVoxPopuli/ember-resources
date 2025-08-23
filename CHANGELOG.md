@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-08-23)
+
+* ember-resources 7.0.7 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1204](https://github.com/NullVoxPopuli/ember-resources/pull/1204) Support named args for `resourceFactory()` ([@gossi](https://github.com/gossi))
+
+#### Committers: 1
+- Thomas Gossmann ([@gossi](https://github.com/gossi))
+
 ## Release (2025-06-22)
 
 * ember-resources 7.0.6 (patch)
