@@ -93,11 +93,6 @@ module('Utils | (function) resource | rendering', function (hooks) {
           {{#let (resWithNamedArgs givenName="Luke" familyName="Skywalker") as |out|}}
             <output name="givenName">{{out.givenName}}</output>
             <output name="familyName">{{out.familyName}}</output>
-
-            {{! funnily that each did not work}}
-            {{!-- {{#each out as |key value|}}
-              <output name={{key}}>{{value}}</output>
-            {{/each}} --}}
           {{/let}}
         </template>);
 
