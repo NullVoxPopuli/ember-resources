@@ -36,7 +36,7 @@ class ResourceInvokerManager {
      * change.
      */
     const cache: State['cache'] = createCache(() => {
-      let resource = fn(...args.positional) as object;
+      let resource = fn(...[...args.positional, args.named]) as object;
 
       setOwner(resource, this.owner);
 

@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
 
-import { cell,resource, use } from 'ember-resources';
+import { cell, resource, resourceFactory, use } from 'ember-resources';
 
 import type Owner from '@ember/owner';
 
@@ -42,7 +42,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         // reminder that destruction is async
         let steps: string[] = [];
@@ -82,6 +82,24 @@ module('Utils | (function) resource | rendering', function (hooks) {
         assert.verifySteps(steps);
       });
 
+      test('with named args', async function (assert) {
+        const resWithNamedArgs = resourceFactory((options) =>
+          resource(() => {
+            return options;
+          })
+        );
+
+        await render(<template>
+          {{#let (resWithNamedArgs givenName="Luke" familyName="Skywalker") as |out|}}
+            <output name="givenName">{{out.givenName}}</output>
+            <output name="familyName">{{out.familyName}}</output>
+          {{/let}}
+        </template>);
+
+        assert.dom('output[name="givenName"]').hasText('Luke');
+        assert.dom('output[name="familyName"]').hasText('Skywalker');
+      });
+
       test('with separate tracking frame', async function (assert) {
         class Test {
           @tracked num = 0;
@@ -89,7 +107,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         // reminder that destruction is async
         let steps: string[] = [];
@@ -140,7 +158,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
         let inc = 0;
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         let theResource = resource(({ on }) => {
           let i = inc;
@@ -188,7 +206,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         let theResource = resource(({ on }) => {
           let i = foo.num;
@@ -236,7 +254,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         let theResource = (_num: number) =>
           resource(({ on }) => {
@@ -304,7 +322,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         await render(<template><out>{{foo.theResource}}</out></template>);
 
@@ -349,7 +367,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         await render(<template>
           {{#if foo.show}}
@@ -407,7 +425,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         let foo = new Test();
 
-    setOwner(foo, this.owner);
+        setOwner(foo, this.owner);
 
         await render(<template>
           {{#if foo.show}}
@@ -458,7 +476,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
       let foo = new Test();
 
-    setOwner(foo, this.owner);
+      setOwner(foo, this.owner);
 
       await render(<template>
         {{#let (Wrapper foo.num) as |state|}}
@@ -517,7 +535,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
       let testData = new Test();
 
-    setOwner(testData, this.owner);
+      setOwner(testData, this.owner);
 
       setOwner(testData, this.owner);
 
