@@ -1,0 +1,6 @@
+# Unlabeled Changes
+
+* [#1208](https://github.com/NullVoxPopuli/ember-resources/pull/1208) docs(contributor): contributors readme action update ([@github-actions[bot]](https://github.com/apps/github-actions))
+
+
+*Cannot plan release until the above changes are labeled*.
