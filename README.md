@@ -57,6 +57,10 @@ Which comes from [this branch][self-dist] from [this automation][self-dist-ci]
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
+## Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
 
 ## License
 
