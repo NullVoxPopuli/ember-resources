@@ -3,7 +3,7 @@
 
 
 
--[7.0](#7.0)
+- [7.0](#7.0)
 - [5.0](#5.0)
   - [tl;dr](#tldr)
   - [Overview](#overview)
@@ -35,7 +35,52 @@ The source for the codemod is [here](https://github.com/NullVoxPopuli/ember-reso
 
 
 
-- Class-based resource implementation moved to [ember-modify-based-class-resource](https://github.com/NullVoxPopuli/ember-modify-based-class-resource/) 
+- Class-based resource implementation moved to [ember-modify-based-class-resource](https://github.com/NullVoxPopuli/ember-modify-based-class-resource/)
+
+  <details><summary>How to use class-based state in a resource</summary>
+
+    See discussion from: https://github.com/NullVoxPopuli/ember-resources/issues/707#issuecomment-1355189452
+    
+    ```js
+    import { use, resource } from 'ember-resources';
+    
+    class MyDoubler {
+        constructor(inputFn) { this.inputFn = inputFn; }
+        
+        get num() {
+          return this.inputFn() * 2;
+        }
+        
+        // not required, if you don't want
+        destroy() {}
+    }
+    
+    function Doubler(inputFn) {
+      let state = new MyDoubler(inputFn);
+      
+      return resource(({ on, owner }) => {
+        setOwner(state, owner);
+        
+        // not required if you don't want
+        on.cleanup(() => state.destroy());
+    
+        return state;
+      });
+    }
+    
+    class Demo {
+      @tracked something = 3;
+        
+      @use doubler = Doubler(() => this.something);
+      
+      get theValue() {
+        return this.doubler.num; // 6
+      }
+    }
+    ```
+
+  </details>
+  
 - Other utilities moved to [https://reactive.nullvoxpopuli.com/](https://reactive.nullvoxpopuli.com/)
     - everything under `ember-resources/util`
     - `ember-resources/modifier`
