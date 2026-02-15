@@ -19,18 +19,18 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.19.1",
-    "@nullvoxpopuli/eslint-configs": "^3.2.0",
+    "@nullvoxpopuli/eslint-configs": "^5.0.0",
     "@tsconfig/node22": "^22.0.0",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/node": "^22.5.4",
+    "@types/node": "^24.0.0",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.35.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^10.0.0",
     "prettier": "^3.1.1",
     "typescript": "~5.5.0",
-    "vitest": "^2.0.5"
+    "vitest": "^4.0.0"
   },
   "dependencies": {
     "find-up": "^7.0.0",
