@@ -16,11 +16,11 @@
     "reroll-lockfile": "git rm -f '**/pnpm-lock.yaml'; pnpm i"
   },
   "devDependencies": {
-    "@nullvoxpopuli/eslint-configs": "^3.2.0",
+    "@nullvoxpopuli/eslint-configs": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",
-    "concurrently": "^8.0.0",
-    "eslint": "^8.35.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^10.0.0",
     "loader.js": "^4.7.0",
     "prettier": "^3.1.1",
     "release-plan": "^0.16.0",
