@@ -7,7 +7,7 @@
     "filesize": "^10.0.0",
     "globby": "^14.0.0",
     "gzip-cli": "^1.2.0",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "terser": "^5.12.1",
     "tmp-promise": "^3.0.3",
     "yaml": "2.4.5"
