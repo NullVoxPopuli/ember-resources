@@ -5,17 +5,17 @@
     },
     "ember-resources": {
       "impact": "patch",
-      "oldVersion": "7.0.6",
-      "newVersion": "7.0.7",
+      "oldVersion": "7.0.7",
+      "newVersion": "7.0.8",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./ember-resources/package.json"
     }
   },
-  "description": "## Release (2025-08-23)\n\n* ember-resources 7.0.7 (patch)\n\n#### :bug: Bug Fix\n* `ember-resources`\n  * [#1204](https://github.com/NullVoxPopuli/ember-resources/pull/1204) Support named args for `resourceFactory()` ([@gossi](https://github.com/gossi))\n\n#### Committers: 1\n- Thomas Gossmann ([@gossi](https://github.com/gossi))\n"
+  "description": "## Release (2026-06-09)\n\n* ember-resources 7.0.8 (patch)\n\n#### :house: Internal\n* Other\n  * [#1216](https://github.com/NullVoxPopuli/ember-resources/pull/1216) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n* `ember-resources`\n  * [#1215](https://github.com/NullVoxPopuli/ember-resources/pull/1215) Revert \"Prepare Release\" ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
