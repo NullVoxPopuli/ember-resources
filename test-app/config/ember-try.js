@@ -51,7 +51,7 @@ module.exports = async function () {
   };
 
   const ember7Deps = {
-    ...ember7Deps,
+    ...ember6Deps,
     'ember-cli': '^7.0.0',
   };
 
