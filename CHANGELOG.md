@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2026-06-09)
+
+* ember-resources 7.0.8 (patch)
+
+#### :house: Internal
+* Other
+  * [#1216](https://github.com/NullVoxPopuli/ember-resources/pull/1216) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* `ember-resources`
+  * [#1215](https://github.com/NullVoxPopuli/ember-resources/pull/1215) Revert "Prepare Release" ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-08-23)
 
 * ember-resources 7.0.7 (patch)
