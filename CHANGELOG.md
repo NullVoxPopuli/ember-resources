@@ -1,5 +1,21 @@
 # Changelog
 
+## Release (2026-06-09)
+
+* ember-resources 7.0.8 (patch)
+
+#### :bug: Bug Fix
+* `ember-resources`
+  * [#1213](https://github.com/NullVoxPopuli/ember-resources/pull/1213) Remove macros from dependencies and make @glint/template an optional peer ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#1212](https://github.com/NullVoxPopuli/ember-resources/pull/1212) Add context7.json with URL and public key ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* [#1208](https://github.com/NullVoxPopuli/ember-resources/pull/1208) docs(contributor): contributors readme action update ([@github-actions[bot]](https://github.com/apps/github-actions))
+
+#### Committers: 2
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
 ## Release (2025-08-23)
 
 * ember-resources 7.0.7 (patch)
