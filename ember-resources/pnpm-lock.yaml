@@ -17,9 +17,6 @@ importers:
       '@embroider/addon-shim':
         specifier: ^1.2.0
         version: 1.8.9
-      '@embroider/macros':
-        specifier: ^1.12.3
-        version: 1.16.9(@glint/template@1.5.0)
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.15.0
@@ -48,6 +45,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.17.12
         version: 7.25.7(@babel/core@7.24.7)
+      '@embroider/macros':
+        specifier: ^1.12.3
+        version: 1.16.9(@glint/template@1.5.0)
       '@glimmer/component':
         specifier: ^1.1.2
         version: 1.1.2(@babel/core@7.24.7)
