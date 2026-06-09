@@ -50,6 +50,11 @@ module.exports = async function () {
     typescript: '^5.7.0',
   };
 
+  const ember7Deps = {
+    ...ember6Deps,
+    'ember-cli': '^7.0.0',
+  };
+
   return {
     usePnpm: true,
     scenarios: [
@@ -135,10 +140,19 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-release',
+        name: 'ember-6.12',
         npm: {
           devDependencies: {
             ...ember6Deps,
+            'ember-source': '~6.12.0',
+          },
+        },
+      },
+      {
+        name: 'ember-release',
+        npm: {
+          devDependencies: {
+            ...ember7Deps,
             'ember-source': await getChannelURL('release'),
           },
         },
@@ -147,7 +161,7 @@ module.exports = async function () {
         name: 'ember-beta',
         npm: {
           devDependencies: {
-            ...ember6Deps,
+            ...ember7Deps,
             'ember-source': await getChannelURL('beta'),
           },
         },
@@ -156,7 +170,7 @@ module.exports = async function () {
         name: 'ember-canary',
         npm: {
           devDependencies: {
-            ...ember6Deps,
+            ...ember7Deps,
             'ember-source': await getChannelURL('canary'),
           },
         },
@@ -164,7 +178,7 @@ module.exports = async function () {
       embroiderSafe({
         npm: {
           devDependencies: {
-            ...ember6Deps,
+            ...ember7Deps,
             'ember-source': await getChannelURL('release'),
           },
         },
@@ -172,7 +186,7 @@ module.exports = async function () {
       embroiderOptimized({
         npm: {
           devDependencies: {
-            ...ember6Deps,
+            ...ember7Deps,
             'ember-source': await getChannelURL('release'),
           },
         },
