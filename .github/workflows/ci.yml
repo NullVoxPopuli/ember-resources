@@ -10,8 +10,8 @@ on:
     types: [checks_requested]
 
 concurrency:
-   group: ci-${{ github.head_ref || github.ref }}
-   cancel-in-progress: true
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 env:
   CI: true
@@ -39,7 +39,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-
   build:
     name: Build Tests
     needs: [install_dependencies]
@@ -52,9 +51,8 @@ jobs:
           node-version: 18.18.1
       - uses: ./.github/actions/assert-build
 
-
   typecheck_legacy:
-    name: '${{ matrix.typescript-scenario }}'
+    name: "${{ matrix.typescript-scenario }}"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [build]
@@ -72,29 +70,29 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 18.18.1
-      - name: 'Build'
+      - name: "Build"
         run: pnpm build
-      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
-        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+      - name: "Change TS to ${{ matrix.typescript-scenario }}"
+        run: "pnpm add --save-dev ${{ matrix.typescript-scenario}}"
         working-directory: ./test-app
 
       # This has been really annoying
       # due to injected dependencies :(
-      - name: 'Re-sync injected dependencies'
+      - name: "Re-sync injected dependencies"
         run: pnpm i -f
-      - name: 'Print Versions'
+      - name: "Print Versions"
         run: |
           pnpm --filter "test-app*" exec tsc -v;
           pnpm --filter "test-app*" exec glint --version;
 
-      - name: 'Type checking (built in types)'
+      - name: "Type checking (built in types)"
         run: pnpm --filter "test-app-old-ts" exec glint;
 
       # - name: 'Type checking (DefinitelyTyped types)'
       #   run: pnpm --filter "test-app-definitely-typed" exec glint;
 
   typecheck:
-    name: '${{ matrix.typescript-scenario }}'
+    name: "${{ matrix.typescript-scenario }}"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [build]
@@ -116,25 +114,25 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 18.18.1
-      - name: 'Build'
+      - name: "Build"
         run: pnpm build
-      - name: 'Change TS to ${{ matrix.typescript-scenario }}'
-        run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
+      - name: "Change TS to ${{ matrix.typescript-scenario }}"
+        run: "pnpm add --save-dev ${{ matrix.typescript-scenario}}"
         working-directory: ./test-app
 
       # This has been really annoying
       # due to injected dependencies :(
-      - name: 'Re-sync injected dependencies'
+      - name: "Re-sync injected dependencies"
         run: pnpm i -f
-      - name: 'Print Versions'
+      - name: "Print Versions"
         run: |
           pnpm --filter "test-app*" exec tsc -v;
           pnpm --filter "test-app*" exec glint --version;
 
-      - name: 'Type checking (built in types)'
+      - name: "Type checking (built in types)"
         run: pnpm --filter "test-app" exec glint;
 
-      - name: 'Type checking (DefinitelyTyped types)'
+      - name: "Type checking (DefinitelyTyped types)"
         run: pnpm --filter "test-app-definitely-typed" exec glint;
 
   default_tests:
@@ -158,7 +156,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: wyvox/action-setup-pnpm@v3
-      - run: pnpm vitest 
+      - run: pnpm vitest
         working-directory: ./codemod
 
   floating_tests:
@@ -171,11 +169,10 @@ jobs:
       - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: 18.18.1
-          args: '--no-lockfile' 
+          args: "--no-lockfile"
       - uses: ./.github/actions/download-built-package
       - run: pnpm i -f
       - run: pnpm --filter test-app test:ember
-
 
   try_scenarios:
     name: ${{ matrix.try-scenario }}
@@ -196,6 +193,7 @@ jobs:
           - ember-5.8
           - ember-5.12
           - ember-6.4
+          - ember-6.12
           - ember-release
           - embroider-safe
           - embroider-optimized
@@ -231,4 +229,3 @@ jobs:
         with:
           header: asset-sizes
           path: ./dev/estimate-bytes/comment.txt
-
