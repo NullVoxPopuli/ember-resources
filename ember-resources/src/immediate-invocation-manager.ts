@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy } from '@ember/destroyable';
 // @ts-ignore
 import { capabilities as helperCapabilities, invokeHelper, setHelperManager } from '@ember/helper';
+import { setOwner } from '@ember/owner';
 
 import type { resource } from './resource.ts';
 import type Owner from '@ember/owner';
@@ -14,10 +15,6 @@ type ResourceFactory<Value = any, Args = any> = (...args: SpreadFor<Args>) => Va
 interface State {
   cache: ReturnType<typeof invokeHelper>;
 }
-
-import { compatOwner } from './ember-compat.ts';
-
-const setOwner = compatOwner.setOwner;
 
 class ResourceInvokerManager {
   capabilities = helperCapabilities('3.23', {
