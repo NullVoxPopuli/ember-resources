@@ -1,4 +1,4 @@
-import { dependencySatisfies, importSync, macroCondition } from '@embroider/macros';
+import { appEmberSatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import type Owner from '@ember/owner';
 
@@ -9,7 +9,7 @@ interface CompatOwner {
 
 export const compatOwner = {} as CompatOwner;
 
-if (macroCondition(dependencySatisfies('ember-source', '>=4.12.0'))) {
+if (macroCondition(appEmberSatisfies('>=4.12.0'))) {
   // In no version of ember where `@ember/owner` tried to be imported did it exist
   // if (macroCondition(false)) {
   // Using 'any' here because importSync can't lookup types correctly
