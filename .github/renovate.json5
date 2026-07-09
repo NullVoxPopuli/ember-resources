@@ -6,7 +6,7 @@
   ],
   "packageRules": [
     {
-      "matchPaths": ["test-app/package.json"],
+      "matchPaths": ["test-app/embroider3-webpack/package.json"],
       "enabled": false
     }
   ]

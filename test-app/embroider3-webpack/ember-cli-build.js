@@ -9,7 +9,7 @@ module.exports = function (defaults) {
   const sideWatch = require('@embroider/broccoli-side-watch');
   let app = new EmberApp(defaults, {
     trees: {
-      app: sideWatch('app', { watching: [path.join(__dirname, '../ember-resources')] }),
+      app: sideWatch('app', { watching: [path.join(__dirname, '../../ember-resources')] }),
     },
     // Add options here
     autoImport: {
@@ -37,6 +37,12 @@ module.exports = function (defaults) {
   const { Webpack } = require('@embroider/webpack');
 
   return require('@embroider/compat').compatBuild(app, Webpack, {
+    staticAddonTestSupportTrees: true,
+    staticAddonTrees: true,
+    staticHelpers: true,
+    staticModifiers: true,
+    staticComponents: true,
+    staticEmberSource: true,
     packageRules: [
       {
         package: 'test-app',
