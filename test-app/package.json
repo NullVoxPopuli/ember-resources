@@ -39,7 +39,7 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^7.29.6",
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
