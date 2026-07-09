@@ -1,6 +1,5 @@
 'use strict';
 
-const getChannelURL = require('ember-source-channel-url');
 const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
@@ -48,6 +47,18 @@ module.exports = async function () {
     'ember-load-initializers': '^3.0.1',
     'ember-resolver': '^13.1.0',
     typescript: '^5.7.0',
+  };
+
+  // we make changes here due to deprecations that were added
+  // in preparation for v7
+  const ember6_12Deps = {
+    ...ember6Deps,
+    '@glimmer/component': '^2.1.1',
+    '@ember/test-waiters': '^4.1.2',
+    '@ember/test-helpers': '^5.4.3',
+    'ember-cli': '^6.12.0',
+    'ember-resolver': '^13.2.0',
+    'ember-qunit': '^9.1.0',
   };
 
   return {
@@ -135,45 +146,33 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-release',
+        name: 'ember-6.12',
         npm: {
           devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
           },
         },
       },
-      {
-        name: 'ember-beta',
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('beta'),
-          },
-        },
-      },
-      {
-        name: 'ember-canary',
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('canary'),
-          },
-        },
-      },
+      /**
+       * there are enough buid differents with ember 7 recommended setup,
+       * where I just opeted to have a separate test-app.
+       * So these scenarios do not test "ember-release" as the original
+       * blueprint had us doing.
+       */
       embroiderSafe({
         npm: {
           devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
           },
         },
       }),
       embroiderOptimized({
         npm: {
           devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
           },
         },
       }),
