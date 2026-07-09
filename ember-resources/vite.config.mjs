@@ -37,6 +37,7 @@ export default defineConfig({
         '@ember/owner',
         '@ember/debug',
         '@ember/destroyable',
+        '@embroider/macros',
         '@glimmer/tracking',
         '@glimmer/tracking/primitives/cache',
         '@glint/template',

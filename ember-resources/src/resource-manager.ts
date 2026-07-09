@@ -6,9 +6,9 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { invokeHelper } from '@ember/helper';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
-import { setOwner } from '@ember/owner';
 
 import { ReadonlyCell } from './cell.ts';
+import { compatOwner } from './ember-compat.ts';
 import { CURRENT, INTERNAL } from './types.ts';
 
 import type {
@@ -18,6 +18,8 @@ import type {
   ResourceFunction,
 } from './types.ts';
 import type Owner from '@ember/owner';
+
+const setOwner = compatOwner.setOwner;
 
 /**
  * Note, a function-resource receives on object, hooks.

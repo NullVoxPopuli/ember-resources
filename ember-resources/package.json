@@ -47,7 +47,8 @@
     "prepack": "pnpm run build"
   },
   "dependencies": {
-    "@embroider/addon-shim": "^1.2.0"
+    "@embroider/addon-shim": "^1.2.0",
+    "@embroider/macros": "^1.19.0"
   },
   "peerDependencies": {
     "@glimmer/component": ">= 1.1.2 || >= 2.0.0",
