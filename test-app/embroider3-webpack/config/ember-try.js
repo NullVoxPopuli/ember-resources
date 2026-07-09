@@ -1,7 +1,5 @@
 'use strict';
 
-const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
-
 module.exports = async function () {
   const ember3Deps = {
     'ember-maybe-import-regenerator': '^1.0.0',
@@ -152,30 +150,12 @@ module.exports = async function () {
             ...ember6_12Deps,
             'ember-source': '~6.12.0',
           },
+          overrides: {
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
+          },
         },
       },
-      /**
-       * there are enough buid differents with ember 7 recommended setup,
-       * where I just opeted to have a separate test-app.
-       * So these scenarios do not test "ember-release" as the original
-       * blueprint had us doing.
-       */
-      embroiderSafe({
-        npm: {
-          devDependencies: {
-            ...ember6_12Deps,
-            'ember-source': '~6.12.0',
-          },
-        },
-      }),
-      embroiderOptimized({
-        npm: {
-          devDependencies: {
-            ...ember6_12Deps,
-            'ember-source': '~6.12.0',
-          },
-        },
-      }),
     ],
   };
 };
