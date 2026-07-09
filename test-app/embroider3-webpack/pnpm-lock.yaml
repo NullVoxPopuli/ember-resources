@@ -37,7 +37,7 @@ importers:
         version: 2.1.2(ember-source@5.12.0(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)(rsvp@4.8.5)(webpack@5.89.0))
       ember-resources:
         specifier: workspace:*
-        version: file:../ember-resources(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)
+        version: file:../../ember-resources(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2)
       tracked-built-ins:
         specifier: ^3.1.0
         version: 3.3.0
@@ -3681,8 +3681,8 @@ packages:
       ember-source:
         optional: true
 
-  ember-resources@file:../ember-resources:
-    resolution: {directory: ../ember-resources, type: directory}
+  ember-resources@file:../../ember-resources:
+    resolution: {directory: ../../ember-resources, type: directory}
     peerDependencies:
       '@glimmer/component': '>= 1.1.2 || >= 2.0.0'
       '@glint/template': '>= 1.0.0'
@@ -13319,7 +13319,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-resources@file:../ember-resources(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2):
+  ember-resources@file:../../ember-resources(@babel/core@7.23.7)(@glimmer/component@1.1.2(@babel/core@7.23.7))(@glint/template@1.2.2):
     dependencies:
       '@embroider/addon-shim': 1.8.7
       '@embroider/macros': 1.20.5(@babel/core@7.23.7)(@glint/template@1.2.2)

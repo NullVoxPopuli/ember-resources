@@ -2,7 +2,5 @@ packages:
   - "ember-resources"
   - "codemod"
   - "docs"
-  - "test-app"
-  - "test-app-old-ts"
-  - "test-app-definitely-typed"
+  - "test-app/*"
   - "dev/*"

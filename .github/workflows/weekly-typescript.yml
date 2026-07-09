@@ -41,7 +41,7 @@ jobs:
       - run: pnpm i -f # just in case
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
-        working-directory: ./test-app
+        working-directory: ./test-app/embroider3-webpack
       - name: 'Type checking'
 
         run: |
