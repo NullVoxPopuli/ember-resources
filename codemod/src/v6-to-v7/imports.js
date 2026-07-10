@@ -5,7 +5,7 @@
 export function changeImportPaths(text, replacements) {
   let result = text;
 
-  for (let [before, after] of Object.entries(replacements)) {
+  for (const [before, after] of Object.entries(replacements)) {
     result = result.replaceAll(before, after);
   }
 
@@ -24,24 +24,24 @@ const importSuffix = (specifier) => new RegExp(`from ("|')${specifier}("|')`);
  * @param {string} newImportPath
  */
 export function changeNamedImport(text, name, importPath, newImportPath) {
-  let needsFixed = text.includes(importPath) && text.includes(name);
-  let suffixTest = importSuffix(importPath);
+  const needsFixed = text.includes(importPath) && text.includes(name);
+  const suffixTest = importSuffix(importPath);
 
   if (!needsFixed) {
     return text;
   }
 
-  let lines = text.split('\n');
-  let newLines = [];
+  const lines = text.split('\n');
+  const newLines = [];
 
-  for (let line of lines) {
+  for (const line of lines) {
     // empty line
     if (line.trim().length === 0) {
       newLines.push(line);
       continue;
     }
 
-    let foundImport = suffixTest.test(line);
+    const foundImport = suffixTest.test(line);
 
     if (!foundImport) {
       newLines.push(line);
@@ -64,12 +64,12 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
      * - on the same line
      * - on a separate line (above)
      */
-    let isSameLine = /import \{/.test(line);
+    const isSameLine = /import \{/.test(line);
     /** @type {string[]} */
     let imports = [];
 
     if (isSameLine) {
-      let importMatcher = line.match(/\{([^}]+)\}/);
+      const importMatcher = line.match(/\{([^}]+)\}/);
 
       imports =
         importMatcher?.[1]
@@ -80,24 +80,24 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
       /**
        * Go back until we find the import
        */
-      let lines = [];
+      const lines = [];
 
       while (newLines.length > 0) {
-        let last = newLines.pop();
+        const last = newLines.pop();
 
         if (last === undefined) break;
 
         lines.unshift(last);
 
-        let hasImport = /import \{/.test(last);
+        const hasImport = /import \{/.test(last);
 
         if (hasImport) {
           break;
         }
       }
 
-      let importLine = lines.join('') + line;
-      let importMatcher = importLine.match(/\{([^}]+)\}/);
+      const importLine = lines.join('') + line;
+      const importMatcher = importLine.match(/\{([^}]+)\}/);
 
       imports =
         importMatcher?.[1]
@@ -110,8 +110,8 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
       /**
        * We could have "Resource" or "type Resource"
        */
-      let toMove = imports.filter((x) => x.endsWith(name));
-      let toKeep = imports.filter((x) => !x.endsWith(name));
+      const toMove = imports.filter((x) => x.endsWith(name));
+      const toKeep = imports.filter((x) => !x.endsWith(name));
 
       if (toMove.length > 0) {
         newLines.push(`import { ${toMove.join(', ')} } from '${newImportPath}';`);
@@ -127,7 +127,7 @@ export function changeNamedImport(text, name, importPath, newImportPath) {
     newLines.push(line);
   }
 
-  let result = newLines.join('\n');
+  const result = newLines.join('\n');
 
   return result;
 }

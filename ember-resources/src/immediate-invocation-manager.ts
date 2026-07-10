@@ -36,11 +36,11 @@ class ResourceInvokerManager {
      * change.
      */
     const cache: State['cache'] = createCache(() => {
-      let resource = fn(...[...args.positional, args.named]) as object;
+      const resource = fn(...[...args.positional, args.named]) as object;
 
       setOwner(resource, this.owner);
 
-      let result = invokeHelper(cache, resource);
+      const result = invokeHelper(cache, resource);
 
       if (previous) {
         destroy(previous);
@@ -61,7 +61,7 @@ class ResourceInvokerManager {
    */
   getValue({ cache }: State) {
     // SAFETY: we have a nested cache here
-    let resource = getValue(cache) as ReturnType<typeof invokeHelper>;
+    const resource = getValue(cache) as ReturnType<typeof invokeHelper>;
 
     associateDestroyableChild(cache, resource);
 

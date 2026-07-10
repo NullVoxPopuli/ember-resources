@@ -39,7 +39,7 @@ export default async function migrateV6ToV7(paths) {
    * @param {string} str
    */
   function checkReactiveWeb(str) {
-    let result = changeImportPaths(str, reactiveWeb);
+    const result = changeImportPaths(str, reactiveWeb);
 
     if (str !== result) {
       needsReactiveWeb = true;
@@ -52,7 +52,7 @@ export default async function migrateV6ToV7(paths) {
    * @param {string} str
    */
   function checkInternal(str) {
-    let result = changeImportPaths(str, moves);
+    const result = changeImportPaths(str, moves);
 
     return result;
   }
@@ -97,7 +97,7 @@ export default async function migrateV6ToV7(paths) {
     // This is probably an error case, but hopefully it doesn't hapepn
     if (!manifestPath) return;
 
-    let existing = manifestChanges.get(manifestPath);
+    const existing = manifestChanges.get(manifestPath);
 
     if (!existing) {
       manifestChanges.set(manifestPath, [dep]);
@@ -108,11 +108,11 @@ export default async function migrateV6ToV7(paths) {
     existing.push(dep);
   }
 
-  for (let filePath of paths) {
+  for (const filePath of paths) {
     needsReactiveWeb = false;
     needsEmberModifyBasedClassResource = false;
 
-    let contents = await readFile(filePath);
+    const contents = await readFile(filePath);
 
     /**
      * Actual migration of files' contents is here
@@ -126,13 +126,13 @@ export default async function migrateV6ToV7(paths) {
      * Queue up changes to the package.json(s)
      */
     if (needsReactiveWeb) {
-      let manifestPath = await nearestPackageJsonPath(filePath);
+      const manifestPath = await nearestPackageJsonPath(filePath);
 
       addManifestChange(manifestPath, 'reactiveweb');
     }
 
     if (needsEmberModifyBasedClassResource) {
-      let manifestPath = await nearestPackageJsonPath(filePath);
+      const manifestPath = await nearestPackageJsonPath(filePath);
 
       addManifestChange(manifestPath, 'ember-modify-based-class-resource');
     }
@@ -152,13 +152,13 @@ export default async function migrateV6ToV7(paths) {
  * @param {Map<string, string[]>} manifestChanges
  */
 async function updatePackages(manifestChanges) {
-  for (let [manifestPath, deps] of manifestChanges.entries()) {
-    let str = await readFile(manifestPath);
-    let json = JSON.parse(str);
+  for (const [manifestPath, deps] of manifestChanges.entries()) {
+    const str = await readFile(manifestPath);
+    const json = JSON.parse(str);
 
     json.dependencies ||= {};
     deps.forEach((dep) => {
-      let version = VERSIONS[dep];
+      const version = VERSIONS[dep];
 
       assert(
         `${dep} is not a valid depenedncy for this migration. Available: ${Object.keys(VERSIONS)}`,
@@ -178,24 +178,26 @@ async function updatePackages(manifestChanges) {
     // Note that the min ember-source version is 3.28, and that support hasn't changed
     //
     // For v2 addons, none of the above is needed.
-    let isAddonProbably = json.keywords?.includes('ember-addon') || json['ember-addon'];
-    let isV2Addon = json['ember-addon']?.version >= 2;
-    let mayNeedBuildUpdates = !isAddonProbably || !isV2Addon;
-    let listOf = {
+    const isAddonProbably = json.keywords?.includes('ember-addon') || json['ember-addon'];
+    const isV2Addon = json['ember-addon']?.version >= 2;
+    const mayNeedBuildUpdates = !isAddonProbably || !isV2Addon;
+    const listOf = {
       devDeps: Object.keys(json.devDependencies || {}),
       deps: Object.keys(json.dependencies || {}),
       peers: Object.keys(json.peerDependencies || {}),
     };
 
     if (mayNeedBuildUpdates) {
-      for (let [requiredIfPresent, minVersion] of Object.entries(MINIMUM_REQUIREMENTS_IF_PRESENT)) {
+      for (const [requiredIfPresent, minVersion] of Object.entries(
+        MINIMUM_REQUIREMENTS_IF_PRESENT,
+      )) {
         if (listOf.deps.includes(requiredIfPresent)) {
-          let currentVersion = json.dependencies[requiredIfPresent];
-          let parsed = semver.coerce(currentVersion);
+          const currentVersion = json.dependencies[requiredIfPresent];
+          const parsed = semver.coerce(currentVersion);
 
           if (!parsed) continue;
 
-          let isSufficient = semver.gte(parsed, minVersion);
+          const isSufficient = semver.gte(parsed, minVersion);
 
           if (!isSufficient) {
             json.dependencies[requiredIfPresent] = `~${minVersion}`;
@@ -203,12 +205,12 @@ async function updatePackages(manifestChanges) {
         }
 
         if (listOf.devDeps.includes(requiredIfPresent)) {
-          let currentVersion = json.devDependencies[requiredIfPresent];
-          let parsed = semver.coerce(currentVersion);
+          const currentVersion = json.devDependencies[requiredIfPresent];
+          const parsed = semver.coerce(currentVersion);
 
           if (!parsed) continue;
 
-          let isSufficient = semver.gte(parsed, minVersion);
+          const isSufficient = semver.gte(parsed, minVersion);
 
           if (!isSufficient) {
             json.devDependencies[requiredIfPresent] = `~${minVersion}`;
@@ -238,7 +240,7 @@ async function updatePackages(manifestChanges) {
  * @param {string} filePath
  */
 async function readFile(filePath) {
-  let buffer = await fs.readFile(filePath);
+  const buffer = await fs.readFile(filePath);
 
   return buffer.toString();
 }

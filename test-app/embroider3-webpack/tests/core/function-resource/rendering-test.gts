@@ -61,7 +61,11 @@ module('Utils | (function) resource | rendering', function (hooks) {
           return num;
         });
 
-        await render(<template><out>{{theResource}}</out></template>);
+        await render(
+          <template>
+            <out>{{theResource}}</out>
+          </template>,
+        );
 
         assert.dom('out').containsText('0');
 
@@ -86,15 +90,17 @@ module('Utils | (function) resource | rendering', function (hooks) {
         const resWithNamedArgs = resourceFactory((options) =>
           resource(() => {
             return options;
-          })
+          }),
         );
 
-        await render(<template>
-          {{#let (resWithNamedArgs givenName="Luke" familyName="Skywalker") as |out|}}
-            <output name="givenName">{{out.givenName}}</output>
-            <output name="familyName">{{out.familyName}}</output>
-          {{/let}}
-        </template>);
+        await render(
+          <template>
+            {{#let (resWithNamedArgs givenName="Luke" familyName="Skywalker") as |out|}}
+              <output name="givenName">{{out.givenName}}</output>
+              <output name="familyName">{{out.familyName}}</output>
+            {{/let}}
+          </template>,
+        );
 
         assert.dom('output[name="givenName"]').hasText('Luke');
         assert.dom('output[name="familyName"]').hasText('Skywalker');
@@ -128,7 +134,11 @@ module('Utils | (function) resource | rendering', function (hooks) {
           };
         });
 
-        await render(<template><out>{{theResource}}</out></template>);
+        await render(
+          <template>
+            <out>{{theResource}}</out>
+          </template>,
+        );
 
         assert.dom('out').containsText('0');
 
@@ -170,11 +180,13 @@ module('Utils | (function) resource | rendering', function (hooks) {
           return 'a value!';
         });
 
-        await render(<template>
-          {{#if foo.show}}
-            <out>{{theResource}}</out>
-          {{/if}}
-        </template>);
+        await render(
+          <template>
+            {{#if foo.show}}
+              <out>{{theResource}}</out>
+            {{/if}}
+          </template>,
+        );
 
         assert.dom('out').exists();
 
@@ -194,7 +206,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         assert.verifySteps(
           ['resolve 0', 'destroy 0', 'resolve 2', 'destroy 2'],
-          `index 1 is skipped, because the resource was not invoked`
+          `index 1 is skipped, because the resource was not invoked`,
         );
       });
 
@@ -218,11 +230,13 @@ module('Utils | (function) resource | rendering', function (hooks) {
           return 'a value!';
         });
 
-        await render(<template>
-          {{#if foo.show}}
-            <out>{{theResource}}</out>
-          {{/if}}
-        </template>);
+        await render(
+          <template>
+            {{#if foo.show}}
+              <out>{{theResource}}</out>
+            {{/if}}
+          </template>,
+        );
 
         assert.dom('out').exists();
 
@@ -242,7 +256,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         assert.verifySteps(
           ['resolve 0', 'destroy 0', 'resolve 2', 'destroy 2'],
-          'index 1 is skipped, because the resource is not rendered'
+          'index 1 is skipped, because the resource is not rendered',
         );
       });
 
@@ -267,13 +281,15 @@ module('Utils | (function) resource | rendering', function (hooks) {
             return 'a value!';
           });
 
-        await render(<template>
-          {{#if foo.show}}
-            {{#let (theResource foo.num) as |value|}}
-              <out>{{value}}</out>
-            {{/let}}
-          {{/if}}
-        </template>);
+        await render(
+          <template>
+            {{#if foo.show}}
+              {{#let (theResource foo.num) as |value|}}
+                <out>{{value}}</out>
+              {{/let}}
+            {{/if}}
+          </template>,
+        );
 
         assert.dom('out').exists();
 
@@ -293,7 +309,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         assert.verifySteps(
           ['resolve 0', 'destroy 0', 'resolve 2', 'destroy 2'],
-          'resources do not take arguments, so they would not be invalidated -- but hiding and showing still re-mounts and destroys the resource'
+          'resources do not take arguments, so they would not be invalidated -- but hiding and showing still re-mounts and destroys the resource',
         );
       });
     });
@@ -324,7 +340,11 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         setOwner(foo, this.owner);
 
-        await render(<template><out>{{foo.theResource}}</out></template>);
+        await render(
+          <template>
+            <out>{{foo.theResource}}</out>
+          </template>,
+        );
 
         assert.dom('out').containsText('0');
 
@@ -369,11 +389,13 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         setOwner(foo, this.owner);
 
-        await render(<template>
-          {{#if foo.show}}
-            <out>{{foo.theResource}}</out>
-          {{/if}}
-        </template>);
+        await render(
+          <template>
+            {{#if foo.show}}
+              <out>{{foo.theResource}}</out>
+            {{/if}}
+          </template>,
+        );
 
         assert.dom('out').exists();
 
@@ -391,7 +413,7 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         assert.verifySteps(
           ['resolve 0'],
-          `index 1  and 2 are skipped, because the resource was not invoked with tracked data`
+          `index 1  and 2 are skipped, because the resource was not invoked with tracked data`,
         );
 
         await clearRender();
@@ -427,11 +449,13 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
         setOwner(foo, this.owner);
 
-        await render(<template>
-          {{#if foo.show}}
-            <out>{{foo.theResource}}</out>
-          {{/if}}
-        </template>);
+        await render(
+          <template>
+            {{#if foo.show}}
+              <out>{{foo.theResource}}</out>
+            {{/if}}
+          </template>,
+        );
 
         assert.dom('out').exists();
 
@@ -478,11 +502,13 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
       setOwner(foo, this.owner);
 
-      await render(<template>
-        {{#let (Wrapper foo.num) as |state|}}
-          <out>{{state}}</out>
-        {{/let}}
-      </template>);
+      await render(
+        <template>
+          {{#let (Wrapper foo.num) as |state|}}
+            <out>{{state}}</out>
+          {{/let}}
+        </template>,
+      );
 
       assert.dom('out').containsText('1');
 
@@ -539,7 +565,11 @@ module('Utils | (function) resource | rendering', function (hooks) {
 
       setOwner(testData, this.owner);
 
-      await render(<template><out>{{testData.data}}</out></template>);
+      await render(
+        <template>
+          <out>{{testData.data}}</out>
+        </template>,
+      );
 
       assert.dom('out').containsText('1');
 

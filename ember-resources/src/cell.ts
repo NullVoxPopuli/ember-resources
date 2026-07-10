@@ -133,7 +133,7 @@ export class Cell<Value = unknown> implements Reactive<Value> {
  */
 export function cell<Value = unknown>(initialValue?: Value): Cell<Value> {
   if (initialValue !== undefined) {
-    return new Cell(initialValue as Value);
+    return new Cell(initialValue);
   }
 
   return new Cell();
@@ -144,7 +144,7 @@ import { capabilities as helperCapabilities, setHelperManager } from '@ember/hel
 
 import { CURRENT } from './types.ts';
 
-import type { GlintRenderable, Reactive } from './types.ts';
+import type { Reactive } from './types.ts';
 
 class CellManager {
   capabilities = helperCapabilities('3.23', {

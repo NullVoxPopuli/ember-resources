@@ -5,7 +5,7 @@ import { emberModifyBasedClassResource, moves, reactiveWeb } from './replacement
 
 describe('reactiveWeb', () => {
   test('all at once', () => {
-    let text = `
+    const text = `
       import { link } from 'ember-resources/link';
       import { modifier } from 'ember-resources/modifier';
       import { service } from 'ember-resources/service';
@@ -27,46 +27,46 @@ describe('reactiveWeb', () => {
       }
     `;
 
-    for (let original of Object.keys(reactiveWeb)) {
+    for (const original of Object.keys(reactiveWeb)) {
       expect(text).toContain(original);
     }
 
-    let fixed = changeImportPaths(text, reactiveWeb);
+    const fixed = changeImportPaths(text, reactiveWeb);
 
-    for (let original of Object.keys(reactiveWeb)) {
+    for (const original of Object.keys(reactiveWeb)) {
       expect(fixed).not.toContain(original);
     }
 
-    for (let replacement of Object.values(reactiveWeb)) {
+    for (const replacement of Object.values(reactiveWeb)) {
       expect(fixed).toContain(replacement);
     }
   });
 
-  for (let [original, replacement] of Object.entries(reactiveWeb)) {
+  for (const [original, replacement] of Object.entries(reactiveWeb)) {
     test(`${original}, only`, () => {
-      let text = `import { /* ... */ } from '${original}';`;
+      const text = `import { /* ... */ } from '${original}';`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, reactiveWeb);
+      const fixed = changeImportPaths(text, reactiveWeb);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, double quotes`, () => {
-      let text = `import { /* ... */ } from "${original}";`;
+      const text = `import { /* ... */ } from "${original}";`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, reactiveWeb);
+      const fixed = changeImportPaths(text, reactiveWeb);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, with other imports`, () => {
-      let text = `
+      const text = `
         import { /* ... */ } from '${original}';
         import { tracked } from '@glimmer/tracking';
         import Component from '@glimmer/component';
@@ -79,7 +79,7 @@ describe('reactiveWeb', () => {
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, reactiveWeb);
+      const fixed = changeImportPaths(text, reactiveWeb);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
@@ -89,7 +89,7 @@ describe('reactiveWeb', () => {
 
 describe('moves', () => {
   test('all at once', () => {
-    let text = `
+    const text = `
       import { cell } from 'ember-resources/util/cell';
       import { resource } from 'ember-resources/core/function-based';
       import { use, resource, Resource } from 'ember-resources/core';
@@ -103,46 +103,46 @@ describe('moves', () => {
       }
     `;
 
-    for (let original of Object.keys(moves)) {
+    for (const original of Object.keys(moves)) {
       expect(text).toContain(original);
     }
 
-    let fixed = changeImportPaths(text, moves);
+    const fixed = changeImportPaths(text, moves);
 
-    for (let original of Object.keys(moves)) {
+    for (const original of Object.keys(moves)) {
       expect(fixed).not.toContain(original);
     }
 
-    for (let replacement of Object.values(moves)) {
+    for (const replacement of Object.values(moves)) {
       expect(fixed).toContain(replacement);
     }
   });
 
-  for (let [original, replacement] of Object.entries(moves)) {
+  for (const [original, replacement] of Object.entries(moves)) {
     test(`${original}, only`, () => {
-      let text = `import { /* ... */ } from '${original}';`;
+      const text = `import { /* ... */ } from '${original}';`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, moves);
+      const fixed = changeImportPaths(text, moves);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, double quotes`, () => {
-      let text = `import { /* ... */ } from "${original}";`;
+      const text = `import { /* ... */ } from "${original}";`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, moves);
+      const fixed = changeImportPaths(text, moves);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, with other imports`, () => {
-      let text = `
+      const text = `
         import { /* ... */ } from '${original}';
         import { tracked } from '@glimmer/tracking';
         import Component from '@glimmer/component';
@@ -155,7 +155,7 @@ describe('moves', () => {
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, moves);
+      const fixed = changeImportPaths(text, moves);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
@@ -165,7 +165,7 @@ describe('moves', () => {
 
 describe('emberModifyBasedClassResource', () => {
   test('all at once', () => {
-    let text = `
+    const text = `
       import { Resource } from 'ember-resources/core/class-based';
 
       import { tracked } from '@glimmer/tracking';
@@ -177,46 +177,46 @@ describe('emberModifyBasedClassResource', () => {
       }
     `;
 
-    for (let original of Object.keys(emberModifyBasedClassResource)) {
+    for (const original of Object.keys(emberModifyBasedClassResource)) {
       expect(text).toContain(original);
     }
 
-    let fixed = changeImportPaths(text, emberModifyBasedClassResource);
+    const fixed = changeImportPaths(text, emberModifyBasedClassResource);
 
-    for (let original of Object.keys(emberModifyBasedClassResource)) {
+    for (const original of Object.keys(emberModifyBasedClassResource)) {
       expect(fixed).not.toContain(original);
     }
 
-    for (let replacement of Object.values(emberModifyBasedClassResource)) {
+    for (const replacement of Object.values(emberModifyBasedClassResource)) {
       expect(fixed).toContain(replacement);
     }
   });
 
-  for (let [original, replacement] of Object.entries(emberModifyBasedClassResource)) {
+  for (const [original, replacement] of Object.entries(emberModifyBasedClassResource)) {
     test(`${original}, only`, () => {
-      let text = `import { /* ... */ } from '${original}';`;
+      const text = `import { /* ... */ } from '${original}';`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, emberModifyBasedClassResource);
+      const fixed = changeImportPaths(text, emberModifyBasedClassResource);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, double quotes`, () => {
-      let text = `import { /* ... */ } from "${original}";`;
+      const text = `import { /* ... */ } from "${original}";`;
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, emberModifyBasedClassResource);
+      const fixed = changeImportPaths(text, emberModifyBasedClassResource);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);
     });
 
     test(`${original}, with other imports`, () => {
-      let text = `
+      const text = `
         import { /* ... */ } from '${original}';
         import { tracked } from '@glimmer/tracking';
         import Component from '@glimmer/component';
@@ -229,7 +229,7 @@ describe('emberModifyBasedClassResource', () => {
 
       expect(text).toContain(original);
 
-      let fixed = changeImportPaths(text, emberModifyBasedClassResource);
+      const fixed = changeImportPaths(text, emberModifyBasedClassResource);
 
       expect(fixed).not.toContain(original);
       expect(fixed).toContain(replacement);

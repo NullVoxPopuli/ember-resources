@@ -41,7 +41,11 @@ module('Core | (function) resource | use | rendering', function (hooks) {
       return () => format(time);
     });
 
-    await render(<template><time>{{Stopwatch}}</time></template>);
+    await render(
+      <template>
+        <time>{{Stopwatch}}</time>
+      </template>,
+    );
 
     let first = formatter.format(Date.now());
 
@@ -113,7 +117,7 @@ module('Core | (function) resource | use | rendering', function (hooks) {
         on.cleanup(() => clearInterval(timer));
 
         return () => now.current;
-      })
+      }),
     );
 
     const Stopwatch = resourceFactory((ms = 500) =>
@@ -121,10 +125,14 @@ module('Core | (function) resource | use | rendering', function (hooks) {
         let time = use(Now(ms));
 
         return () => format(time);
-      })
+      }),
     );
 
-    await render(<template><time>{{Stopwatch 250}}</time></template>);
+    await render(
+      <template>
+        <time>{{Stopwatch 250}}</time>
+      </template>,
+    );
 
     let first = formatter.format(Date.now());
 
@@ -207,11 +215,15 @@ module('Core | (function) resource | use | rendering', function (hooks) {
       };
     });
 
-    await render(<template><div>{{Inner}}</div></template>);
+    await render(
+      <template>
+        <div>{{Inner}}</div>
+      </template>,
+    );
 
     assert.verifySteps(
       ['Inner:setup 0', 'Outer:setup 0', 'Outer:value:0', 'Inner:value:0'],
-      'initial setup'
+      'initial setup',
     );
 
     state.value++;
@@ -219,7 +231,7 @@ module('Core | (function) resource | use | rendering', function (hooks) {
     await rerender();
     assert.verifySteps(
       ['Outer:value:1', 'Inner:value:1'],
-      'no cleanup or re-setup is needed, only the values are re-evaluated'
+      'no cleanup or re-setup is needed, only the values are re-evaluated',
     );
 
     state.innerValue++;
@@ -234,7 +246,7 @@ module('Core | (function) resource | use | rendering', function (hooks) {
         'Outer:cleanup 0',
         'Inner:cleanup 0',
       ],
-      'outer is re-setup'
+      'outer is re-setup',
     );
 
     state.value++;

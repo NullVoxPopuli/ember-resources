@@ -16,7 +16,7 @@ import migrateV6ToV7 from './v6-to-v7/index.js';
 export async function run() {
   await assertJSProject();
 
-  let files = await gatherFiles();
+  const files = await gatherFiles();
 
   await migrateV6ToV7(files);
 }
@@ -48,11 +48,11 @@ async function gatherFiles() {
 
   const relevantPaths = [];
 
-  for (let filePath of allPaths) {
-    let fullPath = path.join(cwd, filePath);
-    let manifest = await nearestPackageJson(fullPath);
+  for (const filePath of allPaths) {
+    const fullPath = path.join(cwd, filePath);
+    const manifest = await nearestPackageJson(fullPath);
 
-    let deps = [
+    const deps = [
       ...Object.keys(manifest.devDependencies || {}),
       ...Object.keys(manifest.dependencies || {}),
       ...Object.keys(manifest.peerDependencies || {}),

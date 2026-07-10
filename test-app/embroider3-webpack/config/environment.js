@@ -1,9 +1,9 @@
 'use strict';
 
-let isTestCli = process.argv.includes('test');
+const isTestCli = process.argv.includes('test');
 
 module.exports = function (environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'test-app',
     environment,
     rootURL: '/',

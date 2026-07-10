@@ -19,15 +19,15 @@ const MANIFEST_CACHE = new Map();
  * @returns {Promise<string | undefined>}
  */
 export async function nearestPackageJsonPath(filePath) {
-  let dir = path.dirname(filePath);
+  const dir = path.dirname(filePath);
 
-  let existing = PATHS_CACHE.get(dir);
+  const existing = PATHS_CACHE.get(dir);
 
   if (existing) {
     return existing;
   }
 
-  let nearest = await findUp('package.json', { cwd: dir });
+  const nearest = await findUp('package.json', { cwd: dir });
 
   PATHS_CACHE.set(dir, nearest);
 
@@ -43,19 +43,19 @@ export async function nearestPackageJsonPath(filePath) {
  * }>}
  */
 export async function nearestPackageJson(filePath) {
-  let manifestPath = await nearestPackageJsonPath(filePath);
+  const manifestPath = await nearestPackageJsonPath(filePath);
 
   processAssert(`Could not find package.json for ${filePath}`, manifestPath);
 
-  let existing = MANIFEST_CACHE.get(manifestPath);
+  const existing = MANIFEST_CACHE.get(manifestPath);
 
   if (existing) {
     return existing;
   }
 
-  let buffer = await fs.readFile(manifestPath);
-  let str = buffer.toString();
-  let json = JSON.parse(str);
+  const buffer = await fs.readFile(manifestPath);
+  const str = buffer.toString();
+  const json = JSON.parse(str);
 
   MANIFEST_CACHE.set(manifestPath, json);
 

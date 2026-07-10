@@ -38,12 +38,12 @@ module('API | registerUsable', function (hooks) {
         typeof error === 'object' &&
           error !== null &&
           'message' in error &&
-          typeof error.message === 'string'
+          typeof error.message === 'string',
       );
 
       assert.ok(
         error.message.match(new RegExp(expectedMessage)),
-        `Expected '${error.message}' to include '${expectedMessage}'`
+        `Expected '${error.message}' to include '${expectedMessage}'`,
       );
     }
   });

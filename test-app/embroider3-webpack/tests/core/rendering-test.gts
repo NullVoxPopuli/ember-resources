@@ -9,7 +9,7 @@ import { cell, resource, resourceFactory } from 'ember-resources';
 module('Core | Resource | rendering', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('cleanup with wrapping factory/blueprint', function() {
+  module('cleanup with wrapping factory/blueprint', function () {
     test('a generated interval can be cleared', async function (assert) {
       const id = cell(0);
       const condition = cell(true);
@@ -25,12 +25,12 @@ module('Core | Resource | rendering', function (hooks) {
 
       await render(
         <template>
-          <button type="button" {{on 'click' condition.toggle}}>Toggle</button><br />
+          <button type="button" {{on "click" condition.toggle}}>Toggle</button><br />
 
           {{#if condition.current}}
             {{poll id.current}}
           {{/if}}
-        </template>
+        </template>,
       );
 
       assert.verifySteps(['setup: 0']);

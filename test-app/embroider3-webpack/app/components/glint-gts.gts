@@ -6,7 +6,7 @@ import { resource, use } from 'ember-resources';
 import { clock, overInvalidatingClock } from './-resources';
 
 const SomeClocks = <template>
-  {{!-- direct invocation --}}
+  {{! direct invocation }}
 
   {{clock}}
   {{overInvalidatingClock}}
@@ -25,9 +25,9 @@ export default class GlintTest extends Component {
 
   <template>
     <SomeClocks />
-    {{!-- direct invocation --}}
+    {{! direct invocation }}
 
-    {{!-- function-based resource --}}
+    {{! function-based resource }}
 
     {{this.decoratorLess}}
     {{this.badClock}}

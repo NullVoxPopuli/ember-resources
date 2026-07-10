@@ -37,7 +37,7 @@ module('Examples | resource | Clock', function (hooks) {
 
   // Wrapper functions are the only way to pass Args to a resource.
   const Clock = resourceFactory((options: ClockArgs | (() => ClockArgs)) => {
-    let opts = (typeof options === 'function') ? options() : options;
+    let opts = typeof options === 'function' ? options() : options;
     let start = opts.start;
     let locale = opts.locale ?? 'en-US';
 
@@ -129,7 +129,7 @@ module('Examples | resource | Clock', function (hooks) {
       await render(
         <template>
           <time>{{clock}}</time>
-        </template>
+        </template>,
       );
 
       let textA = find('time')?.textContent;
@@ -164,9 +164,11 @@ module('Examples | resource | Clock', function (hooks) {
 
       let instance = new Test();
 
-      await render(<template>
-        <time>{{Clock (hash start=instance.date locale=instance.locale)}}</time>
-      </template>);
+      await render(
+        <template>
+          <time>{{Clock (hash start=instance.date locale=instance.locale)}}</time>
+        </template>,
+      );
 
       let textA = find('time')?.textContent;
 
@@ -176,14 +178,14 @@ module('Examples | resource | Clock', function (hooks) {
 
       let textB = find('time')?.textContent;
 
-      assert.ok(textB, textB?? 'expected to find text');
+      assert.ok(textB, textB ?? 'expected to find text');
       assert.notStrictEqual(textA, textB, `${textB} is 1s after ${textA}`);
 
       await wait();
 
       let textC = find('time')?.textContent;
 
-      assert.ok(textC, textC?? 'expected to find text');
+      assert.ok(textC, textC ?? 'expected to find text');
       assert.notStrictEqual(textB, textC, `${textC} is 1s after ${textB}`);
 
       instance.locale = 'en-CA';

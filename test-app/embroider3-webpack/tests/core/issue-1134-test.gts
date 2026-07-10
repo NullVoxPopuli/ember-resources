@@ -1,24 +1,23 @@
-import { clearRender,render, settled } from '@ember/test-helpers';
+import { clearRender, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { cell, resource, resourceFactory } from 'ember-resources';
 
-
-module('issues/1134', function(hooks) {
+module('issues/1134', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it works as a vanilla resource', async function (assert) {
     let value = cell(0);
 
-      const Data = resource(({ on }) => {
+    const Data = resource(({ on }) => {
       let arg = value.current;
 
-        assert.step(`setup: ${arg}`);
-        on.cleanup(() => assert.step(`cleanup: ${arg}`));
+      assert.step(`setup: ${arg}`);
+      on.cleanup(() => assert.step(`cleanup: ${arg}`));
 
-        return 0;
-      });
+      return 0;
+    });
 
     await render(<template>{{Data}}</template>);
 
@@ -30,7 +29,6 @@ module('issues/1134', function(hooks) {
 
     await clearRender();
     assert.verifySteps([`cleanup: ${value.current}`]);
-
   });
 
   test('it works with a Wrapper (resourceFactory)', async function (assert) {
@@ -60,5 +58,4 @@ module('issues/1134', function(hooks) {
     await clearRender();
     assert.verifySteps([`cleanup: ${value.current}`]);
   });
-
 });

@@ -5,8 +5,8 @@ import { cell, type Reactive, resource, resourceFactory, use } from '../index.ts
 const StuckClock = resource(() => 2);
 
 const Clock = resource(({ on }) => {
-  let now = cell(Date.now());
-  let interval = setInterval(() => (now.current = Date.now()), 1000);
+  const now = cell(Date.now());
+  const interval = setInterval(() => (now.current = Date.now()), 1000);
 
   on.cleanup(() => clearInterval(interval));
 
@@ -15,8 +15,8 @@ const Clock = resource(({ on }) => {
 
 function ParameterizedClock(locale = 'en-US') {
   return resource(({ use }) => {
-    let now = use(Clock);
-    let formatter = new Intl.DateTimeFormat(locale);
+    const now = use(Clock);
+    const formatter = new Intl.DateTimeFormat(locale);
 
     return () => {
       return formatter.format(now.current);
@@ -33,7 +33,7 @@ class DemoA {
   @use paramClock2 = ParameterizedClock('en-US');
 }
 
-let demoA = new DemoA();
+const demoA = new DemoA();
 
 expectTypeOf<typeof demoA.stuck>().toMatchTypeOf<number>();
 expectTypeOf<typeof demoA.clock>().toMatchTypeOf<Reactive<number>>();
@@ -47,7 +47,7 @@ class DemoB {
   @use(ParameterizedClock('en-US')) declare paramClock2: string;
 }
 
-let demoB = new DemoB();
+const demoB = new DemoB();
 
 expectTypeOf<typeof demoB.stuck>().toMatchTypeOf<number>();
 expectTypeOf<typeof demoB.clock>().toMatchTypeOf<Reactive<number>>();
@@ -61,7 +61,7 @@ class DemoC {
   paramClock2 = use(this, ParameterizedClock('en-US'));
 }
 
-let demoC = new DemoC();
+const demoC = new DemoC();
 
 expectTypeOf<typeof demoC.stuck>().toMatchTypeOf<Reactive<number>>();
 expectTypeOf<typeof demoC.clock>().toMatchTypeOf<Reactive<number>>();

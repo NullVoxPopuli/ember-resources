@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { tracked } from '@glimmer/tracking';
 import { destroy, isDestroyed, registerDestructor } from '@ember/destroyable';
 import { settled } from '@ember/test-helpers';
@@ -65,7 +64,7 @@ module('Core | (function) resource + use | js', function (hooks) {
 
       data = use(
         this,
-        Doubler(() => this.count)
+        Doubler(() => this.count),
       );
     }
 
@@ -139,7 +138,7 @@ module('Core | (function) resource + use | js', function (hooks) {
 
       data = use(
         this,
-        Doubler(() => this.count)
+        Doubler(() => this.count),
       );
     }
 

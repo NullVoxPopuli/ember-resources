@@ -1,6 +1,9 @@
 {
   "private": true,
   "repository": "https://github.com/NullVoxPopuli/ember-resources",
+  "engines": {
+    "node": "^22.16.0 || >= 24"
+  },
   "license": "MIT",
   "author": "NullVoxPopuli",
   "scripts": {
@@ -16,19 +19,18 @@
     "reroll-lockfile": "git rm -f '**/pnpm-lock.yaml'; pnpm i"
   },
   "devDependencies": {
-    "@nullvoxpopuli/eslint-configs": "^3.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.4.0",
-    "@typescript-eslint/parser": "^8.4.0",
+    "@babel/core": "^7.29.7",
+    "@nullvoxpopuli/eslint-configs": "^6.0.0",
     "concurrently": "^8.0.0",
-    "eslint": "^8.35.0",
+    "eslint": "^9.39.4",
     "loader.js": "^4.7.0",
-    "prettier": "^3.1.1",
+    "prettier": "^3.8.4",
     "release-plan": "^0.18.0",
     "typescript": "^5.0.0"
   },
   "packageManager": "pnpm@9.15.6",
   "volta": {
-    "node": "22.14.0",
+    "node": "22.22.2",
     "pnpm": "9.15.6"
   },
   "pnpm": {
@@ -43,9 +45,7 @@
     },
     "overrides": {
       "@glimmer/manager": ">= 0.87.1",
-      "@glimmer/validator": ">= 0.87.1",
-      "ember-eslint-parser": "0.5.0",
-      "eslint-plugin-ember": "github:ember-cli/eslint-plugin-ember#master"
+      "@glimmer/validator": ">= 0.87.1"
     }
   }
 }

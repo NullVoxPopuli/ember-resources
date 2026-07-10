@@ -3,9 +3,7 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { assert } from '@ember/debug';
 import { associateDestroyableChild, destroy, registerDestructor } from '@ember/destroyable';
 // @ts-ignore
-import { invokeHelper } from '@ember/helper';
-// @ts-ignore
-import { capabilities as helperCapabilities } from '@ember/helper';
+import { capabilities as helperCapabilities, invokeHelper } from '@ember/helper';
 import { appEmberSatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { ReadonlyCell } from './cell.ts';
@@ -53,7 +51,7 @@ class FunctionResourceManager {
     fn: InternalFunctionResourceConfig['definition'];
     cache: ReturnType<typeof invokeHelper>;
   } {
-    let { definition: fn } = config;
+    const { definition: fn } = config;
     /**
      * We have to copy the `fn` in case there are multiple
      * usages or invocations of the function.
@@ -61,22 +59,22 @@ class FunctionResourceManager {
      * This copy is what we'll ultimately work with and eventually
      * destroy.
      */
-    let thisFn = fn.bind(null);
+    const thisFn = fn.bind(null);
     let previousFn: object;
-    let usableCache = new WeakMap<object, ReturnType<typeof invokeHelper>>();
-    let owner = this.owner;
+    const usableCache = new WeakMap<object, ReturnType<typeof invokeHelper>>();
+    const owner = this.owner;
 
-    let cache = createCache(() => {
+    const cache = createCache(() => {
       if (previousFn) {
         destroy(previousFn);
       }
 
-      let currentFn = thisFn.bind(null);
+      const currentFn = thisFn.bind(null);
 
       associateDestroyableChild(thisFn, currentFn);
       previousFn = currentFn;
 
-      let maybeValue = currentFn({
+      const maybeValue = currentFn({
         on: {
           cleanup: (destroyer: Destructor) => {
             registerDestructor(currentFn, destroyer);
@@ -88,7 +86,7 @@ class FunctionResourceManager {
             typeof usable === 'object',
           );
           assert(
-            `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${usable}.`,
+            `Expected the resource's \`use(...)\` utility to have been passed a truthy value, instead was passed: ${String(usable)}.`,
             usable,
           );
           assert(
@@ -96,20 +94,20 @@ class FunctionResourceManager {
             INTERNAL in usable,
           );
 
-          let previousCache = usableCache.get(usable);
+          const previousCache = usableCache.get(usable);
 
           if (previousCache) {
             destroy(previousCache);
           }
 
-          let nestedCache = invokeHelper(cache, usable);
+          const nestedCache = invokeHelper(cache, usable);
 
           associateDestroyableChild(currentFn, nestedCache as object);
 
           usableCache.set(usable, nestedCache);
 
           return new ReadonlyCell<any>(() => {
-            let cache = usableCache.get(usable);
+            const cache = usableCache.get(usable);
 
             assert(`Cache went missing while evaluating the result of a resource.`, cache);
 
@@ -128,7 +126,7 @@ class FunctionResourceManager {
   }
 
   getValue({ cache }: { fn: ResourceFunction; cache: ReturnType<typeof invokeHelper> }) {
-    let maybeValue = getValue(cache);
+    const maybeValue = getValue(cache);
 
     if (typeof maybeValue === 'function') {
       return maybeValue();

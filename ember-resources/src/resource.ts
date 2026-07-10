@@ -183,7 +183,7 @@ export function resource<Value>(
       typeof context === 'function',
     );
 
-    let internalConfig: InternalFunctionResourceConfig<Value> = {
+    const internalConfig: InternalFunctionResourceConfig<Value> = {
       definition: context as ResourceFunction<Value>,
       type: 'function-based',
       name: 'Resource',
@@ -205,7 +205,7 @@ export function resource<Value>(
      * using vanilla functions as resources without the resource wrapper
      *
      */
-    return internalConfig as unknown as ResourceFn<Value>;
+    return internalConfig;
   }
 
   assert(
@@ -220,8 +220,8 @@ export function resource<Value>(
     typeof setup === 'function',
   );
 
-  let internalConfig: InternalFunctionResourceConfig<Value> = {
-    definition: setup as ResourceFunction<Value>,
+  const internalConfig: InternalFunctionResourceConfig<Value> = {
+    definition: setup,
     type: TYPE,
     name: getDebugName(setup),
     [INTERNAL]: true,
@@ -234,7 +234,7 @@ export function resource<Value>(
 
 function getDebugName(obj: object) {
   if ('name' in obj) {
-    return `Resource Function: ${obj.name}`;
+    return `Resource Function: ${String(obj.name)}`;
   }
 
   return `Resource Function`;

@@ -117,12 +117,12 @@ module('Utils | (function) resource | js', function (hooks) {
       assert.strictEqual(
         steps.filter((s) => s.includes('resolve')).length,
         3,
-        'resource resolved 3 times'
+        'resource resolved 3 times',
       );
       assert.strictEqual(
         steps.filter((s) => s.includes('resolve')).length,
         3,
-        'resource destroyed 3 times'
+        'resource destroyed 3 times',
       );
     });
 
@@ -155,12 +155,12 @@ module('Utils | (function) resource | js', function (hooks) {
       assert.strictEqual(
         steps.filter((s) => s.includes('resolve')).length,
         3,
-        'resource resolved 3 times'
+        'resource resolved 3 times',
       );
       assert.strictEqual(
         steps.filter((s) => s.includes('destroy')).length,
         3,
-        'resource destroyed 3 times'
+        'resource destroyed 3 times',
       );
     });
 
@@ -224,17 +224,17 @@ module('Utils | (function) resource | js', function (hooks) {
       assert.strictEqual(
         steps.filter((s) => s.includes('setup')).length,
         2,
-        'resource setup 2 times'
+        'resource setup 2 times',
       );
       assert.strictEqual(
         steps.filter((s) => s.includes('destroy')).length,
         2,
-        'resource destroyed 3 times'
+        'resource destroyed 3 times',
       );
       assert.strictEqual(
         steps.filter((s) => s.includes('resolve')).length,
         3,
-        'resource resolved 3 times'
+        'resource resolved 3 times',
       );
     });
   });

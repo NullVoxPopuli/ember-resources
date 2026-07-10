@@ -7,6 +7,7 @@ import loadInitializers from 'ember-load-initializers';
 import Resolver from 'ember-resolver';
 import config from 'test-app/config/environment';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call -- the import above is @ts-ignore'd
 setupDeprecationWorkflow({
   throwOnUnhandled: true,
   workflow: [

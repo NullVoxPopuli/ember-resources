@@ -2,16 +2,16 @@ import { describe, expect, test } from 'vitest';
 
 import { changeNamedImport } from './imports.js';
 
-let doIt = (text: string) =>
+const doIt = (text: string) =>
   changeNamedImport(text, 'Resource', 'ember-resources', 'ember-modify-based-class-resource');
 
 describe('Resource', () => {
   test('no match', () => {
-    let text = `
+    const text = `
       import { resource } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('resource');
@@ -19,11 +19,11 @@ describe('Resource', () => {
   });
 
   test('inline', () => {
-    let text = `
+    const text = `
       import { Resource } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).not.toContain('ember-resources');
     expect(result).toContain('Resource');
@@ -31,11 +31,11 @@ describe('Resource', () => {
   });
 
   test('inline type import', () => {
-    let text = `
+    const text = `
       import { type Resource } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).not.toContain('ember-resources');
     expect(result).toContain('Resource');
@@ -43,11 +43,11 @@ describe('Resource', () => {
   });
 
   test('inline, double quotes', () => {
-    let text = `
+    const text = `
       import { Resource } from "ember-resources";
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).not.toContain('ember-resources');
     expect(result).toContain('Resource');
@@ -55,11 +55,11 @@ describe('Resource', () => {
   });
 
   test('inline, with other imports', () => {
-    let text = `
+    const text = `
       import { use, Resource } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -68,11 +68,11 @@ describe('Resource', () => {
   });
 
   test('inline, with type imports', () => {
-    let text = `
+    const text = `
       import { type use, Resource } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -87,11 +87,11 @@ describe('Resource', () => {
   });
 
   test('inline, with other imports, reversed', () => {
-    let text = `
+    const text = `
       import { Resource, use } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -100,11 +100,11 @@ describe('Resource', () => {
   });
 
   test('inline, with other imports, mixed', () => {
-    let text = `
+    const text = `
       import { resource, Resource, use } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -114,11 +114,11 @@ describe('Resource', () => {
   });
 
   test('inline, with other imports, double quotes', () => {
-    let text = `
+    const text = `
       import { use, Resource } from "ember-resources";
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -127,13 +127,13 @@ describe('Resource', () => {
   });
 
   test('multi-line', () => {
-    let text = `
+    const text = `
       import { 
         Resource 
       } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).not.toContain('ember-resources');
     expect(result).toContain('Resource');
@@ -146,7 +146,7 @@ describe('Resource', () => {
   });
 
   test('multi-line, with other imports', () => {
-    let text = `
+    const text = `
       import { 
         resource, 
         Resource, 
@@ -154,7 +154,7 @@ describe('Resource', () => {
       } from 'ember-resources';
     `;
 
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toContain('ember-resources');
     expect(result).toContain('use');
@@ -176,7 +176,7 @@ describe('Resource', () => {
    * Repro for #1195
    */
   test(`existing imports that aren't relevant remain intact`, () => {
-    let text = `
+    const text = `
 import * as emberComponent from '@ember/component';
 import * as emberComponentTemplateOnly from '@ember/component/template-only';
 import * as emberDestroyable from '@ember/destroyable';
@@ -213,7 +213,7 @@ import * as boxelUiModifiers from '@cardstack/boxel-ui/modifiers';
 import * as runtime from '@cardstack/runtime-common';
 import { VirtualNetwork } from '@cardstack/runtime-common';
 `;
-    let result = doIt(text);
+    const result = doIt(text);
 
     expect(result).toMatchInlineSnapshot(`
       "

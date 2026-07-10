@@ -7,7 +7,7 @@ const packageJson = require('./package');
 
 module.exports = function (defaults) {
   const sideWatch = require('@embroider/broccoli-side-watch');
-  let app = new EmberApp(defaults, {
+  const app = new EmberApp(defaults, {
     trees: {
       app: sideWatch('app', { watching: [path.join(__dirname, '../../ember-resources')] }),
     },

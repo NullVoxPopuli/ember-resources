@@ -18,8 +18,7 @@ import type {
 } from './types.ts';
 
 type Config =
-  | { [INTERNAL]: true; type: string; definition: unknown }
-  | InternalFunctionResourceConfig;
+  { [INTERNAL]: true; type: string; definition: unknown } | InternalFunctionResourceConfig;
 
 type NonInstanceType<K> = K extends InstanceType<any> ? object : K;
 type DecoratorKey<K> = K extends string | symbol ? K : never;
@@ -131,7 +130,7 @@ function classContextLink<Value>(
       associateDestroyableChild(context, cache);
     }
 
-    let value = getValue(cache);
+    const value = getValue(cache);
 
     return getCurrentValue(value) as Value;
   });
@@ -154,9 +153,9 @@ function argumentToDecorator<Value>(definition: Value | (() => Value)): Property
       !descriptor.initializer,
     );
 
-    let newDescriptor = descriptorGetter(definition);
+    const newDescriptor = descriptorGetter(definition);
 
-    return newDescriptor as unknown as void /* Thanks, TS and Stage 2 Decorators */;
+    return newDescriptor as unknown as void; /* Thanks, TS and Stage 2 Decorators */
   };
 }
 
@@ -203,24 +202,24 @@ export function registerUsable<Usable extends UsableConfig>(
   USABLES.set(type, useFn);
 }
 
-function descriptorGetter(initializer: unknown | (() => unknown)) {
-  let caches = new WeakMap<object, any>();
+function descriptorGetter(initializer: unknown) {
+  const caches = new WeakMap<object, any>();
 
   return {
     get(this: object) {
       let cache = caches.get(this);
 
       if (!cache) {
-        let config = (
+        const config = (
           typeof initializer === 'function' ? initializer.call(this) : initializer
         ) as Config;
 
-        let usable = USABLES.get(config.type);
+        const usable = USABLES.get(config.type);
 
         assert(
           `Expected the initialized value with @use to have been a registerd "usable". Available usables are: ${[
             ...USABLES.keys(),
-          ]}`,
+          ].join(',')}`,
           usable,
         );
 
@@ -228,11 +227,11 @@ function descriptorGetter(initializer: unknown | (() => unknown)) {
 
         assert(`Failed to create cache for usable: ${config.type}`, cache);
 
-        caches.set(this as object, cache);
+        caches.set(this, cache);
         associateDestroyableChild(this, cache);
       }
 
-      let value = getValue(cache);
+      const value = getValue(cache);
 
       return getCurrentValue(value);
     },
@@ -249,7 +248,7 @@ function initializerDecorator(
 
   assert(`@use can only be used with string-keys`, typeof key === 'string');
 
-  let { initializer } = descriptor;
+  const { initializer } = descriptor;
 
   assert(
     `@use may only be used on initialized properties. For example, ` +
@@ -258,5 +257,5 @@ function initializerDecorator(
     initializer,
   );
 
-  return descriptorGetter(initializer) as unknown as void /* Thanks, TS and Stage 2 Decorators */;
+  return descriptorGetter(initializer) as unknown as void; /* Thanks, TS and Stage 2 Decorators */
 }

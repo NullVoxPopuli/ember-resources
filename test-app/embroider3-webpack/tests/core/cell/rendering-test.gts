@@ -54,7 +54,11 @@ module('Utils | cell | rendering', function (hooks) {
   test('read() works the same as current', async function (assert) {
     let state = cell(0);
 
-    await render(<template><div>{{(state.read)}}</div> - <div>{{state.current}}</div></template>);
+    await render(
+      <template>
+        <div>{{(state.read)}}</div> - <div>{{state.current}}</div>
+      </template>,
+    );
 
     assert.dom().hasText('0 - 0');
 
