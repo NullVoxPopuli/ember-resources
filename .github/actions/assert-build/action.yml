@@ -24,4 +24,6 @@ runs:
     uses: actions/upload-artifact@v4
     with:
       name: dist
-      path: ${{ env.dist }}
+      path: |
+        ${{ env.dist }}
+        ember-resources/declarations
