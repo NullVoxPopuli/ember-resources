@@ -1,5 +1,29 @@
 # Changelog
 
+## Release (2026-07-10)
+
+* ember-resources 7.1.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-resources`
+  * [#1228](https://github.com/NullVoxPopuli/ember-resources/pull/1228) Unwrap TrackedValue when returned from a resource ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1229](https://github.com/NullVoxPopuli/ember-resources/pull/1229) [require `@embroider/macros` >= 1.19] Use appEmberSatisfies ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* Other
+  * [#1230](https://github.com/NullVoxPopuli/ember-resources/pull/1230) Add vite-based test app for ember-source 7+ (test-app/ember7-vite) ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1234](https://github.com/NullVoxPopuli/ember-resources/pull/1234) Cap classic try scenarios at ember-source 6.12 ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1233](https://github.com/NullVoxPopuli/ember-resources/pull/1233) Reorganize test apps under test-app/ ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1232](https://github.com/NullVoxPopuli/ember-resources/pull/1232) Remove node 18 pins from CI ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#1216](https://github.com/NullVoxPopuli/ember-resources/pull/1216) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+* `ember-resources`
+  * [#1217](https://github.com/NullVoxPopuli/ember-resources/pull/1217) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#1215](https://github.com/NullVoxPopuli/ember-resources/pull/1215) Revert "Prepare Release" ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 2
+- GitHub Actions [Bot] ([@github-actions](https://github.com/apps/github-actions))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-06-09)
 
 * ember-resources 7.0.8 (patch)
