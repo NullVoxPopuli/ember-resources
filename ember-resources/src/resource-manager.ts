@@ -6,6 +6,7 @@ import { associateDestroyableChild, destroy, registerDestructor } from '@ember/d
 import { invokeHelper } from '@ember/helper';
 // @ts-ignore
 import { capabilities as helperCapabilities } from '@ember/helper';
+import { appEmberSatisfies, importSync, macroCondition } from '@embroider/macros';
 
 import { ReadonlyCell } from './cell.ts';
 import { compatOwner } from './ember-compat.ts';
@@ -20,6 +21,17 @@ import type {
 import type Owner from '@ember/owner';
 
 const setOwner = compatOwner.setOwner;
+
+/**
+ * `tracked(initialValue)` from `@glimmer/tracking` creates a standalone
+ * reactive value -- an instance of `TrackedValue` from `@glimmer/validator`.
+ * These unwrap when returned from a resource, the same way `Cell`s do.
+ */
+let TrackedValue: undefined | (new (...args: never[]) => { value: unknown });
+
+if (macroCondition(appEmberSatisfies('>=7.3.0-alpha.2'))) {
+  TrackedValue = (importSync('@glimmer/validator') as any).TrackedValue;
+}
 
 /**
  * Note, a function-resource receives on object, hooks.
@@ -124,6 +136,10 @@ class FunctionResourceManager {
 
     if (isReactive(maybeValue)) {
       return maybeValue[CURRENT];
+    }
+
+    if (TrackedValue && maybeValue instanceof TrackedValue) {
+      return maybeValue.value;
     }
 
     return maybeValue;
