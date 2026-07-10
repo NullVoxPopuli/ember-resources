@@ -1,8 +1,5 @@
 'use strict';
 
-const getChannelURL = require('ember-source-channel-url');
-const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
-
 module.exports = async function () {
   const ember3Deps = {
     'ember-maybe-import-regenerator': '^1.0.0',
@@ -48,6 +45,18 @@ module.exports = async function () {
     'ember-load-initializers': '^3.0.1',
     'ember-resolver': '^13.1.0',
     typescript: '^5.7.0',
+  };
+
+  // we make changes here due to deprecations that were added
+  // in preparation for v7
+  const ember6_12Deps = {
+    ...ember6Deps,
+    '@glimmer/component': '^2.1.1',
+    '@ember/test-waiters': '^4.1.2',
+    '@ember/test-helpers': '^5.4.3',
+    'ember-cli': '^6.12.0',
+    'ember-resolver': '^13.2.0',
+    'ember-qunit': '^9.1.0',
   };
 
   return {
@@ -135,48 +144,18 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-release',
+        name: 'ember-6.12',
         npm: {
           devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
+          },
+          overrides: {
+            ...ember6_12Deps,
+            'ember-source': '~6.12.0',
           },
         },
       },
-      {
-        name: 'ember-beta',
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('beta'),
-          },
-        },
-      },
-      {
-        name: 'ember-canary',
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('canary'),
-          },
-        },
-      },
-      embroiderSafe({
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
-          },
-        },
-      }),
-      embroiderOptimized({
-        npm: {
-          devDependencies: {
-            ...ember6Deps,
-            'ember-source': await getChannelURL('release'),
-          },
-        },
-      }),
     ],
   };
 };

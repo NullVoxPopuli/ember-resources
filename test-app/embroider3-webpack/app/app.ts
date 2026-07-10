@@ -9,7 +9,26 @@ import config from 'test-app/config/environment';
 
 setupDeprecationWorkflow({
   throwOnUnhandled: true,
-  workflow: [],
+  workflow: [
+    // Caused by older '@glimmer/component'
+    // (irrelevant for this test suite)
+    {
+      handler: 'silence',
+      matchId: 'deprecate-import--is-destroying-from-ember',
+    },
+    {
+      handler: 'silence',
+      matchId: 'deprecate-import--is-destroyed-from-ember',
+    },
+    {
+      handler: 'silence',
+      matchId: 'deprecate-import--register-destructor-from-ember',
+    },
+    {
+      handler: 'silence',
+      matchId: 'deprecate-import-destroy-from-ember',
+    },
+  ],
 });
 
 export default class App extends Application {
