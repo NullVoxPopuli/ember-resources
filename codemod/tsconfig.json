@@ -1,5 +1,5 @@
 {
-  "extends": ["@tsconfig/node22", "@tsconfig/strictest"],
+  "extends": ["@tsconfig/node24", "@tsconfig/strictest"],
   "include": ["src/**/*"],
   "compilerOptions": {
     "allowJs": true,
