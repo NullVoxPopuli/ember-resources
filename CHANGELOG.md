@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-07-22)
+
+* ember-resources 7.1.1 (patch)
+
+#### :house: Internal
+* `ember-resources`
+  * [#1239](https://github.com/NullVoxPopuli/ember-resources/pull/1239) Closes [#1235](https://github.com/NullVoxPopuli/ember-resources/issues/1235)'s lint failure: pin eslint-plugin-ember to the commit main resolves ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
+#### Committers: 1
+- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
 ## Release (2026-07-10)
 
 * ember-resources 7.1.0 (minor)
