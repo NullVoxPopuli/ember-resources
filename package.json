@@ -26,10 +26,10 @@
     "release-plan": "^0.18.0",
     "typescript": "^5.0.0"
   },
-  "packageManager": "pnpm@9.15.6",
+  "packageManager": "pnpm@11.22.0",
   "volta": {
     "node": "22.23.2",
-    "pnpm": "9.15.6"
+    "pnpm": "11.22.0"
   },
   "pnpm": {
     "peerDependencyRules": {
