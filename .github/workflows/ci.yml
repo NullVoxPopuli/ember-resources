@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
 
   lint:
     name: Lint
@@ -31,7 +31,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       # test-app/ember7-vite's lint includes typechecking, which needs
       # ember-resources' declarations to have been built and synced
       # into its node_modules (it's an injected dependency)
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - uses: ./.github/actions/assert-build
 
   typecheck_legacy:
@@ -66,7 +66,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - name: "Build"
         run: pnpm build
       - name: "Change TS to ${{ matrix.typescript-scenario }}"
@@ -108,7 +108,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - name: "Build"
         run: pnpm build
       - name: "Change TS to ${{ matrix.typescript-scenario }}"
@@ -137,7 +137,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - uses: ./.github/actions/download-built-package
       - run: pnpm --filter test-app test:ember
 
@@ -150,7 +150,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - uses: ./.github/actions/download-built-package
       - run: pnpm --filter test-app-vite test:ember
 
@@ -161,7 +161,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - run: pnpm vitest
         working-directory: ./codemod
 
@@ -172,7 +172,7 @@ jobs:
     needs: [build]
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
         with:
           args: "--no-lockfile"
       - uses: ./.github/actions/download-built-package
@@ -202,7 +202,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - uses: ./.github/actions/download-built-package
       - name: Run Tests
         working-directory: ./test-app/embroider3-webpack
@@ -216,7 +216,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: wyvox/action-setup-pnpm@v3
+      - uses: wyvox/action-setup-pnpm@v4
       - uses: ./.github/actions/download-built-package
       - name: measure asset sizes
         run: node ./dev/estimate-bytes/index.js
