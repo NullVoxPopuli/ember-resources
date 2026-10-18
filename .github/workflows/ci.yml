@@ -221,7 +221,7 @@ jobs:
       - name: measure asset sizes
         run: node ./dev/estimate-bytes/index.js
       - name: comment on PR
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: asset-sizes
           path: ./dev/estimate-bytes/comment.txt
