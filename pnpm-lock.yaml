@@ -7,7 +7,7 @@ settings:
 overrides:
   '@glimmer/manager': '>= 0.87.1'
   '@glimmer/validator': '>= 0.87.1'
-  ember-eslint-parser: 0.14.6
+  ember-eslint-parser: 0.16.0
   eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#master
 
 importers:
@@ -301,7 +301,7 @@ packages:
       '@typescript-eslint/eslint-plugin': ^5.62.0 || >= 6.0.0
       '@typescript-eslint/parser': ^5.62.0 || >= 6.0.0
       eslint: ^7.0.0 || ^8.0.0
-      eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#master
+      eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#18a1715775b1e60532e45d61a98fd1e4d27cde75
       eslint-plugin-qunit: '>= 8.0.0'
       prettier: ^2.8.8 || >= 3.0.0
     peerDependenciesMeta:
