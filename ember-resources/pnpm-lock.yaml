@@ -7,7 +7,7 @@ settings:
 overrides:
   '@glimmer/manager': '>= 0.87.1'
   '@glimmer/validator': '>= 0.87.1'
-  ember-eslint-parser: 0.14.6
+  ember-eslint-parser: 0.16.0
   eslint-plugin-ember: github:ember-cli/eslint-plugin-ember#18a1715775b1e60532e45d61a98fd1e4d27cde75
 
 importers:
@@ -2267,8 +2267,8 @@ packages:
     resolution: {integrity: sha512-BtkjulweiXo9c3yVWrtexw2dTmBrvavD/xixNC6TKOBdrixUwU+6nuOO9dufDWsMxoid7MvtmDpzc9+mE8PdaA==}
     engines: {node: 10.* || >= 12.*}
 
-  ember-eslint-parser@0.14.6:
-    resolution: {integrity: sha512-Z4fA1E/3uGZeBLPcz5aCiic3OoZ9YVxQBkImgGXdtgHLLuF/51drGor/FCwT9cCs1XZqY8HWRy4aarl+MZCfwQ==}
+  ember-eslint-parser@0.16.0:
+    resolution: {integrity: sha512-RiXh/fY63xZhujHScZgIQCOntoc8E2Jb8n6h0oefLWkphsK3xiGy863V+7N32kZKz61T8Gl3pAJvZI2DhJ7+Ng==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@babel/eslint-parser': ^7.28.6 || ^8.0.0
@@ -2279,8 +2279,8 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  ember-estree@0.6.11:
-    resolution: {integrity: sha512-aZyheQGUXyHu8GARPd1YyjbDMGkvqBYKzPj6RVp8qqMqA1L1MbkWKsljWE3K1CwiJcHwTPgm/O3oxS0TY1AX9Q==}
+  ember-estree@0.9.0:
+    resolution: {integrity: sha512-CExL0d6FbbffZaQkD0+zA5PaIgle3fbpzapuLVQ+QZfI2KLalnhuof0e85Zvfy/fh8+q9liw7dqUhQX4gibMBA==}
 
   ember-rfc176-data@0.3.18:
     resolution: {integrity: sha512-JtuLoYGSjay1W3MQAxt3eINWXNYYQliK90tLwtb8aeCuQK8zKGCRbBodVIrkcTqshULMnRuTOS6t1P7oQk3g6Q==}
@@ -7164,12 +7164,12 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-eslint-parser@0.14.6(@babel/eslint-parser@7.25.8(@babel/core@7.24.7)(eslint@8.57.1))(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.4))(typescript@5.5.4):
+  ember-eslint-parser@0.16.0(@babel/eslint-parser@7.25.8(@babel/core@7.24.7)(eslint@8.57.1))(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.4))(typescript@5.5.4):
     dependencies:
       '@glimmer/syntax': 0.95.0
       '@typescript-eslint/tsconfig-utils': 8.66.0(typescript@5.5.4)
       content-tag: 4.2.0
-      ember-estree: 0.6.11
+      ember-estree: 0.9.0
       eslint-scope: 9.1.2
       html-tags: 5.1.0
       mathml-tag-names: 4.0.0
@@ -7180,7 +7180,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  ember-estree@0.6.11:
+  ember-estree@0.9.0:
     dependencies:
       '@glimmer/env': 0.1.7
       '@glimmer/syntax': 0.95.0
@@ -7501,7 +7501,7 @@ snapshots:
     dependencies:
       '@ember-data/rfc395-data': 0.0.4
       css-tree: 3.1.0
-      ember-eslint-parser: 0.14.6(@babel/eslint-parser@7.25.8(@babel/core@7.24.7)(eslint@8.57.1))(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.4))(typescript@5.5.4)
+      ember-eslint-parser: 0.16.0(@babel/eslint-parser@7.25.8(@babel/core@7.24.7)(eslint@8.57.1))(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.4))(typescript@5.5.4)
       ember-rfc176-data: 0.3.18
       eslint: 8.57.1
       eslint-utils: 3.0.0(eslint@8.57.1)
